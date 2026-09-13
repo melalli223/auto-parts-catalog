@@ -1689,8 +1689,8 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   #app:has(.tyreExactPage) .tyreExactPage{width:100vw;overflow:hidden}
 }
 @media(max-width:800px){
-  #app:has(.tyreExactPage) .tyreDesktop{display:none!important}
-  #app:has(.tyreExactPage) .tyreMobile{display:block!important;width:100%;background:#fff;line-height:normal;overflow:hidden}
+  #app:has(.tyreExactPage) .tyreDesktop{display:block!important}
+  #app:has(.tyreExactPage) .tyreMobile{display:none!important}
   #app:has(.tyreExactPage) .tyreExactPage{width:100vw!important;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden!important}
   .mobileTyreHero{position:relative;width:100%;background:#080b0e;overflow:hidden}
   .mobileTyreHero img{display:block;width:100%;height:auto}
