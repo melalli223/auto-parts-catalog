@@ -1958,3 +1958,22 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreHtmlFeaturedGrid{gap:10px!important}
   .tyreHtmlFeaturedGrid img{height:100px!important}
 }
+
+/* V126: hero sizing/heading position, brand logo size + spacing, fix featured-card text/arrow overlap */
+.tyreDesktopHero{height:370px!important}
+.tyreDesktopHeroText{padding-top:94px!important}
+.tyreHtmlBrandGrid button{height:92px!important}
+.tyreHtmlBrandGrid img{max-height:72px!important}
+.tyreHtmlBrands{margin:56px auto 48px!important}
+.tyreHtmlFeaturedGrid>button{padding:0 0 42px!important}
+.tyreHtmlFeaturedGrid b{margin-top:12px!important}
+.tyreHtmlFeaturedGrid small{display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+.tyreHtmlFeaturedGrid span{bottom:10px!important}
+
+@media(max-width:800px){
+  .tyreDesktopHero{height:325px!important}
+  .tyreDesktopHeroText{padding-top:62px!important}
+  .tyreHtmlBrandGrid button{flex:0 0 140px!important;height:70px!important}
+  .tyreHtmlBrandGrid img{max-height:52px!important}
+  .tyreHtmlBrands{margin:34px auto 38px!important}
+}
