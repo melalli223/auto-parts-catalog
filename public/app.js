@@ -248,8 +248,8 @@ function toast(msg){const t=document.querySelector('#toast');if(!t)return;t.text
 function fileData(f){return f?new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)}):Promise.resolve('')}
 function placeholder(text='IMAGE'){return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="700" height="480"><rect width="100%" height="100%" fill="#fff"/><rect x="16" y="16" width="668" height="448" rx="10" fill="none" stroke="#e8eaec"/><circle cx=350 cy=205 r=72 fill="#f8f9fa" stroke="#dfe3e6" stroke-width=3/><text x="350" y="220" text-anchor="middle" fill="#7d858b" font-family="Arial" font-size="38" font-weight="700">${esc(String(text).slice(0,1).toUpperCase())}</text><text x="350" y="315" text-anchor="middle" fill="#8b9298" font-family="Arial" font-size="24" font-weight="700">${esc(text)}</text></svg>`)}
 function logo(){return db.settings.logo?`<img src="${db.settings.logo}" alt="${esc(db.settings.businessName)} logo">`:`<div class="logoFallback"><b>${esc(db.settings.businessName)}</b><small>${esc(db.settings.tagline)}</small></div>`}
-function isAdminRoute(){const p=location.pathname.replace(/\/+$/,'');return p==='/admin'||p.endsWith('/admin.html')||p.endsWith('/admin')||p.endsWith('/admin/tyres.html')}
-function isTyreAdminRoute(){return location.pathname.replace(/\/+$/,'').endsWith('/admin/tyres.html')}
+function isAdminRoute(){const p=location.pathname.replace(/\/+$/,'');return p==='/admin'||p.endsWith('/admin.html')||p.endsWith('/admin')||p.endsWith('/admin/tyres.html')||p.endsWith('/admin/tyres')}
+function isTyreAdminRoute(){const p=location.pathname.replace(/\/+$/,'');return p.endsWith('/admin/tyres.html')||p.endsWith('/admin/tyres')}
 let currentNav='home';
 function navSection(){return currentNav;}
 function setNav(name){currentNav=name;}
