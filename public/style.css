@@ -1977,3 +1977,34 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreHtmlBrandGrid img{max-height:52px!important}
   .tyreHtmlBrands{margin:34px auto 38px!important}
 }
+
+/* V128: consolidated final pass - promo card gap, hero/brands spacing, full-frame brand logos, featured card text anchor */
+.tyreDesktopHero{height:370px!important;margin-bottom:110px!important}
+.tyreFeatureCardsHtml{bottom:-70px!important;gap:0!important}
+.tyreDesktopHeroText{padding-top:94px!important}
+.tyreFeatureCardHtml{border:0!important;border-radius:10px!important;overflow:hidden!important}
+.tyreFeatureCardHtml:last-child{border:0!important}
+.tyreFeatureCardHtml>img{position:absolute!important;inset:0!important;right:auto!important;bottom:auto!important;width:100%!important;height:100%!important;object-fit:cover!important;z-index:0!important}
+.tyreFeatureCardHtml:after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.72))}
+.tyreFeatureCardHtml .featureTextHtml{position:relative!important;z-index:2!important;width:100%!important;height:100%!important;justify-content:flex-end!important;color:#fff!important;padding:18px 16px!important}
+.tyreFeatureCardHtml .featureTextHtml em{color:#fff!important}
+.tyreHtmlBrands{margin:56px auto 48px!important}
+.tyreHtmlBrandGrid button{height:92px!important;padding:0!important}
+.tyreHtmlBrandGrid img{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain!important}
+.tyreHtmlFeatured{margin:0 auto 64px!important}
+.tyreHtmlFeaturedGrid{gap:14px!important}
+.tyreHtmlFeaturedGrid>button{height:auto!important;min-height:auto!important;display:flex!important;flex-direction:column!important;padding:0 0 42px!important;border-radius:8px!important}
+.tyreHtmlFeaturedGrid img{height:120px!important;padding:8px 8px 0!important;box-sizing:border-box!important}
+.tyreHtmlFeaturedGrid b{padding:0 10px!important;margin-top:auto!important}
+.tyreHtmlFeaturedGrid small{padding:0 10px!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;line-height:1.4!important}
+.tyreHtmlFeaturedGrid span{bottom:10px!important;right:8px!important}
+
+@media(max-width:800px){
+  .tyreDesktopHero{height:325px!important;margin-bottom:90px!important}
+  .tyreDesktopHeroText{padding-top:62px!important}
+  .tyreFeatureCardsHtml{bottom:-52px!important;gap:0!important}
+  .tyreHtmlBrands{margin:48px auto 38px!important}
+  .tyreHtmlBrandGrid button{flex:0 0 140px!important;height:70px!important;padding:0!important}
+  .tyreHtmlFeaturedGrid{gap:10px!important}
+  .tyreHtmlFeaturedGrid img{height:100px!important}
+}
