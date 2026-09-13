@@ -2009,3 +2009,6 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreDesktopHero{margin-bottom:130px!important}
   .tyreHtmlBrands{margin-top:0!important;margin-bottom:44px!important}
 }
+
+/* V131: extra space between Featured Tyre Types heading row and the card grid */
+.tyreHtmlFeaturedHead{margin-bottom:24px!important}
