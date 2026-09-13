@@ -1932,3 +1932,29 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreAdminGlobalHeader .adminHeaderSwitch:hover{background:#252b2f;border-color:#252b2f}
 @media(max-width:1000px){.tyreAdminShell{grid-template-columns:220px minmax(0,1fr)}.tyreAdminMain{padding:20px 18px 40px}}
 @media(max-width:650px){.tyreAdminShell{grid-template-columns:1fr}.tyreAdminShell.sidebarHidden{grid-template-columns:1fr}.tyreAdminSide{display:none}.tyreAdminShell:not(.sidebarHidden) .tyreAdminSide{display:flex;position:fixed;left:0;top:56px;bottom:0;width:min(285px,82vw);z-index:70;box-shadow:10px 0 30px rgba(0,0,0,.18)}.tyreAdminMain{padding:15px 10px 35px}.tyreAdminMain .tyreAdminWelcome{padding-top:0}.tyreAdminBrandBlock{padding-bottom:16px}}
+
+/* V125: overlap feature cards on hero/background boundary, full-bleed images with text overlay, fix featured grid overlap, improve section spacing */
+.tyreDesktopHero{margin-bottom:86px!important}
+.tyreFeatureCardsHtml{bottom:-70px!important;gap:8px!important}
+.tyreFeatureCardHtml{border:0!important;border-radius:10px!important;overflow:hidden!important}
+.tyreFeatureCardHtml:last-child{border:0!important}
+.tyreFeatureCardHtml>img{position:absolute!important;inset:0!important;right:auto!important;bottom:auto!important;width:100%!important;height:100%!important;object-fit:cover!important;z-index:0!important}
+.tyreFeatureCardHtml:after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.72))}
+.tyreFeatureCardHtml .featureTextHtml{position:relative!important;z-index:2!important;width:100%!important;height:100%!important;justify-content:flex-end!important;color:#fff!important;padding:18px 16px!important}
+.tyreFeatureCardHtml .featureTextHtml em{color:#fff!important}
+.tyreHtmlBrands{margin:0 auto 40px!important}
+.tyreHtmlFeatured{margin:0 auto 64px!important}
+.tyreHtmlFeaturedGrid{gap:14px!important}
+.tyreHtmlFeaturedGrid>button{height:auto!important;min-height:auto!important;display:flex!important;flex-direction:column!important;padding:0 0 34px!important;border-radius:8px!important}
+.tyreHtmlFeaturedGrid img{height:120px!important;padding:8px 8px 0!important;box-sizing:border-box!important}
+.tyreHtmlFeaturedGrid b{padding:0 10px!important;margin-top:8px!important}
+.tyreHtmlFeaturedGrid small{padding:0 10px!important;display:block!important;line-height:1.4!important}
+.tyreHtmlFeaturedGrid span{bottom:8px!important;right:8px!important}
+
+@media(max-width:800px){
+  .tyreDesktopHero{margin-bottom:66px!important}
+  .tyreFeatureCardsHtml{bottom:-52px!important;gap:6px!important}
+  .tyreHtmlBrands{margin-top:0!important}
+  .tyreHtmlFeaturedGrid{gap:10px!important}
+  .tyreHtmlFeaturedGrid img{height:100px!important}
+}
