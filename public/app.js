@@ -65,16 +65,17 @@ async function loadRemoteDb(){
 function showBoot(message='Loading catalog…'){document.querySelector('#app').innerHTML=`<div class="login"><div class="loginBox"><h2>${esc(message)}</h2><p class="muted">Connecting to the online catalog.</p></div></div>`}
 async function bootCustomer(){
   showBoot();
+  const landOnTyres=location.hash.replace('#','')==='tyres';
   if(!initSupabase()){
-    home();
+    landOnTyres?tyres():home();
     toast('Online connection library could not load. Showing local catalog.');
     return;
   }
-  try{await loadRemoteDb();home()}
+  try{await loadRemoteDb();landOnTyres?tyres():home()}
   catch(e){
     console.error(e);onlineLoaded=false;
-    try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();home();toast('Online catalog unavailable — showing cached data')}else{home();toast('Online catalog is empty or unavailable')}}
-    catch{home();toast('Could not load catalog')}
+    try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();landOnTyres?tyres():home();toast('Online catalog unavailable — showing cached data')}else{landOnTyres?tyres():home();toast('Online catalog is empty or unavailable')}}
+    catch{landOnTyres?tyres():home();toast('Could not load catalog')}
   }
 }
 async function bootAdmin(){
