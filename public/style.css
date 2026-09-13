@@ -1999,3 +1999,13 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreHtmlFeaturedGrid small{font-size:10px!important;padding:0 9px!important;margin-top:3px!important;min-height:27px!important}
   .tyreHtmlFeaturedGrid span{bottom:8px!important;right:8px!important}
 }
+
+/* V130: real breathing room between hero cards / Tyre Brands / Featured Tyre Types */
+.tyreDesktopHero{margin-bottom:150px!important}
+.tyreHtmlBrands{margin-top:0!important;margin-bottom:56px!important}
+.tyreHtmlFeatured{margin-top:0!important}
+
+@media(max-width:800px){
+  .tyreDesktopHero{margin-bottom:130px!important}
+  .tyreHtmlBrands{margin-top:0!important;margin-bottom:44px!important}
+}
