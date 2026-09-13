@@ -1902,3 +1902,33 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .adminHeaderToggle.isClosed span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 .adminSide .adminTitle{padding-top:4px}
 @media(max-width:650px){.adminGlobalHeader{gap:10px}.adminHeaderToggle{width:36px;height:32px}.adminHeaderSwitch{margin-left:0}}
+
+/* Dedicated tyre admin control panel */
+.tyreAdminShell{min-height:calc(100vh - 64px);display:grid;grid-template-columns:245px minmax(0,1fr);background:#f5f7f8;transition:grid-template-columns .2s ease}
+.tyreAdminShell.sidebarHidden{grid-template-columns:0 minmax(0,1fr)}
+.tyreAdminSide{background:#11161a;color:#cbd1d5;padding:20px 14px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.tyreAdminShell.sidebarHidden .tyreAdminSide{padding-left:0;padding-right:0}
+.tyreAdminBrandBlock{display:flex;align-items:center;gap:11px;padding:5px 10px 22px;border-bottom:1px solid #2b3034;margin-bottom:18px;white-space:nowrap}
+.tyreAdminWheel{width:38px;height:38px;border:2px solid #d71920;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:22px;line-height:1}
+.tyreAdminBrandBlock strong,.tyreAdminBrandBlock span{display:block;font-family:'Montserrat',Arial,sans-serif;line-height:1}
+.tyreAdminBrandBlock strong{font-size:18px;color:#fff;letter-spacing:.5px}
+.tyreAdminBrandBlock span{font-size:18px;color:#e31b23;font-weight:800;margin-top:2px}
+.tyreAdminNavTitle{font-size:9px;letter-spacing:1.4px;color:#737c82;padding:0 10px 8px;white-space:nowrap}
+.tyreSideBtn{display:flex;align-items:center;gap:11px;width:100%;border:0;background:transparent;color:#bfc6ca;text-align:left;padding:11px 10px;border-radius:5px;margin:2px 0;font-size:11px;white-space:nowrap;cursor:pointer}
+.tyreSideBtn span{width:18px;text-align:center;color:#8f989e;font-size:13px}
+.tyreSideBtn:hover{background:#20262a;color:#fff}
+.tyreSideBtn.active{background:#d71920;color:#fff}
+.tyreSideBtn.active span{color:#fff}
+.tyreSideSpacer{flex:1;min-height:18px}
+.tyreSideNote{border-top:1px solid #2b3034;margin-top:12px;padding:15px 10px 2px;white-space:normal}
+.tyreSideNote strong{display:block;color:#fff;font-size:9px;letter-spacing:1px;margin-bottom:5px}
+.tyreSideNote span{display:block;color:#7f898f;font-size:9px;line-height:1.5}
+.tyreAdminMain{min-width:0;padding:26px 28px 50px;overflow:hidden}
+.tyreAdminMain #adminContent{max-width:1500px;margin:0 auto}
+.tyreAdminMain .tyreAdminPage{max-width:none}
+.tyreAdminMain .tyreAdminWelcome{padding-top:2px}
+.tyreAdminMain .tyreAdminCard{scroll-margin-top:85px}
+.tyreAdminGlobalHeader .adminHeaderSwitch{background:#11161a;border-color:#11161a}
+.tyreAdminGlobalHeader .adminHeaderSwitch:hover{background:#252b2f;border-color:#252b2f}
+@media(max-width:1000px){.tyreAdminShell{grid-template-columns:220px minmax(0,1fr)}.tyreAdminMain{padding:20px 18px 40px}}
+@media(max-width:650px){.tyreAdminShell{grid-template-columns:1fr}.tyreAdminShell.sidebarHidden{grid-template-columns:1fr}.tyreAdminSide{display:none}.tyreAdminShell:not(.sidebarHidden) .tyreAdminSide{display:flex;position:fixed;left:0;top:56px;bottom:0;width:min(285px,82vw);z-index:70;box-shadow:10px 0 30px rgba(0,0,0,.18)}.tyreAdminMain{padding:15px 10px 35px}.tyreAdminMain .tyreAdminWelcome{padding-top:0}.tyreAdminBrandBlock{padding-bottom:16px}}
