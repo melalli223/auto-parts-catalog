@@ -468,7 +468,7 @@ async function doLogin(){const email=document.querySelector('#adminEmail')?.valu
 let adminCatalogOpen=true;
 function toggleAdminCatalog(){adminCatalogOpen=!adminCatalogOpen;adminPanel(location.hash.replace('#','')||'dashboard')}
 let adminSidebarOpen=false;
-function toggleAdminSidebar(){adminSidebarOpen=!adminSidebarOpen;const shell=document.querySelector('.adminShell');if(!shell)return;shell.classList.toggle('sidebarHidden',!adminSidebarOpen);const btn=document.querySelector('#adminSidebarToggle');if(btn){btn.setAttribute('aria-expanded',String(adminSidebarOpen));btn.setAttribute('title',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.setAttribute('aria-label',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.classList.toggle('isClosed',!adminSidebarOpen);}}
+function toggleAdminSidebar(){adminSidebarOpen=!adminSidebarOpen;const shell=document.querySelector('.adminShell')||document.querySelector('.tyreAdminShell');if(!shell)return;shell.classList.toggle('sidebarHidden',!adminSidebarOpen);const btn=document.querySelector('#adminHeaderToggle');if(btn){btn.setAttribute('aria-expanded',String(adminSidebarOpen));btn.setAttribute('title',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.setAttribute('aria-label',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.classList.toggle('isClosed',!adminSidebarOpen);}}
 function adminPanel(tab='dashboard',fromHistory=false){
  if(!admin)return login();
  if(!fromHistory){const target=tab==='dashboard'?'#dashboard':`#${tab}`;if(location.hash!==target){history.pushState({adminTab:tab},'',target)}}else if(!location.hash){history.replaceState({adminTab:tab},'',`#${tab}`)}
