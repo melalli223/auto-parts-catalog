@@ -2020,3 +2020,29 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 @media(max-width:800px){
   .tyreHtmlBrands{margin-bottom:58px!important}
 }
+
+/* V133: tyre admin mobile sidebar now drops down in normal document flow, matching the main Auto Parts admin behavior (no floating overlay, no content bleed-through) */
+@media(max-width:1000px){
+  .tyreAdminShell{
+    display:block!important;
+    grid-template-columns:none!important;
+  }
+  .tyreAdminSide{
+    display:flex!important;
+    position:relative!important;
+    top:auto!important;
+    left:auto!important;
+    bottom:auto!important;
+    width:100%!important;
+    z-index:1!important;
+    box-shadow:none!important;
+    padding:18px 14px!important;
+  }
+  .tyreAdminShell.sidebarHidden .tyreAdminSide{
+    display:none!important;
+  }
+  .tyreAdminMain{
+    width:100%!important;
+    padding:18px 14px 40px!important;
+  }
+}
