@@ -2058,8 +2058,8 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreDashArrow{color:#b2b8bc;font-size:16px;flex:0 0 auto}
 
 /* V136: hero slider, hero image gallery, brand/type add-remove buttons, and brand/type placeholder detail pages */
-.tyreDesktopHero{position:relative;overflow:hidden}
-.tyreHeroSlider{position:absolute;inset:0}
+.tyreDesktopHero{position:relative}
+.tyreHeroSlider{position:absolute;inset:0;overflow:hidden}
 .tyreHeroSlide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease}
 .tyreHeroSlide.active{opacity:1}
 
@@ -2082,3 +2082,9 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyrePlaceholderHero img{width:100%;height:100%;object-fit:cover;display:block}
 .tyrePlaceholderPage h1{font-family:'Montserrat',sans-serif;font-size:26px;margin-bottom:10px}
 .tyrePlaceholderPage p{color:#4a5257;font-size:14px;line-height:1.5}
+
+/* V138: fix promo-card clipping (overflow moved to slider only, see above), nudge hero text down further */
+.tyreDesktopHeroText{padding-top:114px!important}
+@media(max-width:800px){
+  .tyreDesktopHeroText{padding-top:78px!important}
+}
