@@ -734,7 +734,7 @@ async function dashboardAdmin(c){
  <div class="analyticsGrid"><div class="card analyticsCard"><span class="eyebrow">TOP PRODUCTS</span><h3>Most Enquired Products</h3>${e.products.length?e.products.map((x,i)=>`<div class="rankRow"><span class="rank">${i+1}</span><div class="rankInfo"><strong>${esc(x.product_name||'Product')}</strong><small>${esc([x.brand_name,x.model_name,x.category_name].filter(Boolean).join(' · '))}</small><div class="bar"><i style="width:${Math.round((Number(x.enquiry_count||0)/max)*100)}%"></i></div></div><b>${Number(x.enquiry_count)||0}</b></div>`).join(''):'<p class="muted">No enquiries recorded yet.</p>'}</div><div class="card analyticsCard"><span class="eyebrow">CATEGORIES</span><h3>Most Enquired Categories</h3>${e.categories.length?e.categories.slice(0,6).map(x=>`<div class="simpleRank"><span>${esc(x.category_name||'Unknown')}</span><b>${Number(x.enquiry_count)||0}</b><div class="bar"><i style="width:${Math.round((Number(x.enquiry_count||0)/catMax)*100)}%"></i></div></div>`).join(''):'<p class="muted">No category data yet.</p>'}</div><div class="card analyticsCard"><span class="eyebrow">BRANDS</span><h3>Most Enquired Brands</h3>${e.brands.length?e.brands.slice(0,6).map(x=>`<div class="simpleRank"><span>${esc(x.brand_name||'Unknown')}</span><b>${Number(x.enquiry_count)||0}</b><div class="bar"><i style="width:${Math.round((Number(x.enquiry_count||0)/brandMax)*100)}%"></i></div></div>`).join(''):'<p class="muted">No brand data yet.</p>'}</div></div>${e.error?'<div class="adminTip"><strong>Customer enquiry data could not be loaded.</strong><span>Check the product_enquiries table and admin read policy.</span></div>':`<div class="recentEnquiryPanel card"><div class="dashboardPanelHead"><div><span class="eyebrow">RECENT CUSTOMER ACTIVITY</span><h3>Latest Enquiries</h3></div><button class="ghost" onclick="adminPanel('enquiries')">OPEN CRM</button></div>${e.recent.length?`<div class="recentEnquiryList">${e.recent.map(x=>`<div class="recentEnquiry"><div><strong>${esc(x.product_name||'Product enquiry')}</strong><small>${esc([x.brand_name,x.model_name,x.category_name,x.year].filter(Boolean).join(' · ')||'Part details not provided')}</small></div><span class="enquiryStatus ${enquiryStatusClass(x.status)}">${esc(x.status||'New')}</span><time>${enquiryTime(x.created_at)}</time></div>`).join('')}</div>`:'<p class="muted">No customer enquiries recorded yet.</p>'}</div>`}`;
 }
 
-function brandAdmin(c){const ordered=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));c.innerHTML=`<div class="adminHead"><div><h2>Manage brands</h2><p class="muted">Brands are listed in the order they were added — oldest first.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><table class="table"><tr><th>#</th><th>Brand</th><th>Type</th><th>Models</th><th>Actions</th></tr>${ordered.map((b,i)=>`<tr><td>${i+1}</td><td><div class="tableBrand"><img class="thumb" src="${b.image||placeholder(b.name)}">${esc(b.name)}</div></td><td><span class="brandTypeBadge ${b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular'}">${b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR'}</span></td><td>${db.models.filter(m=>m.brandId===b.id).length}</td><td><button class="danger" onclick="delBrand('${b.id}')">Delete</button></td></tr>`).join('')}</table>`}
+function brandAdmin(c){const ordered=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));c.innerHTML=`<div class="adminHead"><div><h2>Manage brands</h2><p class="muted">Brands are listed in the order they were added — oldest first.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><table class="table"><tr><th>#</th><th>Brand</th><th>Type</th><th>Models</th><th>Actions</th></tr>${ordered.map((b,i)=>`<tr><td>${i+1}</td><td><div class="tableBrand"><img class="thumb" src="${b.image||placeholder(b.name)}">${esc(b.name)}</div></td><td><span class="brandTypeBadge ${b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular'}">${b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR'}</span></td><td>${db.models.filter(m=>m.brandId===b.id).length}</td><td><button class="ghost" onclick="brandEditForm('${b.id}')">EDIT</button> <button class="danger" onclick="delBrand('${b.id}')">Delete</button></td></tr>`).join('')}</table>`}
 function modelAdmin(c){c.innerHTML=`<div class="adminHead"><div><h2>Manage models</h2><p class="muted">Add models and their images under each brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><table class="table"><tr><th>Model</th><th>Brand</th><th>Years</th><th>Actions</th></tr>${db.models.map(m=>{const b=db.brands.find(x=>x.id===m.brandId);return `<tr><td><div class="tableBrand"><img class="thumb" src="${m.image||placeholder(m.name)}">${esc(m.name)}</div></td><td>${esc(b?.name)}</td><td>${modelYears(m.id).join(', ')||'—'}</td><td><button class="danger" onclick="delModel('${m.id}')">Delete</button></td></tr>`}).join('')}</table>`}
 function yearAdmin(c){c.innerHTML=`<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Select many years at once. Customers will see Year immediately after Model.</p></div><button class="primary" onclick="yearForm()">+ SELECT YEARS</button></div><table class="table"><tr><th>Year</th><th>Model</th><th>Brand</th><th>Actions</th></tr>${[...db.years].sort((a,b)=>Number(b.year)-Number(a.year)).map(y=>{const m=db.models.find(x=>x.id===y.modelId),b=db.brands.find(x=>x.id===m?.brandId);return `<tr><td>${esc(y.year)}</td><td>${esc(m?.name)}</td><td>${esc(b?.name)}</td><td><button class="danger" onclick="delYear('${y.id}')">Delete</button></td></tr>`}).join('')}</table>`}
 function yearForm(){const years=Array.from({length:57},(_,i)=>2026-i);modal(`<h2>Select model years</h2><p class="muted">Choose multiple years for one model. Existing years for that model are pre-selected.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${db.brands.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join('')}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearChecks()">${modelOptions(db.brands[0]?.id)}</select></div></div><div class="yearPicker">${years.map(y=>`<label class="yearCheck"><input type="checkbox" name="yearPick" value="${y}"><span>${y}</span></label>`).join('')}</div><div class="customYear"><input id="customYear" class="input" inputmode="numeric" placeholder="Optional custom year, e.g. 1988"><button class="ghost" onclick="addCustomYear()">Add to selection</button></div><button class="primary" onclick="addSelectedYears()">SAVE SELECTED YEARS</button>`);setTimeout(syncYearChecks,0)}
@@ -783,6 +783,79 @@ function prepareImageSelection(event,inputId){
 }
 function openImageEditorByInput(inputId){const input=document.querySelector('#'+inputId),file=input?.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>showImageEditor(img,inputId,file.name,file.type);img.src=reader.result};reader.readAsDataURL(file)}
 function useOriginalImage(inputId){delete __editedImages[inputId];toast('Original image will be uploaded when you save');}
+
+function brandEditForm(id){
+  const b=db.brands.find(x=>x.id===id);
+  if(!b)return;
+
+  const type=b.isEv&&b.isRegular?"both":b.isEv?"ev":"regular";
+
+  modal(`
+    <h2>Edit brand</h2>
+    <div class="formGroup">
+      <label>Brand name</label>
+      <input id="eb1" class="input" value="${esc(b.name)}">
+    </div>
+    <div class="formGroup">
+      <label>Brand type</label>
+      <select id="eb3" class="select">
+        <option value="regular" ${type==="regular"?"selected":""}>Car Brand</option>
+        <option value="ev" ${type==="ev"?"selected":""}>EV Brand</option>
+        <option value="both" ${type==="both"?"selected":""}>Both Car & EV</option>
+      </select>
+    </div>
+    <div class="formGroup">
+      <label>Replace brand logo/photo <span class="optional">(optional)</span></label>
+      <input id="eb2" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,\"eb2\")">
+    </div>
+    <button class="primary" onclick="saveBrandEdit()">SAVE CHANGES</button>
+  `);
+}
+
+async function saveBrandEdit(id){
+  const b=db.brands.find(x=>x.id===id);
+  if(!b)return;
+
+  const name=document.querySelector("#eb1")?.value.trim();
+  const type=document.querySelector("#eb3")?.value;
+
+  if(!name)return toast("Enter a brand name");
+
+  const duplicate=db.brands.some(x=>x.id!==id&&String(x.name||"").trim().toLowerCase()===name.toLowerCase());
+  if(duplicate)return toast("A brand with this name already exists");
+
+  const isEv=type==="ev"||type==="both";
+  const isRegular=type==="regular"||type==="both";
+
+  try{
+    const f=editedImage("eb2");
+    let image=b.image||"";
+
+    if(f)image=await uploadImage(f,"brand-images","brands");
+
+    const {data,error}=await supabaseClient.from("brands").update({
+      name,
+      image_url:image||null,
+      is_ev:isEv,
+      is_regular:isRegular
+    }).eq("id",id).select().single();
+
+    if(error)throw error;
+
+    b.name=data.name;
+    b.image=data.image_url||"";
+    b.isEv=data.is_ev===true;
+    b.isRegular=data.is_regular!==false;
+
+    cacheDb();
+    closeModal();
+    adminPanel("brands");
+    toast("Brand updated");
+  }catch(e){
+    console.error(e);
+    toast(e.message||"Could not update brand");
+  }
+}
 
 function brandForm(){
  modal(`
