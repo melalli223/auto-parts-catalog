@@ -808,7 +808,7 @@ function brandEditForm(id){
       <label>Replace brand logo/photo <span class="optional">(optional)</span></label>
       <input id="eb2" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,\"eb2\")">
     </div>
-    <button class="primary" onclick="saveBrandEdit()">SAVE CHANGES</button>
+    <button class="primary" onclick="saveBrandEdit('${id}')">SAVE CHANGES</button>
   `);
 }
 
@@ -853,7 +853,7 @@ async function saveBrandEdit(id){
     toast("Brand updated");
   }catch(e){
     console.error(e);
-    toast(e.message||"Could not update brand");
+    toast("ERROR: "+(e.message||"Could not update brand"));
   }
 }
 
