@@ -21,7 +21,7 @@ let db=JSON.parse(localStorage.getItem(KEY)||'null')||clone(defaults);
 function normalizeDb(){
  db.settings={...clone(defaults.settings),...(db.settings||{})}; db.tyres={...clone(defaultTyres),...(db.tyres||{}),hero:{...clone(defaultTyres.hero),...((db.tyres||{}).hero||{})},features:Array.isArray(db.tyres?.features)&&db.tyres.features.length===3?db.tyres.features:clone(defaultTyres.features),brands:Array.isArray(db.tyres?.brands)&&db.tyres.brands.length===5?db.tyres.brands:clone(defaultTyres.brands),featured:Array.isArray(db.tyres?.featured)&&db.tyres.featured.length===4?db.tyres.featured:clone(defaultTyres.featured)};
  if(!db.settings.heroImage)db.settings.heroImage='';
- db.brands=Array.isArray(db.brands)?db.brands.map((b,i)=>({...b,sortOrder:Number.isFinite(Number(b?.sortOrder))?Number(b.sortOrder):0,createdAt:b?.createdAt||''})):[];db.models=Array.isArray(db.models)?db.models:[];db.years=Array.isArray(db.years)?db.years:[];db.parts=Array.isArray(db.parts)?db.parts:[];db.branches=Array.isArray(db.branches)?db.branches:[];
+ db.brands=Array.isArray(db.brands)?db.brands.map((b,i)=>({...b,isEv:b?.isEv===true,isRegular:b?.isRegular!==false,sortOrder:Number.isFinite(Number(b?.sortOrder))?Number(b.sortOrder):0,createdAt:b?.createdAt||''})):[];db.models=Array.isArray(db.models)?db.models:[];db.years=Array.isArray(db.years)?db.years:[];db.parts=Array.isArray(db.parts)?db.parts:[];db.branches=Array.isArray(db.branches)?db.branches:[];
  for(const p of db.parts){const ys=Array.isArray(p.years)?p.years.map(String).filter(Boolean):(p.year?[String(p.year)]:[]);p.years=[...new Set(ys)];if(!p.year&&p.years[0])p.year=p.years[0];if(p.price!==null&&p.price!==undefined&&p.price!==''){const n=Number(p.price);p.price=Number.isFinite(n)&&n>0?n:null}else p.price=null;}
  const raw=Array.isArray(db.categories)?db.categories:[];const names=[];const cats=[];
  for(const item of raw){const name=typeof item==='string'?item:String(item?.name||'').trim();if(!name||names.some(x=>x.toLowerCase()===name.toLowerCase()))continue;names.push(name);cats.push({id:item?.id||'cat-'+slug(name)+'-'+Math.random().toString(36).slice(2,6),name,image:item?.image||''})}
@@ -61,7 +61,7 @@ async function loadRemoteDb(){
  const yearById=new Map(years.map(y=>[y.id,String(y.year)]));const pyMap=new Map();for(const row of (pyR.data||[])){const yr=yearById.get(row.model_year_id);if(!yr)continue;if(!pyMap.has(row.product_id))pyMap.set(row.product_id,[]);pyMap.get(row.product_id).push(yr)}
  const pbMap=new Map();for(const row of (pbrR.data||[])){if(!pbMap.has(row.product_id))pbMap.set(row.product_id,[]);pbMap.get(row.product_id).push({branchId:row.branch_id,image:row.image_url||''})}
  const parts=(productsR.data||[]).map(p=>{const ys=pyMap.get(p.id)||[];const pbRows=pbMap.get(p.id)||[];const bids=[...pbRows.map(x=>x.branchId),...(p.branch_id?[p.branch_id]:[])];const branchImages=Object.fromEntries(pbRows.filter(x=>x.image).map(x=>[x.branchId,x.image]));return {id:p.id,modelId:p.model_id,years:[...new Set(ys)],year:ys[0]||'',category:catMap.get(p.category_id)||'',categoryId:p.category_id,branchId:p.branch_id||'',branchIds:[...new Set(bids.filter(Boolean))],branchImages,name:p.name,partNo:p.part_no||'',availability:p.availability||'Available on enquiry',description:p.description||'',image:p.image_url||'',price:p.price??null,active:p.active!==false,createdAt:p.created_at||''}});
- db={tyres:remoteTyres||localTyres,settings:{...clone(defaults.settings),businessName:settings.business_name||defaults.settings.businessName,tagline:settings.tagline||defaults.settings.tagline,logo:settings.logo_url||'',phone:settings.phone||'',phone2:settings.phone2||'',phone3:settings.phone3||'',instagram:settings.instagram_url||'',telegram:settings.telegram_url||'',facebook:settings.facebook_url||'',tiktok:settings.tiktok_url||'',youtube:settings.youtube_url||'',x:settings.x_url||'',aboutTitle:settings.about_title||defaults.settings.aboutTitle,aboutText:settings.about_content||defaults.settings.aboutText,whatsapp:settings.whatsapp||'',email:settings.email||'',address:settings.address||'',heroBlack:settings.hero_black||defaults.settings.heroBlack,heroRed:settings.hero_red||defaults.settings.heroRed,heroDescription:settings.hero_description||defaults.settings.heroDescription,heroImage:settings.hero_image_url||''},brands:(brandsR.data||[]).map(b=>({id:b.id,name:b.name,image:b.image_url||'',sortOrder:Number(b.sort_order??0),createdAt:b.created_at||''})).sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||''))),models:(modelsR.data||[]).map(m=>({id:m.id,brandId:m.brand_id,name:m.name,image:m.image_url||''})),years,categories:(catsR.data||[]).map(c=>({id:c.id,name:c.name,image:c.image_url||''})),branches:(branchesR.data||[]).map(br=>({id:br.id,categoryId:br.category_id,name:br.name,image:br.image_url||''})),parts};
+ db={tyres:remoteTyres||localTyres,settings:{...clone(defaults.settings),businessName:settings.business_name||defaults.settings.businessName,tagline:settings.tagline||defaults.settings.tagline,logo:settings.logo_url||'',phone:settings.phone||'',phone2:settings.phone2||'',phone3:settings.phone3||'',instagram:settings.instagram_url||'',telegram:settings.telegram_url||'',facebook:settings.facebook_url||'',tiktok:settings.tiktok_url||'',youtube:settings.youtube_url||'',x:settings.x_url||'',aboutTitle:settings.about_title||defaults.settings.aboutTitle,aboutText:settings.about_content||defaults.settings.aboutText,whatsapp:settings.whatsapp||'',email:settings.email||'',address:settings.address||'',heroBlack:settings.hero_black||defaults.settings.heroBlack,heroRed:settings.hero_red||defaults.settings.heroRed,heroDescription:settings.hero_description||defaults.settings.heroDescription,heroImage:settings.hero_image_url||''},brands:(brandsR.data||[]).map(b=>({id:b.id,name:b.name,image:b.image_url||'',isEv:b.is_ev===true,isRegular:b.is_regular!==false,sortOrder:Number(b.sort_order??0),createdAt:b.created_at||''})).sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||''))),models:(modelsR.data||[]).map(m=>({id:m.id,brandId:m.brand_id,name:m.name,image:m.image_url||''})),years,categories:(catsR.data||[]).map(c=>({id:c.id,name:c.name,image:c.image_url||''})),branches:(branchesR.data||[]).map(br=>({id:br.id,categoryId:br.category_id,name:br.name,image:br.image_url||''})),parts};
  normalizeDb();cacheDb();onlineLoaded=true;return db;
 }
 function showBoot(message='Loading catalog…'){document.querySelector('#app').innerHTML=`<div class="login"><div class="loginBox"><h2>${esc(message)}</h2><p class="muted">Connecting to the online catalog.</p></div></div>`}
@@ -302,7 +302,85 @@ function render(content){
 }
 function contextBanner(label,image,title,subtitle){return `<div class="contextBanner"><div><span class="eyebrow">${esc(label)}</span><h1>${esc(title)}</h1>${subtitle?`<div class="contextSub">${esc(subtitle)}</div>`:''}</div><div class="contextImage">${image?`<img src="${image}" alt="${esc(title)}">`:''}</div></div>`}
 function hero(){return `<section class="hero"><div class="heroCopy"><span class="eyebrow">${esc(db.settings.tagline||'QUALITY YOU CAN TRUST')}</span><h1>${esc(db.settings.heroBlack||'FIND THE RIGHT')}<br><span class="accent">${esc(db.settings.heroRed||'PARTS FOR YOUR CAR')}</span></h1><p class="sub">${esc(db.settings.heroDescription||'High quality parts for all makes and models.')}</p><button class="primary heroBtn" onclick="brands()">SHOP BY CAR BRAND</button></div><div class="heroVisual">${db.settings.heroImage?`<img src="${db.settings.heroImage}" alt="Auto parts vehicle">`:`<div class="heroImageEmpty">ADD YOUR HERO IMAGE<br><small>Admin → Business Settings</small></div>`}</div></section>`}
-function home(){setNav('home');location.hash='';render(`${hero()}<div class="sectionHead"><div><span class="eyebrow">OUR CATALOG</span><h2>SHOP BY <span class="accent">CAR BRAND</span></h2></div></div><div class="brandScroller"><button class="scrollArrow" onclick="scrollBrands(-1)">‹</button><div id="brandRail" class="brandRail">${db.brands.map(brandCard).join('')||'<div class="empty">No brands added yet.</div>'}</div><button class="scrollArrow" onclick="scrollBrands(1)">›</button></div><section class="tyresPromo" onclick="tyres()" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')tyres()"><div class="tyresArt"><img src="/assets/tyres-banner.png" alt="Car tyres"></div><div class="tyresCopy"><div class="tyresTitle"><span class="tyresIcon">◉</span><h3>SHOP <span>TYRES</span></h3></div><p>Find the right tyres for your vehicle.<br>Browse by brand, size and type.</p><button class="primary tyresBtn" onclick="event.stopPropagation();tyres()">SHOP TYRES →</button></div><span class="tyresArrow">›</span></section>`)}
+function home(){
+ setNav('home');
+ location.hash='';
+
+ const regularBrands=db.brands.filter(b=>b.isRegular!==false);
+ const evBrands=db.brands.filter(b=>b.isEv===true);
+
+ render(`
+ ${hero()}
+
+ <div class="sectionHead">
+  <div>
+   <span class="eyebrow">OUR CATALOG</span>
+   <h2>SHOP BY <span class="accent">CAR BRAND</span></h2>
+  </div>
+ </div>
+
+ <div class="brandScroller">
+  <button class="scrollArrow" onclick="scrollBrandsById('brandRail',-1)">‹</button>
+  <div id="brandRail" class="brandRail">
+   ${regularBrands.map(brandCard).join('')||'<div class="empty">No car brands added yet.</div>'}
+  </div>
+  <button class="scrollArrow" onclick="scrollBrandsById('brandRail',1)">›</button>
+ </div>
+
+ ${evBrands.length ? `
+ <section class="evBrandSection">
+
+  <div class="evBrandHeading">
+   <span class="evEyebrow">
+    <span class="evBolt">⚡</span> EV BRANDS
+   </span>
+
+   <h2>SHOP BY <span>EV BRAND</span></h2>
+   <p>Electric today. A cleaner tomorrow.</p>
+  </div>
+
+  <div class="brandScroller evBrandScroller">
+   <button class="scrollArrow" onclick="scrollBrandsById('evBrandRail',-1)">‹</button>
+
+   <div id="evBrandRail" class="brandRail">
+    ${evBrands.map(brandCard).join('')}
+   </div>
+
+   <button class="scrollArrow" onclick="scrollBrandsById('evBrandRail',1)">›</button>
+  </div>
+
+ </section>
+ ` : ''}
+
+ <section class="tyresPromo" onclick="tyres()" role="link" tabindex="0"
+  onkeydown="if(event.key==='Enter'||event.key===' ')tyres()">
+
+  <div class="tyresArt">
+   <img src="/assets/tyres-banner.png" alt="Car tyres">
+  </div>
+
+  <div class="tyresCopy">
+   <div class="tyresTitle">
+    <span class="tyresIcon">◉</span>
+    <h3>SHOP <span>TYRES</span></h3>
+   </div>
+
+   <p>
+    Find the right tyres for your vehicle.<br>
+    Browse by brand, size and type.
+   </p>
+
+   <button class="primary tyresBtn"
+    onclick="event.stopPropagation();tyres()">
+    SHOP TYRES →
+   </button>
+  </div>
+
+  <span class="tyresArrow">›</span>
+ </section>
+ `)
+}
+
 function tyres(){setNav('');location.hash='tyres';const t=db.tyres||defaultTyres;const hero=t.hero||defaultTyres.hero;const heroImages=(hero.images&&hero.images.length?hero.images:[hero.image||defaultTyres.hero.image]);const features=(t.features||defaultTyres.features).slice(0,3);const brands=(t.brands||defaultTyres.brands);const featured=(t.featured||defaultTyres.featured);render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreDesktopHero"><div class="tyreHeroSlider" id="tyreHeroSlider">${heroImages.map((src,i)=>`<div class="tyreHeroSlide ${i===0?'active':''}" style="background-image:linear-gradient(180deg,rgba(0,0,0,.40),rgba(0,0,0,.68)),url('${esc(src)}')"></div>`).join('')}</div><div class="tyreDesktopHeroText"><h1>${esc(hero.title)}</h1><h2>${esc(hero.red)}</h2><p>${esc(hero.description||'').replace(/\n/g,'<br>')}</p><i></i></div><div class="tyreFeatureCardsHtml">${features.map(x=>`<button class="tyreFeatureCardHtml ${esc(x.key)}" onclick="smartEnquiry('${esc(x.message||'Hello, I would like to enquire about tyres.').replace(/'/g,"\\'")}')"><span class="featureTextHtml"><b>${esc(x.title)}</b><em>${esc(x.subtitle)}</em><i></i></span><img src="${esc(x.image)}" alt="${esc(x.title+' '+x.subtitle)}"></button>`).join('')}</div></div><div class="tyreHtmlBrands"><h2>Tyre Brands</h2><div class="tyreHtmlBrandGrid">${brands.map((x,i)=>`<button onclick="tyreBrandPage(${i})"><img src="${esc(x.image)}" alt="${esc(x.name)}"></button>`).join('')}</div></div><div class="tyreHtmlFeatured"><div class="tyreHtmlFeaturedHead"><h2>Featured Tyre Types</h2><button onclick="smartEnquiry('Hello, I would like to enquire about your available tyres.')">View All Tyres →</button></div><div class="tyreHtmlFeaturedGrid">${featured.map((x,i)=>`<button onclick="tyreTypePage(${i})"><img src="${esc(x.image)}" alt="${esc(x.title)}"><b>${esc(x.title)}</b><small>${esc(x.description)}</small><span>→</span></button>`).join('')}</div></div><div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
 
 function initHeroSlider(images){if(window.__heroSliderTimer)clearInterval(window.__heroSliderTimer);if(!images||images.length<2)return;let idx=0;window.__heroSliderTimer=setInterval(()=>{const el=document.getElementById('tyreHeroSlider');if(!el){clearInterval(window.__heroSliderTimer);return}const slides=el.querySelectorAll('.tyreHeroSlide');idx=(idx+1)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===idx))},4000)}
@@ -311,7 +389,8 @@ function tyreBrandPage(idx){const t=db.tyres||defaultTyres;const b=(t.brands||de
 
 function tyreTypePage(idx){const t=db.tyres||defaultTyres;const x=(t.featured||defaultTyres.featured)[idx];if(!x)return tyres();setNav('');location.hash=`tyres/type/${idx}`;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyrePlaceholderPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyrePlaceholderHero"><img src="${esc(x.image)}" alt="${esc(x.title)}"></div><h1>${esc(x.title)}</h1><p>${esc(x.description)}</p><p class="muted">Products for this category are coming shortly.</p></div></div></section>`) }
 
-function scrollBrands(dir){document.querySelector('#brandRail')?.scrollBy({left:dir*300,behavior:'smooth'})}
+function scrollBrands(dir){scrollBrandsById('brandRail',dir)}
+function scrollBrandsById(id,dir){document.querySelector('#'+id)?.scrollBy({left:dir*300,behavior:'smooth'})}
 function brandCard(b){return `<article class="card catalog-card brand" onclick="brand('${b.id}')"><div class="media-frame brandFrame"><img src="${b.image||placeholder(b.name)}" alt="${esc(b.name)}"></div><h3>${esc(b.name)}</h3></article>`}
 function brands(){setNav('brands');location.hash='brands';render(`<div class="breadcrumb">Home <span>›</span> Brands</div><div class="sectionHead"><div><span class="eyebrow">STEP 1</span><h2>SHOP BY <span class="accent">CAR BRAND</span></h2></div></div><div class="grid brandGrid">${db.brands.map(brandCard).join('')||'<div class="empty">No brands added yet.</div>'}</div>`)}
 function brand(id){setNav('brands');location.hash='brands';const b=db.brands.find(x=>x.id===id);if(!b)return brands();const ms=db.models.filter(x=>x.brandId===id);render(`<div class="breadcrumb">Home <span>›</span> ${esc(b.name)} <span>›</span> Select Model</div>${contextBanner('SELECTED BRAND',b.image||placeholder(b.name),b.name,'Choose a model for this brand')}<div class="sectionHead"><div><span class="eyebrow">STEP 2</span><h2>SELECT <span class="accent">MODEL</span></h2></div></div><div class="grid modelGrid">${ms.map(m=>`<article class="card catalog-card" onclick="model('${m.id}')"><div class="media-frame modelFrame"><img src="${m.image||placeholder(m.name)}" alt="${esc(m.name)}"></div><h3>${esc(m.name)}</h3></article>`).join('')||'<div class="empty">No models added yet.</div>'}</div><button class="backBtn" onclick="brands()">← BACK TO BRANDS</button>`)}
@@ -655,7 +734,7 @@ async function dashboardAdmin(c){
  <div class="analyticsGrid"><div class="card analyticsCard"><span class="eyebrow">TOP PRODUCTS</span><h3>Most Enquired Products</h3>${e.products.length?e.products.map((x,i)=>`<div class="rankRow"><span class="rank">${i+1}</span><div class="rankInfo"><strong>${esc(x.product_name||'Product')}</strong><small>${esc([x.brand_name,x.model_name,x.category_name].filter(Boolean).join(' · '))}</small><div class="bar"><i style="width:${Math.round((Number(x.enquiry_count||0)/max)*100)}%"></i></div></div><b>${Number(x.enquiry_count)||0}</b></div>`).join(''):'<p class="muted">No enquiries recorded yet.</p>'}</div><div class="card analyticsCard"><span class="eyebrow">CATEGORIES</span><h3>Most Enquired Categories</h3>${e.categories.length?e.categories.slice(0,6).map(x=>`<div class="simpleRank"><span>${esc(x.category_name||'Unknown')}</span><b>${Number(x.enquiry_count)||0}</b><div class="bar"><i style="width:${Math.round((Number(x.enquiry_count||0)/catMax)*100)}%"></i></div></div>`).join(''):'<p class="muted">No category data yet.</p>'}</div><div class="card analyticsCard"><span class="eyebrow">BRANDS</span><h3>Most Enquired Brands</h3>${e.brands.length?e.brands.slice(0,6).map(x=>`<div class="simpleRank"><span>${esc(x.brand_name||'Unknown')}</span><b>${Number(x.enquiry_count)||0}</b><div class="bar"><i style="width:${Math.round((Number(x.enquiry_count||0)/brandMax)*100)}%"></i></div></div>`).join(''):'<p class="muted">No brand data yet.</p>'}</div></div>${e.error?'<div class="adminTip"><strong>Customer enquiry data could not be loaded.</strong><span>Check the product_enquiries table and admin read policy.</span></div>':`<div class="recentEnquiryPanel card"><div class="dashboardPanelHead"><div><span class="eyebrow">RECENT CUSTOMER ACTIVITY</span><h3>Latest Enquiries</h3></div><button class="ghost" onclick="adminPanel('enquiries')">OPEN CRM</button></div>${e.recent.length?`<div class="recentEnquiryList">${e.recent.map(x=>`<div class="recentEnquiry"><div><strong>${esc(x.product_name||'Product enquiry')}</strong><small>${esc([x.brand_name,x.model_name,x.category_name,x.year].filter(Boolean).join(' · ')||'Part details not provided')}</small></div><span class="enquiryStatus ${enquiryStatusClass(x.status)}">${esc(x.status||'New')}</span><time>${enquiryTime(x.created_at)}</time></div>`).join('')}</div>`:'<p class="muted">No customer enquiries recorded yet.</p>'}</div>`}`;
 }
 
-function brandAdmin(c){const ordered=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));c.innerHTML=`<div class="adminHead"><div><h2>Manage brands</h2><p class="muted">Brands are listed in the order they were added — oldest first.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><table class="table"><tr><th>#</th><th>Brand</th><th>Models</th><th>Actions</th></tr>${ordered.map((b,i)=>`<tr><td>${i+1}</td><td><div class="tableBrand"><img class="thumb" src="${b.image||placeholder(b.name)}">${esc(b.name)}</div></td><td>${db.models.filter(m=>m.brandId===b.id).length}</td><td><button class="danger" onclick="delBrand('${b.id}')">Delete</button></td></tr>`).join('')}</table>`}
+function brandAdmin(c){const ordered=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));c.innerHTML=`<div class="adminHead"><div><h2>Manage brands</h2><p class="muted">Brands are listed in the order they were added — oldest first.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><table class="table"><tr><th>#</th><th>Brand</th><th>Type</th><th>Models</th><th>Actions</th></tr>${ordered.map((b,i)=>`<tr><td>${i+1}</td><td><div class="tableBrand"><img class="thumb" src="${b.image||placeholder(b.name)}">${esc(b.name)}</div></td><td><span class="brandTypeBadge ${b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular'}">${b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR'}</span></td><td>${db.models.filter(m=>m.brandId===b.id).length}</td><td><button class="danger" onclick="delBrand('${b.id}')">Delete</button></td></tr>`).join('')}</table>`}
 function modelAdmin(c){c.innerHTML=`<div class="adminHead"><div><h2>Manage models</h2><p class="muted">Add models and their images under each brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><table class="table"><tr><th>Model</th><th>Brand</th><th>Years</th><th>Actions</th></tr>${db.models.map(m=>{const b=db.brands.find(x=>x.id===m.brandId);return `<tr><td><div class="tableBrand"><img class="thumb" src="${m.image||placeholder(m.name)}">${esc(m.name)}</div></td><td>${esc(b?.name)}</td><td>${modelYears(m.id).join(', ')||'—'}</td><td><button class="danger" onclick="delModel('${m.id}')">Delete</button></td></tr>`}).join('')}</table>`}
 function yearAdmin(c){c.innerHTML=`<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Select many years at once. Customers will see Year immediately after Model.</p></div><button class="primary" onclick="yearForm()">+ SELECT YEARS</button></div><table class="table"><tr><th>Year</th><th>Model</th><th>Brand</th><th>Actions</th></tr>${[...db.years].sort((a,b)=>Number(b.year)-Number(a.year)).map(y=>{const m=db.models.find(x=>x.id===y.modelId),b=db.brands.find(x=>x.id===m?.brandId);return `<tr><td>${esc(y.year)}</td><td>${esc(m?.name)}</td><td>${esc(b?.name)}</td><td><button class="danger" onclick="delYear('${y.id}')">Delete</button></td></tr>`}).join('')}</table>`}
 function yearForm(){const years=Array.from({length:57},(_,i)=>2026-i);modal(`<h2>Select model years</h2><p class="muted">Choose multiple years for one model. Existing years for that model are pre-selected.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${db.brands.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join('')}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearChecks()">${modelOptions(db.brands[0]?.id)}</select></div></div><div class="yearPicker">${years.map(y=>`<label class="yearCheck"><input type="checkbox" name="yearPick" value="${y}"><span>${y}</span></label>`).join('')}</div><div class="customYear"><input id="customYear" class="input" inputmode="numeric" placeholder="Optional custom year, e.g. 1988"><button class="ghost" onclick="addCustomYear()">Add to selection</button></div><button class="primary" onclick="addSelectedYears()">SAVE SELECTED YEARS</button>`);setTimeout(syncYearChecks,0)}
@@ -705,8 +784,91 @@ function prepareImageSelection(event,inputId){
 function openImageEditorByInput(inputId){const input=document.querySelector('#'+inputId),file=input?.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>showImageEditor(img,inputId,file.name,file.type);img.src=reader.result};reader.readAsDataURL(file)}
 function useOriginalImage(inputId){delete __editedImages[inputId];toast('Original image will be uploaded when you save');}
 
-function brandForm(){modal(`<h2>Add brand</h2><div class="formGroup"><label>Brand name</label><input id="f1" class="input"></div><div class="formGroup"><label>Brand logo/photo</label><input id="f2" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'f2')"></div><button class="primary" onclick="addBrand()">SAVE</button>`)}
-async function addBrand(){const name=document.querySelector('#f1').value.trim();if(!name)return toast('Enter a brand name');try{const f=editedImage('f2');const image=f?await uploadImage(f,'brand-images','brands'):'';const nextOrder=db.brands.reduce((m,b)=>Math.max(m,Number(b.sortOrder??0)), -1)+1;const {data,error}=await supabaseClient.from('brands').insert({name,image_url:image||null,sort_order:nextOrder,active:true}).select().single();if(error)throw error;db.brands.push({id:data.id,name:data.name,image:data.image_url||'',sortOrder:data.sort_order??nextOrder,createdAt:data.created_at||new Date().toISOString()});db.brands.sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));cacheDb();closeModal();adminPanel('brands');toast('Brand saved')}catch(e){console.error(e);toast(e.message||'Could not save brand')}}
+function brandForm(){
+ modal(`
+  <h2>Add brand</h2>
+
+  <div class="formGroup">
+   <label>Brand name</label>
+   <input id="f1" class="input" placeholder="e.g. Toyota">
+  </div>
+
+  <div class="formGroup">
+   <label>Brand type</label>
+
+   <select id="f3" class="select">
+    <option value="regular">Car Brand</option>
+    <option value="ev">EV Brand</option>
+    <option value="both">Both Car & EV</option>
+   </select>
+
+   <small class="helpText">
+    Choose "Both Car & EV" when this brand should appear in both sections.
+   </small>
+  </div>
+
+  <div class="formGroup">
+   <label>Brand logo/photo</label>
+   <input id="f2" type="file" accept="image/*" class="input"
+    onchange="prepareImageSelection(event,'f2')">
+  </div>
+
+  <button class="primary" onclick="addBrand()">SAVE BRAND</button>
+ `)
+}
+async function addBrand(){
+ const name=document.querySelector('#f1').value.trim();
+ const type=document.querySelector('#f3').value;
+
+ if(!name)return toast('Enter a brand name');
+
+ const isEv=type==='ev'||type==='both';
+ const isRegular=type==='regular'||type==='both';
+
+ try{
+  const f=editedImage('f2');
+  const image=f?await uploadImage(f,'brand-images','brands'):'';
+
+  const nextOrder=db.brands.reduce(
+   (m,b)=>Math.max(m,Number(b.sortOrder??0)),
+   -1
+  )+1;
+
+  const {data,error}=await supabaseClient.from('brands').insert({
+   name,
+   image_url:image||null,
+   is_ev:isEv,
+   is_regular:isRegular,
+   sort_order:nextOrder,
+   active:true
+  }).select().single();
+
+  if(error)throw error;
+
+  db.brands.push({
+   id:data.id,
+   name:data.name,
+   image:data.image_url||'',
+   isEv:data.is_ev===true,
+   isRegular:data.is_regular!==false,
+   sortOrder:data.sort_order??nextOrder,
+   createdAt:data.created_at||new Date().toISOString()
+  });
+
+  db.brands.sort((a,b)=>
+   Number(a.sortOrder??0)-Number(b.sortOrder??0)||
+   String(a.createdAt||'').localeCompare(String(b.createdAt||''))
+  );
+
+  cacheDb();
+  closeModal();
+  adminPanel('brands');
+  toast('Brand saved');
+ }catch(e){
+  console.error(e);
+  toast(e.message||'Could not save brand');
+ }
+}
 function modelForm(){modal(`<h2>Add model</h2><div class="formGroup"><label>Brand</label><select id="m1" class="select">${db.brands.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join('')}</select></div><div class="formGroup"><label>Model</label><input id="m2" class="input" placeholder="e.g. Corolla"></div><div class="formGroup"><label>Model image</label><input id="m3" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'m3')"><small class="helpText">This image is shown at the top after the customer chooses the model.</small></div><button class="primary" onclick="addModel()">SAVE</button>`)}
 async function addModel(){const name=document.querySelector('#m2').value.trim(),brandId=document.querySelector('#m1').value;if(!name||!brandId)return toast('Enter a model and select a brand');try{const f=editedImage('m3');const image=f?await uploadImage(f,'model-images','models'):'';const {data,error}=await supabaseClient.from('models').insert({brand_id:brandId,name,image_url:image||null,sort_order:0,active:true}).select().single();if(error)throw error;db.models.push({id:data.id,brandId,name,image:data.image_url||''});cacheDb();closeModal();adminPanel('models');toast('Model saved')}catch(e){console.error(e);toast(e.message||'Could not save model')}}
 function productForm(){

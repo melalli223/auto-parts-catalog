@@ -2088,3 +2088,217 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 @media(max-width:800px){
   .tyreDesktopHeroText{padding-top:78px!important}
 }
+
+
+/* EV BRAND SECTION */
+.evBrandSection{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.evBrandHeading{
+  margin:0 0 16px;
+}
+
+.evEyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:#12a150;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.evBolt{
+  display:inline-grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#12a150;
+  color:#fff;
+  font-size:16px;
+}
+
+.evBrandHeading h2{
+  margin:7px 0 4px;
+  font-family:'Montserrat',Arial,sans-serif;
+  font-size:34px;
+  line-height:1.05;
+  letter-spacing:-1px;
+  font-weight:900;
+}
+
+.evBrandHeading h2 span{
+  color:#12a150;
+}
+
+.evBrandHeading p{
+  margin:0;
+  color:#69737a;
+  font-size:12px;
+}
+
+.evBrandScroller{
+  margin-bottom:0;
+}
+
+.evBrandScroller .brand:hover{
+  border-color:#12a150;
+  box-shadow:0 8px 22px rgba(18,161,80,.10);
+}
+
+.brandTypeBadge{
+  display:inline-block;
+  padding:3px 7px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+.brandTypeBadge.regular{
+  background:#f1f3f4;
+  color:#555d63;
+}
+
+.brandTypeBadge.ev{
+  background:#e7f8ee;
+  color:#0b9144;
+}
+
+.brandTypeBadge.both{
+  background:linear-gradient(90deg,#f1f3f4 0 50%,#e7f8ee 50%);
+  color:#167b43;
+}
+
+@media(max-width:650px){
+  .evBrandHeading{
+    margin-bottom:13px;
+  }
+
+  .evEyebrow{
+    font-size:8px;
+  }
+
+  .evBolt{
+    width:27px;
+    height:27px;
+    font-size:14px;
+  }
+
+  .evBrandHeading h2{
+    font-size:23px;
+    letter-spacing:-.6px;
+  }
+
+  .evBrandHeading p{
+    font-size:10px;
+  }
+
+  .evBrandScroller{
+    margin-bottom:0;
+  }
+}
+
+/* EV BRAND SECTION */
+.evBrandSection{
+  margin:42px 0 34px;
+}
+
+.evBrandHeading{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.evEyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#16a34a;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.14em;
+}
+
+.evBolt{
+  font-size:16px;
+  line-height:1;
+}
+
+.evBrandHeading h2{
+  margin:6px 0 4px;
+  font-size:clamp(24px,3vw,34px);
+  font-weight:800;
+}
+
+.evBrandHeading h2 span{
+  color:#16a34a;
+}
+
+.evBrandHeading p{
+  margin:0;
+  color:#777;
+  font-size:14px;
+}
+
+.evBrandScroller{
+  margin-top:4px;
+}
+
+.evBrandScroller .brandRail{
+  scroll-behavior:smooth;
+}
+
+.evBrandScroller .brandFrame{
+  border-color:rgba(22,163,74,.28);
+}
+
+.evBrandScroller .catalog-card:hover .brandFrame{
+  border-color:#16a34a;
+  box-shadow:0 8px 24px rgba(22,163,74,.12);
+}
+
+.brandTypeBadge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.brandTypeBadge.regular{
+  background:#f1f1f1;
+  color:#555;
+}
+
+.brandTypeBadge.ev{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.brandTypeBadge.both{
+  background:linear-gradient(90deg,#f1f1f1 0 48%,#dcfce7 48% 100%);
+  color:#166534;
+}
+
+@media(max-width:700px){
+  .evBrandSection{
+    margin:32px 0 26px;
+  }
+
+  .evBrandHeading{
+    margin-bottom:15px;
+  }
+
+  .evBrandHeading h2{
+    font-size:24px;
+  }
+
+  .evBrandHeading p{
+    font-size:13px;
+  }
+}
