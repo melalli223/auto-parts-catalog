@@ -445,7 +445,19 @@ ${[db.tyres?.contact?.phone,db.tyres?.contact?.phone2,db.tyres?.contact?.phone3]
 <div class="tyreContactImageFrame" aria-hidden="true">
 ${db.tyres?.contact?.contactImage?`<img src="${esc(db.tyres.contact.contactImage)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">`:''}
 </div>
-</a></div>
+</a>
+<a class="tyreAutoPartsPromo" href="/" aria-label="Explore Auto Parts">
+  <div class="tyreAutoPartsPromoText">
+    <span class="tyreAutoPartsPromoEyebrow">AUTO PARTS</span>
+    <h3>LOOKING FOR MORE THAN TYRES?</h3>
+    <p>Explore our full range of quality auto parts for your vehicle.</p>
+    <span class="tyreAutoPartsPromoButton">EXPLORE AUTO PARTS <b>→</b></span>
+  </div>
+  <div class="tyreAutoPartsPromoVisual" aria-hidden="true">
+    <span>PARTS</span>
+  </div>
+</a>
+</div>
 <div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
 
 function initHeroSlider(images){if(window.__heroSliderTimer)clearInterval(window.__heroSliderTimer);if(!images||images.length<2)return;let idx=0;window.__heroSliderTimer=setInterval(()=>{const el=document.getElementById('tyreHeroSlider');if(!el){clearInterval(window.__heroSliderTimer);return}const slides=el.querySelectorAll('.tyreHeroSlide');idx=(idx+1)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===idx))},4000)}
