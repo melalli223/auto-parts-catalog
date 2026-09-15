@@ -3013,3 +3013,244 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     right:15px;
   }
 }
+
+/* Tyre Contact & Support final layout */
+.tyreAboutSection{
+  padding-top:150px;
+}
+
+.tyreContactSupport{
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:0;
+  min-height:94px;
+  padding:14px 90px 14px 30px;
+  box-sizing:border-box;
+}
+
+.tyreContactText{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+
+.tyreContactText span{
+  line-height:1.2;
+}
+
+.tyreContactText small{
+  line-height:1.3;
+}
+
+.tyreContactPhones{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px 20px;
+  margin-top:5px;
+}
+
+.tyreContactPhones b{
+  color:#fff;
+  font-size:14px;
+  line-height:1.2;
+  font-weight:700;
+}
+
+.tyreContactImageFrame{
+  display:none;
+}
+
+@media(max-width:800px){
+  .tyreAboutSection{
+    padding-top:100px;
+  }
+
+  .tyreContactSupport{
+    width:100vw;
+    max-width:100vw;
+    min-height:128px;
+    margin-left:calc(50% - 50vw);
+    margin-right:0;
+    padding:18px 105px 18px 20px;
+    justify-content:flex-start;
+  }
+
+  .tyreContactText{
+    align-items:flex-start;
+    text-align:left;
+    gap:7px;
+    width:100%;
+  }
+
+  .tyreContactText span{
+    font-size:14px;
+    line-height:1.25;
+  }
+
+  .tyreContactText small{
+    font-size:11px;
+    line-height:1.4;
+    max-width:210px;
+  }
+
+  .tyreContactPhones{
+    justify-content:flex-start;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+    margin-top:6px;
+  }
+
+  .tyreContactPhones b{
+    font-size:14px;
+    line-height:1.2;
+  }
+
+  .tyreContactImageFrame{
+    display:flex;
+    position:absolute;
+    right:46px;
+    top:50%;
+    transform:translateY(-50%);
+    width:58px;
+    height:58px;
+    border:1px solid rgba(255,255,255,.65);
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+  }
+
+  .tyreContactImageFrame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:left center;
+    display:block;
+  }
+
+  .tyreContactSupport strong{
+    right:12px;
+  }
+}
+
+/* Final tyre About + Contact layout */
+.tyreAboutSection{
+  padding-top:150px;
+}
+
+.tyreContactSupport{
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:0;
+  min-height:94px;
+  padding:14px 90px 14px 30px;
+  box-sizing:border-box;
+}
+
+.tyreContactText{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+
+.tyreContactText span{
+  line-height:1.2;
+}
+
+.tyreContactText small{
+  line-height:1.3;
+}
+
+.tyreContactPhones{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px 20px;
+  margin-top:5px;
+}
+
+.tyreContactPhones b{
+  color:#fff;
+  font-size:14px;
+  line-height:1.2;
+  font-weight:700;
+}
+
+.tyreContactImageFrame{
+  display:none;
+}
+
+@media(max-width:800px){
+  .tyreAboutSection{
+    padding-top:100px;
+  }
+
+  .tyreContactSupport{
+    width:100vw;
+    max-width:100vw;
+    min-height:128px;
+    margin-left:calc(50% - 50vw);
+    margin-right:0;
+    padding:18px 105px 18px 20px;
+    justify-content:flex-start;
+  }
+
+  .tyreContactText{
+    align-items:flex-start;
+    text-align:left;
+    gap:7px;
+    width:100%;
+  }
+
+  .tyreContactText span{
+    font-size:14px;
+    line-height:1.25;
+  }
+
+  .tyreContactText small{
+    font-size:11px;
+    line-height:1.4;
+    max-width:210px;
+  }
+
+  .tyreContactPhones{
+    justify-content:flex-start;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+    margin-top:6px;
+  }
+
+  .tyreContactPhones b{
+    font-size:14px;
+    line-height:1.2;
+  }
+
+  .tyreContactImageFrame{
+    display:block;
+    position:absolute;
+    right:46px;
+    top:50%;
+    transform:translateY(-50%);
+    width:58px;
+    height:58px;
+    border:1px solid rgba(255,255,255,.7);
+    background:rgba(255,255,255,.08);
+    border-radius:8px;
+    box-sizing:border-box;
+  }
+
+  .tyreContactSupport strong{
+    right:12px;
+  }
+}

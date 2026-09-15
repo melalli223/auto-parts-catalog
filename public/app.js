@@ -416,8 +416,11 @@ ${mediaLinksHtml()?`<div class="tyreAboutSocials" aria-label="Social media links
 <div class="tyreContactText">
 <span>CONTACT US &amp; SUPPORT</span>
 <small>We are here to help you find the right tyres.</small>
-<b>${esc(db.settings.phone||'')}</b>
+<div class="tyreContactPhones">
+${[db.settings.phone,db.settings.phone2,db.settings.phone3].filter(Boolean).map(p=>'<b>'+esc(p)+'</b>').join('')}
 </div>
+</div>
+<div class="tyreContactImageFrame" aria-hidden="true"></div>
 <strong>→</strong>
 </a>
 <div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
