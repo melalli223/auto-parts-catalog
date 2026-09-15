@@ -3874,3 +3874,40 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreBottomArt{
   margin-top:14px !important;
 }
+
+/* Tyre page spacing and About Us refinement */
+.tyreAutoPartsPromo{
+  margin-top:6px !important;
+}
+
+.tyreBottomArt{
+  margin-top:20px !important;
+}
+
+.tyreAbout{
+  margin-bottom:24px !important;
+}
+
+.tyreAbout p{
+  font-size:15px !important;
+  line-height:1.55 !important;
+}
+
+@media(max-width:600px){
+  .tyreAutoPartsPromo{
+    margin-top:5px !important;
+  }
+
+  .tyreBottomArt{
+    margin-top:16px !important;
+  }
+
+  .tyreAbout{
+    margin-bottom:20px !important;
+  }
+
+  .tyreAbout p{
+    font-size:15px !important;
+    line-height:1.55 !important;
+  }
+}
