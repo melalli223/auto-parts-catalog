@@ -3911,3 +3911,176 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     line-height:1.55 !important;
   }
 }
+
+/* Correct tyre page spacing — actual selectors */
+.tyreAboutContactSection{
+  margin-top:40px !important;
+}
+
+.tyreAboutContactSection .tyreAboutSection{
+  padding-bottom:28px !important;
+}
+
+.tyreAboutContent p{
+  font-size:16px !important;
+  line-height:1.65 !important;
+}
+
+.tyreAutoPartsPromo{
+  margin-top:12px !important;
+}
+
+.tyreBottomArt{
+  margin-top:28px !important;
+}
+
+@media(max-width:800px){
+  .tyreAboutContactSection{
+    margin-top:35px !important;
+  }
+
+  .tyreAboutContactSection .tyreAboutSection{
+    padding-bottom:24px !important;
+  }
+
+  .tyreAboutContent p{
+    font-size:15px !important;
+    line-height:1.65 !important;
+  }
+
+  .tyreAutoPartsPromo{
+    margin-top:10px !important;
+  }
+
+  .tyreBottomArt{
+    margin-top:24px !important;
+  }
+}
+
+/* Final tyre contact / promo / About Us spacing */
+.tyreAboutSection{
+  margin-bottom:32px !important;
+}
+
+.tyreAboutContent h2{
+  font-size:30px !important;
+  line-height:1.2 !important;
+}
+
+.tyreAboutContent p{
+  font-size:17px !important;
+  line-height:1.65 !important;
+}
+
+.tyreContactSupport{
+  margin-bottom:6px !important;
+}
+
+.tyreAutoPartsPromo{
+  margin-top:0 !important;
+}
+
+.tyreBottomArt{
+  margin-top:30px !important;
+}
+
+@media(max-width:600px){
+  .tyreAboutSection{
+    margin-bottom:26px !important;
+  }
+
+  .tyreAboutContent h2{
+    font-size:26px !important;
+  }
+
+  .tyreAboutContent p{
+    font-size:16px !important;
+    line-height:1.65 !important;
+  }
+
+  .tyreContactSupport{
+    margin-bottom:5px !important;
+  }
+
+  .tyreBottomArt{
+    margin-top:24px !important;
+  }
+}
+
+/* FINAL TYRE PAGE SPACING — STRUCTURE OVERRIDE */
+.tyreAboutContactSection{
+  gap:0 !important;
+  margin-top:40px !important;
+}
+
+.tyreAboutContactSection .tyreAboutSection{
+  margin:0 0 18px !important;
+  padding:0 !important;
+}
+
+.tyreAboutSection::before{
+  display:none !important;
+}
+
+.tyreAboutContent h2{
+  font-size:30px !important;
+  line-height:1.2 !important;
+  margin-bottom:12px !important;
+}
+
+.tyreAboutContent p{
+  font-size:17px !important;
+  line-height:1.65 !important;
+}
+
+.tyreContactSupport{
+  margin:0 0 10px !important;
+}
+
+.tyreAutoPartsPromo{
+  margin:0 !important;
+}
+
+.tyreAutoPartsPromoVisual{
+  display:none !important;
+}
+
+.tyreBottomGap{
+  height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+.tyreBottomArt{
+  display:block !important;
+  margin-top:30px !important;
+}
+
+@media(max-width:600px){
+  .tyreAboutContactSection{
+    margin-top:30px !important;
+  }
+
+  .tyreAboutContactSection .tyreAboutSection{
+    margin-bottom:16px !important;
+  }
+
+  .tyreAboutContent h2{
+    font-size:26px !important;
+    margin-bottom:10px !important;
+  }
+
+  .tyreAboutContent p{
+    font-size:16px !important;
+    line-height:1.65 !important;
+  }
+
+  .tyreContactSupport{
+    margin-bottom:8px !important;
+  }
+
+  .tyreBottomArt{
+    margin-top:24px !important;
+  }
+}
