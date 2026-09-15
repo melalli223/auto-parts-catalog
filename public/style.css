@@ -4146,3 +4146,31 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     text-align:center !important;
   }
 }
+
+/* Center the entire About Us content */
+.tyreAboutContactSection .tyreAboutSection{
+  width:100% !important;
+  max-width:none !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
+.tyreAboutContactSection .tyreAboutContent{
+  width:100% !important;
+  max-width:860px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+}
+
+.tyreAboutContactSection .tyreAboutEyebrow,
+.tyreAboutContactSection .tyreAboutContent h2,
+.tyreAboutContactSection .tyreAboutContent p{
+  display:block;
+  width:100%;
+  text-align:center !important;
+}
+
+.tyreAboutSocials{
+  justify-content:center !important;
+}
