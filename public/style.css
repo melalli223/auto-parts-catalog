@@ -4095,3 +4095,22 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     margin-bottom:10px !important;
   }
 }
+
+/* More breathing room above About Us */
+.tyreAboutContactSection{
+  margin-top:150px !important;
+}
+
+.tyreAboutContactSection .tyreAboutSection{
+  margin-bottom:12px !important;
+}
+
+@media(max-width:600px){
+  .tyreAboutContactSection{
+    margin-top:110px !important;
+  }
+
+  .tyreAboutContactSection .tyreAboutSection{
+    margin-bottom:10px !important;
+  }
+}
