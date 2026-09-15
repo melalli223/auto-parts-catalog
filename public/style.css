@@ -2307,3 +2307,41 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:13px;
   }
 }
+
+/* Match EV brand section to the main car-brand section on desktop */
+@media(min-width:701px){
+  .evBrandSection .brandScroller{
+    gap:20px;
+    margin-bottom:0;
+  }
+
+  .evBrandSection .brandRail{
+    gap:20px;
+    padding:4px 4px 18px;
+  }
+
+  .evBrandSection .brandRail .brand{
+    min-width:220px;
+    flex:0 0 220px;
+  }
+
+  .evBrandSection .brandRail .brandFrame{
+    height:175px;
+  }
+
+  .evBrandSection .brandRail .catalog-card{
+    padding-bottom:20px;
+  }
+
+  .evBrandSection .brandRail .catalog-card h3{
+    font-size:16px;
+    margin-top:16px;
+  }
+
+  .evBrandSection .brandScroller .scrollArrow{
+    width:50px;
+    height:50px;
+    flex:0 0 50px;
+    font-size:30px;
+  }
+}
