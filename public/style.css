@@ -3254,3 +3254,71 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     right:12px;
   }
 }
+
+/* Contact & Support final refinement */
+.tyreAboutSection{
+  margin-top:140px;
+  padding-top:0;
+}
+
+.tyreContactSupport{
+  min-height:108px;
+  padding:14px 145px 14px 30px;
+}
+
+.tyreContactPhones{
+  gap:0;
+  margin-top:10px;
+}
+
+.tyreContactPhones b{
+  font-size:13px;
+}
+
+.tyreContactImageFrame{
+  display:block;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  width:120px;
+  height:auto;
+  transform:none;
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:0;
+  background:transparent;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+@media(max-width:800px){
+  .tyreAboutSection{
+    margin-top:100px;
+    padding-top:0;
+  }
+
+  .tyreContactSupport{
+    min-height:138px;
+    padding:18px 145px 18px 20px;
+  }
+
+  .tyreContactPhones{
+    gap:0;
+    margin-top:10px;
+  }
+
+  .tyreContactPhones b{
+    font-size:13px;
+  }
+
+  .tyreContactImageFrame{
+    top:0;
+    right:0;
+    bottom:0;
+    width:105px;
+    height:auto;
+    transform:none;
+    border-radius:0;
+    background:transparent;
+  }
+}

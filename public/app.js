@@ -421,7 +421,6 @@ ${[db.settings.phone,db.settings.phone2,db.settings.phone3].filter(Boolean).map(
 </div>
 </div>
 <div class="tyreContactImageFrame" aria-hidden="true"></div>
-<strong>→</strong>
 </a>
 <div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
 
