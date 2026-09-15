@@ -2345,3 +2345,37 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:30px;
   }
 }
+
+/* EV Brands page heading */
+.evPageHeading{
+  align-items:flex-start;
+}
+
+.evPageHeading .evEyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#16a34a;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.14em;
+}
+
+.evPageHeading .evBolt{
+  font-size:16px;
+  line-height:1;
+}
+
+.evPageHeading h2{
+  margin:6px 0 4px;
+}
+
+.evPageHeading .evPageAccent{
+  color:#16a34a;
+}
+
+.evPageHeading p{
+  margin:0;
+  color:#777;
+  font-size:14px;
+}
