@@ -2253,8 +2253,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 }
 
 .evBrandScroller .brandFrame{
-  border:2px solid #16a34a;
-  box-sizing:border-box;
+  border-color:rgba(22,163,74,.28);
 }
 
 .evBrandScroller .catalog-card:hover .brandFrame{
