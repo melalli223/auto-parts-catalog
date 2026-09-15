@@ -3809,3 +3809,59 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:18px;
   }
 }
+
+/* Final Auto Parts promo adjustments */
+.tyreAutoPartsPromo{
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:0;
+  border-left:0;
+  border-right:0;
+  border-radius:0;
+  margin-top:18px;
+  margin-bottom:0;
+  line-height:1.2;
+}
+
+.tyreAutoPartsPromo h3{
+  line-height:1.15;
+  margin-bottom:6px;
+}
+
+.tyreAutoPartsPromo p{
+  line-height:1.3;
+  margin-top:5px;
+  margin-bottom:12px;
+}
+
+.tyreAutoPartsPromoVisual span{
+  display:none;
+}
+
+.tyreBottomGap{
+  height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+.tyreBottomArt{
+  display:block;
+  margin-top:0 !important;
+}
+
+@media(max-width:600px){
+  .tyreAutoPartsPromo{
+    margin-top:14px;
+    padding:20px 22px;
+  }
+
+  .tyreAutoPartsPromo h3{
+    line-height:1.18;
+  }
+
+  .tyreAutoPartsPromo p{
+    line-height:1.35;
+  }
+}
