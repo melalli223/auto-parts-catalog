@@ -3549,3 +3549,57 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     justify-content:flex-start;
   }
 }
+
+/* Final contact height + About Us separation */
+.tyreContactSupport{
+  min-height:96px;
+}
+
+.tyreAboutSection{
+  position:relative;
+  margin-top:70px !important;
+  padding-top:0 !important;
+}
+
+@media(max-width:800px){
+  .tyreContactSupport{
+    min-height:122px;
+  }
+
+  .tyreAboutSection{
+    margin-top:60px !important;
+    padding-top:0 !important;
+  }
+}
+
+/* FINAL: guaranteed About Us separation */
+.tyreAboutSection{
+  margin:0 !important;
+  padding:0 !important;
+  position:relative;
+}
+
+.tyreAboutSection::before{
+  content:"";
+  display:block;
+  height:80px;
+  width:100%;
+}
+
+.tyreContactSupport{
+  min-height:96px;
+}
+
+.tyreContactPhones{
+  gap:0 !important;
+}
+
+@media(max-width:800px){
+  .tyreAboutSection::before{
+    height:65px;
+  }
+
+  .tyreContactSupport{
+    min-height:122px;
+  }
+}
