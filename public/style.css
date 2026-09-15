@@ -3760,3 +3760,52 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:17px;
   }
 }
+
+/* Fix Auto Parts promo layout */
+.tyreAutoPartsPromo{
+  gap:24px;
+}
+
+.tyreAutoPartsPromoText{
+  min-width:0;
+  flex:1 1 auto;
+}
+
+.tyreAutoPartsPromo h3,
+.tyreAutoPartsPromo p{
+  overflow-wrap:anywhere;
+}
+
+.tyreAutoPartsPromoVisual{
+  position:relative;
+  flex:0 0 180px;
+}
+
+@media(max-width:600px){
+  .tyreAutoPartsPromo{
+    display:block;
+    padding:22px;
+  }
+
+  .tyreAutoPartsPromoText{
+    width:100%;
+  }
+
+  .tyreAutoPartsPromo h3{
+    max-width:none;
+    font-size:19px;
+    line-height:1.25;
+  }
+
+  .tyreAutoPartsPromo p{
+    max-width:none;
+    line-height:1.45;
+  }
+
+  .tyreAutoPartsPromoVisual{
+    width:100%;
+    height:58px;
+    margin-top:16px;
+    font-size:18px;
+  }
+}
