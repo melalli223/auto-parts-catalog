@@ -2441,3 +2441,287 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .evHomeBrandHeading:hover .headingArrow{
   transform:translateX(4px);
 }
+
+/* Tyre Finder */
+.tyreFinderSection{
+  margin:70px 0 0;
+  padding:42px 0 10px;
+  border-top:1px solid #e8e8e8;
+}
+
+.tyreFinderHead{
+  text-align:center;
+  margin-bottom:26px;
+}
+
+.tyreFinderHead > span,
+.tyreFinderPageHead > span,
+.tyreFinderNumber > span{
+  display:block;
+  color:#e21b23;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.16em;
+  margin-bottom:7px;
+}
+
+.tyreFinderHead h2,
+.tyreFinderPageHead h1,
+.tyreFinderNumber h1{
+  margin:0;
+  color:#111;
+  font-size:clamp(24px,3vw,36px);
+  font-weight:800;
+}
+
+.tyreFinderHead h2 b,
+.tyreFinderPageHead h1 b,
+.tyreFinderNumber h1 b{
+  color:#e21b23;
+}
+
+.tyreFinderHead p,
+.tyreFinderPageHead p,
+.tyreFinderNumber > p{
+  margin:8px 0 0;
+  color:#777;
+  font-size:14px;
+}
+
+.tyreFinderGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.tyreFinderCard{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-height:120px;
+  padding:24px 28px;
+  border:1px solid #e3e5e7;
+  border-radius:12px;
+  background:#fff;
+  text-align:left;
+  cursor:pointer;
+  box-shadow:0 5px 20px rgba(0,0,0,.045);
+  transition:.2s ease;
+}
+
+.tyreFinderCard:hover{
+  border-color:#d51b23;
+  transform:translateY(-3px);
+  box-shadow:0 10px 28px rgba(0,0,0,.08);
+}
+
+.tyreFinderIcon{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#f7f7f7;
+  font-size:22px;
+}
+
+.tyreFinderCard div{
+  min-width:0;
+}
+
+.tyreFinderCard strong{
+  display:block;
+  color:#111;
+  font-size:15px;
+  font-weight:800;
+}
+
+.tyreFinderCard small{
+  display:block;
+  margin-top:6px;
+  color:#777;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.tyreFinderArrow{
+  margin-left:auto;
+  flex:0 0 auto;
+  font-size:23px;
+  color:#e21b23;
+}
+
+/* Tyre finder pages */
+.tyreFinderPage{
+  max-width:1100px;
+  margin:0 auto;
+  padding:36px 24px 70px;
+}
+
+.tyrePlaceholderBack{
+  border:0;
+  background:none;
+  padding:0;
+  color:#555;
+  font-size:13px;
+  cursor:pointer;
+  margin-bottom:34px;
+}
+
+.tyreFinderPageHead{
+  margin-bottom:30px;
+}
+
+.tyreFinderCarGrid,
+.tyreFinderModelGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:18px;
+}
+
+.tyreFinderCarGrid button,
+.tyreFinderModelGrid button{
+  border:1px solid #e4e6e8;
+  border-radius:10px;
+  background:#fff;
+  padding:14px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.tyreFinderCarGrid button:hover,
+.tyreFinderModelGrid button:hover{
+  border-color:#d51b23;
+  transform:translateY(-2px);
+}
+
+.tyreFinderCarGrid button div,
+.tyreFinderModelGrid button div{
+  height:130px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fafafa;
+  border-radius:7px;
+  overflow:hidden;
+}
+
+.tyreFinderCarGrid img,
+.tyreFinderModelGrid img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.tyreFinderCarGrid strong,
+.tyreFinderModelGrid strong{
+  display:block;
+  padding:13px 4px 3px;
+  color:#111;
+  font-size:14px;
+}
+
+.tyreFinderYearGrid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+}
+
+.tyreFinderYearGrid button{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px;
+  border:1px solid #e4e6e8;
+  border-radius:9px;
+  background:#fff;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.tyreFinderYearGrid button:hover{
+  border-color:#d51b23;
+  color:#d51b23;
+}
+
+.tyreFinderNumber{
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+  padding:20px 0 60px;
+}
+
+.tyreNumberSearch{
+  display:flex;
+  gap:10px;
+  margin-top:28px;
+}
+
+.tyreNumberSearch .input{
+  flex:1;
+  min-width:0;
+}
+
+.tyreNumberResult{
+  margin-top:22px;
+  padding:24px;
+  border:1px solid #e4e6e8;
+  border-radius:10px;
+  background:#fff;
+  text-align:left;
+}
+
+.tyreNumberResult strong{
+  font-size:20px;
+  color:#111;
+}
+
+.tyreNumberResult p{
+  color:#777;
+  font-size:13px;
+  margin:8px 0 18px;
+}
+
+@media(max-width:700px){
+  .tyreFinderSection{
+    margin-top:48px;
+    padding-top:32px;
+  }
+
+  .tyreFinderGrid{
+    grid-template-columns:1fr;
+  }
+
+  .tyreFinderCard{
+    min-height:105px;
+    padding:20px;
+  }
+
+  .tyreFinderCarGrid,
+  .tyreFinderModelGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .tyreFinderCarGrid button div,
+  .tyreFinderModelGrid button div{
+    height:100px;
+  }
+
+  .tyreFinderYearGrid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .tyreNumberSearch{
+    flex-direction:column;
+  }
+
+  .tyreNumberSearch button{
+    width:100%;
+  }
+}

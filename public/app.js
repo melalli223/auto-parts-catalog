@@ -65,7 +65,9 @@ async function loadRemoteDb(){
  normalizeDb();cacheDb();onlineLoaded=true;return db;
 }
 function showBoot(message='Loading catalog…'){document.querySelector('#app').innerHTML=`<div class="login"><div class="loginBox"><h2>${esc(message)}</h2><p class="muted">Connecting to the online catalog.</p></div></div>`}
-function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(+parts[2]);return true}tyres();return true}
+function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(+parts[2]);return true}
+if(parts[1]==='by-car'){tyresByCar();return true}
+if(parts[1]==='by-number'){tyresByNumber();return true}tyres();return true}
 async function bootCustomer(){
   showBoot();
   const landOnTyres=location.hash.replace('#','').split('/')[0]==='tyres';
@@ -384,10 +386,86 @@ function home(){
  `)
 }
 
-function tyres(){setNav('');location.hash='tyres';const t=db.tyres||defaultTyres;const hero=t.hero||defaultTyres.hero;const heroImages=(hero.images&&hero.images.length?hero.images:[hero.image||defaultTyres.hero.image]);const features=(t.features||defaultTyres.features).slice(0,3);const brands=(t.brands||defaultTyres.brands);const featured=(t.featured||defaultTyres.featured);render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreDesktopHero"><div class="tyreHeroSlider" id="tyreHeroSlider">${heroImages.map((src,i)=>`<div class="tyreHeroSlide ${i===0?'active':''}" style="background-image:linear-gradient(180deg,rgba(0,0,0,.40),rgba(0,0,0,.68)),url('${esc(src)}')"></div>`).join('')}</div><div class="tyreDesktopHeroText"><h1>${esc(hero.title)}</h1><h2>${esc(hero.red)}</h2><p>${esc(hero.description||'').replace(/\n/g,'<br>')}</p><i></i></div><div class="tyreFeatureCardsHtml">${features.map(x=>`<button class="tyreFeatureCardHtml ${esc(x.key)}" onclick="smartEnquiry('${esc(x.message||'Hello, I would like to enquire about tyres.').replace(/'/g,"\\'")}')"><span class="featureTextHtml"><b>${esc(x.title)}</b><em>${esc(x.subtitle)}</em><i></i></span><img src="${esc(x.image)}" alt="${esc(x.title+' '+x.subtitle)}"></button>`).join('')}</div></div><div class="tyreHtmlBrands"><h2>Tyre Brands</h2><div class="tyreHtmlBrandGrid">${brands.map((x,i)=>`<button onclick="tyreBrandPage(${i})"><img src="${esc(x.image)}" alt="${esc(x.name)}"></button>`).join('')}</div></div><div class="tyreHtmlFeatured"><div class="tyreHtmlFeaturedHead"><h2>Featured Tyre Types</h2><button onclick="smartEnquiry('Hello, I would like to enquire about your available tyres.')">View All Tyres →</button></div><div class="tyreHtmlFeaturedGrid">${featured.map((x,i)=>`<button onclick="tyreTypePage(${i})"><img src="${esc(x.image)}" alt="${esc(x.title)}"><b>${esc(x.title)}</b><small>${esc(x.description)}</small><span>→</span></button>`).join('')}</div></div><div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
+function tyres(){setNav('');location.hash='tyres';const t=db.tyres||defaultTyres;const hero=t.hero||defaultTyres.hero;const heroImages=(hero.images&&hero.images.length?hero.images:[hero.image||defaultTyres.hero.image]);const features=(t.features||defaultTyres.features).slice(0,3);const brands=(t.brands||defaultTyres.brands);const featured=(t.featured||defaultTyres.featured);render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreDesktopHero"><div class="tyreHeroSlider" id="tyreHeroSlider">${heroImages.map((src,i)=>`<div class="tyreHeroSlide ${i===0?'active':''}" style="background-image:linear-gradient(180deg,rgba(0,0,0,.40),rgba(0,0,0,.68)),url('${esc(src)}')"></div>`).join('')}</div><div class="tyreDesktopHeroText"><h1>${esc(hero.title)}</h1><h2>${esc(hero.red)}</h2><p>${esc(hero.description||'').replace(/\n/g,'<br>')}</p><i></i></div><div class="tyreFeatureCardsHtml">${features.map(x=>`<button class="tyreFeatureCardHtml ${esc(x.key)}" onclick="smartEnquiry('${esc(x.message||'Hello, I would like to enquire about tyres.').replace(/'/g,"\\'")}')"><span class="featureTextHtml"><b>${esc(x.title)}</b><em>${esc(x.subtitle)}</em><i></i></span><img src="${esc(x.image)}" alt="${esc(x.title+' '+x.subtitle)}"></button>`).join('')}</div></div><div class="tyreHtmlBrands"><h2>Tyre Brands</h2><div class="tyreHtmlBrandGrid">${brands.map((x,i)=>`<button onclick="tyreBrandPage(${i})"><img src="${esc(x.image)}" alt="${esc(x.name)}"></button>`).join('')}</div></div><div class="tyreHtmlFeatured"><div class="tyreHtmlFeaturedHead"><h2>Featured Tyre Types</h2><button onclick="smartEnquiry('Hello, I would like to enquire about your available tyres.')">View All Tyres →</button></div><div class="tyreHtmlFeaturedGrid">${featured.map((x,i)=>`<button onclick="tyreTypePage(${i})"><img src="${esc(x.image)}" alt="${esc(x.title)}"><b>${esc(x.title)}</b><small>${esc(x.description)}</small><span>→</span></button>`).join('')}</div></div><section class="tyreFinderSection">
+<div class="tyreFinderHead">
+<span>TYRE FINDER</span>
+<h2>FIND THE RIGHT <b>TYRES</b></h2>
+<p>Choose how you want to find your tyres.</p>
+</div>
+<div class="tyreFinderGrid">
+<button class="tyreFinderCard" onclick="tyresByCar()">
+<span class="tyreFinderIcon">🚗</span>
+<div><strong>FIND TYRE BY CAR</strong><small>Choose your car brand, model and year.</small></div>
+<span class="tyreFinderArrow">→</span>
+</button>
+<button class="tyreFinderCard" onclick="tyresByNumber()">
+<span class="tyreFinderIcon">◉</span>
+<div><strong>FIND TYRE BY NUMBER</strong><small>Search using your tyre size or number.</small></div>
+<span class="tyreFinderArrow">→</span>
+</button>
+</div>
+</section><div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
 
 function initHeroSlider(images){if(window.__heroSliderTimer)clearInterval(window.__heroSliderTimer);if(!images||images.length<2)return;let idx=0;window.__heroSliderTimer=setInterval(()=>{const el=document.getElementById('tyreHeroSlider');if(!el){clearInterval(window.__heroSliderTimer);return}const slides=el.querySelectorAll('.tyreHeroSlide');idx=(idx+1)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===idx))},4000)}
 
+function tyresByCar(){
+ setNav('');
+ location.hash='tyres/by-car';
+ const brands=[...db.brands].filter(b=>b.isRegular!==false);
+ render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
+ <button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>
+ <div class="tyreFinderPageHead"><span>TYRE FINDER</span><h1>FIND TYRES <b>BY CAR</b></h1><p>Select your vehicle to find the right tyre.</p></div>
+ <div class="tyreFinderCarGrid">${brands.map(b=>`<button onclick="tyreFinderBrand('${b.id}')"><div><img src="${esc(b.image||placeholder(b.name))}" alt="${esc(b.name)}"></div><strong>${esc(b.name)}</strong></button>`).join('')||'<div class="empty">No car brands available.</div>'}</div>
+ </div></div></section>`)
+}
+function tyreFinderBrand(brandId){
+ const b=db.brands.find(x=>x.id===brandId);
+ if(!b)return tyresByCar();
+ const models=db.models.filter(m=>m.brandId===brandId&&m.isEv!==true);
+ render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
+ <button class="tyrePlaceholderBack" onclick="tyresByCar()">← Back to Car Brands</button>
+ <div class="tyreFinderPageHead"><span>${esc(b.name)}</span><h1>SELECT YOUR <b>MODEL</b></h1><p>Choose your vehicle model.</p></div>
+ <div class="tyreFinderModelGrid">${models.map(m=>`<button onclick="tyreFinderModel('${m.id}')"><div><img src="${esc(m.image||placeholder(m.name))}" alt="${esc(m.name)}"></div><strong>${esc(m.name)}</strong></button>`).join('')||'<div class="empty">No models available for this brand.</div>'}</div>
+ </div></div></section>`)
+}
+function tyreFinderModel(modelId){
+ const m=db.models.find(x=>x.id===modelId);
+ const b=db.brands.find(x=>x.id===m?.brandId);
+ if(!m||!b)return tyresByCar();
+ const ys=modelYears(modelId);
+ render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
+ <button class="tyrePlaceholderBack" onclick="tyreFinderBrand('${b.id}')">← Back to Models</button>
+ <div class="tyreFinderPageHead"><span>${esc(b.name)} · ${esc(m.name)}</span><h1>SELECT VEHICLE <b>YEAR</b></h1><p>Choose the year to continue.</p></div>
+ <div class="tyreFinderYearGrid">${ys.map(y=>`<button onclick="tyreFinderResult('${m.id}','${encodeURIComponent(y)}')"><strong>${esc(y)}</strong><span>→</span></button>`).join('')||'<div class="empty">No years available for this model.</div>'}</div>
+ </div></div></section>`)
+}
+function tyreFinderResult(modelId,yearValue){
+ const m=db.models.find(x=>x.id===modelId);
+ const b=db.brands.find(x=>x.id===m?.brandId);
+ if(!m||!b)return tyresByCar();
+ const y=decodeURIComponent(yearValue);
+ smartEnquiry(`Hello, I would like to find tyres for my ${b.name} ${m.name}, year ${y}.`);
+}
+function tyresByNumber(){
+ setNav('');
+ location.hash='tyres/by-number';
+ render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
+ <button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>
+ <div class="tyreFinderNumber">
+ <span>TYRE FINDER</span>
+ <h1>FIND TYRES <b>BY NUMBER</b></h1>
+ <p>Enter your tyre size or number to find the right tyre.</p>
+ <div class="tyreNumberSearch"><input id="tyreNumberInput" class="input" placeholder="e.g. 205/55 R16" autocomplete="off"><button class="primary" onclick="searchTyreNumber()">SEARCH TYRES →</button></div>
+ <div id="tyreNumberResults"></div>
+ </div>
+ </div></div></section>`)
+}
+function searchTyreNumber(){
+ const input=document.querySelector('#tyreNumberInput');
+ const value=String(input?.value||'').trim();
+ if(!value)return toast('Please enter a tyre number or size');
+ document.querySelector('#tyreNumberResults').innerHTML=`<div class="tyreNumberResult"><strong>${esc(value)}</strong><p>We will check availability for this tyre size.</p><button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to enquire about tyres with size/number: '+value+'.')})'>ENQUIRE ABOUT THIS TYRE →</button></div>`;
+}
 function tyreBrandPage(idx){const t=db.tyres||defaultTyres;const b=(t.brands||defaultTyres.brands)[idx];if(!b)return tyres();setNav('');location.hash=`tyres/brand/${idx}`;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyrePlaceholderPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyrePlaceholderHero"><img src="${esc(b.image)}" alt="${esc(b.name)}"></div><h1>${esc(b.name)} Tyres</h1><p class="muted">Browse our full range of ${esc(b.name)} tyres here soon — products for this brand are coming shortly.</p></div></div></section>`) }
 
 function tyreTypePage(idx){const t=db.tyres||defaultTyres;const x=(t.featured||defaultTyres.featured)[idx];if(!x)return tyres();setNav('');location.hash=`tyres/type/${idx}`;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyrePlaceholderPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyrePlaceholderHero"><img src="${esc(x.image)}" alt="${esc(x.title)}"></div><h1>${esc(x.title)}</h1><p>${esc(x.description)}</p><p class="muted">Products for this category are coming shortly.</p></div></div></section>`) }
