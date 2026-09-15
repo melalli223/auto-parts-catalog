@@ -2769,3 +2769,10 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     max-height:70px;
   }
 }
+
+/* Match tyre brands heading size with featured tyre types */
+@media(min-width:801px){
+  .tyreHtmlBrands h2{
+    font-size:28px;
+  }
+}
