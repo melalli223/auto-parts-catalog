@@ -404,7 +404,7 @@ function tyres(){setNav('');location.hash='tyres';const t=db.tyres||defaultTyres
 <span class="tyreFinderArrow">→</span>
 </button>
 </div>
-</section><section class="tyreAboutSection">
+</section><div class="tyreAboutContactSection"><section class="tyreAboutSection">
 <div class="tyreAboutContent">
 <span class="tyreAboutEyebrow">ABOUT US</span>
 <h2>${esc(db.settings.aboutTitle||'About Our Business')}</h2>
@@ -421,7 +421,7 @@ ${[db.settings.phone,db.settings.phone2,db.settings.phone3].filter(Boolean).map(
 </div>
 </div>
 <div class="tyreContactImageFrame" aria-hidden="true"></div>
-</a>
+</a></div>
 <div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
 
 function initHeroSlider(images){if(window.__heroSliderTimer)clearInterval(window.__heroSliderTimer);if(!images||images.length<2)return;let idx=0;window.__heroSliderTimer=setInterval(()=>{const el=document.getElementById('tyreHeroSlider');if(!el){clearInterval(window.__heroSliderTimer);return}const slides=el.querySelectorAll('.tyreHeroSlide');idx=(idx+1)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===idx))},4000)}
