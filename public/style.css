@@ -3322,3 +3322,230 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     background:transparent;
   }
 }
+
+/* ===== TYRE CONTACT BOX - FINAL VISUAL ===== */
+
+.tyreContactSupport{
+  position:relative;
+  width:100vw;
+  max-width:100vw;
+  min-height:112px;
+  margin-left:calc(50% - 50vw);
+  margin-right:0;
+  padding:20px 155px 20px 42px;
+  box-sizing:border-box;
+  overflow:hidden;
+  isolation:isolate;
+
+  background:
+    linear-gradient(115deg,
+      #c90d16 0%,
+      #e31b23 48%,
+      #b80710 100%);
+}
+
+/* subtle diagonal background effect */
+.tyreContactSupport::before{
+  content:"";
+  position:absolute;
+  top:-70%;
+  right:115px;
+  width:260px;
+  height:240%;
+  background:rgba(255,255,255,.07);
+  transform:rotate(25deg);
+  pointer-events:none;
+  z-index:-1;
+}
+
+.tyreContactSupport::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:230px;
+  height:100%;
+  background:linear-gradient(
+    135deg,
+    rgba(255,255,255,.05),
+    rgba(0,0,0,.08)
+  );
+  pointer-events:none;
+  z-index:-1;
+}
+
+.tyreContactText{
+  position:relative;
+  z-index:2;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:6px;
+  text-align:left;
+}
+
+.tyreContactText span{
+  margin:0;
+  font-size:14px;
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:.04em;
+  color:#fff;
+}
+
+.tyreContactText small{
+  margin:0;
+  font-size:11px;
+  line-height:1.35;
+  color:rgba(255,255,255,.9);
+}
+
+.tyreContactPhones{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+  gap:0;
+  margin-top:7px;
+}
+
+.tyreContactPhones b{
+  margin:0;
+  padding:0 18px;
+  color:#fff;
+  font-size:13px;
+  line-height:1.2;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.tyreContactPhones b:first-child{
+  padding-left:0;
+}
+
+.tyreContactPhones b + b{
+  border-left:1px solid rgba(255,255,255,.45);
+}
+
+.tyreContactImageFrame{
+  display:block;
+  position:absolute;
+  z-index:3;
+  top:0;
+  right:0;
+  bottom:0;
+  width:125px;
+  height:100%;
+  transform:none;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:0;
+  background:transparent;
+  overflow:hidden;
+}
+
+/* Stronger gap BEFORE About Us */
+.tyreAboutSection{
+  margin-top:0 !important;
+  padding-top:180px !important;
+}
+
+@media(max-width:800px){
+
+  .tyreContactSupport{
+    min-height:142px;
+    padding:19px 135px 19px 20px;
+  }
+
+  .tyreContactText{
+    align-items:flex-start;
+    justify-content:center;
+    text-align:left;
+    gap:7px;
+  }
+
+  .tyreContactText span{
+    font-size:14px;
+  }
+
+  .tyreContactText small{
+    max-width:220px;
+    font-size:11px;
+  }
+
+  .tyreContactPhones{
+    flex-direction:row;
+    align-items:center;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    gap:0;
+    margin-top:8px;
+  }
+
+  .tyreContactPhones b{
+    padding:0 10px;
+    font-size:12px;
+  }
+
+  .tyreContactPhones b:first-child{
+    padding-left:0;
+  }
+
+  .tyreContactPhones b + b{
+    border-left:1px solid rgba(255,255,255,.45);
+  }
+
+  .tyreContactImageFrame{
+    width:105px;
+    top:0;
+    right:0;
+    bottom:0;
+    height:100%;
+  }
+
+  /* Extra separation on phone */
+  .tyreAboutSection{
+    margin-top:0 !important;
+    padding-top:125px !important;
+  }
+}
+
+/* Desktop: perfectly centered contact content */
+@media(min-width:801px){
+  .tyreContactSupport{
+    padding-left:155px;
+    padding-right:155px;
+  }
+
+  .tyreContactText{
+    width:100%;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+
+  .tyreContactPhones{
+    justify-content:center;
+    align-items:center;
+    width:100%;
+  }
+
+  .tyreContactPhones b{
+    text-align:center;
+  }
+}
+
+/* Mobile stays left aligned */
+@media(max-width:800px){
+  .tyreContactText{
+    align-items:flex-start;
+    text-align:left;
+  }
+
+  .tyreContactPhones{
+    justify-content:flex-start;
+  }
+}
