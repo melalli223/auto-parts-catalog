@@ -4125,3 +4125,24 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     margin-bottom:32px !important;
   }
 }
+
+/* Final About Us alignment */
+.tyreAboutContactSection .tyreAboutSection{
+  margin-bottom:52px !important;
+}
+
+.tyreAboutContent{
+  text-align:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+@media(max-width:600px){
+  .tyreAboutContactSection .tyreAboutSection{
+    margin-bottom:42px !important;
+  }
+
+  .tyreAboutContent{
+    text-align:center !important;
+  }
+}
