@@ -86,7 +86,7 @@ async function loadRemoteDb(){
  normalizeDb();cacheDb();onlineLoaded=true;return db;
 }
 function showBoot(message='Loading catalog…'){document.querySelector('#app').innerHTML=`<div class="login"><div class="loginBox"><h2>${esc(message)}</h2><p class="muted">Connecting to the online catalog.</p></div></div>`}
-function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(+parts[2]);return true}
+function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(+parts[2]);return true}if(parts[1]==='contact'){tyreContactPage();return true}
 if(parts[1]==='by-car'){tyresByCar();return true}
 if(parts[1]==='by-number'){tyresByNumber();return true}tyres();return true}
 async function bootCustomer(){
@@ -434,7 +434,7 @@ function tyres(){setNav('');location.hash='tyres';const t=db.tyres||defaultTyres
 ${tyreMediaLinksHtml()?`<div class="tyreAboutSocials" aria-label="Social media links">${tyreMediaLinksHtml()}</div>`:''}
 </div>
 </section>
-<a class="tyreContactSupport" href="#contact" onclick="contact();return false;">
+<a class="tyreContactSupport" href="#tyres/contact" onclick="tyreContactPage();return false;">
 <div class="tyreContactText">
 <span>CONTACT US &amp; SUPPORT</span>
 <small>We are here to help you find the right tyres.</small>
@@ -521,6 +521,15 @@ function searchTyreNumber(){
  document.querySelector('#tyreNumberResults').innerHTML=`<div class="tyreNumberResult"><strong>${esc(value)}</strong><p>We will check availability for this tyre size.</p><button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to enquire about tyres with size/number: '+value+'.')})'>ENQUIRE ABOUT THIS TYRE →</button></div>`;
 }
 function tyreBrandPage(idx){const t=db.tyres||defaultTyres;const b=(t.brands||defaultTyres.brands)[idx];if(!b)return tyres();setNav('');location.hash=`tyres/brand/${idx}`;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyrePlaceholderPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyrePlaceholderHero"><img src="${esc(b.image)}" alt="${esc(b.name)}"></div><h1>${esc(b.name)} Tyres</h1><p class="muted">Browse our full range of ${esc(b.name)} tyres here soon — products for this brand are coming shortly.</p></div></div></section>`) }
+
+function tyreContactPage(){
+  setNav('');
+  location.hash='tyres/contact';
+  const c=(db.tyres||defaultTyres).contact||defaultTyres.contact;
+  const phones=[c.phone,c.phone2,c.phone3].filter(Boolean).map(p=>`<div class="tyreOwnContactPhone">${esc(p)}</div>`).join('');
+  const socials=tyreMediaLinksHtml();
+  render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreOwnContactPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyreOwnContactCard"><span class="tyreAboutEyebrow">CONTACT US &amp; SUPPORT</span><h1>GET IN <span>TOUCH</span></h1><p>We are here to help you find the right tyres.</p>${phones?`<div class="tyreOwnContactPhones">${phones}</div>`:''}${socials?`<div class="tyreAboutSocials">${socials}</div>`:''}<button class="primary" onclick="smartEnquiry('Hello, I would like to enquire about your tyres.')">SEND ENQUIRY</button></div></div></div></section>`);
+}
 
 function tyreTypePage(idx){const t=db.tyres||defaultTyres;const x=(t.featured||defaultTyres.featured)[idx];if(!x)return tyres();setNav('');location.hash=`tyres/type/${idx}`;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyrePlaceholderPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyrePlaceholderHero"><img src="${esc(x.image)}" alt="${esc(x.title)}"></div><h1>${esc(x.title)}</h1><p>${esc(x.description)}</p><p class="muted">Products for this category are coming shortly.</p></div></div></section>`) }
 
