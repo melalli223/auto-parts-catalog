@@ -318,7 +318,7 @@ function home(){
  <div class="sectionHead">
   <div>
    <span class="eyebrow">OUR CATALOG</span>
-   <h2>SHOP BY <span class="accent">CAR BRAND</span></h2>
+   <h2 class="homeBrandHeading" onclick="brands()">SHOP BY <span class="accent">CAR BRAND</span></h2>
   </div>
  </div>
 
@@ -338,7 +338,7 @@ function home(){
     <span class="evBolt">⚡</span> EV BRANDS
    </span>
 
-   <h2>SHOP BY <span>EV BRAND</span></h2>
+   <h2 class="homeBrandHeading evHomeBrandHeading" onclick="brands(true)">SHOP BY <span>EV BRAND</span></h2>
    <p>Electric today. A cleaner tomorrow.</p>
   </div>
 
