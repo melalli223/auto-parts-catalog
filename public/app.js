@@ -261,7 +261,7 @@ function header(){
  if(isAdminRoute())return '';
  const active=navSection();
  const on=(name)=>active===name?' active':'';
- return `<header class="siteHeader"><div class="nav"><a class="logo" href="./" aria-label="Home" onclick="navigateFromHeader('home',this,event)">${logo()}</a><nav aria-label="Main navigation"><button class="${on('home')}" data-nav="home" onclick="navigateFromHeader('home',this,event)">HOME</button><button class="${on('brands')}" data-nav="brands" onclick="navigateFromHeader('brands',this,event)">BRANDS</button><button class="${on('categories')}" data-nav="categories" onclick="navigateFromHeader('categories',this,event)">CATEGORIES</button><button class="${on('about')}" data-nav="about" onclick="navigateFromHeader('about',this,event)">ABOUT US</button><button class="${on('contact')}" data-nav="contact" onclick="navigateFromHeader('contact',this,event)">CONTACT</button><button class="searchBtn" data-nav="categories" onclick="navigateFromHeader('search',this,event)" aria-label="Search">⌕</button></nav></div></header>`
+ return `<header class="siteHeader"><div class="nav"><a class="logo" href="./" aria-label="Home" onclick="navigateFromHeader('home',this,event)">${logo()}</a><nav aria-label="Main navigation"><button class="${on('home')}" data-nav="home" onclick="navigateFromHeader('home',this,event)">HOME</button><button class="${on('brands')}" data-nav="brands" onclick="navigateFromHeader('brands',this,event)">BRANDS</button><button class="${on('ev')}" data-nav="ev" onclick="navigateFromHeader('ev',this,event)">EV</button><button class="${on('categories')}" data-nav="categories" onclick="navigateFromHeader('categories',this,event)">CATEGORIES</button><button class="${on('contact')}" data-nav="contact" onclick="navigateFromHeader('contact',this,event)">CONTACT</button><button class="searchBtn" data-nav="categories" onclick="navigateFromHeader('search',this,event)" aria-label="Search">⌕</button></nav></div></header>`
 }
 function navigateFromHeader(target,button,event){
  if(event){event.preventDefault();event.stopPropagation();}
@@ -274,6 +274,10 @@ function navigateFromHeader(target,button,event){
  window.__navTimer=setTimeout(()=>{
    if(target==='home')home();
    else if(target==='brands')brands();
+   else if(target==='ev'){
+     home();
+     setTimeout(()=>document.querySelector('.evBrandSection')?.scrollIntoView({behavior:'smooth',block:'start'}),450);
+   }
    else if(target==='categories')parts();
    else if(target==='search')parts(true);
    else if(target==='about')about();
