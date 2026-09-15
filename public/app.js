@@ -413,8 +413,11 @@ ${mediaLinksHtml()?`<div class="tyreAboutSocials" aria-label="Social media links
 </div>
 </section>
 <a class="tyreContactSupport" href="#contact" onclick="contact();return false;">
+<div class="tyreContactText">
 <span>CONTACT US &amp; SUPPORT</span>
 <small>We are here to help you find the right tyres.</small>
+<b>${esc(db.settings.phone||'')}</b>
+</div>
 <strong>→</strong>
 </a>
 <div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
