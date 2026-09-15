@@ -2727,3 +2727,25 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     width:100%;
   }
 }
+
+/* Center tyre section headings on desktop */
+@media(min-width:801px){
+  .tyreHtmlBrands h2{
+    text-align:center;
+  }
+
+  .tyreHtmlFeaturedHead{
+    position:relative;
+    justify-content:center;
+  }
+
+  .tyreHtmlFeaturedHead h2{
+    text-align:center;
+  }
+
+  .tyreHtmlFeaturedHead button{
+    position:absolute;
+    right:0;
+    bottom:0;
+  }
+}
