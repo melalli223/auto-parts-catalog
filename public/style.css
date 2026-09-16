@@ -4277,27 +4277,32 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   min-height:88px !important;
   padding-top:12px !important;
   padding-bottom:12px !important;
-  overflow:visible !important;
+  overflow:hidden !important;
 }
 
-/* Let the overlapping image sit above the banner */
+/* Keep the contact image inside the Contact & Support box */
 .tyreAboutContactSection .tyreContactImageFrame{
-  top:-22px !important;
-  right:48px !important;
-  bottom:auto !important;
-  width:96px !important;
-  height:96px !important;
-  border:3px solid #fff !important;
-  border-radius:12px !important;
-  background:#fff !important;
-  box-shadow:0 8px 20px rgba(0,0,0,.18) !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  width:125px !important;
+  height:100% !important;
+  border:1px solid rgba(255,255,255,.65) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
   overflow:hidden !important;
   z-index:10 !important;
 }
 
-/* Extra space before the bottom artwork */
+/* Slightly larger phone numbers */
+.tyreAboutContactSection .tyreContactPhones b{
+  font-size:14px !important;
+}
+
+/* Reduce space before the bottom artwork */
 .tyreBottomGap{
-  height:390px !important;
+  height:300px !important;
 }
 
 /* Mobile */
@@ -4313,13 +4318,18 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   .tyreAboutContactSection .tyreContactImageFrame{
-    top:-18px !important;
-    right:20px !important;
-    width:78px !important;
-    height:78px !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    width:105px !important;
+    height:100% !important;
+  }
+
+  .tyreAboutContactSection .tyreContactPhones b{
+    font-size:13px !important;
   }
 
   .tyreBottomGap{
-    height:360px !important;
+    height:270px !important;
   }
 }
