@@ -4257,3 +4257,69 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     align-items:center;
   }
 }
+
+/* =========================================================
+   FINAL TYRE HOMEPAGE SPACING + CONTACT SUPPORT REFINEMENT
+   ========================================================= */
+
+/* More breathing room after the Auto Parts promo */
+.tyreAboutContactSection .tyreAutoPartsPromo{
+  margin-bottom:32px !important;
+}
+
+/* More separation between About Us and Contact & Support */
+.tyreAboutContactSection .tyreAboutSection{
+  margin-bottom:56px !important;
+}
+
+/* Slightly shorter Contact & Support banner */
+.tyreAboutContactSection .tyreContactSupport{
+  min-height:88px !important;
+  padding-top:12px !important;
+  padding-bottom:12px !important;
+  overflow:visible !important;
+}
+
+/* Let the overlapping image sit above the banner */
+.tyreAboutContactSection .tyreContactImageFrame{
+  top:-22px !important;
+  right:48px !important;
+  bottom:auto !important;
+  width:96px !important;
+  height:96px !important;
+  border:3px solid #fff !important;
+  border-radius:12px !important;
+  background:#fff !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.18) !important;
+  overflow:hidden !important;
+  z-index:10 !important;
+}
+
+/* Extra space before the bottom artwork */
+.tyreBottomGap{
+  height:390px !important;
+}
+
+/* Mobile */
+@media(max-width:800px){
+  .tyreAboutContactSection .tyreAboutSection{
+    margin-bottom:48px !important;
+  }
+
+  .tyreAboutContactSection .tyreContactSupport{
+    min-height:112px !important;
+    padding-top:12px !important;
+    padding-bottom:12px !important;
+  }
+
+  .tyreAboutContactSection .tyreContactImageFrame{
+    top:-18px !important;
+    right:20px !important;
+    width:78px !important;
+    height:78px !important;
+  }
+
+  .tyreBottomGap{
+    height:360px !important;
+  }
+}

@@ -436,7 +436,7 @@ ${tyreMediaLinksHtml()?`<div class="tyreAboutSocials" aria-label="Social media l
 </section>
 <a class="tyreContactSupport" href="#tyres/contact" onclick="tyreContactPage();return false;">
 <div class="tyreContactText">
-<span>CONTACT US &amp; SUPPORT</span>
+<span>CONTACT &amp; SUPPORT</span>
 <small>We are here to help you find the right tyres.</small>
 <div class="tyreContactPhones">
 ${[db.tyres?.contact?.phone,db.tyres?.contact?.phone2,db.tyres?.contact?.phone3].filter(Boolean).map(p=>'<b>'+esc(p)+'</b>').join('')}
