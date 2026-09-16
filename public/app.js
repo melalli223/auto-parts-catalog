@@ -456,7 +456,7 @@ ${[db.tyres?.contact?.phone,db.tyres?.contact?.phone2,db.tyres?.contact?.phone3]
 ${db.tyres?.contact?.contactImage?`<img src="${esc(db.tyres.contact.contactImage)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">`:''}
 </div>
 </a>
-<a class="tyreAutoPartsPromo" href="/" aria-label="${esc(db.settings.promoButton||'Explore Auto Parts')}" ${db.settings.promoBackground?`style="background-image:linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.28)),url('${db.settings.promoBackground}')"`:''}>
+<a class="tyreAutoPartsPromo" href="/" aria-label="${esc(db.settings.promoButton||'Explore Auto Parts')}" ${db.settings.promoBackground?`style="background-image:url('${db.settings.promoBackground}')"`:''}>
   <div class="tyreAutoPartsPromoText">
     <span class="tyreAutoPartsPromoEyebrow">${esc(db.settings.promoEyebrow||'AUTO PARTS')}</span>
     <h3>${esc(db.settings.promoTitle||'LOOKING FOR MORE THAN TYRES?')}</h3>
