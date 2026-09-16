@@ -4302,7 +4302,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 /* Reduce space before the bottom artwork */
 .tyreBottomGap{
-  height:220px !important;
+  height:120px !important;
 }
 
 /* Mobile */
@@ -4330,6 +4330,6 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   .tyreBottomGap{
-    height:200px !important;
+    height:110px !important;
   }
 }
