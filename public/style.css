@@ -4287,7 +4287,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   bottom:0 !important;
   width:125px !important;
   height:100% !important;
-  border:1px solid rgba(255,255,255,.65) !important;
+  border:none !important;
   border-radius:0 !important;
   background:transparent !important;
   box-shadow:none !important;
@@ -4302,7 +4302,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 /* Reduce space before the bottom artwork */
 .tyreBottomGap{
-  height:300px !important;
+  height:220px !important;
 }
 
 /* Mobile */
@@ -4330,6 +4330,6 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   .tyreBottomGap{
-    height:270px !important;
+    height:200px !important;
   }
 }
