@@ -4982,3 +4982,27 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 }
 
+
+/* Larger homepage hero supporting text */
+.site-main > .autoPartsHero .eyebrow{
+  font-size:clamp(18px,2vw,26px) !important;
+  font-weight:600 !important;
+  letter-spacing:.12em !important;
+}
+
+.site-main > .autoPartsHero .sub{
+  font-size:clamp(20px,2.2vw,30px) !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+}
+
+@media(max-width:760px){
+  .site-main > .autoPartsHero .eyebrow{
+    font-size:18px !important;
+  }
+
+  .site-main > .autoPartsHero .sub{
+    font-size:20px !important;
+  }
+}
+
