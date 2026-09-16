@@ -4361,3 +4361,309 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     background-position:center !important;
   }
 }
+
+/* =========================================================
+   AUTO PARTS HOMEPAGE HERO — TEXT OVER BACKGROUND IMAGE
+   ========================================================= */
+
+.autoPartsHero{
+  position:relative !important;
+  min-height:520px !important;
+  background-size:cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+  display:flex !important;
+  align-items:center !important;
+  overflow:hidden !important;
+  border:none !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroCopy{
+  position:relative !important;
+  z-index:2 !important;
+  width:100% !important;
+  max-width:1200px !important;
+  margin:0 auto !important;
+  padding:70px 48px !important;
+  color:#fff !important;
+}
+
+.autoPartsHero .heroCopy .eyebrow{
+  color:#fff !important;
+}
+
+.autoPartsHero .heroCopy h1{
+  color:#fff !important;
+}
+
+.autoPartsHero .heroCopy .sub{
+  color:#fff !important;
+}
+
+.autoPartsHero .heroVisual{
+  display:none !important;
+}
+
+@media(max-width:800px){
+  .autoPartsHero{
+    min-height:430px !important;
+    background-position:center !important;
+  }
+
+  .autoPartsHero .heroCopy{
+    padding:50px 24px !important;
+  }
+}
+
+
+/* =========================================================
+   HOMEPAGE HERO REDESIGN
+   Header overlays the hero background.
+   Hero uses the image selected by Admin Settings.
+   ========================================================= */
+
+.autoPartsHero{
+  position:relative !important;
+  display:block !important;
+  min-height:560px !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  border:0 !important;
+  background-color:#171b20 !important;
+  background-size:cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+}
+
+.heroOverlayHeader{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:20 !important;
+}
+
+.heroOverlayHeader .siteHeader{
+  position:relative !important;
+  top:auto !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.heroOverlayHeader .nav{
+  width:min(1450px,100%) !important;
+  min-height:92px !important;
+  margin:auto !important;
+  padding:10px 42px !important;
+  background:transparent !important;
+}
+
+.heroOverlayHeader .logo{
+  background:transparent !important;
+}
+
+.heroOverlayHeader .logo img{
+  object-fit:contain !important;
+}
+
+.heroOverlayHeader nav button{
+  color:#fff !important;
+  background:transparent !important;
+  text-shadow:0 1px 4px rgba(0,0,0,.45) !important;
+}
+
+.heroOverlayHeader nav button:hover,
+.heroOverlayHeader nav button.active{
+  color:#fff !important;
+  background:rgba(255,255,255,.10) !important;
+}
+
+.heroOverlayHeader nav button.active::before{
+  background:#fff !important;
+}
+
+.heroOverlayHeader nav button.active::after{
+  background:transparent !important;
+}
+
+.autoPartsHero .heroCopy{
+  position:relative !important;
+  z-index:5 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:flex-start !important;
+  min-height:560px !important;
+  width:min(1380px,100%) !important;
+  margin:auto !important;
+  padding:145px 48px 70px !important;
+  color:#fff !important;
+}
+
+.autoPartsHero .heroCopy .eyebrow{
+  color:#fff !important;
+  text-shadow:0 1px 5px rgba(0,0,0,.45) !important;
+}
+
+.autoPartsHero .heroCopy h1{
+  color:#fff !important;
+  max-width:760px !important;
+  margin:14px 0 18px !important;
+  text-shadow:0 2px 10px rgba(0,0,0,.40) !important;
+}
+
+.autoPartsHero .heroCopy h1 .accent{
+  color:var(--red) !important;
+}
+
+.autoPartsHero .heroCopy .sub{
+  color:#fff !important;
+  max-width:600px !important;
+  text-shadow:0 1px 6px rgba(0,0,0,.45) !important;
+}
+
+.autoPartsHero .heroVisual{
+  display:none !important;
+}
+
+.autoPartsHero .heroBtn{
+  display:none !important;
+}
+
+@media(max-width:1000px){
+  .autoPartsHero{
+    min-height:520px !important;
+  }
+
+  .autoPartsHero .heroCopy{
+    min-height:520px !important;
+    padding:135px 25px 55px !important;
+  }
+
+  .heroOverlayHeader .nav{
+    padding:8px 16px !important;
+  }
+}
+
+@media(max-width:650px){
+  .autoPartsHero{
+    min-height:500px !important;
+  }
+
+  .heroOverlayHeader .nav{
+    min-height:72px !important;
+    padding:6px 11px !important;
+    gap:8px !important;
+  }
+
+  .heroOverlayHeader .logo{
+    min-width:112px !important;
+  }
+
+  .heroOverlayHeader .logo img{
+    width:112px !important;
+    height:46px !important;
+  }
+
+  .heroOverlayHeader nav{
+    overflow-x:auto !important;
+    scrollbar-width:none !important;
+  }
+
+  .heroOverlayHeader nav::-webkit-scrollbar{
+    display:none !important;
+  }
+
+  .heroOverlayHeader nav button{
+    font-size:8px !important;
+    padding:9px 6px !important;
+    white-space:nowrap !important;
+  }
+
+  .autoPartsHero .heroCopy{
+    min-height:500px !important;
+    padding:125px 18px 45px !important;
+  }
+
+  .autoPartsHero .heroCopy h1{
+    font-size:34px !important;
+    line-height:1.05 !important;
+    letter-spacing:-1.3px !important;
+  }
+
+  .autoPartsHero .heroCopy .sub{
+    font-size:12px !important;
+    line-height:1.6 !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL HOMEPAGE HERO HEADER CLEANUP
+   No header frame — logo/navigation sit directly on hero.
+   ========================================================= */
+
+.autoPartsHero .heroOverlayHeader .siteHeader{
+  position:relative !important;
+  width:100% !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroOverlayHeader .nav{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroOverlayHeader .logo{
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroOverlayHeader nav button{
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroOverlayHeader nav button::after{
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroOverlayHeader nav button:hover{
+  background:rgba(255,255,255,.08) !important;
+}
+
+.autoPartsHero .heroOverlayHeader nav button.active{
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.autoPartsHero .heroOverlayHeader nav button.active::before{
+  width:calc(100% - 20px) !important;
+  background:#fff !important;
+}
+
+/* Darker image overlay so white header/text remains readable */
+.autoPartsHero.hasHeroBackground{
+  background-blend-mode:normal !important;
+}
+
+/* No empty placeholder/asset area */
+.autoPartsHero .heroVisual,
+.autoPartsHero .heroImageEmpty{
+  display:none !important;
+}
+
+/* No hero asset button */
+.autoPartsHero .heroBtn{
+  display:none !important;
+}

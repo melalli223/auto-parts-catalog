@@ -323,7 +323,7 @@ function render(content){
    app.classList.remove('page-enter','page-leave');
    void app.offsetWidth;
    const isTyrePage=content.includes('tyreReferenceV3')||content.includes('tyreExactPage');
-   app.innerHTML=(isTyrePage?'':header())+`<main class="container site-main ${isTyrePage?'tyrePageNoHeader':''}">${content}</main><footer class="footer"><div class="featureStrip"><div><span class="featureIcon">✓</span><strong>100% Genuine Parts</strong><small>High quality parts</small></div><div><span class="featureIcon">▣</span><strong>Fast Delivery</strong><small>Across the city</small></div><div><span class="featureIcon">✓</span><strong>Secure Payment</strong><small>100% secure</small></div><div><span class="featureIcon">◯</span><strong>Support 24/7</strong><small>We are here to help</small></div></div><div class="footerMain"><div><h3>CONTACT & SUPPORT</h3><p>${esc(db.settings.address)}</p><p>${esc(db.settings.phone)}</p>${String(db.settings.phone2||'').trim()?`<p>${esc(String(db.settings.phone2).trim())}</p>`:''}${String(db.settings.phone3||'').trim()?`<p>${esc(String(db.settings.phone3).trim())}</p>`:''}${mediaLinksHtml()?`<div class="footerContactSocials" aria-label="Social media links">${mediaLinksHtml()}</div>`:''}<p>${esc(db.settings.email)}</p></div><div><h3>QUICK LINKS</h3><button onclick="home()">Home</button><button onclick="brands()">Brands</button><button onclick="parts()">Categories</button><button onclick="about()">About Us</button></div><div><h3>NEED A PART?</h3><p>Send us your vehicle and part details and we will help you find the right part.</p><button class="footerWa" onclick="smartEnquiry('Hello, I would like to enquire about your auto parts catalog.')">ENQUIRE ABOUT A PART</button></div></div><div class="footerBottom">© ${new Date().getFullYear()} ${esc(db.settings.businessName)}. All rights reserved.</div></footer>`;
+   app.innerHTML=`<main class="container site-main ${isTyrePage?'tyrePageNoHeader':''}">${content}</main><footer class="footer"><div class="featureStrip"><div><span class="featureIcon">✓</span><strong>100% Genuine Parts</strong><small>High quality parts</small></div><div><span class="featureIcon">▣</span><strong>Fast Delivery</strong><small>Across the city</small></div><div><span class="featureIcon">✓</span><strong>Secure Payment</strong><small>100% secure</small></div><div><span class="featureIcon">◯</span><strong>Support 24/7</strong><small>We are here to help</small></div></div><div class="footerMain"><div><h3>CONTACT & SUPPORT</h3><p>${esc(db.settings.address)}</p><p>${esc(db.settings.phone)}</p>${String(db.settings.phone2||'').trim()?`<p>${esc(String(db.settings.phone2).trim())}</p>`:''}${String(db.settings.phone3||'').trim()?`<p>${esc(String(db.settings.phone3).trim())}</p>`:''}${mediaLinksHtml()?`<div class="footerContactSocials" aria-label="Social media links">${mediaLinksHtml()}</div>`:''}<p>${esc(db.settings.email)}</p></div><div><h3>QUICK LINKS</h3><button onclick="home()">Home</button><button onclick="brands()">Brands</button><button onclick="parts()">Categories</button><button onclick="about()">About Us</button></div><div><h3>NEED A PART?</h3><p>Send us your vehicle and part details and we will help you find the right part.</p><button class="footerWa" onclick="smartEnquiry('Hello, I would like to enquire about your auto parts catalog.')">ENQUIRE ABOUT A PART</button></div></div><div class="footerBottom">© ${new Date().getFullYear()} ${esc(db.settings.businessName)}. All rights reserved.</div></footer>`;
    window.scrollTo({top:0,left:0,behavior:'instant'});
    requestAnimationFrame(()=>app.classList.add('page-enter'));
    setTimeout(()=>app.classList.remove('page-enter'),620);
@@ -337,7 +337,18 @@ function render(content){
  }else draw();
 }
 function contextBanner(label,image,title,subtitle){return `<div class="contextBanner"><div><span class="eyebrow">${esc(label)}</span><h1>${esc(title)}</h1>${subtitle?`<div class="contextSub">${esc(subtitle)}</div>`:''}</div><div class="contextImage">${image?`<img src="${image}" alt="${esc(title)}">`:''}</div></div>`}
-function hero(){return `<section class="hero"><div class="heroCopy"><span class="eyebrow">${esc(db.settings.tagline||'QUALITY YOU CAN TRUST')}</span><h1>${esc(db.settings.heroBlack||'FIND THE RIGHT')}<br><span class="accent">${esc(db.settings.heroRed||'PARTS FOR YOUR CAR')}</span></h1><p class="sub">${esc(db.settings.heroDescription||'High quality parts for all makes and models.')}</p><button class="primary heroBtn" onclick="brands()">SHOP BY CAR BRAND</button></div><div class="heroVisual">${db.settings.heroImage?`<img src="${db.settings.heroImage}" alt="Auto parts vehicle">`:`<div class="heroImageEmpty">ADD YOUR HERO IMAGE<br><small>Admin → Business Settings</small></div>`}</div></section>`}
+function hero(){
+ const bg=db.settings.heroImage||'';
+ const headerHtml=header();
+ return `<section class="hero autoPartsHero ${bg?'hasHeroBackground':''}" ${bg?`style="background-image:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.30)),url('${esc(bg)}')"`:''}>
+   <div class="heroOverlayHeader">${headerHtml}</div>
+   <div class="heroCopy">
+    <span class="eyebrow">${esc(db.settings.tagline||'QUALITY YOU CAN TRUST')}</span>
+    <h1>${esc(db.settings.heroBlack||'FIND THE RIGHT')}<br><span class="accent">${esc(db.settings.heroRed||'PARTS FOR YOUR CAR')}</span></h1>
+    <p class="sub">${esc(db.settings.heroDescription||'High quality parts for all makes and models.')}</p>
+   </div>
+ </section>`
+}
 function home(){
  setNav('home');
  location.hash='';
