@@ -4844,3 +4844,106 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:clamp(30px,8vw,44px) !important;
   }
 }
+
+/* =========================================================
+   HOMEPAGE HERO SLIDESHOW + FINAL HERO SIZE/TEXT
+   ========================================================= */
+
+.site-main > .autoPartsHero{
+  position:relative !important;
+  overflow:hidden !important;
+  height:300px !important;
+  min-height:300px !important;
+  isolation:isolate !important;
+}
+
+.site-main > .autoPartsHero .homeHeroSlider{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  overflow:hidden !important;
+}
+
+.site-main > .autoPartsHero .homeHeroSlide{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  background-size:cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+  opacity:0 !important;
+  transition:opacity 1s ease-in-out !important;
+}
+
+.site-main > .autoPartsHero .homeHeroSlide.active{
+  opacity:1 !important;
+}
+
+.site-main > .autoPartsHero .heroCopy{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+.site-main > .autoPartsHero .eyebrow,
+.site-main > .autoPartsHero h1,
+.site-main > .autoPartsHero .sub{
+  color:#111 !important;
+  text-shadow:none !important;
+}
+
+.site-main > .autoPartsHero .accent{
+  color:#d71920 !important;
+}
+
+@media(max-width:760px){
+  .site-main > .autoPartsHero{
+    height:235px !important;
+    min-height:235px !important;
+  }
+}
+
+
+/* Homepage hero image gallery */
+.heroImageGallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:14px;
+  margin:12px 0 16px;
+}
+
+.heroImageChoice{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  padding:8px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  background:#fff;
+  cursor:pointer;
+}
+
+.heroImageChoice input{
+  position:absolute;
+  top:8px;
+  left:8px;
+  z-index:2;
+  width:18px;
+  height:18px;
+}
+
+.heroImageChoice img{
+  width:100%;
+  height:100px;
+  object-fit:cover;
+  border-radius:7px;
+  display:block;
+}
+
+.heroImageChoice span{
+  font-size:13px;
+  font-weight:600;
+  text-align:center;
+}
+
