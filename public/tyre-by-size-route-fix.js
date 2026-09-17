@@ -15,23 +15,25 @@ function patchTyreHome(){
 }
 function install(){
   if(window.__sizeRouteInstalled)return true;
+  if(typeof window.tyres!=='function')return false;
   const originalTyres=window.tyres;
-  if(typeof originalTyres==='function'){
-    window.tyres=function(){
-      if(isSizeRoute()){goSize();return true}
-      return originalTyres.apply(this,arguments);
-    };
-  }
-  window.__sizeRouteInstalled=true;return true;
+  window.tyres=function(){
+    if(isSizeRoute()){goSize();return true}
+    return originalTyres.apply(this,arguments);
+  };
+  window.__sizeRouteInstalled=true;
+  return true;
 }
 let timer=0;
 function force(){
-  patchTyreHome();install();
+  patchTyreHome();
+  install();
   if(isSizeRoute()&&!onSizePage())goSize();
 }
 function schedule(){clearTimeout(timer);timer=setTimeout(force,30)}
 window.addEventListener('hashchange',schedule);
 window.addEventListener('popstate',schedule);
+window.addEventListener('load',function(){[0,50,150,300,600,1000].forEach(ms=>setTimeout(force,ms))});
 const observer=new MutationObserver(function(){patchTyreHome();if(isSizeRoute()&&!onSizePage())schedule()});
 observer.observe(document.documentElement,{childList:true,subtree:true});
 [0,50,150,300,600,1000,1500,2500,4000,6000,9000,12000].forEach(ms=>setTimeout(force,ms));
