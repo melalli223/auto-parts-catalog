@@ -9,7 +9,7 @@ function apply(){
   var imageCopy=inner.querySelector('.tyreByCarImageCopy');
   if(!imageCopy){imageCopy=document.createElement('div');imageCopy.className='tyreByCarImageCopy';imageCopy.innerHTML=eyebrow.outerHTML+heading.outerHTML+(sub?sub.outerHTML:'');inner.appendChild(imageCopy)}
   if(sub){var description=page.querySelector('.tyreByCarDescription');if(!description){description=document.createElement('div');description.className='tyreByCarDescription';description.textContent=sub.textContent.trim();var finder=page.querySelector('.tyreByCarFinderWrap');if(finder)finder.insertAdjacentElement('afterend',description)}}
-  var home=page.querySelector('.tyreByCarBackHome');if(!home){home=document.createElement('button');home.type='button';home.className='tyreByCarBackHome';home.innerHTML='<span>←</span> Back to Home';home.addEventListener('click',function(){location.hash='';window.scrollTo({top:0,behavior:'smooth'})});var bottom=page.querySelector('.tyreByCarBottomSpace');if(bottom)bottom.insertAdjacentElement('beforebegin',home);else page.appendChild(home)}
+  var home=page.querySelector('.tyreByCarBackHome');if(!home){home=document.createElement('button');home.type='button';home.className='tyreByCarBackHome';home.innerHTML='<span>←</span> Back to Tyre Home';home.addEventListener('click',function(){location.hash='tyres';window.scrollTo({top:0,behavior:'smooth'})});var bottom=page.querySelector('.tyreByCarBottomSpace');if(bottom)bottom.insertAdjacentElement('beforebegin',home);else page.appendChild(home)}
   source.style.setProperty('display','none','important');
  });
  var css=`
@@ -23,7 +23,6 @@ html,body{background:#fff!important}
 .tyreByCarImageCopy h1{margin:0!important;color:#fff!important;font-size:52px!important;font-weight:800!important;line-height:1.08!important;letter-spacing:-1.8px!important;text-shadow:0 2px 8px rgba(0,0,0,.35)!important}
 .tyreByCarImageCopy .tyreByCarHeroSub{display:none!important}
 .tyreByCarFinderWrap{width:100%!important;padding:0 30px!important;box-sizing:border-box!important;background:#fff!important}
-/* Finder box moved further upward. */
 .tyreByCarExactPanel{width:min(760px,calc(100% - 20px))!important;margin:-245px auto 0!important;position:relative!important;z-index:5!important;padding:30px 38px 32px!important;box-sizing:border-box!important;background:#061e4e!important;color:#fff!important;border:0!important;border-radius:18px!important;box-shadow:0 16px 35px rgba(3,25,65,.20)!important;transform:none!important}
 .tyreByCarExactPanel h2{margin:0 0 7px!important;color:#fff!important;font-size:28px!important;font-weight:800!important;line-height:1.2!important;text-align:left!important}
 .tyreByCarExactPanel .required{margin:0!important;color:rgba(255,255,255,.82)!important;font-size:15px!important;text-align:left!important}
@@ -36,8 +35,8 @@ html,body{background:#fff!important}
 .tyreByCarExactActions button{min-width:180px!important;height:50px!important;padding:0 26px!important;border:0!important;border-radius:8px!important;background:#e21b23!important;color:#fff!important;font:800 14px/50px Inter,Arial,sans-serif!important;letter-spacing:.2px!important;text-transform:uppercase!important;cursor:pointer!important}
 .tyreByCarExactActions button:after{content:'  →'!important;font-size:20px!important;font-weight:400!important;vertical-align:-1px!important}
 .tyreByCarDescription{max-width:760px!important;margin:34px auto 0!important;padding:0 24px!important;color:#33445d!important;font-size:17px!important;line-height:1.65!important;text-align:center!important}
-.tyreByCarBackHome{display:flex!important;align-items:center!important;justify-content:center!important;width:max-content!important;margin:34px auto 0!important;padding:0 22px!important;height:46px!important;border:2px solid #e21b23!important;border-radius:8px!important;background:#fff!important;color:#e21b23!important;font:800 14px/46px Inter,Arial,sans-serif!important;cursor:pointer!important}
-.tyreByCarBackHome:hover{background:#e21b23!important;color:#fff!important}
+.tyreByCarBackHome{display:flex!important;align-items:center!important;justify-content:center!important;width:max-content!important;margin:34px auto 0 30px!important;padding:0 22px!important;height:46px!important;border:0!important;border-radius:8px!important;background:#ffd6d8!important;color:#d71920!important;font:800 14px/46px Inter,Arial,sans-serif!important;cursor:pointer!important;box-shadow:none!important}
+.tyreByCarBackHome:hover{background:#ffc1c4!important;color:#c9141b!important}
 .tyreByCarBottomSpace{height:20px!important}
 @media(max-width:800px){
  .tyreByCarHero{height:430px!important}
@@ -53,6 +52,7 @@ html,body{background:#fff!important}
  .tyreByCarExactActions{margin-top:18px!important;padding-top:17px!important}
  .tyreByCarExactActions button{width:100%!important}
  .tyreByCarDescription{margin-top:27px!important;font-size:15px!important}
+ .tyreByCarBackHome{margin:27px auto 0 16px!important}
 }
 `;
  var style=document.getElementById('tyre-hero-copy-override');if(!style){style=document.createElement('style');style.id='tyre-hero-copy-override';document.head.appendChild(style)}style.textContent=css;
