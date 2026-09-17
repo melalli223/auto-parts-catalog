@@ -83,13 +83,29 @@ async function upload(e){
    e.target.value='';
  }catch(err){console.error(err);status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}
 }
+function addSidebarLink(){
+ const side=document.querySelector('.tyreAdminSide');
+ if(!side||side.querySelector('.findTyresSideBtn'))return false;
+ const buttons=[...side.querySelectorAll('.tyreSideBtn')];
+ const featured=buttons.find(b=>/Featured Types/i.test(b.textContent||''));
+ const btn=document.createElement('button');
+ btn.type='button';
+ btn.className='tyreSideBtn findTyresSideBtn'+(window.tyreAdminSubTab==='findByCar'?' active':'');
+ btn.innerHTML='<span>🚗</span> Find Tyres By Car';
+ btn.onclick=()=>{window.tyreAdminSubTab='findByCar';makePage();addSidebarLink();};
+ if(featured)featured.insertAdjacentElement('afterend',btn);else{
+   const view=buttons.find(b=>/View Tyre Website/i.test(b.textContent||''));
+   if(view)view.insertAdjacentElement('beforebegin',btn);else side.appendChild(btn);
+ }
+ return true;
+}
 function findPanelGrid(){return document.querySelector('.tyreAdminDashGrid')}
 function addDashboardCard(){
  const dash=findPanelGrid();
  if(!dash||dash.querySelector('.findTyresDashCard'))return false;
  const card=document.createElement('button');card.type='button';card.className='tyreDashCard findTyresDashCard findTyresAdminDashCard';
  card.innerHTML='<span class="tyreDashIcon">▣</span><div><strong>Find Tyres By Car</strong><span>Manage the Find Tyres By Car page</span></div><span class="tyreDashArrow">→</span>';
- card.onclick=()=>makePage();
+ card.onclick=()=>{window.tyreAdminSubTab='findByCar';makePage();addSidebarLink()};
  const reference=[...dash.querySelectorAll('.tyreDashCard')].find(el=>/featured|brand/i.test(el.textContent||''));
  if(reference)dash.insertBefore(card,reference.nextSibling);else dash.appendChild(card);
  return true;
@@ -100,7 +116,7 @@ function addPanelLink(){
  addDashboardCard();
 }
 function hideOldHeroImageEditor(){const el=document.querySelector('.tyreAdminHeroCard .tyreHeroGalleryWrap');if(el)el.style.display='none'}
-function observe(){addStyles();addPanelLink();hideOldHeroImageEditor()}
+function observe(){addStyles();addSidebarLink();addPanelLink();hideOldHeroImageEditor()}
 const observer=new MutationObserver(observe);observer.observe(document.body,{childList:true,subtree:true});
 setTimeout(observe,250);setTimeout(observe,900);setTimeout(observe,1800);setTimeout(observe,3000);
 })();
