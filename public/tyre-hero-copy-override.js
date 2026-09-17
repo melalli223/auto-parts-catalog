@@ -23,8 +23,8 @@ html,body{background:#fff!important}
 .tyreByCarImageCopy h1{margin:0!important;color:#fff!important;font-size:52px!important;font-weight:800!important;line-height:1.08!important;letter-spacing:-1.8px!important;text-shadow:0 2px 8px rgba(0,0,0,.35)!important}
 .tyreByCarImageCopy .tyreByCarHeroSub{display:none!important}
 .tyreByCarFinderWrap{width:100%!important;padding:0 30px!important;box-sizing:border-box!important;background:#fff!important}
-/* Keep the finder box at the original/reference overlap position. */
-.tyreByCarExactPanel{width:min(760px,calc(100% - 20px))!important;margin:-70px auto 0!important;position:relative!important;z-index:5!important;padding:30px 38px 32px!important;box-sizing:border-box!important;background:#061e4e!important;color:#fff!important;border:0!important;border-radius:18px!important;box-shadow:0 16px 35px rgba(3,25,65,.20)!important;transform:none!important}
+/* Half of the finder box overlays the bottom of the hero image. */
+.tyreByCarExactPanel{width:min(760px,calc(100% - 20px))!important;margin:-150px auto 0!important;position:relative!important;z-index:5!important;padding:30px 38px 32px!important;box-sizing:border-box!important;background:#061e4e!important;color:#fff!important;border:0!important;border-radius:18px!important;box-shadow:0 16px 35px rgba(3,25,65,.20)!important;transform:none!important}
 .tyreByCarExactPanel h2{margin:0 0 7px!important;color:#fff!important;font-size:28px!important;font-weight:800!important;line-height:1.2!important;text-align:left!important}
 .tyreByCarExactPanel .required{margin:0!important;color:rgba(255,255,255,.82)!important;font-size:15px!important;text-align:left!important}
 .tyreByCarExactFields{display:grid!important;grid-template-columns:1fr 1fr!important;gap:18px!important;margin-top:22px!important}
@@ -46,7 +46,7 @@ html,body{background:#fff!important}
  .tyreByCarImageCopy .tyreByCarEyebrow{font-size:15px!important}
  .tyreByCarImageCopy h1{font-size:38px!important;letter-spacing:-1px!important}
  .tyreByCarFinderWrap{padding:0 16px!important}
- .tyreByCarExactPanel{width:100%!important;margin:-50px auto 0!important;padding:24px 20px 25px!important;border-radius:15px!important}
+ .tyreByCarExactPanel{width:100%!important;margin:-108px auto 0!important;padding:24px 20px 25px!important;border-radius:15px!important}
  .tyreByCarExactPanel h2{font-size:24px!important}
  .tyreByCarExactFields{grid-template-columns:1fr!important;gap:14px!important;margin-top:18px!important}
  .tyreByCarExactField+.tyreByCarExactField{margin-top:0!important}
