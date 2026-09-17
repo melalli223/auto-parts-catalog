@@ -9,7 +9,7 @@ function apply(){
   var imageCopy=inner.querySelector('.tyreByCarImageCopy');
   if(!imageCopy){imageCopy=document.createElement('div');imageCopy.className='tyreByCarImageCopy';imageCopy.innerHTML=eyebrow.outerHTML+heading.outerHTML+(sub?sub.outerHTML:'');inner.appendChild(imageCopy)}
   if(sub){var description=page.querySelector('.tyreByCarDescription');if(!description){description=document.createElement('div');description.className='tyreByCarDescription';description.textContent=sub.textContent.trim();var finder=page.querySelector('.tyreByCarFinderWrap');if(finder)finder.insertAdjacentElement('afterend',description)}}
-  var home=page.querySelector('.tyreByCarBackHome');if(!home){home=document.createElement('button');home.type='button';home.className='tyreByCarBackHome';home.innerHTML='<span>←</span> Back to Home';home.addEventListener('click',function(){location.hash='';window.scrollTo({top:0,behavior:'smooth'})});var bottom=page.querySelector('.tyreByCarBottomSpace');if(bottom)bottom.insertAdjacentElement('beforebegin',home);else page.appendChild(home)}
+  var home=page.querySelector('.tyreByCarBackHome');if(!home){home=document.createElement('button');home.type='button';home.className='tyreByCarBackHome';home.innerHTML='<span>←</span> Back to Tyre Home';home.addEventListener('click',function(){location.hash='tyres';window.scrollTo({top:0,behavior:'smooth'})});var bottom=page.querySelector('.tyreByCarBottomSpace');if(bottom)bottom.insertAdjacentElement('beforebegin',home);else page.appendChild(home)}else{home.onclick=function(){location.hash='tyres';window.scrollTo({top:0,behavior:'smooth'})}}
   source.style.setProperty('display','none','important');
  });
  var css=`
