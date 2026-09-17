@@ -3,7 +3,7 @@
 const KEY='ap_catalog_v4';
 const DEFAULT_IMAGE='/assets/tyre-ref/hero.png';
 let installed=false;
-
+let pendingImage='';
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function dbLocal(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
 function currentTyres(){return (dbLocal()||{}).tyres||{}}
@@ -23,41 +23,54 @@ function addStyles(){
  .findTyresAdminCard .ftaSave{border:0;background:#d71920;color:#fff}.findTyresAdminCard .ftaDefault{border:1px solid #d9dee8;background:#fff;color:#071c41}.findTyresAdminCard .ftaBack{border:1px solid #d9dee8;background:#fff;color:#071c41}
  .findTyresAdminCard .ftaStatus{margin-top:12px;min-height:18px;color:#16834b;font-size:12px;font-weight:700}.findTyresAdminCard .ftaStatus.error{color:#c5161d}
  .findTyresAdminCard .ftaHelp{margin:10px 0 0;color:#7b8798;font-size:12px;line-height:1.5}
+ .findTyresAdminCard .ftaPending{display:none;margin-top:8px;color:#d71920;font-size:12px;font-weight:800}.findTyresAdminCard .ftaPending.show{display:block}
  .tyreAdminHeroCard .tyreHeroGalleryWrap{display:none!important}
  @media(max-width:850px){.findTyresAdminCard .ftaTop{display:block}.findTyresAdminCard .ftaGrid{grid-template-columns:1fr}.findTyresAdminCard .ftaPreview{height:210px}.findTyresAdminCard .ftaBody{padding:20px}}
  `;document.head.appendChild(s)
 }
-
 function makePage(){
  addStyles();
  const t=currentTyres();
- const image=t.findByCar?.image||DEFAULT_IMAGE;
+ pendingImage=t.findByCar?.image||DEFAULT_IMAGE;
  const host=document.querySelector('.tyreAdminSections');
  if(!host)return;
  host.innerHTML=`<section class="findTyresAdminCard">
    <div class="ftaTop"><div><span class="ftaEyebrow">06 · FIND TYRES BY CAR</span><h3>Find Tyres By Car</h3><p>Manage the hero image used on the public Find Tyres By Car page.</p></div><button type="button" class="ftaBack" id="ftaBack">← BACK TO TYRE PAGE</button></div>
    <div class="ftaBody"><div class="ftaGrid">
-     <div><div class="ftaPreview" id="ftaPreview"><img src="${esc(image)}" alt="Find Tyres By Car hero image"></div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaDefault">USE DEFAULT IMAGE</button></div><p class="ftaHelp">Choose a wide image. The image is uploaded and saved to the tyre page immediately.</p><div id="ftaStatus" class="ftaStatus"></div></div>
-     <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(image)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyres By Car" readonly></div></div>
+     <div><div class="ftaPreview" id="ftaPreview"><img src="${esc(pendingImage)}" alt="Find Tyres By Car hero image"></div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaDefault">USE DEFAULT IMAGE</button><button type="button" class="ftaSave" id="ftaSave">SAVE CHANGES</button></div><div id="ftaPending" class="ftaPending">Unsaved image change</div><p class="ftaHelp">Choose the image, then press SAVE CHANGES. The saved image is used by the public Find Tyres By Car page.</p><div id="ftaStatus" class="ftaStatus"></div></div>
+     <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(pendingImage)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyres By Car" readonly></div></div>
    </div></div>
  </section>`;
  document.getElementById('ftaBack').onclick=()=>{if(typeof adminPanel==='function')adminPanel('tyres');else location.hash='#tyres'};
  document.getElementById('ftaFile').addEventListener('change',upload);
- document.getElementById('ftaDefault').addEventListener('click',()=>saveImage(DEFAULT_IMAGE,'Default image restored.'));
+ document.getElementById('ftaDefault').addEventListener('click',()=>setPending(DEFAULT_IMAGE));
+ document.getElementById('ftaSave').addEventListener('click',()=>saveImage(pendingImage));
 }
-
-async function saveImage(url,message){
+function setPending(url){
+ pendingImage=url||DEFAULT_IMAGE;
+ const preview=document.getElementById('ftaPreview');const input=document.getElementById('ftaUrl');const mark=document.getElementById('ftaPending');
+ if(preview)preview.innerHTML=`<img src="${esc(pendingImage)}" alt="Find Tyres By Car hero image">`;
+ if(input)input.value=pendingImage;
+ if(mark)mark.classList.add('show');
+ const status=document.getElementById('ftaStatus');if(status){status.className='ftaStatus';status.textContent='';}
+}
+async function saveImage(url){
  const status=document.getElementById('ftaStatus');
  try{
    status.className='ftaStatus';status.textContent='Saving image…';
-   const base=dbLocal()||{};const t=JSON.parse(JSON.stringify(base.tyres||{}));t.findByCar={...(t.findByCar||{}),image:url};
-   if(typeof saveTyreData==='function')await saveTyreData(t);else{base.tyres=t;localStorage.setItem(KEY,JSON.stringify(base));}
-   document.getElementById('ftaPreview').innerHTML=`<img src="${esc(url)}" alt="Find Tyres By Car hero image">`;
-   document.getElementById('ftaUrl').value=url;
-   status.textContent=message;
+   const base=dbLocal()||{};const t=JSON.parse(JSON.stringify(base.tyres||{}));t.findByCar={...(t.findByCar||{}),image:url||DEFAULT_IMAGE};
+   if(typeof saveTyreData==='function')await saveTyreData(t);
+   else if(window.supabaseClient&&typeof window.supabaseClient.from==='function'){
+     const {error}=await window.supabaseClient.from('tyre_page').upsert({id:true,data:t});if(error)throw error;
+   }
+   base.tyres=t;localStorage.setItem(KEY,JSON.stringify(base));
+   pendingImage=t.findByCar.image;
+   document.getElementById('ftaPreview').innerHTML=`<img src="${esc(pendingImage)}?v=${Date.now()}" alt="Find Tyres By Car hero image">`;
+   document.getElementById('ftaUrl').value=pendingImage;
+   document.getElementById('ftaPending').classList.remove('show');
+   status.textContent='Saved successfully. The public page will now use this image.';
  }catch(e){console.error(e);status.className='ftaStatus error';status.textContent=e?.message||'Could not save image.'}
 }
-
 async function upload(e){
  const f=e.target.files?.[0];if(!f)return;
  const status=document.getElementById('ftaStatus');
@@ -65,20 +78,28 @@ async function upload(e){
    status.className='ftaStatus';status.textContent='Uploading image…';
    if(typeof uploadImage!=='function')throw new Error('Image upload service is not available.');
    const url=await uploadImage(f,'product-images','find-tyres-by-car');
-   await saveImage(url,'Image saved successfully.');
+   setPending(url);
+   status.textContent='Image uploaded. Press SAVE CHANGES to publish it.';
    e.target.value='';
  }catch(err){console.error(err);status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}
 }
-
 function addDashboardCard(){
  const dash=document.querySelector('.tyreAdminDashGrid');
  if(!dash||dash.querySelector('.findTyresDashCard'))return false;
- const card=document.createElement('button');card.type='button';card.className='tyreDashCard findTyresDashCard';card.innerHTML='<span class="tyreDashIcon">▣</span><div><strong>Find Tyres By Car</strong><span>Change the hero image used on the Find Tyres By Car page</span></div><span class="tyreDashArrow">→</span>';
+ const card=document.createElement('button');card.type='button';card.className='tyreDashCard findTyresDashCard';card.innerHTML='<span class="tyreDashIcon">▣</span><div><strong>Find Tyres By Car</strong><span>Open the dedicated Find Tyres By Car page</span></div><span class="tyreDashArrow">→</span>';
  card.onclick=()=>makePage();dash.appendChild(card);return true;
 }
-
+function addPanelLink(){
+ const candidates=[...document.querySelectorAll('a,button')];
+ const tyresNav=candidates.find(el=>/tyres?/i.test((el.textContent||'').trim())&&!/find tyres by car/i.test((el.textContent||'')));
+ if(!tyresNav)return;
+ const parent=tyresNav.parentElement;if(!parent||parent.querySelector('.findTyresPanelLink'))return;
+ const link=document.createElement(tyresNav.tagName.toLowerCase()==='a'?'a':'button');link.className='findTyresPanelLink';link.type='button';link.textContent='Find Tyres By Car';
+ link.style.cssText='display:block;width:100%;box-sizing:border-box;text-align:left;border:0;background:transparent;color:inherit;padding:9px 16px;font:inherit;cursor:pointer';
+ link.onclick=e=>{e.preventDefault();makePage()};parent.appendChild(link);
+}
 function hideOldHeroImageEditor(){const el=document.querySelector('.tyreAdminHeroCard .tyreHeroGalleryWrap');if(el)el.style.display='none'}
-function observe(){addStyles();addDashboardCard();hideOldHeroImageEditor()}
+function observe(){addStyles();addDashboardCard();addPanelLink();hideOldHeroImageEditor()}
 const observer=new MutationObserver(observe);observer.observe(document.body,{childList:true,subtree:true});
 setTimeout(observe,250);setTimeout(observe,900);setTimeout(observe,1800);
 })();
