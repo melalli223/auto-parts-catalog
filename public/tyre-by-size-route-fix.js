@@ -1,1 +1,27 @@
-(function(){'use strict';function install(){if(typeof window.routeTyresHash!=='function'||typeof window.tyresBySize!=='function')return false;if(window.__sizeRouteInstalled)return true;const original=window.routeTyresHash;window.routeTyresHash=function(){const parts=location.hash.replace(/^#/,'').split('/');if(parts[0]==='tyres'&&parts[1]==='by-size'){window.tyresBySize();return true}return original.apply(this,arguments)};window.__sizeRouteInstalled=true;return true}function ensure(){if(!location.hash.replace(/^#/,'').startsWith('tyres/by-size'))return;if(!install())return;const app=document.getElementById('app');if(app&&!app.querySelector('.tyreSizeExactPage'))window.tyresBySize()}let tries=0;const timer=setInterval(function(){if(install()||tries++>40)clearInterval(timer)},100);window.addEventListener('hashchange',ensure);window.addEventListener('load',ensure);setTimeout(ensure,0);setTimeout(ensure,300);setTimeout(ensure,800);setTimeout(ensure,1500);setTimeout(ensure,3000)})();
+(function(){'use strict';
+function isSizeRoute(){return location.hash.replace(/^#/,'').split('/')[0]==='tyres'&&location.hash.replace(/^#/,'').split('/')[1]==='by-size'}
+function install(){
+  if(typeof window.tyresBySize!=='function')return false;
+  if(window.__sizeRouteInstalled)return true;
+  const original=typeof window.routeTyresHash==='function'?window.routeTyresHash:null;
+  window.routeTyresHash=function(){
+    if(isSizeRoute()){window.tyresBySize();return true}
+    return original?original.apply(this,arguments):false;
+  };
+  window.__sizeRouteInstalled=true;
+  return true;
+}
+function force(){
+  if(!isSizeRoute())return;
+  if(!install())return;
+  window.tyresBySize();
+}
+window.addEventListener('hashchange',function(){setTimeout(force,0);setTimeout(force,50);setTimeout(force,250)});
+window.addEventListener('popstate',function(){setTimeout(force,0);setTimeout(force,100)});
+let n=0;
+const timer=setInterval(function(){
+  if(isSizeRoute())force();
+  if(++n>100)clearInterval(timer);
+},100);
+[0,50,150,300,600,1000,1500,2500,4000,6000].forEach(function(ms){setTimeout(force,ms)});
+})();
