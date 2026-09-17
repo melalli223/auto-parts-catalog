@@ -35,8 +35,8 @@ html,body{background:#fff!important}
 .tyreByCarExactActions button{min-width:180px!important;height:50px!important;padding:0 26px!important;border:0!important;border-radius:8px!important;background:#e21b23!important;color:#fff!important;font:800 14px/50px Inter,Arial,sans-serif!important;letter-spacing:.2px!important;text-transform:uppercase!important;cursor:pointer!important}
 .tyreByCarExactActions button:after{content:'  →'!important;font-size:20px!important;font-weight:400!important;vertical-align:-1px!important}
 .tyreByCarDescription{max-width:760px!important;margin:34px auto 0!important;padding:0 24px!important;color:#33445d!important;font-size:17px!important;line-height:1.65!important;text-align:center!important}
-.tyreByCarBackHome{display:flex!important;align-items:center!important;justify-content:center!important;width:max-content!important;margin:34px auto 0 30px!important;padding:0 22px!important;height:46px!important;border:0!important;border-radius:8px!important;background:#ffd6d8!important;color:#d71920!important;font:800 14px/46px Inter,Arial,sans-serif!important;cursor:pointer!important;box-shadow:none!important}
-.tyreByCarBackHome:hover{background:#ffc1c4!important;color:#c9141b!important}
+.tyreByCarBackHome{display:flex!important;align-items:center!important;justify-content:center!important;width:max-content!important;margin:34px auto 0 30px!important;padding:0 22px!important;height:46px!important;border:2px solid #ff9b9f!important;border-radius:8px!important;background:#fff!important;color:#ff777d!important;font:800 14px/42px Inter,Arial,sans-serif!important;cursor:pointer!important;box-shadow:none!important}
+.tyreByCarBackHome:hover{background:#fff!important;color:#ff777d!important;border-color:#ff777d!important}
 .tyreByCarBottomSpace{height:20px!important}
 @media(max-width:800px){
  .tyreByCarHero{height:430px!important}
