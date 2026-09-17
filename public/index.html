@@ -10,10 +10,9 @@
 <style>#app:has(.tyreExactPage) .footer,#app:has(.tyreSizeExactPage) .footer{display:none!important}#app:has(.tyreExactPage) .siteHeader,#app:has(.tyreSizeExactPage) .siteHeader{display:none!important}#app:has(.tyreExactPage) .site-main,#app:has(.tyreSizeExactPage) .site-main{max-width:none!important;width:100%!important;margin:0!important;padding:0!important}</style>
 </head><body><div id="app"></div><div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\\/script>')}</script>
-<!-- Tyre route/page modules load before the main router so the initial hash can never miss them. -->
-<script src="tyre-by-car-exact.js?v=13"></script>
-<script src="tyre-by-size-exact.js?v=8"></script>
-<script src="tyre-by-size-route-fix.js?v=7"></script>
-<script src="app.js?v=141"></script>
-<script>(function(){function force(){var p=location.hash.replace(/^#/,'').split('/');if(p[0]==='tyres'&&p[1]==='by-size'&&typeof window.tyresBySize==='function')window.tyresBySize()}window.addEventListener('hashchange',force);window.addEventListener('load',force);[0,250,750,1500,3000].forEach(function(ms){setTimeout(force,ms)})})();</script>
+<!-- Main router first, then tyre page modules and the route patch. -->
+<script src="app.js?v=142"></script>
+<script src="tyre-by-car-exact.js?v=14"></script>
+<script src="tyre-by-size-exact.js?v=9"></script>
+<script src="tyre-by-size-route-fix.js?v=8"></script>
 </body></html>
