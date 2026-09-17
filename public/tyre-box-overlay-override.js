@@ -1,23 +1,19 @@
 (function(){
 'use strict';
 function apply(){
-  var panel=document.querySelector('.tyreByCarExactPanel');
-  if(!panel)return;
-  panel.style.setProperty('margin-top',-(panel.offsetHeight/2)+'px','important');
+  document.querySelectorAll('.tyreByCarExactPanel').forEach(function(panel){
+    var hero=panel.closest('.tyreExactPage')&&panel.closest('.tyreExactPage').querySelector('.tyreByCarHero');
+    if(!hero)return;
+    var h=panel.getBoundingClientRect().height;
+    panel.style.setProperty('margin-top',(-h/2)+'px','important');
+    panel.style.setProperty('transform','none','important');
+  });
 }
-function schedule(){
-  requestAnimationFrame(function(){apply();setTimeout(apply,80);setTimeout(apply,300);});
+function run(){
+  requestAnimationFrame(function(){apply();setTimeout(apply,100);setTimeout(apply,400);});
 }
-function watch(){
-  schedule();
-  if(window.ResizeObserver){
-    var ro=new ResizeObserver(schedule);
-    document.querySelectorAll('.tyreByCarExactPanel').forEach(function(el){ro.observe(el);});
-  }
-}
-watch();
-window.addEventListener('load',schedule);
-window.addEventListener('hashchange',function(){setTimeout(watch,0);});
-setTimeout(watch,500);
-setTimeout(watch,1200);
+window.addEventListener('load',run);
+window.addEventListener('hashchange',function(){setTimeout(run,0);});
+new MutationObserver(run).observe(document.body,{childList:true,subtree:true});
+setTimeout(run,300);
 })();
