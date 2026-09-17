@@ -13,7 +13,7 @@
 <!-- Tyre route/page modules load before the main router so the initial hash can never miss them. -->
 <script src="tyre-by-car-exact.js?v=13"></script>
 <script src="tyre-by-size-exact.js?v=8"></script>
-<script src="tyre-by-size-route-fix.js?v=6"></script>
+<script src="tyre-by-size-route-fix.js?v=7"></script>
 <script src="app.js?v=141"></script>
 <script>(function(){function force(){var p=location.hash.replace(/^#/,'').split('/');if(p[0]==='tyres'&&p[1]==='by-size'&&typeof window.tyresBySize==='function')window.tyresBySize()}window.addEventListener('hashchange',force);window.addEventListener('load',force);[0,250,750,1500,3000].forEach(function(ms){setTimeout(force,ms)})})();</script>
 </body></html>
