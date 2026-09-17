@@ -1,1 +1,28 @@
-(function(){'use strict';function ensure(){if(!location.hash.replace(/^#/,'').startsWith('tyres/by-size'))return;const app=document.getElementById('app');if(app&&!app.querySelector('.tyreSizeExactPage')&&typeof window.tyresBySize==='function')window.tyresBySize()}window.addEventListener('hashchange',ensure);window.addEventListener('load',ensure);const app=document.getElementById('app');if(app)new MutationObserver(function(){ensure()}).observe(app,{childList:true,subtree:true});setTimeout(ensure,0);setTimeout(ensure,500);setTimeout(ensure,1500);setTimeout(ensure,3000)})();
+(function(){'use strict';
+function install(){
+  if(typeof window.routeTyresHash!=='function'||typeof window.tyresBySize!=='function')return false;
+  if(window.__sizeRouteInstalled)return true;
+  const original=window.routeTyresHash;
+  window.routeTyresHash=function(){
+    const parts=location.hash.replace(/^#/,'').split('/');
+    if(parts[0]==='tyres'&&parts[1]==='by-size'){
+      window.tyresBySize();
+      return true;
+    }
+    return original.apply(this,arguments);
+  };
+  window.__sizeRouteInstalled=true;
+  return true;
+}
+function ensure(){
+  if(!location.hash.replace(/^#/,'').startsWith('tyres/by-size'))return;
+  if(!install())return;
+  const app=document.getElementById('app');
+  if(app&&!app.querySelector('.tyreSizeExactPage'))window.tyresBySize();
+}
+let tries=0;
+const timer=setInterval(function(){if(install()||tries++>40)clearInterval(timer)},100);
+window.addEventListener('hashchange',ensure);
+window.addEventListener('load',ensure);
+setTimeout(ensure,0);setTimeout(ensure,300);setTimeout(ensure,800);setTimeout(ensure,1500);setTimeout(ensure,3000);
+})();
