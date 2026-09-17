@@ -1,48 +1,22 @@
-/* Adds the visual panel only on the Find Tyre By Car route. */
+/* Find Tyre By Car: keep only the vehicle finder inside the reference-style panel. */
 (function(){
   'use strict';
-  const ROOT_CLASS='tyre-by-car-enhanced';
-  const PANEL_CLASS='tyreByCarPanel';
-  const INTRO_CLASS='tyreByCarIntro';
-
-  function isTargetRoute(){
-    const path=(location.hash||'').replace(/^#/,'').replace(/^\//,'');
-    return path==='tyres/by-car' || path.startsWith('tyres/by-car/');
-  }
-
-  function unwrap(root){
-    const panel=root.querySelector(':scope > .'+PANEL_CLASS);
-    if(!panel)return;
-    while(panel.firstChild)root.insertBefore(panel.firstChild,panel);
-    panel.remove();
-  }
-
+  const rootClass='tyre-by-car-enhanced';
+  function active(){const p=(location.hash||'').replace(/^#/,'').replace(/^\//,'');return p==='tyres/by-car'||p.startsWith('tyres/by-car/')}
   function enhance(){
-    const root=document.querySelector('#app');
-    if(!root)return;
-    const active=isTargetRoute();
-    document.body.classList.toggle(ROOT_CLASS,active);
-    root.classList.toggle(ROOT_CLASS,active);
-    if(!active){unwrap(root);return;}
-    if(root.querySelector(':scope > .'+PANEL_CLASS))return;
-
-    const panel=document.createElement('section');
-    panel.className=PANEL_CLASS;
-    const intro=document.createElement('div');
-    intro.className=INTRO_CLASS;
+    const root=document.querySelector('#app');if(!root)return;
+    const on=active();document.body.classList.toggle(rootClass,on);root.classList.toggle(rootClass,on);
+    if(!on)return;
+    if(root.dataset.exactCarReady==='1')return;
+    const finder=root.querySelector('.tyreFinderPage');if(!finder)return;
+    const panel=document.createElement('section');panel.className='tyreByCarPanel';
+    const intro=document.createElement('div');intro.className='tyreByCarIntro';
     intro.innerHTML='<h1>Tell us about your vehicle.</h1><p>All fields are required.</p>';
-    panel.appendChild(intro);
-    while(root.firstChild)panel.appendChild(root.firstChild);
-    root.appendChild(panel);
+    panel.append(intro,finder);
+    root.replaceChildren(panel);root.dataset.exactCarReady='1';
   }
-
-  function schedule(){window.setTimeout(enhance,80)}
+  function schedule(){window.setTimeout(()=>{if(!active()){const root=document.querySelector('#app');if(root)delete root.dataset.exactCarReady;}enhance()},100)}
   window.addEventListener('hashchange',schedule);
-  const observer=new MutationObserver(schedule);
-  function start(){
-    const root=document.querySelector('#app');
-    if(root)observer.observe(root,{childList:true,subtree:true});
-    schedule();
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+  new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
 })();
