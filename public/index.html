@@ -10,6 +10,15 @@
 <style>#app:has(.tyreExactPage) .footer,#app:has(.tyreSizeExactPage) .footer{display:none!important}#app:has(.tyreExactPage) .siteHeader,#app:has(.tyreSizeExactPage) .siteHeader{display:none!important}#app:has(.tyreExactPage) .site-main,#app:has(.tyreSizeExactPage) .site-main{max-width:none!important;width:100%!important;margin:0!important;padding:0!important}</style>
 </head><body><div id="app"></div><div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\\/script>')}</script>
+<script>
+(function(){
+  var p=location.hash.replace(/^#/,'').split('/');
+  if(p[0]==='tyres'&&p[1]==='by-size'){
+    window.__initialTyreSizeRoute=true;
+    history.replaceState(null,'','#tyres');
+  }
+})();
+</script>
 <script src="app.js?v=144"></script>
 <script src="tyre-by-car-exact.js?v=15"></script>
 <script src="tyre-by-size-exact.js?v=10"></script>
@@ -17,6 +26,9 @@
 <script>
 (function(){
   function forceSizeRoute(){
+    if(window.__initialTyreSizeRoute){
+      if(location.hash!=='#tyres/by-size') location.hash='tyres/by-size';
+    }
     var p=location.hash.replace(/^#/,'').split('/');
     if(p[0]==='tyres'&&p[1]==='by-size'&&typeof window.tyresBySize==='function') window.tyresBySize();
   }
