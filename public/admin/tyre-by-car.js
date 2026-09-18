@@ -9,17 +9,17 @@ function currentTyres(){return (dbLocal()||{}).tyres||{}}
 function addStyles(){
  if(document.getElementById('find-tyres-admin-style'))return;
  const s=document.createElement('style');s.id='find-tyres-admin-style';s.textContent=`
- .findTyresAdminCard{margin:0;padding:0;border:1px solid #e4e8ef;border-radius:16px;background:#fff;box-shadow:0 8px 25px rgba(7,28,65,.06);overflow:hidden}
+ .findTyresAdminCard{margin:28px 0 0;padding:0;border:1px solid #e4e8ef;border-radius:16px;background:#fff;box-shadow:0 8px 25px rgba(7,28,65,.06);overflow:hidden}
  .findTyresAdminCard .ftaTop{padding:22px 24px;border-bottom:1px solid #e8ebf0;display:flex;align-items:center;justify-content:space-between;gap:18px}
- .findTyresAdminCard .ftaTop h3{margin:0;color:#071c41;font-size:21px}.findTyresAdminCard .ftaTop p{margin:5px 0 0;color:#68758a;font-size:13px;line-height:1.5}
+ .findTyresAdminCard .ftaTop h3{margin:0;color:#b5121b;font-size:21px}.findTyresAdminCard .ftaTop p{margin:5px 0 0;color:#68758a;font-size:13px;line-height:1.5}
  .findTyresAdminCard .ftaEyebrow{display:block;margin-bottom:5px;color:#d71920;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
  .findTyresAdminCard .ftaBody{padding:24px}.findTyresAdminCard .ftaGrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
  .findTyresAdminCard .ftaPreview{height:230px;border-radius:12px;overflow:hidden;background:#071c41}.findTyresAdminCard .ftaPreview img{width:100%;height:100%;display:block;object-fit:cover}
- .findTyresAdminCard .ftaFields{display:grid;gap:15px}.findTyresAdminCard .ftaLabel{display:block;margin-bottom:7px;color:#071c41;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
- .findTyresAdminCard .ftaInput{width:100%;box-sizing:border-box;border:1px solid #d9dee8;border-radius:9px;padding:11px 12px;font:600 13px/1.3 Inter,Arial,sans-serif;background:#fff;color:#071c41}
+ .findTyresAdminCard .ftaFields{display:grid;gap:15px}.findTyresAdminCard .ftaLabel{display:block;margin-bottom:7px;color:#b5121b;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+ .findTyresAdminCard .ftaInput{width:100%;box-sizing:border-box;border:1px solid #d99aa0;border-radius:9px;padding:11px 12px;font:600 13px/1.3 Inter,Arial,sans-serif;background:#fff;color:#071c41}
  .findTyresAdminCard .ftaActions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}.findTyresAdminCard button,.findTyresAdminCard .ftaUpload{min-height:42px;padding:0 16px;border-radius:8px;font:800 11px/42px Inter,Arial,sans-serif;cursor:pointer}
  .findTyresAdminCard .ftaUpload{display:inline-flex;align-items:center;background:#071c41;color:#fff}.findTyresAdminCard .ftaUpload input{display:none}
- .findTyresAdminCard .ftaSave{border:0;background:#d71920;color:#fff}.findTyresAdminCard .ftaDefault,.findTyresAdminCard .ftaBack{border:1px solid #d9dee8;background:#fff;color:#071c41}
+ .findTyresAdminCard .ftaSave{border:0;background:#d71920;color:#fff}.findTyresAdminCard .ftaDefault,.findTyresAdminCard .ftaBack{border:1px solid #c94b53;background:#fff;color:#b5121b}
  .findTyresAdminCard .ftaGlobalSave{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:26px;padding-top:22px;border-top:1px solid #e8ebf0}.findTyresAdminCard .ftaGlobalSaveBtn{border:0;background:#d71920;color:#fff;min-height:46px;padding:0 26px;border-radius:8px;font:800 12px/46px Inter,Arial,sans-serif;cursor:pointer}.findTyresAdminCard .ftaStatus{margin-top:11px;min-height:18px;color:#16834b;font-size:12px;font-weight:700}.findTyresAdminCard .ftaStatus.error{color:#c5161d}
  .findTyresAdminCard .ftaPending{display:none;margin-top:7px;color:#d71920;font-size:12px;font-weight:800}.findTyresAdminCard .ftaPending.show{display:block}
  .findTyresAdminDashCard{position:relative;display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;text-align:left;cursor:pointer}
@@ -35,14 +35,14 @@ function makePage(){
  const host=document.querySelector('.tyreAdminSections');
  if(!host)return;
  host.innerHTML=`<section class="findTyresAdminCard">
-   <div class="ftaTop"><div><span class="ftaEyebrow">FIND TYRES BY CAR</span><h3>Find Tyres By Car</h3><p>Manage the hero image for the public Find Tyres By Car page.</p></div><button type="button" class="ftaBack" id="ftaBack">← BACK TO TYRE PAGE</button></div>
+   <div class="ftaTop"><div><span class="ftaEyebrow">FIND TYRES BY CAR</span><h3>Find Tyres By Car</h3><p>Manage the hero image for the public Find Tyres By Car page.</p></div><button type="button" class="ftaBack" id="ftaBack">← BACK TO HOME</button></div>
    <div class="ftaBody"><div class="ftaGrid">
      <div><div class="ftaPreview" id="ftaPreview"><img src="${esc(pendingImage)}" alt="Find Tyres By Car hero image"></div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaDefault">USE DEFAULT IMAGE</button></div><div id="ftaPending" class="ftaPending">Unsaved image change</div></div>
      <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(pendingImage)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyres By Car" readonly></div></div><div class="ftaBottomImage"><div class="ftaTop" style="padding:22px 0 12px;border-bottom:0"><div><span class="ftaEyebrow">BOTTOM IMAGE</span><h3 style="font-size:18px">Bottom image</h3><p>Upload the image displayed at the bottom of this page.</p></div></div><div class="ftaGrid"><div><div class="ftaPreview" id="ftaBottomPreview">${pendingBottomImage?'<img src="${esc(pendingBottomImage)}" alt="Find Tyres By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>'}</div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaBottomFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaBottomDefault">USE NO IMAGE</button></div><div id="ftaBottomPending" class="ftaPending">Unsaved bottom image change</div></div><div class="ftaFields"><div><label class="ftaLabel">Current bottom image URL</label><input id="ftaBottomUrl" class="ftaInput" value="${esc(pendingBottomImage)}" readonly></div></div></div></div>
      <div class="ftaGlobalSave"><button type="button" class="ftaGlobalSaveBtn" id="ftaGlobalSave">SAVE ALL CHANGES</button><div id="ftaGlobalStatus" class="ftaStatus"></div></div>
    </div></div>
  </section>`;
- document.getElementById('ftaBack').onclick=()=>{if(typeof adminPanel==='function')adminPanel('tyres');else location.hash='#tyres'};
+ document.getElementById('ftaBack').onclick=()=>{if(typeof adminPanel==='function')adminPanel('home');else location.hash='#home'};
  document.getElementById('ftaFile').addEventListener('change',upload);
  document.getElementById('ftaDefault').addEventListener('click',()=>setPending(DEFAULT_IMAGE));
  document.getElementById('ftaBottomFile').addEventListener('change',uploadBottom);document.getElementById('ftaGlobalSave').addEventListener('click',saveAll);document.getElementById('ftaBottomDefault').addEventListener('click',()=>setPendingBottom(''));
