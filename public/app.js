@@ -101,17 +101,28 @@ if(parts[1]==='by-car'){if(typeof tyresByCar==='function'){tyresByCar()}else{set
 if(parts[1]==='by-number'){if(typeof tyresByNumber==='function'){tyresByNumber()}else{setTimeout(routeTyresHash,50)}return true}tyres();return true}
 async function bootCustomer(){
   showBoot();
-  const landOnTyres=location.hash.replace('#','').split('/')[0]==='tyres';
+  const initialHash=location.hash||'';
+  const isTyreFindRoute=/^#tyres\/by-(?:car|number)(?:\/|$)/.test(initialHash);
+  const landOnTyres=initialHash.replace('#','').split('/')[0]==='tyres';
+  const restoreInitialTyreFindRoute=()=>{
+    if(!isTyreFindRoute)return false;
+    if(location.hash!==initialHash)location.hash=initialHash;
+    const p=initialHash.replace(/^#/,'').split('/');
+    if(p[1]==='by-car'&&typeof window.tyresByCar==='function'){window.tyresByCar();return true}
+    if(p[1]==='by-number'&&typeof window.tyresByNumber==='function'){window.tyresByNumber();return true}
+    setTimeout(restoreInitialTyreFindRoute,50);
+    return true;
+  };
   if(!initSupabase()){
-    landOnTyres?routeTyresHash():home();
+    if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();
     toast('Online connection library could not load. Showing local catalog.');
     return;
   }
-  try{await loadRemoteDb();landOnTyres?routeTyresHash():home()}
+  try{await loadRemoteDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home()}
   catch(e){
     console.error(e);onlineLoaded=false;
-    try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();landOnTyres?routeTyresHash():home();toast('Online catalog unavailable — showing cached data')}else{landOnTyres?routeTyresHash():home();toast('Online catalog is empty or unavailable')}}
-    catch{landOnTyres?routeTyresHash():home();toast('Could not load catalog')}
+    try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Online catalog unavailable — showing cached data')}else{if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Online catalog is empty or unavailable')}}
+    catch{if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Could not load catalog')}
   }
 }
 async function bootAdmin(){
