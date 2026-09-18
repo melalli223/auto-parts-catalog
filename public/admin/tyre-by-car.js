@@ -2,7 +2,7 @@
 'use strict';
 const KEY='ap_catalog_v4';
 const DEFAULT_IMAGE='/assets/tyre-ref/hero.png';
-let pendingImage='';
+let pendingImage='';let pendingBottomImage='';
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function dbLocal(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
 function currentTyres(){return (dbLocal()||{}).tyres||{}}
@@ -31,21 +31,24 @@ function addStyles(){
 function makePage(){
  addStyles();
  const t=currentTyres();
- pendingImage=t.findByCar?.image||DEFAULT_IMAGE;
+ pendingImage=t.findByCar?.image||DEFAULT_IMAGE;pendingBottomImage=t.findByCar?.bottomImage||'';
  const host=document.querySelector('.tyreAdminSections');
  if(!host)return;
  host.innerHTML=`<section class="findTyresAdminCard">
    <div class="ftaTop"><div><span class="ftaEyebrow">FIND TYRES BY CAR</span><h3>Find Tyres By Car</h3><p>Manage the hero image for the public Find Tyres By Car page.</p></div><button type="button" class="ftaBack" id="ftaBack">← BACK TO TYRE PAGE</button></div>
    <div class="ftaBody"><div class="ftaGrid">
      <div><div class="ftaPreview" id="ftaPreview"><img src="${esc(pendingImage)}" alt="Find Tyres By Car hero image"></div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaDefault">USE DEFAULT IMAGE</button><button type="button" class="ftaSave" id="ftaSave">SAVE CHANGES</button></div><div id="ftaPending" class="ftaPending">Unsaved image change</div><p class="ftaHelp">Select an image, then press SAVE CHANGES to publish it.</p><div id="ftaStatus" class="ftaStatus"></div></div>
-     <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(pendingImage)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyres By Car" readonly></div></div>
+     <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(pendingImage)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyres By Car" readonly></div></div><div class="ftaBottomImage"><div class="ftaTop" style="padding:22px 0 12px;border-bottom:0"><div><span class="ftaEyebrow">BOTTOM IMAGE</span><h3 style="font-size:18px">Bottom image</h3><p>Upload the image displayed at the bottom of this page.</p></div></div><div class="ftaGrid"><div><div class="ftaPreview" id="ftaBottomPreview">${pendingBottomImage?'<img src="${esc(pendingBottomImage)}" alt="Find Tyres By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>'}</div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaBottomFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaBottomDefault">USE NO IMAGE</button><button type="button" class="ftaSave" id="ftaBottomSave">SAVE BOTTOM IMAGE</button></div><div id="ftaBottomPending" class="ftaPending">Unsaved bottom image change</div><div id="ftaBottomStatus" class="ftaStatus"></div></div><div class="ftaFields"><div><label class="ftaLabel">Current bottom image URL</label><input id="ftaBottomUrl" class="ftaInput" value="${esc(pendingBottomImage)}" readonly></div></div></div></div>
    </div></div>
  </section>`;
  document.getElementById('ftaBack').onclick=()=>{if(typeof adminPanel==='function')adminPanel('tyres');else location.hash='#tyres'};
  document.getElementById('ftaFile').addEventListener('change',upload);
  document.getElementById('ftaDefault').addEventListener('click',()=>setPending(DEFAULT_IMAGE));
- document.getElementById('ftaSave').addEventListener('click',()=>saveImage(pendingImage));
+ document.getElementById('ftaSave').addEventListener('click',()=>saveImage(pendingImage));document.getElementById('ftaBottomFile').addEventListener('change',uploadBottom);document.getElementById('ftaBottomDefault').addEventListener('click',()=>setPendingBottom(''));document.getElementById('ftaBottomSave').addEventListener('click',()=>saveBottomImage(pendingBottomImage));
 }
+function setPendingBottom(url){pendingBottomImage=url||'';const p=document.getElementById('ftaBottomPreview'),i=document.getElementById('ftaBottomUrl'),m=document.getElementById('ftaBottomPending');if(p)p.innerHTML=pendingBottomImage?'<img src="'+esc(pendingBottomImage)+'?v='+Date.now()+'" alt="Find Tyres By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>';if(i)i.value=pendingBottomImage;if(m)m.classList.add('show')}
+async function saveBottomImage(url){const status=document.getElementById('ftaBottomStatus');try{status.className='ftaStatus';status.textContent='Saving image…';const base=dbLocal()||{};const t=JSON.parse(JSON.stringify(base.tyres||{}));t.findByCar={...(t.findByCar||{}),bottomImage:url||''};if(typeof saveTyreData==='function')await saveTyreData(t);else if(window.supabaseClient&&typeof window.supabaseClient.from==='function'){const {error}=await window.supabaseClient.from('tyre_page').upsert({id:true,data:t});if(error)throw error}base.tyres=t;localStorage.setItem(KEY,JSON.stringify(base));pendingBottomImage=t.findByCar.bottomImage||'';document.getElementById('ftaBottomUrl').value=pendingBottomImage;document.getElementById('ftaBottomPending').classList.remove('show');status.textContent='Saved successfully.'}catch(e){console.error(e);status.className='ftaStatus error';status.textContent=e?.message||'Could not save image.'}}
+async function uploadBottom(e){const f=e.target.files?.[0];if(!f)return;const status=document.getElementById('ftaBottomStatus');try{status.className='ftaStatus';status.textContent='Uploading image…';if(typeof uploadImage!=='function')throw new Error('Image upload service is not available.');const url=await uploadImage(f,'product-images','findByCar-bottom');setPendingBottom(url);status.textContent='Image uploaded. Press SAVE BOTTOM IMAGE.';e.target.value=''}catch(err){console.error(err);status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}}
 function setPending(url){
  pendingImage=url||DEFAULT_IMAGE;
  const preview=document.getElementById('ftaPreview');const input=document.getElementById('ftaUrl');const mark=document.getElementById('ftaPending');
