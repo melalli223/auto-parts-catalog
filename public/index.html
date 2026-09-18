@@ -16,5 +16,5 @@
 <script src="tyre-by-number-route-fix.js?v=1"></script>
 <script src="tyre-hero-size-override.js?v=3"></script>
 <script src="tyre-box-overlay-override.js?v=4"></script>
-<script src="tyre-hero-copy-override.js?v=3"></script>
+<script src="tyre-hero-copy-override.js?v=3"></script><script>(function(){function restoreTyreFindRoute(){var h=location.hash||'';if(h.indexOf('#tyres/by-car')===0&&typeof window.tyresByCar==='function'){window.tyresByCar()}else if(h.indexOf('#tyres/by-number')===0&&typeof window.tyresByNumber==='function'){window.tyresByNumber()}}window.addEventListener('load',function(){setTimeout(restoreTyreFindRoute,300)});window.addEventListener('pageshow',function(){setTimeout(restoreTyreFindRoute,100)});})();</script>
 </body></html>
