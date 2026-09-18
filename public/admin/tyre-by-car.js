@@ -29,6 +29,7 @@ function addStyles(){
  `;document.head.appendChild(s)
 }
 function makePage(){
+ if(location.hash!=='#tyres/find-by-car')history.replaceState({adminTab:'tyres',tyreSubTab:'findByCar'},'', '#tyres/find-by-car');
  addStyles();
  const t=currentTyres();
  pendingImage=t.findByCar?.image||DEFAULT_IMAGE;pendingBottomImage=t.findByCar?.bottomImage||'';
@@ -42,7 +43,7 @@ function makePage(){
      <div class="ftaGlobalSave"><button type="button" class="ftaGlobalSaveBtn" id="ftaGlobalSave">SAVE ALL CHANGES</button><div id="ftaGlobalStatus" class="ftaStatus"></div></div>
    </div></div>
  </section>`;
- document.getElementById('ftaBack').onclick=()=>{if(typeof adminPanel==='function')adminPanel('home');else location.hash='#home'};
+ document.getElementById('ftaBack').onclick=()=>{window.tyreAdminSubTab='dashboard';history.replaceState({adminTab:'tyres',tyreSubTab:'dashboard'},'','#tyres');if(typeof adminPanel==='function')adminPanel('tyres',true);else location.hash='#tyres'};
  document.getElementById('ftaFile').addEventListener('change',upload);
  document.getElementById('ftaDefault').addEventListener('click',()=>setPending(DEFAULT_IMAGE));
  document.getElementById('ftaBottomFile').addEventListener('change',uploadBottom);document.getElementById('ftaGlobalSave').addEventListener('click',saveAll);document.getElementById('ftaBottomDefault').addEventListener('click',()=>setPendingBottom(''));
@@ -121,7 +122,7 @@ function addPanelLink(){
  addDashboardCard();
 }
 function hideOldHeroImageEditor(){const el=document.querySelector('.tyreAdminHeroCard .tyreHeroGalleryWrap');if(el)el.style.display='none'}
-function observe(){addStyles();addSidebarLink();addPanelLink();hideOldHeroImageEditor()}
+function observe(){addStyles();if(location.hash==='#tyres/find-by-car'){window.tyreAdminSubTab='findByCar';if(!document.querySelector('.findTyresAdminCard'))makePage()}addSidebarLink();addPanelLink();hideOldHeroImageEditor()}
 const observer=new MutationObserver(observe);observer.observe(document.body,{childList:true,subtree:true});
 setTimeout(observe,250);setTimeout(observe,900);setTimeout(observe,1800);setTimeout(observe,3000);
 })();
