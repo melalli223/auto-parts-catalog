@@ -5103,24 +5103,3 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 
 
-/* Tyre finder images touch the card's top and bottom edges */
-.tyreFinderCard{
-  padding:18px 30px 18px 18px;
-}
-.tyreFinderCardImage{
-  width:210px;
-  height:250px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  flex:0 0 210px;
-  margin-top:-18px;
-  margin-bottom:-18px;
-}
-.tyreFinderCardImage img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
