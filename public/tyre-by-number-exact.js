@@ -1,3 +1,4 @@
-/* Find Tyre by Number — clean rebuild shell. Design reference retained separately:
-   hero image, hero copy, back button, compact finder panel and dropdown styling will be rebuilt step-by-step. */
-(function(){'use strict';window.tyresByNumber=function(){if(typeof setNav==='function')setNav('');document.body.classList.add('tyre-by-number-page');render('<section class="tyreNumberExactPage tyreNumberPage tyreRebuildCleanPage" aria-label="Find Tyre by Number"></section>');};})();
+(function(){'use strict';
+const styleId='tyre-by-number-exact-style';
+function addStyle(){if(document.getElementById(styleId))return;const s=document.createElement('style');s.id=styleId;s.textContent='.tyreNumberExactPage{min-height:100vh!important;margin:0!important;padding:0!important;background:#fff!important}.tyreByNumberHero{width:100%;height:571px;position:relative;overflow:hidden;background:#14283f url("/assets/tyre-ref/hero.png") center/cover no-repeat}';document.head.appendChild(s)}
+window.tyresByNumber=function(){if(typeof setNav==='function')setNav('');addStyle();document.body.classList.add('tyre-by-number-page');render('<section class="tyreNumberExactPage tyreNumberPage"><section class="tyreByNumberHero" aria-label="Find Tyre by Number"></section></section>')};})();
