@@ -2491,26 +2491,64 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 .tyreFinderGrid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:18px;
-  max-width:900px;
+  grid-template-columns:1fr;
+  gap:26px;
+  max-width:1020px;
   margin:0 auto;
 }
 
 .tyreFinderCard{
   position:relative;
-  display:flex;
+  display:grid;
+  grid-template-columns:210px minmax(0,1fr) auto;
   align-items:center;
-  gap:18px;
-  min-height:120px;
-  padding:24px 28px;
+  gap:24px;
+  min-height:250px;
+  padding:18px 30px 18px 18px;
   border:1px solid #e3e5e7;
-  border-radius:12px;
+  border-radius:22px;
   background:#fff;
   text-align:left;
   cursor:pointer;
   box-shadow:0 5px 20px rgba(0,0,0,.045);
   transition:.2s ease;
+}
+
+.tyreFinderCard:first-child{
+  border-color:#d51b23;
+}
+
+.tyreFinderCardImage{
+  width:210px;
+  height:210px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  flex:0 0 210px;
+}
+
+.tyreFinderCardImage img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.tyreFinderCard strong{
+  display:block;
+  color:#111;
+  font-size:23px;
+  font-weight:800;
+  line-height:1.2;
+}
+
+.tyreFinderCard small{
+  display:block;
+  margin-top:7px;
+  color:#777;
+  font-size:18px;
+  line-height:1.4;
 }
 
 .tyreFinderCard:hover{
@@ -5029,4 +5067,37 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 
 .tyreAdminPreviewGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.tyreAdminPreviewGrid>div{min-width:0}.tyreAdminPreviewGrid .helpText{display:block;margin-bottom:7px}@media(max-width:800px){.tyreAdminPreviewGrid{grid-template-columns:1fr}}
+
+@media(max-width:760px){
+  .tyreFinderGrid{
+    gap:16px;
+  }
+
+  .tyreFinderCard{
+    grid-template-columns:92px minmax(0,1fr) auto;
+    gap:12px;
+    min-height:135px;
+    padding:12px 14px 12px 10px;
+    border-radius:16px;
+  }
+
+  .tyreFinderCardImage{
+    width:92px;
+    height:110px;
+    flex-basis:92px;
+  }
+
+  .tyreFinderCard strong{
+    font-size:16px;
+  }
+
+  .tyreFinderCard small{
+    font-size:12px;
+    margin-top:5px;
+  }
+
+  .tyreFinderArrow{
+    font-size:20px;
+  }
+}
 
