@@ -4,7 +4,7 @@ function addStyle(){if(document.getElementById(styleId))return;const s=document.
 .tyreNumberExactPage{width:100%;min-height:100vh;margin:0;padding:0 0 80px;background:#fff!important;overflow:visible}
 .tyreByNumberHero{width:100%;height:360px;position:relative;overflow:visible;background:#14283f center/cover no-repeat}
 .tyreByNumberFinderWrap{width:100%;padding:0 24px;background:#fff;box-sizing:border-box}
-.tyreByNumberExactPanel{width:min(700px,100%);margin:-62px auto 0;position:relative;z-index:5;padding:28px 38px 30px;box-sizing:border-box;background:#061e4e;color:#fff;border-radius:20px;box-shadow:0 15px 35px rgba(3,25,65,.16)}
+.tyreByNumberExactPanel{width:min(700px,100%);margin:-110px auto 0;position:relative;z-index:5;padding:28px 38px 30px;box-sizing:border-box;background:#061e4e;color:#fff;border-radius:20px;box-shadow:0 15px 35px rgba(3,25,65,.16)}
 .tyreByNumberExactPanel h2{margin:0 0 8px;color:#fff;font:800 28px/1.15 Inter,Arial,sans-serif;text-align:center}
 .tyreByNumberExactPanel .required{margin:0;color:rgba(255,255,255,.88);font:500 13px/1.45 Inter,Arial,sans-serif;text-align:center}
 .tyreByNumberExactField{margin-top:22px}.tyreByNumberExactField label{display:block;margin:0 0 7px 5px;color:#fff;font:800 11px/1.2 Inter,Arial,sans-serif;text-transform:uppercase;letter-spacing:.4px}
