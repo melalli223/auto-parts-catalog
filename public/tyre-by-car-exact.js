@@ -1,3 +1,4 @@
-/* Find Tyre by Car — clean rebuild shell. Design reference retained separately:
-   hero image, hero copy, back button, compact finder panel and dropdown styling will be rebuilt step-by-step. */
-(function(){'use strict';window.tyresByCar=function(){if(typeof setNav==='function')setNav();document.body.classList.add('tyre-by-car-page');render('<section class="tyreExactPage tyreRebuildCleanPage" aria-label="Find Tyre by Car"></section>');};})();
+(function(){'use strict';
+const styleId='tyre-by-car-exact-style';
+function addStyle(){if(document.getElementById(styleId))return;const s=document.createElement('style');s.id=styleId;s.textContent='.tyreExactPage{min-height:100vh!important;margin:0!important;padding:0!important;background:#fff!important}.tyreByCarHero{width:100%;height:571px;position:relative;overflow:hidden;background:#14283f url("/assets/tyre-ref/hero.png") center/cover no-repeat}';document.head.appendChild(s)}
+window.tyresByCar=function(){if(typeof setNav==='function')setNav();addStyle();document.body.classList.add('tyre-by-car-page');render('<section class="tyreExactPage"><section class="tyreByCarHero" aria-label="Find Tyre by Car"></section></section>')};})();
