@@ -477,12 +477,12 @@ function tyres(){
 <p>Choose how you want to find your tyres.</p>
 </div>
 <div class="tyreFinderGrid">
-<button class="tyreFinderCard" onclick="tyresByCar()">
+<button class="tyreFinderCard" onclick="location.hash='tyres/by-car'">
 <span class="tyreFinderIcon">🚗</span>
 <div><strong>FIND TYRE BY CAR</strong><small>Choose your car brand, model and year.</small></div>
 <span class="tyreFinderArrow">→</span>
 </button>
-<button class="tyreFinderCard" onclick="tyresByNumber()">
+<button class="tyreFinderCard" onclick="location.hash='tyres/by-number'">
 <span class="tyreFinderIcon">◉</span>
 <div><strong>FIND TYRE BY NUMBER</strong><small>Search using your tyre size or number.</small></div>
 <span class="tyreFinderArrow">→</span>
