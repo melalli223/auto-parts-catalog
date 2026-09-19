@@ -565,16 +565,8 @@ function tyreFinderResult(modelId,yearValue){
 function tyresByNumber(){
  setNav('');
  location.hash='tyres/by-number';
- render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
- <button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>
- <div class="tyreFinderNumber">
- <span>TYRE FINDER</span>
- <h1>FIND TYRES <b>BY NUMBER</b></h1>
- <p>Enter your tyre size or number to find the right tyre.</p>
- <div class="tyreNumberSearch"><input id="tyreNumberInput" class="input" placeholder="e.g. 205/55 R16" autocomplete="off"><button class="primary" onclick="searchTyreNumber()">SEARCH TYRES →</button></div>
- <div id="tyreNumberResults"></div>
- </div>
- </div></div></section>`)
+ if(typeof window.tyresByNumber==='function'&&window.tyresByNumber!==tyresByNumber)return window.tyresByNumber();
+ render('<section class="tyreNumberExactPage tyreNumberPage tyreRebuildCleanPage" aria-label="Find Tyre by Number"></section>');
 }
 function searchTyreNumber(){
  const input=document.querySelector('#tyreNumberInput');
