@@ -58,5 +58,5 @@ html,body{background:#fff!important}
  var style=document.getElementById('tyre-hero-copy-override');if(!style){style=document.createElement('style');style.id='tyre-hero-copy-override';document.head.appendChild(style)}style.textContent=css;
 }
 function run(){requestAnimationFrame(function(){apply();setTimeout(apply,100);setTimeout(apply,400)})}
-run();window.addEventListener('load',run);window.addEventListener('hashchange',function(){setTimeout(run,0)});new MutationObserver(run).observe(document.body,{childList:true,subtree:true});
+run();window.addEventListener('load',run);window.addEventListener('hashchange',function(){setTimeout(run,0)});
 })();
