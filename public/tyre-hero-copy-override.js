@@ -57,6 +57,6 @@ html,body{background:#fff!important}
 `;
  var style=document.getElementById('tyre-hero-copy-override');if(!style){style=document.createElement('style');style.id='tyre-hero-copy-override';document.head.appendChild(style)}style.textContent=css;
 }
-function run(){requestAnimationFrame(function(){apply();setTimeout(apply,100);setTimeout(apply,400)})}
+function run(){requestAnimationFrame(function(){apply();setTimeout(apply,50);setTimeout(apply,150);setTimeout(apply,400);setTimeout(apply,900)})}
 run();window.addEventListener('load',run);window.addEventListener('hashchange',function(){setTimeout(run,0)});
 })();
