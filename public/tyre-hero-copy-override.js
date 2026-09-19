@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-function apply(){return;
+function apply(){
  document.querySelectorAll('.tyreExactPage').forEach(function(page){
   var hero=page.querySelector('.tyreByCarHero'),inner=page.querySelector('.tyreByCarHeroInner'),source=page.querySelector('.tyreByCarHeroCopy');
   if(!hero||!inner||!source)return;
@@ -9,7 +9,7 @@ function apply(){return;
   var imageCopy=inner.querySelector('.tyreByCarImageCopy');
   if(!imageCopy){imageCopy=document.createElement('div');imageCopy.className='tyreByCarImageCopy';imageCopy.innerHTML=eyebrow.outerHTML+heading.outerHTML+(sub?sub.outerHTML:'');inner.appendChild(imageCopy)}if(page.classList.contains('tyreNumberPage')&&imageCopy){var numberSub=imageCopy.querySelector('.tyreByCarHeroSub');if(numberSub)numberSub.remove()}
   if(imageCopy){var heroSub=imageCopy.querySelector('.tyreByCarHeroSub');if(heroSub)heroSub.remove()}if(sub){var description=page.querySelector('.tyreByCarDescription');if(!description){description=document.createElement('div');description.className='tyreByCarDescription';description.textContent=sub.textContent.trim();var finder=page.querySelector('.tyreByCarFinderWrap');if(finder)finder.insertAdjacentElement('afterend',description)}}
-  var home=page.querySelector('.tyreByCarBackHome');if(!home){home=document.createElement('button');home.type='button';home.className='tyreByCarBackHome';home.innerHTML='<span>←</span> Back to home';home.addEventListener('click',function(){location.hash='#tyres';if(typeof routeTyresHash==='function')routeTyresHash();window.scrollTo({top:0,behavior:'smooth'})});var bottom=page.querySelector('.tyreByCarBottomSpace');if(bottom)bottom.insertAdjacentElement('beforebegin',home);else page.appendChild(home)}else{home.onclick=function(){location.hash='#tyres';if(typeof routeTyresHash==='function')routeTyresHash();window.scrollTo({top:0,behavior:'smooth'})}}
+  var home=page.querySelector('.tyreByCarBackHome');if(!home){home=document.createElement('button');home.type='button';home.className='tyreByCarBackHome';home.innerHTML='<span>←</span> Back to home';home.addEventListener('click',function(){location.hash='#tyres';if(typeof routeTyresHash==='function')routeTyresHash();window.scrollTo({top:0,behavior:'smooth'})});inner.insertBefore(home,inner.firstChild)}else{if(home.parentElement!==inner)inner.insertBefore(home,inner.firstChild);home.onclick=function(){location.hash='#tyres';if(typeof routeTyresHash==='function')routeTyresHash();window.scrollTo({top:0,behavior:'smooth'})}}
   source.style.setProperty('display','none','important');
  });
  var css=`
@@ -59,4 +59,32 @@ html,body{background:#fff!important}
 }
 function run(){requestAnimationFrame(function(){apply();setTimeout(apply,50);setTimeout(apply,150);setTimeout(apply,400);setTimeout(apply,900)})}
 run();window.addEventListener('load',run);window.addEventListener('hashchange',function(){setTimeout(run,0)});
-})();
+})()  var css=`
+html,body{background:#fff!important}
+.tyreExactPage{background:#fff!important;padding:0 0 120px!important;min-height:100vh!important;font-family:Inter,Arial,sans-serif!important}
+.tyreByCarHero{height:500px!important;position:relative!important;overflow:hidden!important;background-position:center!important;background-size:cover!important}
+.tyreByCarHero:after{background:linear-gradient(90deg,rgba(3,22,43,.58),rgba(3,22,43,.20) 55%,rgba(3,22,43,.08))!important}
+.tyreByCarHeroInner{max-width:1460px!important;margin:auto!important;padding:0 40px!important;box-sizing:border-box!important;height:100%!important;position:relative!important}
+.tyreByCarImageCopy{position:absolute!important;z-index:3!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;width:min(850px,92%)!important;padding:0!important;text-align:center!important;background:transparent!important}
+.tyreByCarImageCopy .tyreByCarEyebrow{margin:0 0 12px!important;color:#ff2b2f!important;font-size:18px!important;font-weight:800!important;line-height:1.15!important;letter-spacing:.8px!important;text-transform:uppercase!important;text-shadow:0 2px 8px rgba(0,0,0,.35)!important}
+.tyreByCarImageCopy h1{margin:0!important;color:#fff!important;font-size:52px!important;font-weight:800!important;line-height:1.08!important;letter-spacing:-1.8px!important;text-shadow:0 2px 8px rgba(0,0,0,.35)!important}
+.tyreByCarImageCopy .tyreByCarHeroSub{display:none!important}
+.tyreByCarDescription{display:none!important}
+.tyreByCarFinderWrap{width:100%!important;padding:0 30px!important;box-sizing:border-box!important;background:#fff!important}
+.tyreByCarExactPanel{position:relative!important;z-index:5!important}
+.tyreByCarBackHome{position:absolute!important;z-index:6!important;top:28px!important;left:50%!important;transform:translateX(-50%)!important;display:flex!important;align-items:center!important;justify-content:center!important;width:max-content!important;margin:0!important;padding:0 18px!important;height:40px!important;border:0!important;background:transparent!important;color:#fff!important;font:800 14px/40px Inter,Arial,sans-serif!important;cursor:pointer!important;box-shadow:none!important;text-shadow:0 1px 5px rgba(0,0,0,.45)!important}
+.tyreByCarBackHome span{font-size:20px!important;line-height:1!important;margin-right:7px!important}
+.tyreByCarBackHome:hover{background:transparent!important;color:#fff!important}
+.tyreByCarBottomSpace{height:20px!important}
+@media(max-width:800px){
+ .tyreByCarHero{height:430px!important}
+ .tyreByCarHeroInner{padding:0 18px!important}
+ .tyreByCarImageCopy{top:52%!important;width:94%!important}
+ .tyreByCarImageCopy .tyreByCarEyebrow{font-size:15px!important;margin-bottom:10px!important}
+ .tyreByCarImageCopy h1{font-size:38px!important;letter-spacing:-1px!important}
+ .tyreByCarFinderWrap{padding:0 16px!important}
+ .tyreByCarBackHome{top:22px!important;font-size:13px!important}
+ .tyreByCarBackHome span{font-size:18px!important}
+}
+`;
+;
