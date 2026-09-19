@@ -88,7 +88,8 @@ window.tyresByCar=function(){
     document.querySelectorAll('.tyreCustomSelectList.show').forEach(x=>x.classList.remove('show'));
   },{once:false});
 
-  page.querySelector('.tyreByCarBackHome').addEventListener('click',()=>{location.hash='#tyres';if(typeof routeTyresHash==='function')routeTyresHash();window.scrollTo({top:0,behavior:'instant'})});
+  const backHome=document.querySelector('.tyreByCarBackHome');
+  if(backHome)backHome.addEventListener('click',()=>{location.hash='#tyres';if(typeof routeTyresHash==='function')routeTyresHash();window.scrollTo({top:0,behavior:'instant'})});
   btn.addEventListener('click',()=>{
     if(brandValue&&modelValue)location.hash='tyres/by-car/'+encodeURIComponent(brandValue)+'/'+encodeURIComponent(modelValue);
   });
