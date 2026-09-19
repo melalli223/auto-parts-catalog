@@ -338,7 +338,7 @@ function render(content){
    requestAnimationFrame(()=>app.classList.add('page-enter'));
    setTimeout(()=>app.classList.remove('page-enter'),620);
  };
- const isTyrePage=content.includes('tyreReferenceV3')||content.includes('tyreExactPage');
+ const isTyrePage=content.includes('tyreReferenceV3')||content.includes('tyreExactPage')||content.includes('tyreNumberExactPage');
  if(isTyrePage){draw();return;}
  if(app.querySelector('.siteHeader,.site-main,.footer') && app.innerHTML.trim()){
    clearTimeout(window.__renderTimer);
