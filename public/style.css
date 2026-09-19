@@ -2574,6 +2574,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 .tyreFinderCard div{
   min-width:0;
+  transform:translateX(-30px);
 }
 
 .tyreFinderCard strong{
