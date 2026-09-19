@@ -333,12 +333,13 @@ function render(content){
  const draw=()=>{
    app.classList.remove('page-enter','page-leave');
    void app.offsetWidth;
-   const isTyrePage=content.includes('tyreReferenceV3')||content.includes('tyreExactPage');
    app.innerHTML=`${isTyrePage?'':header()}<main class="container site-main ${isTyrePage?'tyrePageNoHeader':''}">${content}</main><footer class="footer"><div class="featureStrip"><div><span class="featureIcon">✓</span><strong>100% Genuine Parts</strong><small>High quality parts</small></div><div><span class="featureIcon">▣</span><strong>Fast Delivery</strong><small>Across the city</small></div><div><span class="featureIcon">✓</span><strong>Secure Payment</strong><small>100% secure</small></div><div><span class="featureIcon">◯</span><strong>Support 24/7</strong><small>We are here to help</small></div></div><div class="footerMain"><div><h3>CONTACT & SUPPORT</h3><p>${esc(db.settings.address)}</p><p>${esc(db.settings.phone)}</p>${String(db.settings.phone2||'').trim()?`<p>${esc(String(db.settings.phone2).trim())}</p>`:''}${String(db.settings.phone3||'').trim()?`<p>${esc(String(db.settings.phone3).trim())}</p>`:''}${mediaLinksHtml()?`<div class="footerContactSocials" aria-label="Social media links">${mediaLinksHtml()}</div>`:''}<p>${esc(db.settings.email)}</p></div><div><h3>QUICK LINKS</h3><button onclick="home()">Home</button><button onclick="brands()">Brands</button><button onclick="parts()">Categories</button><button onclick="about()">About Us</button></div><div><h3>NEED A PART?</h3><p>Send us your vehicle and part details and we will help you find the right part.</p><button class="footerWa" onclick="smartEnquiry('Hello, I would like to enquire about your auto parts catalog.')">ENQUIRE ABOUT A PART</button></div></div><div class="footerBottom">© ${new Date().getFullYear()} ${esc(db.settings.businessName)}. All rights reserved.</div></footer>`;
    window.scrollTo({top:0,left:0,behavior:'instant'});
    requestAnimationFrame(()=>app.classList.add('page-enter'));
    setTimeout(()=>app.classList.remove('page-enter'),620);
  };
+ const isTyrePage=content.includes('tyreReferenceV3')||content.includes('tyreExactPage');
+ if(isTyrePage){draw();return;}
  if(app.querySelector('.siteHeader,.site-main,.footer') && app.innerHTML.trim()){
    clearTimeout(window.__renderTimer);
    app.classList.remove('page-enter');
