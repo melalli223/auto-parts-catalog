@@ -339,10 +339,7 @@ function render(content){
    requestAnimationFrame(()=>app.classList.add('page-enter'));
    setTimeout(()=>app.classList.remove('page-enter'),620);
  };
- if(isTyrePage){
-   clearTimeout(window.__renderTimer);
-   draw();
- }else if(app.querySelector('.siteHeader,.site-main,.footer') && app.innerHTML.trim()){
+ if(app.querySelector('.siteHeader,.site-main,.footer') && app.innerHTML.trim()){
    clearTimeout(window.__renderTimer);
    app.classList.remove('page-enter');
    void app.offsetWidth;
