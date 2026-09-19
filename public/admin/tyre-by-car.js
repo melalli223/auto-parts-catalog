@@ -79,15 +79,15 @@ async function saveImage(url){
 }
 async function upload(e){
  const f=e.target.files?.[0];if(!f)return;
- const status=document.getElementById('ftaStatus');
+ const status=document.getElementById('ftaGlobalStatus');
  try{
-   status.className='ftaStatus';status.textContent='Uploading image…';
+   if(status){status.className='ftaStatus';status.textContent='Uploading image…';}
    if(typeof uploadImage!=='function')throw new Error('Image upload service is not available.');
    const url=await uploadImage(f,'product-images','find-tyres-by-car');
    setPending(url);
-   status.textContent='Image uploaded. Press SAVE ALL CHANGES.';
+   if(status)status.textContent='Image uploaded. Press SAVE ALL CHANGES.';
    e.target.value='';
- }catch(err){console.error(err);status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}
+ }catch(err){console.error(err);if(status){status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}}
 }
 function addSidebarLink(){
  const side=document.querySelector('.tyreAdminSide');
