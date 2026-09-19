@@ -51,7 +51,7 @@ function makePage(){
 function setPendingBottom(url){pendingBottomImage=url||'';const p=document.getElementById('ftaBottomPreview'),i=document.getElementById('ftaBottomUrl'),m=document.getElementById('ftaBottomPending');if(p)p.innerHTML=pendingBottomImage?'<img src="'+esc(pendingBottomImage)+'?v='+Date.now()+'" alt="Find Tyres By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>';if(i)i.value=pendingBottomImage;if(m)m.classList.add('show')}
 async function saveBottomImage(url){pendingBottomImage=url||''}
 async function saveAll(){const status=document.getElementById('ftaGlobalStatus');try{status.textContent='Saving all changes…';const base=dbLocal()||{};const t=JSON.parse(JSON.stringify(base.tyres||{}));t.findByCar={...(t.findByCar||{}),image:pendingImage||DEFAULT_IMAGE,bottomImage:pendingBottomImage||''};if(typeof saveTyreData==='function')await saveTyreData(t);else if(window.supabaseClient&&typeof window.supabaseClient.from==='function'){const {error}=await window.supabaseClient.from('tyre_page').upsert({id:true,data:t});if(error)throw error}base.tyres=t;localStorage.setItem(KEY,JSON.stringify(base));document.getElementById('ftaPending')?.classList.remove('show');document.getElementById('ftaBottomPending')?.classList.remove('show');status.textContent='All changes saved successfully.'}catch(e){console.error(e);status.textContent=e?.message||'Could not save changes.'}}
-async function uploadBottom(e){const f=e.target.files?.[0];if(!f)return;const status=document.getElementById('ftaBottomStatus');try{status.className='ftaStatus';status.textContent='Uploading image…';if(typeof uploadImage!=='function')throw new Error('Image upload service is not available.');const url=await uploadImage(f,'product-images','findByCar-bottom');setPendingBottom(url);status.textContent='Image uploaded. Press SAVE ALL CHANGES.';e.target.value=''}catch(err){console.error(err);status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}}
+async function uploadBottom(e){const f=e.target.files?.[0];if(!f)return;const status=document.getElementById('ftaGlobalStatus');try{status.className='ftaStatus';status.textContent='Uploading image…';if(typeof uploadImage!=='function')throw new Error('Image upload service is not available.');const url=await uploadImage(f,'product-images','findByCar-bottom');setPendingBottom(url);if(status)status.textContent='Image uploaded. Press SAVE ALL CHANGES.';e.target.value=''}catch(err){console.error(err);if(status){status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}}}
 function setPending(url){
  pendingImage=url||DEFAULT_IMAGE;
  const preview=document.getElementById('ftaPreview');const input=document.getElementById('ftaUrl');const mark=document.getElementById('ftaPending');
@@ -61,9 +61,9 @@ function setPending(url){
  const status=document.getElementById('ftaStatus');if(status){status.className='ftaStatus';status.textContent='';}
 }
 async function saveImage(url){
- const status=document.getElementById('ftaStatus');
+ const status=document.getElementById('ftaGlobalStatus');
  try{
-   status.className='ftaStatus';status.textContent='Saving image…';
+   if(status){status.className='ftaStatus';status.textContent='Saving image…';}
    const base=dbLocal()||{};const t=JSON.parse(JSON.stringify(base.tyres||{}));t.findByCar={...(t.findByCar||{}),image:url||DEFAULT_IMAGE};
    if(typeof saveTyreData==='function')await saveTyreData(t);
    else if(window.supabaseClient&&typeof window.supabaseClient.from==='function'){
@@ -75,7 +75,7 @@ async function saveImage(url){
    document.getElementById('ftaUrl').value=pendingImage;
    document.getElementById('ftaPending').classList.remove('show');
    status.textContent='Saved successfully.';
- }catch(e){console.error(e);status.className='ftaStatus error';status.textContent=e?.message||'Could not save image.'}
+ }catch(e){console.error(e);if(status){status.className='ftaStatus error';status.textContent=e?.message||'Could not save image.'}}
 }
 async function upload(e){
  const f=e.target.files?.[0];if(!f)return;
