@@ -76,7 +76,7 @@ html,body{background:#fff!important}
 .tyreByCarImageCopy{
   position:absolute!important;
   z-index:3!important;
-  top:46%!important;
+  top:34%!important;
   left:5.9%!important;
   right:auto!important;
   transform:translateY(-50%)!important;
@@ -169,7 +169,7 @@ html,body{background:#fff!important}
   .tyreByCarHero{height:430px!important}
   .tyreByCarHeroInner{padding:0 18px!important}
   .tyreByCarImageCopy{
-    top:49%!important;
+    top:36%!important;
     left:6%!important;
     right:6%!important;
     transform:translateY(-50%)!important;
