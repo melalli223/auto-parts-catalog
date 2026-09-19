@@ -50,7 +50,7 @@ html,body{background:#fff!important}
 .tyreByCarHero{height:500px!important;position:relative!important;overflow:hidden!important;background-position:center!important;background-size:cover!important}
 .tyreByCarHero:after{background:linear-gradient(90deg,rgba(3,22,43,.58),rgba(3,22,43,.20) 55%,rgba(3,22,43,.08))!important}
 .tyreByCarHeroInner{position:relative!important;z-index:1!important;height:100%!important;max-width:1460px!important;margin:auto!important;padding:0 40px!important;box-sizing:border-box!important}
-.tyreByCarImageCopy{position:absolute!important;z-index:3!important;top:50%!important;left:8%!important;right:auto!important;transform:translateY(-50%)!important;width:min(760px,82%)!important;padding:0!important;margin:0!important;text-align:left!important;background:transparent!important;background-color:transparent!important;box-shadow:none!important;border:0!important;display:block!important}.tyreByCarImageCopy *{background:transparent!important;background-color:transparent!important;box-shadow:none!important;border:0!important}
+.tyreByCarImageCopy{position:absolute!important;z-index:3!important;top:56%!important;left:7%!important;right:auto!important;transform:translateY(-50%)!important;width:min(760px,82%)!important;padding:0!important;margin:0!important;text-align:left!important;background:transparent!important;background-color:transparent!important;box-shadow:none!important;border:0!important;display:block!important}.tyreByCarImageCopy *{background:transparent!important;background-color:transparent!important;box-shadow:none!important;border:0!important}
 .tyreByCarImageCopy .tyreByCarEyebrow{margin:0 0 12px!important;color:#ff2b2f!important;font-size:18px!important;font-weight:800!important;line-height:1.15!important;letter-spacing:.8px!important;text-transform:uppercase!important;text-shadow:0 2px 8px rgba(0,0,0,.35)!important}
 .tyreByCarImageCopy h1{margin:0!important;color:#fff!important;font-size:52px!important;font-weight:800!important;line-height:1.08!important;letter-spacing:-1.8px!important;text-shadow:0 2px 8px rgba(0,0,0,.35)!important}
 .tyreByCarFinderWrap{width:100%!important;padding:0 30px!important;box-sizing:border-box!important;background:#fff!important}
@@ -63,7 +63,7 @@ html,body{background:#fff!important}
 @media(max-width:800px){
  .tyreByCarHero{height:430px!important}
  .tyreByCarHeroInner{padding:0 18px!important}
- .tyreByCarImageCopy{top:52%!important;left:6%!important;right:6%!important;transform:translateY(-50%)!important;width:auto!important;text-align:left!important}
+ .tyreByCarImageCopy{top:55%!important;left:6%!important;right:6%!important;transform:translateY(-50%)!important;width:auto!important;text-align:left!important}
  .tyreByCarImageCopy .tyreByCarEyebrow{font-size:15px!important;margin-bottom:10px!important}
  .tyreByCarImageCopy h1{font-size:38px!important;letter-spacing:-1px!important}
  .tyreByCarFinderWrap{padding:0 16px!important}
