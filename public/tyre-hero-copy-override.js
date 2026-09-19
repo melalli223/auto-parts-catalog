@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-function apply(){
+function apply(){return;
  document.querySelectorAll('.tyreExactPage').forEach(function(page){
   var hero=page.querySelector('.tyreByCarHero'),inner=page.querySelector('.tyreByCarHeroInner'),source=page.querySelector('.tyreByCarHeroCopy');
   if(!hero||!inner||!source)return;
