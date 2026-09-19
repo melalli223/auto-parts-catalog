@@ -2533,6 +2533,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   height:100%;
   object-fit:contain;
   display:block;
+  transform:translateX(-18px);
 }
 
 .tyreFinderCard strong{
