@@ -5030,7 +5030,3 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 .tyreAdminPreviewGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.tyreAdminPreviewGrid>div{min-width:0}.tyreAdminPreviewGrid .helpText{display:block;margin-bottom:7px}@media(max-width:800px){.tyreAdminPreviewGrid{grid-template-columns:1fr}}
 
-/* FINDER SCROLL STABILITY */
-html:has(.tyreExactPage),html:has(.tyreNumberExactPage){scroll-behavior:auto!important;overflow-anchor:none!important}
-body.tyre-by-car-page,body.tyre-by-number-page{overscroll-behavior-y:none;overflow-anchor:none}
-.tyreExactPage,.tyreNumberExactPage{overflow-anchor:none}
