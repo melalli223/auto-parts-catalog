@@ -5216,14 +5216,3 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:20px !important;
   }
 }
-
-/* Desktop tyre bottom artwork: fit the existing image area without enlarging it. */
-@media (min-width:761px){
-  .tyreBottomArt{
-    width:100% !important;
-    height:auto !important;
-    max-height:300px !important;
-    object-fit:contain !important;
-    object-position:center bottom !important;
-  }
-}
