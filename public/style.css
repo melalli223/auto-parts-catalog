@@ -5209,7 +5209,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   #app .tyreFinderSection .tyreFinderCard > div{
-    transform:translateX(14px) !important;
+    transform:translateX(35px) !important;
   }
 
   #app .tyreFinderSection .tyreFinderArrow{
