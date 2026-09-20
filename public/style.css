@@ -2500,7 +2500,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreFinderCard{
   position:relative;
   display:grid;
-  grid-template-columns:540px minmax(0,1fr) auto;
+  grid-template-columns:minmax(0,540px) minmax(0,1fr) auto;
   align-items:center;
   gap:6px;
   min-height:230px;
