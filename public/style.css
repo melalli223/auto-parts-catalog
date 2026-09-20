@@ -5078,7 +5078,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   .tyreFinderCard{
-    grid-template-columns:120px minmax(0,1fr) auto;
+    grid-template-columns:130px minmax(0,1fr) auto;
     gap:12px;
     min-height:135px;
     padding:12px 14px 12px 10px;
@@ -5086,9 +5086,9 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   .tyreFinderCardImage{
-    width:120px;
+    width:130px;
     height:110px;
-    flex-basis:120px;
+    flex-basis:130px;
   }
 
   .tyreFinderCard strong{
