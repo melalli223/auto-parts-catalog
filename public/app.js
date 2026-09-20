@@ -828,9 +828,6 @@ function tyresAdmin(c){
 <section class="tyreAdminCard tyreAdminHeroCard" id="tyreHeroSection">
  <div class="tyreCardHead"><div><span class="eyebrow">01 · HERO SECTION</span><h3>Hero section</h3><p>Control the main heading, description and sliding background images.</p></div></div>
  <div class="tyreAdminHeroLayout"><div>${tyreInputRow('White heading','thTitle',hero.title)}${tyreInputRow('Red heading','thRed',hero.red)}<div class="formGroup"><label>Description</label><textarea id="thDesc" class="textarea" rows="4">${esc(hero.description||'')}</textarea></div></div><div class="formGroup"><label>Hero images</label><input id="thAddImage" type="file" accept="image/*" multiple class="input" onchange="addTyreHeroImage(this)"><small class="helpText">Select one or multiple images. They rotate automatically on the Tyre homepage.</small></div></div>
-</section>
-<section class="tyreAdminCard tyreAdminHeroCard" id="tyreBottomSection">
- <div class="tyreCardHead"><div><span class="eyebrow">02 · BOTTOM IMAGE</span><h3>Homepage bottom image</h3><p>Manage the image displayed at the bottom of the Tyre homepage.</p></div></div>
  <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Bottom image</label><input id="thBottomImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'thBottomImg')"><small class="helpText">This image appears at the bottom of the Tyre homepage.</small></div><div>${preview(t.bottomImage,'Tyre homepage bottom image')}</div></div>
 </section>
 <section class="tyreAdminCard tyreAdminHeroCard" id="tyreFindSection">
