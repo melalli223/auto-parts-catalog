@@ -5158,7 +5158,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
    DESKTOP TYRE FINDER — MATCH MOBILE PROPORTIONS
    Desktop only; mobile layout remains unchanged.
    ========================================================= */
-@media (min-width:1001px){
+@media (min-width:761px){
   #app .tyreFinderSection .tyreFinderGrid{
     gap:16px !important;
     max-width:900px !important;
