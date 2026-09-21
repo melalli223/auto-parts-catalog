@@ -6056,3 +6056,10 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .site-main > .autoPartsHero .homeHeroDots{bottom:10px !important;gap:7px !important}
   .site-main > .autoPartsHero .homeHeroDot{width:7px !important;height:7px !important;min-width:7px !important;min-height:7px !important}
 }
+
+/* Auto Parts hero: allow horizontal hand swiping while preserving vertical page scroll */
+.site-main > .autoPartsHero .homeHeroSlider{
+  touch-action:pan-y !important;
+  cursor:grab !important;
+}
+.site-main > .autoPartsHero .homeHeroSlider:active{cursor:grabbing !important;}
