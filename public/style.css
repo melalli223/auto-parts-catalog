@@ -5336,6 +5336,49 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   padding:0 !important;
 }
 
+/* V58: Shop Tyres promo text overlay. */
+.tyresPromo .tyresCopy{
+  display:block !important;
+  position:absolute !important;
+  left:30px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:3 !important;
+  padding:0 !important;
+  max-width:430px;
+}
+.tyresPromo .tyresTitle h3{
+  margin:0 !important;
+  color:#fff !important;
+  font-family:'Montserrat',Arial,sans-serif;
+  font-size:28px !important;
+  line-height:1.05 !important;
+  font-weight:900 !important;
+  letter-spacing:-.5px;
+  text-shadow:0 2px 8px rgba(0,0,0,.45);
+}
+.tyresPromo .tyresTitle h3 span{color:var(--red) !important;}
+.tyresPromo .tyresCopy p{
+  margin:9px 0 12px !important;
+  color:#fff !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+  text-shadow:0 1px 5px rgba(0,0,0,.45);
+}
+.tyresPromo .tyresBtn{
+  padding:9px 14px !important;
+  font-size:10px !important;
+}
+@media(max-width:800px){
+  .tyresPromo .tyresCopy{
+    left:18px !important;
+    max-width:280px;
+  }
+  .tyresPromo .tyresTitle h3{font-size:21px !important;}
+  .tyresPromo .tyresCopy p{font-size:10px !important;margin:7px 0 9px !important;}
+  .tyresPromo .tyresBtn{padding:8px 11px !important;font-size:9px !important;}
+}
+
 /* V57: Static image galleries for Tyre admin hero and Shop Tyres promo. */
 .tyreAdminImageGallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
 .tyreAdminGalleryItem{position:relative;height:120px;border:1px solid #e0e4e7;background:#fafbfb;border-radius:6px;overflow:hidden}
