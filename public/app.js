@@ -852,10 +852,6 @@ function tyresAdmin(c){
   <div class="tyreAdminHeroLayout"><div>${tyreInputRow('White heading','thTitle',hero.title)}${tyreInputRow('Red heading','thRed',hero.red)}<div class="formGroup"><label>Description</label><textarea id="thDesc" class="textarea" rows="4">${esc(hero.description||'')}</textarea></div></div><div class="formGroup"><label>Hero images</label><input id="thAddImage" type="file" accept="image/*" multiple class="input" onchange="addTyreHeroImage(this)"><small class="helpText">Select one or multiple images. They rotate automatically on the Tyre homepage.</small></div></div>
  </div>
  <div class="tyreAdminSubSection">
-  <div class="tyreAdminSubHead"><span>Shop Tyres promo images</span><small>Upload multiple images. They rotate automatically inside the Shop Tyres box on the Auto Parts homepage.</small></div>
-  <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Promo slideshow images</label><input id="tPromoImages" type="file" accept="image/*" multiple class="input"><small class="helpText">Select multiple images at once. New uploads are added to the slideshow.</small></div><div class="tyreAdminPreview "></div></div>
- </div>
- <div class="tyreAdminSubSection">
   <div class="tyreAdminSubHead"><span>Bottom image</span><small>Image displayed at the bottom of the Tyre homepage.</small></div>
   <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Bottom image</label><input id="thBottomImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'thBottomImg')"><small class="helpText">This image appears at the bottom of the Tyre homepage.</small></div><div>${preview(t.bottomImage,'Tyre homepage bottom image')}</div></div>
  </div></section>
@@ -903,13 +899,15 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  const featuredSection=`<section class="tyreAdminCard" id="tyreFeaturedSection"><div class="tyreCardHead"><div><span class="eyebrow">05 · FEATURED TYPES</span><h3>Featured Tyre Types</h3><p>Add, edit or remove the tyre-type cards displayed below the brands.</p></div><button type="button" class="ghost" onclick="addTyreFeaturedType()">+ ADD TYPE</button></div>
     <div class="tyreAdminFeatureGrid">${featured.map((x,i)=>`<article class="tyreAdminEditorItem"><div class="tyreAdminItemTop"><strong>${i+1}. ${esc(x.title)}</strong>${preview(x.image,x.title)}</div>${tyreInputRow('Title',`tt${i}t`,x.title)}<div class="formGroup"><label>Description</label><input id="tt${i}d" class="input" value="${esc(x.description||'')}"></div><div class="formGroup"><label>Image</label><input id="tt${i}i" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tt${i}i')"></div><button type="button" class="tyreRemoveItemBtn tyreRemoveTypeBtn" onclick="removeTyreFeaturedType(${i})">Remove</button></article>`).join('')}</div>
    </section>`;
+
+ const shopTyresPromoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyreShopTyresPromoSection"><div class="tyreCardHead"><div><span class="eyebrow">SHOP TYRES PROMO</span><h3>Shop Tyres Promo Box</h3><p>Upload multiple background images for the Shop Tyres box on the Auto Parts homepage.</p></div></div><div class="tyreAdminSubSection"><div class="tyreAdminSubHead"><span>Promo slideshow images</span><small>Multiple images rotate automatically inside the full promo box.</small></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Promo images</label><input id="tPromoImages" type="file" accept="image/*" multiple class="input"><small class="helpText">Select multiple images at once. New uploads are added to the slideshow.</small></div><div class="tyreAdminPreview "></div></div></div></section>`;
  const dashboardBody=`<div class="tyreAdminDashGrid">
    <button class="tyreDashCard" onclick="tyreAdminGo('settings')"><span class="tyreDashIcon">◆</span><div><strong>Settings</strong><span>Hero, promotional panels &amp; bottom banner image</span></div><span class="tyreDashArrow">→</span></button>
    <button class="tyreDashCard" onclick="tyreAdminGo('brands')"><span class="tyreDashIcon">◉</span><div><strong>Tyre Brands</strong><span>${brands.length} brand logos shown on the public page</span></div><span class="tyreDashArrow">→</span></button>
    <button class="tyreDashCard" onclick="tyreAdminGo('featured')"><span class="tyreDashIcon">◇</span><div><strong>Featured Types</strong><span>${featured.length} tyre-type cards shown on the public page</span></div><span class="tyreDashArrow">→</span></button>
   </div>`;
  let sectionsHtml,showSaveBar;
- if(tyreAdminSubTab==='settings'){sectionsHtml=heroSection+contactSettingsSection+promoSection;showSaveBar=true}
+ if(tyreAdminSubTab==='settings'){sectionsHtml=heroSection+contactSettingsSection+promoSection+shopTyresPromoSection;showSaveBar=true}
  else if(tyreAdminSubTab==='by-car'){sectionsHtml=finderCarSection;showSaveBar=true}
  else if(tyreAdminSubTab==='by-number'){sectionsHtml=finderNumberSection;showSaveBar=true}
  else if(tyreAdminSubTab==='brands'){sectionsHtml=brandsSection;showSaveBar=true}
