@@ -470,10 +470,28 @@ let tyresPromoSlideTimer=null;
 function initTyresPromoSlideshow(){
  clearInterval(tyresPromoSlideTimer);
  const box=document.querySelector('.tyresPromoSlides');
+ const copy=document.querySelector('.tyresPromo .tyresCopy');
  if(!box)return;
  const images=(db.tyres?.promoImages||[]).filter(Boolean);
- if(!images.length){box.innerHTML='';return;}
+ if(!images.length){box.innerHTML='';if(copy)copy.style.display='none';return;}
+ const promoTexts=[
+  {title:'FIND YOUR <span>PERFECT TYRES</span>',desc:'Drive with confidence.<br>Find tyres made for your journey.',button:'EXPLORE TYRES →'},
+  {title:'READY FOR <span>THE ROAD?</span>',desc:'Better grip. Better comfort.<br>Choose tyres built for every journey.',button:'FIND YOUR TYRES →'},
+  {title:'UPGRADE YOUR <span>DRIVE</span>',desc:'Discover the right fit for your vehicle.<br>Quality tyres for every road.',button:'SHOP TYRES →'},
+  {title:'GO FURTHER WITH <span>THE RIGHT TYRES</span>',desc:'Performance and confidence start here.<br>Find your ideal tyres today.',button:'BROWSE TYRES →'}
+ ];
  box.innerHTML=images.map((src,i)=>'<img class="tyresPromoSlide '+(i===0?'active':'')+'" src="'+esc(src)+'" alt="Tyre promotion image '+(i+1)+'">').join('');
+ const applyPromoText=(i)=>{
+   if(!copy)return;
+   const t=promoTexts[i%promoTexts.length];
+   const title=copy.querySelector('.tyresTitle h3');
+   const desc=copy.querySelector('p');
+   const button=copy.querySelector('.tyresBtn');
+   if(title)title.innerHTML=t.title;
+   if(desc)desc.innerHTML=t.desc;
+   if(button)button.textContent=t.button;
+ };
+ applyPromoText(0);
  if(images.length<2)return;
  let idx=0;
  tyresPromoSlideTimer=setInterval(()=>{
@@ -482,6 +500,7 @@ function initTyresPromoSlideshow(){
    slides[idx]?.classList.remove('active');
    idx=(idx+1)%slides.length;
    slides[idx]?.classList.add('active');
+   applyPromoText(idx);
  },4000);
 }
 
