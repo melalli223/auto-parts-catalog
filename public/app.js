@@ -568,7 +568,7 @@ ${db.tyres?.contact?.contactImage?`<img src="${esc(db.tyres.contact.contactImage
     <span class="tyreAutoPartsPromoEyebrow">${esc(db.settings.promoEyebrow||'AUTO PARTS')}</span>
     <h3>${esc(db.settings.promoTitle||'LOOKING FOR MORE THAN TYRES?')}</h3>
     <p>${esc(db.settings.promoDescription||'Explore our full range of quality auto parts for your vehicle.')}</p>
-    <span class="tyreAutoPartsPromoButton">${esc(db.settings.promoButton||'EXPLORE AUTO PARTS')}</span>
+    <span class="tyreAutoPartsPromoButton">${esc(db.settings.promoButton||'EXPLORE AUTO PARTS')} <b>→</b></span>
   </div>
   <div class="tyreAutoPartsPromoVisual" aria-hidden="true">
     <span>PARTS</span>
