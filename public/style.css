@@ -5349,7 +5349,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 }
 .tyresPromo .tyresTitle h3{
   margin:0 !important;
-  color:#fff !important;
+  color:#fff;
   font-family:'Montserrat',Arial,sans-serif;
   font-size:28px !important;
   line-height:1.05 !important;
@@ -5357,10 +5357,10 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   letter-spacing:-.5px;
   text-shadow:0 2px 8px rgba(0,0,0,.45);
 }
-.tyresPromo .tyresTitle h3 span{color:var(--red) !important;}
+.tyresPromo .tyresTitle h3 span{color:var(--red);}
 .tyresPromo .tyresCopy p{
   margin:9px 0 12px !important;
-  color:#fff !important;
+  color:#fff;
   font-size:12px !important;
   line-height:1.45 !important;
   text-shadow:0 1px 5px rgba(0,0,0,.45);
