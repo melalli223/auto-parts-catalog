@@ -178,42 +178,45 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 @media(max-width:650px){.adminTop{align-items:flex-start;flex-direction:row;gap:10px}.adminTop h1{font-size:24px}.adminHeading{gap:9px}.adminSidebarToggle{width:38px;height:38px;flex-basis:38px}.viewSite{padding:9px 10px}}
 
 /* V39: compact Shop Tyres homepage promotion */
-.site-main:has(.tyresPromo){padding-bottom:0}.tyresPromo{position:relative;min-height:148px;margin:28px 0 0;border-radius:7px;overflow:hidden;background:linear-gradient(105deg,#11171d 0%,#171e25 65%,#10151a 100%);display:grid;grid-template-columns:280px 1fr auto;align-items:center;border:1px solid #252d34;box-shadow:0 6px 18px rgba(17,20,23,.08);cursor:pointer}
+.site-main:has(.tyresPromo){padding-bottom:0}.tyresPromo{position:relative;min-height:148px;margin:28px 0 0;border-radius:7px;overflow:hidden;background:linear-gradient(105deg,#11171d 0%,#171e25 65%,#10151a 100%);display:grid;grid-template-columns:280px 1fr;align-items:center;border:1px solid #252d34;box-shadow:0 6px 18px rgba(17,20,23,.08);cursor:pointer}
 .tyresPromo:after{content:'';position:absolute;right:-35px;bottom:-35px;width:260px;height:130px;background:linear-gradient(135deg,transparent 0 58%,rgba(215,25,32,.72) 58% 64%,transparent 64% 72%,rgba(215,25,32,.35) 72% 76%,transparent 76%);pointer-events:none}
 .tyresArt{height:148px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .tyresArt img{width:100%;height:100%;object-fit:cover;object-position:center;border:0}
-.tyresCopy{position:relative;z-index:2;padding:16px 22px 16px 18px}
+.tyresCopy{position:relative;z-index:2;padding:16px 22px 52px 18px}
 .tyresTitle{display:flex;align-items:center;gap:10px}
 .tyresTitle h3{font-family:'Montserrat',Arial,sans-serif;font-size:25px;line-height:1;margin:0;color:#fff;font-weight:900;letter-spacing:-.5px}
 .tyresTitle h3 span{color:var(--red)}
 .tyresIcon{color:var(--red);font-size:24px;font-weight:900}
 .tyresCopy p{margin:8px 0 11px;color:#d8dde1;font-size:12px;line-height:1.45}
-.tyresBtn{padding:10px 15px;font-size:10px}
-.tyresArrow{position:relative;z-index:2;color:#fff;font-size:35px;padding:0 22px 0 8px;line-height:1}
+.tyresCtaRow{position:absolute;right:22px;bottom:10px;z-index:3;display:flex;align-items:center;gap:7px}
+.tyresBtn{padding:0;border:0;background:none;font-size:10px;line-height:1;white-space:nowrap;cursor:pointer}
+.tyresArrow{position:relative;z-index:2;color:#fff;font-size:35px;padding:0;line-height:1}
 .tyresPage{min-height:360px;margin-top:24px;border-radius:10px;background:#171d23;color:#fff;display:grid;grid-template-columns:42% 1fr;align-items:center;overflow:hidden}
 .tyresPageArt{height:360px}.tyresPageArt img{width:100%;height:100%;object-fit:cover;object-position:center}
 .tyresPage>div:last-child{padding:40px}.tyresPage h1{font-family:'Montserrat',Arial,sans-serif;font-size:42px;margin:8px 0 12px}.tyresPage p{color:#c8ced3;max-width:520px;margin:0 0 22px}
 /* V40: compact tyre promo tuned for tablets and phones */
 @media(max-width:800px){
-  .tyresPromo{min-height:116px;grid-template-columns:148px minmax(0,1fr) 28px;margin:38px 0 30px;border-radius:7px}
+  .tyresPromo{min-height:116px;grid-template-columns:148px minmax(0,1fr);margin:38px 0 30px;border-radius:7px}
   .tyresArt{height:116px;min-width:0;padding:8px 0 8px 5px}
   .tyresArt img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
-  .tyresCopy{min-width:0;padding:10px 7px 10px 9px}
+  .tyresCopy{min-width:0;padding:10px 7px 34px 9px}
   .tyresTitle{gap:5px;white-space:nowrap}
   .tyresTitle h3{font-size:18px;letter-spacing:-.3px}
   .tyresIcon{font-size:16px;flex:0 0 auto}
   .tyresCopy p{font-size:9px;line-height:1.32;margin:5px 0 7px}
-  .tyresBtn{padding:7px 9px;font-size:8px;white-space:nowrap}
-  .tyresArrow{font-size:25px;padding:0 7px 0 0}
+  .tyresCtaRow{right:7px;bottom:7px;gap:5px}
+  .tyresBtn{padding:0;font-size:8px;white-space:nowrap}
+  .tyresArrow{font-size:25px;padding:0}
 }
 @media(max-width:520px){
-  .tyresPromo{min-height:108px;grid-template-columns:122px minmax(0,1fr) 24px;margin:38px 0 0}
+  .tyresPromo{min-height:108px;grid-template-columns:122px minmax(0,1fr);margin:38px 0 0}
   .tyresArt{height:108px;padding:8px 0 8px 5px}
-  .tyresCopy{padding:9px 4px 9px 7px}
+  .tyresCopy{padding:9px 4px 32px 7px}
   .tyresTitle h3{font-size:16px}
   .tyresIcon{font-size:14px}
   .tyresCopy p{font-size:8px;margin:4px 0 6px}
-  .tyresBtn{padding:6px 8px;font-size:7.5px}
+  .tyresCtaRow{right:4px;bottom:5px;gap:4px}
+  .tyresBtn{padding:0;font-size:7.5px}
   .tyresArrow{font-size:23px}
 }
 @media(max-width:650px){
