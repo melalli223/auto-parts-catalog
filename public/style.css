@@ -5444,3 +5444,29 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyrePromoColor{width:42px;height:42px;padding:3px;border:1px solid #d7dbde;border-radius:5px;background:#fff;cursor:pointer}
 .tyrePromoTextControl textarea + .tyrePromoColor{height:auto;min-height:66px}
 @media(max-width:650px){.tyrePromoTextControl{grid-template-columns:minmax(0,1fr) 40px}.tyrePromoColor{width:40px}}
+
+
+/* V63: Make Shop Tyres promo text alignment use the full promo box on desktop and phone. */
+.tyresPromo .tyresCopy{
+  left:0 !important;
+  top:50% !important;
+  width:100% !important;
+  max-width:none !important;
+  box-sizing:border-box !important;
+  padding:18px 72px 18px 30px !important;
+}
+.tyresPromo .tyresTitle,
+.tyresPromo .tyresCopy p{
+  width:100% !important;
+}
+.tyresPromo .tyresBtn{
+  align-self:auto !important;
+}
+@media(max-width:800px){
+  .tyresPromo .tyresCopy{
+    left:0 !important;
+    width:100% !important;
+    max-width:none !important;
+    padding:14px 52px 14px 18px !important;
+  }
+}
