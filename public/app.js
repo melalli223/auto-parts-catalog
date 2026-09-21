@@ -383,28 +383,39 @@ function goToHomeHeroSlide(index){
  window.__homeHeroHeroIndex=next;
 }
 function initHomeHeroSwipe(){
- const el=document.getElementById('homeHeroSlider');if(!el||el.dataset.swipeReady==='true')return;
+ const el=document.querySelector('.site-main > .autoPartsHero');if(!el||el.dataset.swipeReady==='true')return;
  el.dataset.swipeReady='true';
- let startX=0,startY=0,dragging=false;
+ let startX=0,startY=0,dragging=false,moved=false;
  const finish=(endX,endY)=>{
    if(!dragging)return;
    dragging=false;
    const dx=endX-startX,dy=endY-startY;
    if(Math.abs(dx)<45||Math.abs(dx)<=Math.abs(dy))return;
    const slides=[...el.querySelectorAll('.homeHeroSlide')];if(slides.length<2)return;
-   const current=slides.findIndex(x=>x.classList.contains('active'));
-   if(current<0)return;
+   const current=slides.findIndex(x=>x.classList.contains('active'));if(current<0)return;
    goToHomeHeroSlide(dx<0?current+1:current-1);
  };
  el.addEventListener('pointerdown',e=>{
    if(e.pointerType==='mouse'&&e.button!==0)return;
-   startX=e.clientX;startY=e.clientY;dragging=true;
+   startX=e.clientX;startY=e.clientY;dragging=true;moved=false;
+   try{e.target.setPointerCapture?.(e.pointerId)}catch{}
+ });
+ el.addEventListener('pointermove',e=>{
+   if(!dragging)return;
+   if(Math.abs(e.clientX-startX)>10||Math.abs(e.clientY-startY)>10)moved=true;
  });
  el.addEventListener('pointerup',e=>finish(e.clientX,e.clientY));
  el.addEventListener('pointercancel',()=>{dragging=false});
- el.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')finish(e.clientX,e.clientY)});
+ el.addEventListener('touchstart',e=>{
+   const t=e.touches[0];if(!t)return;
+   startX=t.clientX;startY=t.clientY;dragging=true;moved=false;
+ },{passive:true});
+ el.addEventListener('touchend',e=>{
+   const t=e.changedTouches[0];if(t)finish(t.clientX,t.clientY);
+ },{passive:true});
+ el.addEventListener('touchcancel',()=>{dragging=false},{passive:true});
  el.addEventListener('click',e=>{
-   if(Math.abs((e.clientX||0)-startX)>45)e.preventDefault();
+   if(moved){e.preventDefault();e.stopPropagation();moved=false}
  });
 }
 function initHomeHeroSlider(images){
