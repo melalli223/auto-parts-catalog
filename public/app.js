@@ -382,20 +382,41 @@ function goToHomeHeroSlide(index){
  updateHomeHeroDots(next);
  window.__homeHeroHeroIndex=next;
 }
+function initHomeHeroSwipe(){
+ const el=document.getElementById('homeHeroSlider');if(!el||el.dataset.swipeReady==='true')return;
+ el.dataset.swipeReady='true';
+ let startX=0,startY=0,dragging=false;
+ const finish=(endX,endY)=>{
+   if(!dragging)return;
+   dragging=false;
+   const dx=endX-startX,dy=endY-startY;
+   if(Math.abs(dx)<45||Math.abs(dx)<=Math.abs(dy))return;
+   const slides=[...el.querySelectorAll('.homeHeroSlide')];if(slides.length<2)return;
+   const current=slides.findIndex(x=>x.classList.contains('active'));
+   if(current<0)return;
+   goToHomeHeroSlide(dx<0?current+1:current-1);
+ };
+ el.addEventListener('pointerdown',e=>{
+   if(e.pointerType==='mouse'&&e.button!==0)return;
+   startX=e.clientX;startY=e.clientY;dragging=true;
+ });
+ el.addEventListener('pointerup',e=>finish(e.clientX,e.clientY));
+ el.addEventListener('pointercancel',()=>{dragging=false});
+ el.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')finish(e.clientX,e.clientY)});
+ el.addEventListener('click',e=>{
+   if(Math.abs((e.clientX||0)-startX)>45)e.preventDefault();
+ });
+}
 function initHomeHeroSlider(images){
  if(window.__homeHeroSliderTimer)clearInterval(window.__homeHeroSliderTimer);
  const list0=[...(document.querySelectorAll('#homeHeroSlider .homeHeroSlide')||[])];
- if(list0.length){applyHomeHeroText(list0[0]);updateHomeHeroDots(0);window.__homeHeroHeroIndex=0;}
+ if(list0.length){applyHomeHeroText(list0[0]);updateHomeHeroDots(0);window.__homeHeroHeroIndex=0;initHomeHeroSwipe();}
  if(!images||images.length<2)return;
- let idx=0;
  window.__homeHeroSliderTimer=setInterval(()=>{
    const el=document.getElementById('homeHeroSlider');if(!el){clearInterval(window.__homeHeroSliderTimer);return}
    const slides=[...el.querySelectorAll('.homeHeroSlide')];if(!slides.length)return;
-   idx=(idx+1)%slides.length;
-   slides.forEach((x,i)=>x.classList.toggle('active',i===idx));
-   applyHomeHeroText(slides[idx]);
-   updateHomeHeroDots(idx);
-   window.__homeHeroHeroIndex=idx;
+   const idx=((window.__homeHeroHeroIndex||0)+1)%slides.length;
+   goToHomeHeroSlide(idx);
  },4000);
 }
 
