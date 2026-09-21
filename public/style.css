@@ -5379,13 +5379,6 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyresPromo .tyresBtn{padding:8px 11px !important;font-size:9px !important;}
 }
 
-/* V59: Editable text sections for each Shop Tyres promo image. */
-.tyrePromoTextEditors{display:grid;gap:12px;margin-top:14px}
-.tyrePromoTextCard{margin:0 !important}
-.tyrePromoTextFields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tyrePromoTextFields .formGroup:nth-child(3){grid-column:1/-1}
-@media(max-width:650px){.tyrePromoTextFields{grid-template-columns:1fr}.tyrePromoTextFields .formGroup:nth-child(3){grid-column:auto}}
-
 /* V57: Static image galleries for Tyre admin hero and Shop Tyres promo. */
 .tyreAdminImageGallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
 .tyreAdminGalleryItem{position:relative;height:120px;border:1px solid #e0e4e7;background:#fafbfb;border-radius:6px;overflow:hidden}
