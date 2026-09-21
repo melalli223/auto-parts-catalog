@@ -5524,3 +5524,23 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyresPromo .tyresCopy{padding-right:70px !important;}
   .tyresPromo .tyresBtn{right:40px !important;bottom:14px !important;}
 }
+
+/* V65: Make Shop Tyres promo action frameless and place it beside the arrow. */
+.tyresPromo .tyresBtn{
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  display:inline-block !important;
+  align-self:auto !important;
+  border-radius:0 !important;
+  font-weight:800 !important;
+}
+.tyresPromo .tyresArrow{
+  display:flex !important;
+  align-items:center !important;
+}
