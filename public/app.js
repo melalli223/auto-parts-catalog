@@ -483,9 +483,20 @@ function initTyresPromoSlideshow(){
    const title=copy.querySelector('.tyresTitle h3');
    const desc=copy.querySelector('p');
    const button=copy.querySelector('.tyresBtn');
-   if(title)title.innerHTML=esc(t.title||'')+' <span>'+esc(t.highlight||'')+'</span>';
-   if(desc)desc.innerHTML=esc(t.desc||'').replace(/\n/g,'<br>');
-   if(button)button.textContent=t.button||'';
+   if(title){
+     title.innerHTML=esc(t.title||'')+' <span>'+esc(t.highlight||'')+'</span>';
+     title.style.color=t.titleColor||'#ffffff';
+     const hs=title.querySelector('span');
+     if(hs)hs.style.color=t.highlightColor||'#d71920';
+   }
+   if(desc){
+     desc.innerHTML=esc(t.desc||'').replace(/\n/g,'<br>');
+     desc.style.color=t.descColor||'#ffffff';
+   }
+   if(button){
+     button.textContent=t.button||'';
+     button.style.color=t.buttonColor||'#ffffff';
+   }
  };
  applyPromoText(0);
  if(images.length<2)return;
