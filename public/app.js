@@ -451,7 +451,7 @@ function home(){
    </p>
 
    <div class="tyresCtaRow">
-    <span class="tyresBtn">EXPLORE TYRES →</span><span class="tyresArrow" aria-hidden="true"></span>
+    <span class="tyresBtn">EXPLORE TYRES <span class="tyresInlineArrow" aria-hidden="true">›</span></span>
    </div>
   </div>
  </section>
