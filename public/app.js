@@ -450,13 +450,14 @@ function home(){
     Find tyres made for your journey.
    </p>
 
-   <button class="primary tyresBtn"
-    onclick="event.stopPropagation();tyres()">
-    EXPLORE TYRES →
-   </button>
+   <div class="tyresCtaRow">
+    <button class="tyresBtn"
+     onclick="event.stopPropagation();tyres()">
+     EXPLORE TYRES →
+    </button>
+    <span class="tyresArrow" aria-hidden="true"></span>
+   </div>
   </div>
-
-  <span class="tyresArrow" aria-hidden="true"></span>
  </section>
  `)
  const homeHeroImages=Array.isArray(db.settings.heroImages)&&db.settings.heroImages.length
