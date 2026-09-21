@@ -5966,3 +5966,56 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     line-height:1.3 !important;
   }
 }
+
+
+/* FINAL: Keep the three Admin text alignments (left/center/right) and only correct their shared vertical position. */
+.site-main > .tyresPromo .tyresCopy{
+  left:0 !important;
+  top:48% !important;
+  transform:translateY(-50%) !important;
+  width:100% !important;
+  max-width:none !important;
+  box-sizing:border-box !important;
+  padding:0 30px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  /* JS sets alignItems/textAlign from the Admin alignment setting. */
+  text-align:inherit !important;
+}
+.site-main > .tyresPromo .tyresTitle,
+.site-main > .tyresPromo .tyresCopy p{
+  width:auto !important;
+  max-width:460px !important;
+  text-align:inherit !important;
+}
+.site-main > .tyresPromo .tyresTitle{
+  margin:0 !important;
+}
+.site-main > .tyresPromo .tyresTitle h3{
+  margin:0 !important;
+  text-align:inherit !important;
+}
+.site-main > .tyresPromo .tyresCopy p{
+  margin:9px 0 0 !important;
+  font-size:18px !important;
+  line-height:1.35 !important;
+}
+@media(max-width:800px){
+  .site-main > .tyresPromo .tyresCopy{
+    left:0 !important;
+    top:48% !important;
+    transform:translateY(-50%) !important;
+    width:100% !important;
+    padding:0 18px !important;
+  }
+  .site-main > .tyresPromo .tyresTitle,
+  .site-main > .tyresPromo .tyresCopy p{
+    max-width:calc(100vw - 58px) !important;
+  }
+  .site-main > .tyresPromo .tyresCopy p{
+    margin-top:6px !important;
+    font-size:16px !important;
+    line-height:1.3 !important;
+  }
+}
