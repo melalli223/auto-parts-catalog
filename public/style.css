@@ -5695,8 +5695,8 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 /* FINAL: Tyre Promo CTA — keep text visible directly beside the existing bottom arrow. */
 .site-main > .tyresPromo .tyresCtaRow{
   position:absolute !important;
-  right:16px !important;
-  bottom:5px !important;
+  right:8px !important;
+  bottom:4px !important;
   z-index:6 !important;
   display:flex !important;
   align-items:center !important;
