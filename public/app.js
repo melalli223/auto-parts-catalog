@@ -479,11 +479,13 @@ function initTyresPromoSlideshow(){
    const t=promoTexts[i%promoTexts.length];
    const align=t.align||'left';
    const alignMap={left:'flex-start',center:'center',right:'flex-end'};
-   copy.style.textAlign=align;
-   copy.style.alignItems=alignMap[align]||'flex-start';
+   /* The Admin editor has a separate left/center/right alignment for every promo slide.
+      Use important inline styles so older CSS overrides cannot force every slide to the left. */
+   copy.style.setProperty('text-align',align,'important');
+   copy.style.setProperty('align-items',alignMap[align]||'flex-start','important');
    const title=copy.querySelector('.tyresTitle h3');
    const titleWrap=copy.querySelector('.tyresTitle');
-   if(titleWrap)titleWrap.style.justifyContent=alignMap[align]||'flex-start';
+   if(titleWrap)titleWrap.style.setProperty('justify-content',alignMap[align]||'flex-start','important');
    const desc=copy.querySelector('p');
    const button=copy.querySelector('.tyresBtn');
    if(title){
