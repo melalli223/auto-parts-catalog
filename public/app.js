@@ -442,18 +442,17 @@ function home(){
 
   <div class="tyresCopy">
    <div class="tyresTitle">
-    <span class="tyresIcon">◉</span>
-    <h3>SHOP <span>TYRES</span></h3>
+    <h3>FIND YOUR <span>PERFECT TYRES</span></h3>
    </div>
 
    <p>
-    Find the right tyres for your vehicle.<br>
-    Browse by brand, size and type.
+    Drive with confidence.<br>
+    Find tyres made for your journey.
    </p>
 
    <button class="primary tyresBtn"
     onclick="event.stopPropagation();tyres()">
-    SHOP TYRES →
+    EXPLORE TYRES →
    </button>
   </div>
 
