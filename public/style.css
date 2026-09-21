@@ -5878,3 +5878,47 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     bottom:0 !important;
   }
 }
+
+
+/* FINAL: Refine Tyre Promo text positioning and alignment across desktop/mobile. */
+.site-main > .tyresPromo .tyresCopy{
+  left:30px !important;
+  top:48% !important;
+  transform:translateY(-50%) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  text-align:left !important;
+  width:auto !important;
+  max-width:460px !important;
+  padding:0 !important;
+}
+.site-main > .tyresPromo .tyresTitle,
+.site-main > .tyresPromo .tyresTitle h3,
+.site-main > .tyresPromo .tyresCopy p{
+  text-align:left !important;
+  margin-left:0 !important;
+}
+.site-main > .tyresPromo .tyresTitle{
+  margin-bottom:0 !important;
+}
+.site-main > .tyresPromo .tyresCopy p{
+  margin-top:9px !important;
+  margin-bottom:0 !important;
+  font-size:18px !important;
+  line-height:1.35 !important;
+}
+@media(max-width:800px){
+  .site-main > .tyresPromo .tyresCopy{
+    left:18px !important;
+    top:48% !important;
+    transform:translateY(-50%) !important;
+    max-width:calc(100% - 58px) !important;
+  }
+  .site-main > .tyresPromo .tyresCopy p{
+    margin-top:6px !important;
+    font-size:16px !important;
+    line-height:1.3 !important;
+  }
+}
