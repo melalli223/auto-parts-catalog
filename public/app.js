@@ -35,7 +35,7 @@ contact:{
   x:'',
   contactImage:''
 },
-hero:{title:'FIND WHEELS & TYRES',red:'FOR ALL VEHICLE TYPES',description:'High quality tyres for better performance,\nsafety and a smoother ride.',image:'/assets/tyre-ref/hero.png',images:['/assets/tyre-ref/hero.png']},features:[{key:'winter',title:'WINTER',subtitle:'TYRES',image:'/assets/tyre-ref/feature-winter.jpg',message:'Hello, I would like to enquire about winter tyres.'},{key:'summer',title:'SUMMER',subtitle:'TYRES',image:'/assets/tyre-ref/feature-summer.jpg',message:'Hello, I would like to enquire about summer tyres.'},{key:'custom',title:'CUSTOM',subtitle:'WHEELS',image:'/assets/tyre-ref/feature-custom.jpg',message:'Hello, I would like to enquire about custom wheels.'}],brands:[{name:'Bridgestone',image:'/assets/tyre-ref/mobile-brand-1.jpg'},{name:'Triangle',image:'/assets/tyre-ref/mobile-brand-2.jpg'},{name:'Apollo',image:'/assets/tyre-ref/mobile-brand-3.jpg'},{name:'Michelin',image:'/assets/tyre-ref/mobile-brand-4.jpg'},{name:'Aeolus',image:'/assets/tyre-ref/mobile-brand-5.jpg'}],featured:[{title:'Passenger',description:'Comfort · Performance · Everyday Use',image:'/assets/featured-tyre-1.png'},{title:'SUV / 4x4',description:'Durability · All Terrain · Adventure',image:'/assets/featured-tyre-2.png'},{title:'Pickup',description:'Strength · Load Capacity · Tough Roads',image:'/assets/featured-tyre-3.png'},{title:'Truck & Commercial',description:'Heavy Duty · Long Haul · Reliability',image:'/assets/featured-tyre-4.png'}],bottomImage:'/assets/tyre-ref/mobile-bottom.jpg',findByCar:{image:'',homeImage:'',bottomImage:''},findByNumber:{image:'',homeImage:'',bottomImage:''}};
+hero:{title:'FIND WHEELS & TYRES',red:'FOR ALL VEHICLE TYPES',description:'High quality tyres for better performance,\nsafety and a smoother ride.',image:'/assets/tyre-ref/hero.png',images:['/assets/tyre-ref/hero.png']},features:[{key:'winter',title:'WINTER',subtitle:'TYRES',image:'/assets/tyre-ref/feature-winter.jpg',message:'Hello, I would like to enquire about winter tyres.'},{key:'summer',title:'SUMMER',subtitle:'TYRES',image:'/assets/tyre-ref/feature-summer.jpg',message:'Hello, I would like to enquire about summer tyres.'},{key:'custom',title:'CUSTOM',subtitle:'WHEELS',image:'/assets/tyre-ref/feature-custom.jpg',message:'Hello, I would like to enquire about custom wheels.'}],brands:[{name:'Bridgestone',image:'/assets/tyre-ref/mobile-brand-1.jpg'},{name:'Triangle',image:'/assets/tyre-ref/mobile-brand-2.jpg'},{name:'Apollo',image:'/assets/tyre-ref/mobile-brand-3.jpg'},{name:'Michelin',image:'/assets/tyre-ref/mobile-brand-4.jpg'},{name:'Aeolus',image:'/assets/tyre-ref/mobile-brand-5.jpg'}],featured:[{title:'Passenger',description:'Comfort · Performance · Everyday Use',image:'/assets/featured-tyre-1.png'},{title:'SUV / 4x4',description:'Durability · All Terrain · Adventure',image:'/assets/featured-tyre-2.png'},{title:'Pickup',description:'Strength · Load Capacity · Tough Roads',image:'/assets/featured-tyre-3.png'},{title:'Truck & Commercial',description:'Heavy Duty · Long Haul · Reliability',image:'/assets/featured-tyre-4.png'}],bottomImage:'/assets/tyre-ref/mobile-bottom.jpg',promoImages:[],findByCar:{image:'',homeImage:'',bottomImage:''},findByNumber:{image:'',homeImage:'',bottomImage:''}};
 let db=JSON.parse(localStorage.getItem(KEY)||'null')||clone(defaults);
 function normalizeDb(){
  db.settings={...clone(defaults.settings),...(db.settings||{})}; db.tyres={
@@ -45,7 +45,7 @@ function normalizeDb(){
     ...clone(defaultTyres.contact),
     ...((db.tyres||{}).contact||{})
   },
-  hero:{...clone(defaultTyres.hero),...((db.tyres||{}).hero||{})},findByCar:{...clone(defaultTyres.findByCar),...((db.tyres||{}).findByCar||{})},findByNumber:{...clone(defaultTyres.findByNumber),...((db.tyres||{}).findByNumber||{})},features:Array.isArray(db.tyres?.features)&&db.tyres.features.length===3?db.tyres.features:clone(defaultTyres.features),brands:Array.isArray(db.tyres?.brands)&&db.tyres.brands.length>0?db.tyres.brands:clone(defaultTyres.brands),featured:Array.isArray(db.tyres?.featured)&&db.tyres.featured.length>0?db.tyres.featured:clone(defaultTyres.featured)};
+  hero:{...clone(defaultTyres.hero),...((db.tyres||{}).hero||{})},findByCar:{...clone(defaultTyres.findByCar),...((db.tyres||{}).findByCar||{})},findByNumber:{...clone(defaultTyres.findByNumber),...((db.tyres||{}).findByNumber||{})},promoImages:Array.isArray(db.tyres?.promoImages)?db.tyres.promoImages.filter(Boolean):[],features:Array.isArray(db.tyres?.features)&&db.tyres.features.length===3?db.tyres.features:clone(defaultTyres.features),brands:Array.isArray(db.tyres?.brands)&&db.tyres.brands.length>0?db.tyres.brands:clone(defaultTyres.brands),featured:Array.isArray(db.tyres?.featured)&&db.tyres.featured.length>0?db.tyres.featured:clone(defaultTyres.featured)};
  if(!db.settings.heroImage)db.settings.heroImage='';
  db.brands=Array.isArray(db.brands)?db.brands.map((b,i)=>({...b,isEv:b?.isEv===true,isRegular:b?.isRegular!==false,sortOrder:Number.isFinite(Number(b?.sortOrder))?Number(b.sortOrder):0,createdAt:b?.createdAt||''})):[];db.models=Array.isArray(db.models)?db.models:[];db.years=Array.isArray(db.years)?db.years:[];db.parts=Array.isArray(db.parts)?db.parts:[];db.branches=Array.isArray(db.branches)?db.branches:[];
  for(const p of db.parts){const ys=Array.isArray(p.years)?p.years.map(String).filter(Boolean):(p.year?[String(p.year)]:[]);p.years=[...new Set(ys)];if(!p.year&&p.years[0])p.year=p.years[0];if(p.price!==null&&p.price!==undefined&&p.price!==''){const n=Number(p.price);p.price=Number.isFinite(n)&&n>0?n:null}else p.price=null;}
@@ -437,7 +437,7 @@ function home(){
   onkeydown="if(event.key==='Enter'||event.key===' ')tyres()">
 
   <div class="tyresArt">
-   <img src="/assets/tyres-banner.png" alt="Car tyres">
+   <div class="tyresPromoSlides" aria-hidden="true"></div>
   </div>
 
   <div class="tyresCopy">
@@ -464,6 +464,26 @@ function home(){
   ? db.settings.heroImages
   : (db.settings.heroImage?[db.settings.heroImage]:[]);
  initHomeHeroSlider(homeHeroImages);
+ initTyresPromoSlideshow();
+}
+
+let tyresPromoSlideTimer=null;
+function initTyresPromoSlideshow(){
+ clearInterval(tyresPromoSlideTimer);
+ const box=document.querySelector('.tyresPromoSlides');
+ if(!box)return;
+ const images=(db.tyres?.promoImages||[]).filter(Boolean);
+ if(!images.length){box.innerHTML='';return;}
+ box.innerHTML=images.map((src,i)=>'<img class="tyresPromoSlide '+(i===0?'active':'')+'" src="'+esc(src)+'" alt="Tyre promotion image '+(i+1)+'">').join('');
+ if(images.length<2)return;
+ let idx=0;
+ tyresPromoSlideTimer=setInterval(()=>{
+   const slides=[...box.querySelectorAll('.tyresPromoSlide')];
+   if(!slides.length)return;
+   slides[idx]?.classList.remove('active');
+   idx=(idx+1)%slides.length;
+   slides[idx]?.classList.add('active');
+ },4000);
 }
 
 function tyres(){
@@ -832,6 +852,10 @@ function tyresAdmin(c){
   <div class="tyreAdminHeroLayout"><div>${tyreInputRow('White heading','thTitle',hero.title)}${tyreInputRow('Red heading','thRed',hero.red)}<div class="formGroup"><label>Description</label><textarea id="thDesc" class="textarea" rows="4">${esc(hero.description||'')}</textarea></div></div><div class="formGroup"><label>Hero images</label><input id="thAddImage" type="file" accept="image/*" multiple class="input" onchange="addTyreHeroImage(this)"><small class="helpText">Select one or multiple images. They rotate automatically on the Tyre homepage.</small></div></div>
  </div>
  <div class="tyreAdminSubSection">
+  <div class="tyreAdminSubHead"><span>Shop Tyres promo images</span><small>Upload multiple images. They rotate automatically inside the Shop Tyres box on the Auto Parts homepage.</small></div>
+  <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Promo slideshow images</label><input id="tPromoImages" type="file" accept="image/*" multiple class="input"><small class="helpText">Select multiple images at once. New uploads are added to the slideshow.</small></div><div class="tyreAdminPreview "></div></div>
+ </div>
+ <div class="tyreAdminSubSection">
   <div class="tyreAdminSubHead"><span>Bottom image</span><small>Image displayed at the bottom of the Tyre homepage.</small></div>
   <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Bottom image</label><input id="thBottomImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'thBottomImg')"><small class="helpText">This image appears at the bottom of the Tyre homepage.</small></div><div>${preview(t.bottomImage,'Tyre homepage bottom image')}</div></div>
  </div></section>
@@ -910,7 +934,7 @@ async function removeTyreBrand(idx){try{const t=clone(db.tyres||defaultTyres);if
 async function addTyreFeaturedType(){try{const t=clone(db.tyres||defaultTyres);t.featured.push({title:'New Type',description:'',image:''});await saveTyreData(t);toast('Type added — fill in the details and Save');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not add type')}}
 async function removeTyreFeaturedType(idx){try{const t=clone(db.tyres||defaultTyres);if(t.featured.length<=1){toast('Keep at least one type');return}t.featured.splice(idx,1);await saveTyreData(t);toast('Type removed');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not remove type')}}
 async function saveTyreData(t){const {error}=await supabaseClient.from('tyre_page').upsert({id:true,data:t},{onConflict:'id'});if(error)throw error;db.tyres=t;normalizeDb();cacheDb();window.__apCatalogDb=db}
-async function saveTyrePage(){try{const t=clone(db.tyres||defaultTyres);const q=id=>document.querySelector('#'+id);if(q('tbCarHeroImg')||q('tbCarImg')||q('tbHomeCarImg')){t.findByCar=t.findByCar||{};const f=editedImage('tbCarHeroImg');if(f)t.findByCar.image=await uploadImage(f,'product-images','find-by-car-hero');const hf=editedImage('tbHomeCarImg');if(hf)t.findByCar.homeImage=await uploadImage(hf,'product-images','find-by-car-home');const b=editedImage('tbCarImg');if(b)t.findByCar.bottomImage=await uploadImage(b,'product-images','find-by-car-bottom');}if(q('tbNumberHeroImg')||q('tbNumberImg')||q('tbHomeNumberImg')){t.findByNumber=t.findByNumber||{};const f=editedImage('tbNumberHeroImg');if(f)t.findByNumber.image=await uploadImage(f,'product-images','find-by-number-hero');const hf=editedImage('tbHomeNumberImg');if(hf)t.findByNumber.homeImage=await uploadImage(hf,'product-images','find-by-number-home');const b=editedImage('tbNumberImg');if(b)t.findByNumber.bottomImage=await uploadImage(b,'product-images','find-by-number-bottom');}if(q('thTitle')){t.hero.title=q('thTitle').value.trim();t.hero.red=q('thRed').value.trim();t.hero.description=q('thDesc').value.trim();const hf=editedImage('thBottomImg');if(hf)t.bottomImage=await uploadImage(hf,'product-images','tyre-home-bottom');
+async function saveTyrePage(){try{const t=clone(db.tyres||defaultTyres);const q=id=>document.querySelector('#'+id);if(q('tbCarHeroImg')||q('tbCarImg')||q('tbHomeCarImg')){t.findByCar=t.findByCar||{};const f=editedImage('tbCarHeroImg');if(f)t.findByCar.image=await uploadImage(f,'product-images','find-by-car-hero');const hf=editedImage('tbHomeCarImg');if(hf)t.findByCar.homeImage=await uploadImage(hf,'product-images','find-by-car-home');const b=editedImage('tbCarImg');if(b)t.findByCar.bottomImage=await uploadImage(b,'product-images','find-by-car-bottom');}if(q('tbNumberHeroImg')||q('tbNumberImg')||q('tbHomeNumberImg')){t.findByNumber=t.findByNumber||{};const f=editedImage('tbNumberHeroImg');if(f)t.findByNumber.image=await uploadImage(f,'product-images','find-by-number-hero');const hf=editedImage('tbHomeNumberImg');if(hf)t.findByNumber.homeImage=await uploadImage(hf,'product-images','find-by-number-home');const b=editedImage('tbNumberImg');if(b)t.findByNumber.bottomImage=await uploadImage(b,'product-images','find-by-number-bottom');}if(q('thTitle')){t.hero.title=q('thTitle').value.trim();t.hero.red=q('thRed').value.trim();t.hero.description=q('thDesc').value.trim();const promoFiles=[...(q('tPromoImages')?.files||[])];if(promoFiles.length){t.promoImages=Array.isArray(t.promoImages)?t.promoImages:[];for(const f of promoFiles){if(!f.type.startsWith('image/'))throw new Error('Please select image files only');const url=await uploadImage(f,'product-images','auto-parts-tyres-promo');if(url)t.promoImages.push(url)}}const hf=editedImage('thBottomImg');if(hf)t.bottomImage=await uploadImage(hf,'product-images','tyre-home-bottom');
 
     t.contact=t.contact||clone(defaultTyres.contact);
     t.contact.aboutTitle=q('tcAboutTitle')?.value.trim()||'';
