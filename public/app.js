@@ -306,11 +306,11 @@ let currentNav='home';
 function navSection(){return currentNav;}
 function setNav(name){currentNav=name;}
 
-function header(overlay=false){
+function header(){
  if(isAdminRoute())return '';
  const active=navSection();
  const on=(name)=>active===name?' active':'';
- const heroBg=overlay?"":(db.settings.heroImage||""); return \`<header class="siteHeader ${overlay?"heroHeaderOverlay":""} ${heroBg?"hasHeaderImage":""}" ${heroBg?\`style="background-image:url('\\${esc(heroBg)}')"\`:""}><div class="nav">
+ const heroBg=db.settings.heroImage||""; return `<header class="siteHeader ${heroBg?"hasHeaderImage":""}" ${heroBg?`style="background-image:url('${esc(heroBg)}')"`:""}><div class="nav"><a class="logo" href="./" aria-label="Home" onclick="navigateFromHeader('home',this,event)">${logo()}</a><nav aria-label="Main navigation"><button class="${on('home')}" data-nav="home" onclick="navigateFromHeader('home',this,event)">HOME</button><button class="${on('brands')}" data-nav="brands" onclick="navigateFromHeader('brands',this,event)">BRANDS</button><button class="${on('ev')}" data-nav="ev" onclick="navigateFromHeader('ev',this,event)">EV</button><button class="${on('categories')}" data-nav="categories" onclick="navigateFromHeader('categories',this,event)">CATEGORIES</button><button class="${on('contact')}" data-nav="contact" onclick="navigateFromHeader('contact',this,event)">CONTACT</button><button class="searchBtn" data-nav="categories" onclick="navigateFromHeader('search',this,event)" aria-label="Search">⌕</button></nav></div></header>`
 }
 function navigateFromHeader(target,button,event){
  if(event){event.preventDefault();event.stopPropagation();}
