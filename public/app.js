@@ -451,11 +451,7 @@ function home(){
    </p>
 
    <div class="tyresCtaRow">
-    <button class="tyresBtn"
-     onclick="event.stopPropagation();tyres()">
-     EXPLORE TYRES →
-    </button>
-    <span class="tyresArrow" aria-hidden="true"></span>
+    <span class="tyresBtn">EXPLORE TYRES →</span><span class="tyresArrow" aria-hidden="true"></span>
    </div>
   </div>
  </section>
