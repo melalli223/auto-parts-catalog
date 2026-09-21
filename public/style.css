@@ -5258,3 +5258,15 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreAdminSubHead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #e2e6e9}
 .tyreAdminSubHead span{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#252a2e}
 .tyreAdminSubHead small{font-size:10px;color:#7a8288}
+
+
+/* V51: Shop Tyres promo reaches the container/page edges on desktop and mobile. */
+@media (min-width:1001px){
+  .site-main .container .tyresPromo{width:calc(100% + 84px);margin-left:-42px;margin-right:-42px;}
+}
+@media (max-width:1000px){
+  .site-main .container .tyresPromo{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px;}
+}
+@media (max-width:650px){
+  .site-main .container .tyresPromo{width:calc(100% + 28px);margin-left:-14px;margin-right:-14px;}
+}
