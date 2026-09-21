@@ -449,10 +449,10 @@ function home(){
     Drive with confidence.<br>
     Find tyres made for your journey.
    </p>
+  </div>
 
-   <div class="tyresCtaRow">
-    <span class="tyresBtn">EXPLORE TYRES <span class="tyresInlineArrow" aria-hidden="true">›</span></span>
-   </div>
+  <div class="tyresCtaRow">
+   <span class="tyresBtn">EXPLORE TYRES <span class="tyresInlineArrow" aria-hidden="true">›</span></span>
   </div>
  </section>
  `)
