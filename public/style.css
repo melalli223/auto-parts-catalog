@@ -5734,6 +5734,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   position:static !important;
   display:inline-block !important;
   width:auto !important;
+  margin-left:-6px !important;
   height:auto !important;
   margin:0 !important;
   padding:0 !important;
