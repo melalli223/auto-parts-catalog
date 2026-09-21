@@ -5284,3 +5284,12 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 /* V53: Shop Tyres promo keeps only the side arrow. */
 .tyresPromo .tyresArt,
 .tyresPromo .tyresCopy{display:none !important;}
+
+
+/* V54: restore Shop Tyres side arrow placement after content removal. */
+.tyresPromo{grid-template-columns:1fr auto !important;}
+.tyresPromo .tyresArrow{grid-column:2;justify-self:end;position:relative;right:auto;padding:0 22px 0 8px;}
+@media(max-width:800px){
+  .tyresPromo{grid-template-columns:1fr 28px !important;}
+  .tyresPromo .tyresArrow{grid-column:2;justify-self:end;padding:0 8px 0 0;}
+}
