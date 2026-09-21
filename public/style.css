@@ -5302,3 +5302,36 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyresPromoSlide.active{opacity:1;}
 .tyresPromo .tyresCopy{display:none !important;}
 .tyresPromo .tyresArrow{z-index:4;}
+
+
+/* V56: Shop Tyres promo images fill the entire box frame. */
+.tyresPromo{overflow:hidden !important;}
+.tyresPromo .tyresArt{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+.tyresPromoSlides{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+}
+.tyresPromoSlide{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  margin:0 !important;
+  padding:0 !important;
+}
