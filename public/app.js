@@ -456,7 +456,7 @@ function home(){
    </button>
   </div>
 
-  <span class="tyresArrow">›</span>
+  <span class="tyresArrow" aria-hidden="true"></span>
  </section>
  `)
  const homeHeroImages=Array.isArray(db.settings.heroImages)&&db.settings.heroImages.length
