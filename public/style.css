@@ -6058,6 +6058,9 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 }
 
 /* Auto Parts hero: allow horizontal hand swiping while preserving vertical page scroll */
+.site-main > .autoPartsHero{
+  touch-action:pan-y !important;
+}
 .site-main > .autoPartsHero .homeHeroSlider{
   touch-action:pan-y !important;
   cursor:grab !important;
