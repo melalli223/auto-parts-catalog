@@ -5490,3 +5490,37 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     text-align:inherit !important;
   }
 }
+
+
+/* V65: Shop Tyres promo CTA is text-only and sits beside the box arrow. */
+.tyresPromo .tyresBtn{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  width:auto !important;
+  min-width:0 !important;
+  border-radius:0 !important;
+  font-weight:800 !important;
+  letter-spacing:.3px !important;
+  color:#fff !important;
+}
+.tyresPromo .tyresBtn:hover{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  color:#fff !important;
+}
+.tyresPromo .tyresCopy{
+  padding-right:105px !important;
+}
+.tyresPromo .tyresBtn{
+  position:absolute !important;
+  right:55px !important;
+  bottom:18px !important;
+  margin:0 !important;
+}
+@media(max-width:800px){
+  .tyresPromo .tyresCopy{padding-right:70px !important;}
+  .tyresPromo .tyresBtn{right:40px !important;bottom:14px !important;}
+}
