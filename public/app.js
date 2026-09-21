@@ -497,7 +497,7 @@ function initTyresPromoSlideshow(){
      desc.style.color=t.descColor||'#ffffff';
    }
    if(button){
-     button.textContent=String(t.button||'').replace(/\s*→\s*$/,'');
+     button.innerHTML=esc(String(t.button||'').replace(/\s*→\s*$/,''))+' <span class="tyresInlineArrow" aria-hidden="true">›</span>';
      button.style.color=t.buttonColor||'#ffffff';
      button.style.textAlign=align;
      button.style.marginLeft=align==='center'?'auto':align==='right'?'auto':'0';
