@@ -5270,3 +5270,12 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 @media (max-width:650px){
   .site-main > .tyresPromo{width:calc(100% + 28px);margin-left:-14px;margin-right:-14px;}
 }
+
+
+/* V52: Shop Tyres promo height and square corners only. */
+.tyresPromo{min-height:190px !important;height:190px !important;border-radius:0 !important;}
+.tyresPromo .tyresArt{height:190px !important;}
+@media(max-width:800px){
+  .tyresPromo{min-height:150px !important;height:150px !important;border-radius:0 !important;}
+  .tyresPromo .tyresArt{height:150px !important;}
+}
