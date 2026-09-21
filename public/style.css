@@ -5470,3 +5470,23 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     padding:14px 52px 14px 18px !important;
   }
 }
+
+
+/* V64: Align the Shop Tyres promo heading itself with the selected text alignment. */
+.tyresPromo .tyresTitle{
+  display:block !important;
+  width:100% !important;
+  text-align:inherit !important;
+}
+.tyresPromo .tyresTitle h3{
+  display:block !important;
+  width:100% !important;
+  text-align:inherit !important;
+}
+@media(max-width:800px){
+  .tyresPromo .tyresTitle,
+  .tyresPromo .tyresTitle h3{
+    width:100% !important;
+    text-align:inherit !important;
+  }
+}
