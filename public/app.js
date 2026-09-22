@@ -1002,7 +1002,8 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  else if(tyreAdminSubTab==='by-car'){sectionsHtml=finderCarSection;showSaveBar=true}
  else if(tyreAdminSubTab==='by-number'){sectionsHtml=finderNumberSection;showSaveBar=true}
  else if(tyreAdminSubTab==='brands'){sectionsHtml=brandsSection;showSaveBar=true}
- else if(tyreAdminSubTab==='featured'){sectionsHtml=featuredSection;showSaveBar=true}\n else if(tyreAdminSubTab==='sizes'){sectionsHtml=sizesSection;showSaveBar=false}
+ else if(tyreAdminSubTab==='featured'){sectionsHtml=featuredSection;showSaveBar=true}
+ else if(tyreAdminSubTab==='sizes'){sectionsHtml=sizesSection;showSaveBar=false}
  else {sectionsHtml=dashboardBody;showSaveBar=false}
  const saveBar=`<div class="tyreAdminSaveBar"><div><strong>Ready to publish?</strong><span>Save your tyre-page changes when finished.</span></div><div><button class="ghost" onclick="location.href='/#tyres'">PREVIEW</button><button class="primary" onclick="saveTyrePage()">SAVE TYRE PAGE</button></div></div>`;
  c.innerHTML=`
