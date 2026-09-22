@@ -122,7 +122,7 @@ function addPanelLink(){
  addDashboardCard();
 }
 function hideOldHeroImageEditor(){const el=document.querySelector('.tyreAdminHeroCard .tyreHeroGalleryWrap');if(el)el.style.display='none'}
-function observe(){addStyles();if(location.hash==='#tyres/find-by-car'){window.tyreAdminSubTab='findByCar';if(!document.querySelector('.findTyresAdminCard'))makePage()}addSidebarLink();addPanelLink();hideOldHeroImageEditor()}
+function observe(){addStyles();if(location.hash==='#tyres/find-by-car'){window.tyreAdminSubTab='findByCar';if(!document.querySelector('.findTyresAdminCard'))makePage()}document.querySelectorAll('.findTyresSideBtn').forEach(el=>el.remove());addPanelLink();hideOldHeroImageEditor()}
 const observer=new MutationObserver(observe);observer.observe(document.body,{childList:true,subtree:true});
 setTimeout(observe,250);setTimeout(observe,900);setTimeout(observe,1800);setTimeout(observe,3000);
 })();
