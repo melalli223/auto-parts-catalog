@@ -1042,9 +1042,9 @@ async function removeTyreHeroImage(idx){try{const t=clone(db.tyres||defaultTyres
 function openTyreSizeModal(){
  modal(`<div class="tyreSizeModalHead"><span class="eyebrow">TYRE SIZE</span><h2>Add tyre size</h2><p class="muted">Enter the standard measurements. The size label is generated automatically.</p></div>
  <div class="tyreSizeFormGrid">
-  <div class="formGroup"><label>Width <span class="optional">mm</span></label><input id="tsWidth" class="input" type="number" inputmode="numeric" min="100" max="500" step="1" placeholder="205" oninput="previewTyreSize()"><small class="helpText">Section width in millimetres.</small></div>
-  <div class="formGroup"><label>Aspect ratio <span class="optional">%</span></label><input id="tsAspect" class="input" type="number" inputmode="numeric" min="20" max="95" step="1" placeholder="55" oninput="previewTyreSize()"><small class="helpText">Sidewall height as a percentage of width.</small></div>
-  <div class="formGroup"><label>Rim diameter <span class="optional">inches</span></label><input id="tsRim" class="input" type="number" inputmode="numeric" min="10" max="30" step="0.5" placeholder="16" oninput="previewTyreSize()"><small class="helpText">Wheel/rim diameter.</small></div>
+  <div class="formGroup"><label>Width <span class="optional">mm</span></label><input id="tsWidth" class="input" type="number" inputmode="numeric" min="100" max="500" step="1" value="205" oninput="previewTyreSize()"><small class="helpText">Section width in millimetres.</small></div>
+  <div class="formGroup"><label>Aspect ratio <span class="optional">%</span></label><input id="tsAspect" class="input" type="number" inputmode="numeric" min="20" max="95" step="1" value="55" oninput="previewTyreSize()"><small class="helpText">Sidewall height as a percentage of width.</small></div>
+  <div class="formGroup"><label>Rim diameter <span class="optional">inches</span></label><input id="tsRim" class="input" type="number" inputmode="numeric" min="10" max="30" step="0.5" value="16" oninput="previewTyreSize()"><small class="helpText">Wheel/rim diameter.</small></div>
  </div>
  <div class="tyreSizeLivePreview"><span>SIZE PREVIEW</span><strong id="tsPreview">205/55 R16</strong></div>
  <button type="button" class="primary tyreSizeSaveButton" onclick="addTyreSize()">SAVE TYRE SIZE</button>`);
@@ -1055,7 +1055,7 @@ function previewTyreSize(){
  const el=document.querySelector('#tsPreview');if(el)el.textContent=label;
 }
 async function addTyreSize(){
- const w=Number(document.querySelector('#tsWidth')?.value),a=Number(document.querySelector('#tsAspect')?.value),r=Number(document.querySelector('#tsRim')?.value);
+ const w=Number(document.querySelector('#tsWidth')?.value||205),a=Number(document.querySelector('#tsAspect')?.value||55),r=Number(document.querySelector('#tsRim')?.value||16);
  if(!Number.isFinite(w)||w<100||w>500||!Number.isInteger(w))return toast('Enter a valid width between 100 and 500 mm');
  if(!Number.isFinite(a)||a<20||a>95||!Number.isInteger(a))return toast('Enter a valid aspect ratio between 20% and 95%');
  if(!Number.isFinite(r)||r<10||r>30)return toast('Enter a valid rim diameter between 10 and 30 inches');
