@@ -102,19 +102,19 @@ async function loadRemoteDb(){
 function showBoot(message='Loading catalog…'){document.querySelector('#app').innerHTML=`<div class="login"><div class="loginBox"><h2>${esc(message)}</h2><p class="muted">Connecting to the online catalog.</p></div></div>`}
 function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(+parts[2]);return true}if(parts[1]==='contact'){tyreContactPage();return true}
 if(parts[1]==='by-car'){if(typeof window.tyresByCar==='function'){window.tyresByCar()}else{setTimeout(routeTyresHash,50)}return true}
-if(parts[1]==='by-number'){if(typeof window.tyresByNumber==='function'){window.tyresByNumber()}else{setTimeout(routeTyresHash,50)}return true}tyres();return true}
+if(parts[1]==='by-size'){if(typeof window.tyresByNumber==='function'){window.tyresByNumber()}else{setTimeout(routeTyresHash,50)}return true}tyres();return true}
 window.addEventListener('hashchange',()=>{const h=location.hash||'';if(/^#?tyres(?:\/|$)/.test(h))routeTyresHash()});
 async function bootCustomer(){
   showBoot();
   const initialHash=location.hash||'';
-  const isTyreFindRoute=/^#tyres\/by-(?:car|number)(?:\/|$)/.test(initialHash);
+  const isTyreFindRoute=/^#tyres\/by-(?:car|size)(?:\/|$)/.test(initialHash);
   const landOnTyres=initialHash.replace('#','').split('/')[0]==='tyres';
   const restoreInitialTyreFindRoute=()=>{
     if(!isTyreFindRoute)return false;
     if(location.hash!==initialHash)location.hash=initialHash;
     const p=initialHash.replace(/^#/,'').split('/');
     if(p[1]==='by-car'&&typeof window.tyresByCar==='function'){window.tyresByCar();return true}
-    if(p[1]==='by-number'&&typeof window.tyresByNumber==='function'){window.tyresByNumber();return true}
+    if(p[1]==='by-size'&&typeof window.tyresByNumber==='function'){window.tyresByNumber();return true}
     setTimeout(restoreInitialTyreFindRoute,50);
     return true;
   };
@@ -883,7 +883,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
      <button class="tyreSideBtn ${tyreAdminSubTab==='featured'?'active':''}" onclick="tyreAdminGo('featured')"><span>◇</span> Featured Types</button>
      <button class="tyreSideBtn ${tyreAdminSubTab==='sizes'?'active':''}" onclick="tyreAdminGo('sizes')"><span>▣</span> Tyre Sizes</button>
      <button class="tyreSideBtn ${tyreAdminSubTab==='by-car'?'active':''}" onclick="tyreAdminGo('by-car')"><span>🚘</span> Find Tyres By Car</button>
-     <button class="tyreSideBtn ${tyreAdminSubTab==='by-number'?'active':''}" onclick="tyreAdminGo('by-number')"><span>◉</span> Find Tyres By Number</button>
+     <button class="tyreSideBtn ${tyreAdminSubTab==='by-number'?'active':''}" onclick="tyreAdminGo('by-number')"><span>◉</span> Find Tyre By Size</button>
      <button class="tyreSideBtn" onclick="location.href='/#tyres'"><span>↗</span> View Tyre Website</button>
      <div class="tyreSideSpacer"></div>
      <button class="tyreSideBtn" onclick="location.href='/admin'"><span>←</span> Auto Parts Admin</button>
