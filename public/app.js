@@ -589,7 +589,7 @@ function tyres(){
 </button>
 <button class="tyreFinderCard" onclick="location.hash='tyres/by-size'">
 <span class="tyreFinderCardImage"><img src="${esc(findByNumber.homeImage||findByNumber.image||placeholder('Find Tyre by Size'))}" alt=""></span>
-<div><strong>FIND TYRE BY SIZE</strong><small>Search using your tyre size or number.</small></div>
+<div><strong>FIND TYRE BY SIZE</strong><small>Search using your tyre size.</small></div>
 <span class="tyreFinderArrow">→</span>
 </button>
 </div>
