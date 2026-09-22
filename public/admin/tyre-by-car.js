@@ -36,10 +36,10 @@ function makePage(){
  const host=document.querySelector('.tyreAdminSections');
  if(!host)return;
  host.innerHTML=`<section class="findTyresAdminCard">
-   <div class="ftaTop"><div><span class="ftaEyebrow">FIND TYRES BY CAR</span><h3>Find Tyres By Car</h3><p>Manage the hero image for the public Find Tyres By Car page.</p></div><button type="button" class="ftaBack" id="ftaBack">← BACK TO HOME</button></div>
+   <div class="ftaTop"><div><span class="ftaEyebrow">FIND TYRE BY CAR</span><h3>Find Tyre By Car</h3><p>Manage the hero image for the public Find Tyre By Car page.</p></div><button type="button" class="ftaBack" id="ftaBack">← BACK TO HOME</button></div>
    <div class="ftaBody"><div class="ftaGrid">
-     <div><div class="ftaPreview" id="ftaPreview"><img src="${esc(pendingImage)}" alt="Find Tyres By Car hero image"></div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaDefault">USE DEFAULT IMAGE</button></div><div id="ftaPending" class="ftaPending">Unsaved image change</div></div>
-     <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(pendingImage)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyres By Car" readonly></div></div><div class="ftaBottomImage"><div class="ftaTop" style="padding:22px 0 12px;border-bottom:0"><div><span class="ftaEyebrow">BOTTOM IMAGE</span><h3 style="font-size:18px">Bottom image</h3><p>Upload the image displayed at the bottom of this page.</p></div></div><div class="ftaGrid"><div><div class="ftaPreview" id="ftaBottomPreview">${pendingBottomImage?'<img src="${esc(pendingBottomImage)}" alt="Find Tyres By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>'}</div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaBottomFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaBottomDefault">USE NO IMAGE</button></div><div id="ftaBottomPending" class="ftaPending">Unsaved bottom image change</div></div><div class="ftaFields"><div><label class="ftaLabel">Current bottom image URL</label><input id="ftaBottomUrl" class="ftaInput" value="${esc(pendingBottomImage)}" readonly></div></div></div></div>
+     <div><div class="ftaPreview" id="ftaPreview"><img src="${esc(pendingImage)}" alt="Find Tyre By Car hero image"></div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaDefault">USE DEFAULT IMAGE</button></div><div id="ftaPending" class="ftaPending">Unsaved image change</div></div>
+     <div class="ftaFields"><div><label class="ftaLabel">Current image URL</label><input id="ftaUrl" class="ftaInput" value="${esc(pendingImage)}" readonly></div><div><label class="ftaLabel">Page</label><input class="ftaInput" value="Find Tyre By Car" readonly></div></div><div class="ftaBottomImage"><div class="ftaTop" style="padding:22px 0 12px;border-bottom:0"><div><span class="ftaEyebrow">BOTTOM IMAGE</span><h3 style="font-size:18px">Bottom image</h3><p>Upload the image displayed at the bottom of this page.</p></div></div><div class="ftaGrid"><div><div class="ftaPreview" id="ftaBottomPreview">${pendingBottomImage?'<img src="${esc(pendingBottomImage)}" alt="Find Tyre By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>'}</div><div class="ftaActions"><label class="ftaUpload">CHANGE IMAGE<input id="ftaBottomFile" type="file" accept="image/*"></label><button type="button" class="ftaDefault" id="ftaBottomDefault">USE NO IMAGE</button></div><div id="ftaBottomPending" class="ftaPending">Unsaved bottom image change</div></div><div class="ftaFields"><div><label class="ftaLabel">Current bottom image URL</label><input id="ftaBottomUrl" class="ftaInput" value="${esc(pendingBottomImage)}" readonly></div></div></div></div>
      <div class="ftaGlobalSave"><button type="button" class="ftaGlobalSaveBtn" id="ftaGlobalSave">SAVE ALL CHANGES</button><div id="ftaGlobalStatus" class="ftaStatus"></div></div>
    </div></div>
  </section>`;
@@ -48,14 +48,14 @@ function makePage(){
  document.getElementById('ftaDefault').addEventListener('click',()=>setPending(DEFAULT_IMAGE));
  document.getElementById('ftaBottomFile').addEventListener('change',uploadBottom);document.getElementById('ftaGlobalSave').addEventListener('click',saveAll);document.getElementById('ftaBottomDefault').addEventListener('click',()=>setPendingBottom(''));
 }
-function setPendingBottom(url){pendingBottomImage=url||'';const p=document.getElementById('ftaBottomPreview'),i=document.getElementById('ftaBottomUrl'),m=document.getElementById('ftaBottomPending');if(p)p.innerHTML=pendingBottomImage?'<img src="'+esc(pendingBottomImage)+'?v='+Date.now()+'" alt="Find Tyres By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>';if(i)i.value=pendingBottomImage;if(m)m.classList.add('show')}
+function setPendingBottom(url){pendingBottomImage=url||'';const p=document.getElementById('ftaBottomPreview'),i=document.getElementById('ftaBottomUrl'),m=document.getElementById('ftaBottomPending');if(p)p.innerHTML=pendingBottomImage?'<img src="'+esc(pendingBottomImage)+'?v='+Date.now()+'" alt="Find Tyre By Car bottom image">':'<div style="height:100%;display:grid;place-items:center;color:#fff;font-weight:700">No bottom image selected</div>';if(i)i.value=pendingBottomImage;if(m)m.classList.add('show')}
 async function saveBottomImage(url){pendingBottomImage=url||''}
 async function saveAll(){const status=document.getElementById('ftaGlobalStatus');try{status.textContent='Saving all changes…';const base=dbLocal()||{};const t=JSON.parse(JSON.stringify(base.tyres||{}));t.findByCar={...(t.findByCar||{}),image:pendingImage||DEFAULT_IMAGE,bottomImage:pendingBottomImage||''};if(typeof saveTyreData==='function')await saveTyreData(t);else if(window.supabaseClient&&typeof window.supabaseClient.from==='function'){const {error}=await window.supabaseClient.from('tyre_page').upsert({id:true,data:t});if(error)throw error}base.tyres=t;localStorage.setItem(KEY,JSON.stringify(base));document.getElementById('ftaPending')?.classList.remove('show');document.getElementById('ftaBottomPending')?.classList.remove('show');status.textContent='All changes saved successfully.'}catch(e){console.error(e);status.textContent=e?.message||'Could not save changes.'}}
 async function uploadBottom(e){const f=e.target.files?.[0];if(!f)return;const status=document.getElementById('ftaGlobalStatus');try{status.className='ftaStatus';status.textContent='Uploading image…';if(typeof uploadImage!=='function')throw new Error('Image upload service is not available.');const url=await uploadImage(f,'product-images','findByCar-bottom');setPendingBottom(url);if(status)status.textContent='Image uploaded. Press SAVE ALL CHANGES.';e.target.value=''}catch(err){console.error(err);if(status){status.className='ftaStatus error';status.textContent=err?.message||'Could not upload image.'}}}
 function setPending(url){
  pendingImage=url||DEFAULT_IMAGE;
  const preview=document.getElementById('ftaPreview');const input=document.getElementById('ftaUrl');const mark=document.getElementById('ftaPending');
- if(preview)preview.innerHTML=`<img src="${esc(pendingImage)}?v=${Date.now()}" alt="Find Tyres By Car hero image">`;
+ if(preview)preview.innerHTML=`<img src="${esc(pendingImage)}?v=${Date.now()}" alt="Find Tyre By Car hero image">`;
  if(input)input.value=pendingImage;
  if(mark)mark.classList.add('show');
  const status=document.getElementById('ftaStatus');if(status){status.className='ftaStatus';status.textContent='';}
@@ -71,7 +71,7 @@ async function saveImage(url){
    }
    base.tyres=t;localStorage.setItem(KEY,JSON.stringify(base));
    pendingImage=t.findByCar.image;
-   document.getElementById('ftaPreview').innerHTML=`<img src="${esc(pendingImage)}?v=${Date.now()}" alt="Find Tyres By Car hero image">`;
+   document.getElementById('ftaPreview').innerHTML=`<img src="${esc(pendingImage)}?v=${Date.now()}" alt="Find Tyre By Car hero image">`;
    document.getElementById('ftaUrl').value=pendingImage;
    document.getElementById('ftaPending').classList.remove('show');
    status.textContent='Saved successfully.';
@@ -97,7 +97,7 @@ function addSidebarLink(){
  const btn=document.createElement('button');
  btn.type='button';
  btn.className='tyreSideBtn findTyresSideBtn'+(window.tyreAdminSubTab==='findByCar'?' active':'');
- btn.innerHTML='<span>🚗</span> Find Tyres By Car';
+ btn.innerHTML='<span>🚗</span> Find Tyre By Car';
  btn.onclick=()=>{window.tyreAdminSubTab='findByCar';makePage();addSidebarLink();};
  if(featured)featured.insertAdjacentElement('afterend',btn);else{
    const view=buttons.find(b=>/View Tyre Website/i.test(b.textContent||''));
@@ -110,7 +110,7 @@ function addDashboardCard(){
  const dash=findPanelGrid();
  if(!dash||dash.querySelector('.findTyresDashCard'))return false;
  const card=document.createElement('button');card.type='button';card.className='tyreDashCard findTyresDashCard findTyresAdminDashCard';
- card.innerHTML='<span class="tyreDashIcon">▣</span><div><strong>Find Tyres By Car</strong><span>Manage the Find Tyres By Car page</span></div><span class="tyreDashArrow">→</span>';
+ card.innerHTML='<span class="tyreDashIcon">▣</span><div><strong>Find Tyre By Car</strong><span>Manage the Find Tyre By Car page</span></div><span class="tyreDashArrow">→</span>';
  card.onclick=()=>{window.tyreAdminSubTab='findByCar';makePage();addSidebarLink()};
  const reference=[...dash.querySelectorAll('.tyreDashCard')].find(el=>/featured|brand/i.test(el.textContent||''));
  if(reference)dash.insertBefore(card,reference.nextSibling);else dash.appendChild(card);
