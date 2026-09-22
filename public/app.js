@@ -681,7 +681,7 @@ function searchTyreNumber(){
  const input=document.querySelector('#tyreNumberInput');
  const value=String(input?.value||'').trim();
  if(!value)return toast('Please enter a tyre number or size');
- document.querySelector('#tyreNumberResults').innerHTML=`<div class="tyreNumberResult"><strong>${esc(value)}</strong><p>We will check availability for this tyre size.</p><button class="tyreShowcaseDetail" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to enquire about tyres with size/number: '+value+'.')})'>ENQUIRE ABOUT THIS TYRE →</button></div>`;
+ document.querySelector('#tyreNumberResults').innerHTML=`<div class="tyreNumberResult"><strong>${esc(value)}</strong><p>We will check availability for this tyre size.</p><button class="tyreShowcaseDetail" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to enquire about tyres with size/number: '+value+'.')})'>ENQUIRE →</button></div>`;
 }
 function tyreBrandPage(idx){const t=db.tyres||defaultTyres,b=(t.brands||[])[idx];if(!b)return tyres();location.hash=`tyres/brand/${idx}`;showTyreProductResults(`${b.name} Tyres`,p=>String(p.brandId)===String(b.id)||String(p.brandId)===String(idx)||String(p.brand||'').toLowerCase()===String(b.name).toLowerCase())}
 
