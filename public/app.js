@@ -587,9 +587,9 @@ function tyres(){
 <div><strong>FIND TYRE BY CAR</strong><small>Choose your car brand, model and year.</small></div>
 <span class="tyreFinderArrow">→</span>
 </button>
-<button class="tyreFinderCard" onclick="location.hash='tyres/by-number'">
-<span class="tyreFinderCardImage"><img src="${esc(findByNumber.homeImage||findByNumber.image||placeholder('Find Tyre by Number'))}" alt=""></span>
-<div><strong>FIND TYRE BY NUMBER</strong><small>Search using your tyre size or number.</small></div>
+<button class="tyreFinderCard" onclick="location.hash='tyres/by-size'">
+<span class="tyreFinderCardImage"><img src="${esc(findByNumber.homeImage||findByNumber.image||placeholder('Find Tyre by Size'))}" alt=""></span>
+<div><strong>FIND TYRE BY SIZE</strong><small>Search using your tyre size or number.</small></div>
 <span class="tyreFinderArrow">→</span>
 </button>
 </div>
@@ -670,9 +670,9 @@ function tyreFinderResult(modelId,yearValue){
 }
 function tyresByNumber(){
  setNav('');
- location.hash='tyres/by-number';
+ location.hash='tyres/by-size';
  if(typeof window.tyresByNumber==='function'&&window.tyresByNumber!==tyresByNumber)return window.tyresByNumber();
- render('<section class="tyreNumberExactPage tyreNumberPage tyreRebuildCleanPage" aria-label="Find Tyre by Number"></section>');
+ render('<section class="tyreNumberExactPage tyreNumberPage tyreRebuildCleanPage" aria-label="Find Tyre by Size"></section>');
 }
 function searchTyreNumber(){
  const input=document.querySelector('#tyreNumberInput');
@@ -948,7 +948,7 @@ function tyresAdmin(c){
 <section class="tyreAdminCard tyreAdminHeroCard" id="tyreFindSection">
  <div class="tyreCardHead"><div><span class="eyebrow">03 · FIND TYRE SECTION</span><h3>Find Tyre section images</h3><p>Manage the two images shown beside the tyre-finder options on the Tyre homepage.</p></div></div>
  <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Car image</label><input id="tbHomeCarImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeCarImg')"><small class="helpText">Image shown beside “Find Tyre by Car”.</small></div><div>${preview(findByCar.homeImage||findByCar.image,'Find Tyre by Car image')}</div></div>
- <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Number image</label><input id="tbHomeNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeNumberImg')"><small class="helpText">Image shown beside “Find Tyre by Number”.</small></div><div>${preview(findByNumber.homeImage||findByNumber.image,'Find Tyre by Number image')}</div></div>
+ <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Size image</label><input id="tbHomeNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeNumberImg')"><small class="helpText">Image shown beside “Find Tyre by Size”.</small></div><div>${preview(findByNumber.homeImage||findByNumber.image,'Find Tyre by Size image')}</div></div>
 </section>`;
  const contactSettingsSection=`<section class="tyreAdminCard">
 <div class="tyreCardHead"><div>
@@ -982,7 +982,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
     <div class="tyreAdminFeatureGrid">${features.map((x,i)=>`<article class="tyreAdminEditorItem"><div class="tyreAdminItemTop"><strong>${i+1}. ${esc(x.title)} ${esc(x.subtitle)}</strong>${preview(x.image,x.title+' '+x.subtitle)}</div>${tyreInputRow('Title',`tf${i}t`,x.title)}${tyreInputRow('Subtitle',`tf${i}s`,x.subtitle)}${tyreInputRow('Enquiry message',`tf${i}m`,x.message)}<div class="formGroup"><label>Panel image</label><input id="tf${i}i" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tf${i}i')"></div></article>`).join('')}</div></div>
    </section>`;
  const finderCarSection=`<section class="tyreAdminCard tyreAdminHeroCard"><div class="tyreCardHead"><div><span class="eyebrow">FIND TYRE BY CAR</span><h3>Find Tyre By Car</h3><p>Manage the hero image and the image displayed at the bottom of this finder page.</p></div></div><div class="tyreAdminSubSection"><div class="tyreAdminSubHead"><span>Find Tyre by Car</span><small>Hero image and bottom image for this finder page.</small></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Hero image</label><input id="tbCarHeroImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbCarHeroImg')"><small class="helpText">This is the large hero image at the top of Find Tyre By Car.</small></div><div>${preview(findByCar.image||'/assets/tyre-ref/hero.png','Find Tyre By Car hero image')}</div></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Bottom image</label><input id="tbCarImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbCarImg')"><small class="helpText">This image appears at the bottom of Find Tyre By Car.</small></div><div>${preview(findByCar.bottomImage,'Find Tyre By Car bottom image')}</div></div></div></section>`;
- const finderNumberSection=`<section class="tyreAdminCard tyreAdminHeroCard"><div class="tyreCardHead"><div><span class="eyebrow">FIND TYRE BY NUMBER</span><h3>Find Tyre By Number</h3><p>Manage the hero image and the image displayed at the bottom of this finder page.</p></div></div><div class="tyreAdminSubSection"><div class="tyreAdminSubHead"><span>Find Tyre by Number</span><small>Hero image and bottom image for this finder page.</small></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Hero image</label><input id="tbNumberHeroImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbNumberHeroImg')"><small class="helpText">This is the large hero image at the top of Find Tyre By Number.</small></div><div>${preview(findByNumber.image||'/assets/tyre-ref/hero.png','Find Tyre By Number hero image')}</div></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Bottom image</label><input id="tbNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbNumberImg')"><small class="helpText">This image appears at the bottom of Find Tyre By Number.</small></div><div>${preview(findByNumber.bottomImage,'Find Tyre By Number bottom image')}</div></div></div></section>`;
+ const finderNumberSection=`<section class="tyreAdminCard tyreAdminHeroCard"><div class="tyreCardHead"><div><span class="eyebrow">FIND TYRE BY SIZE</span><h3>Find Tyre By Size</h3><p>Manage the hero image and the image displayed at the bottom of this finder page.</p></div></div><div class="tyreAdminSubSection"><div class="tyreAdminSubHead"><span>Find Tyre by Size</span><small>Hero image and bottom image for this finder page.</small></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Hero image</label><input id="tbNumberHeroImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbNumberHeroImg')"><small class="helpText">This is the large hero image at the top of Find Tyre By Size.</small></div><div>${preview(findByNumber.image||'/assets/tyre-ref/hero.png','Find Tyre By Size hero image')}</div></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Bottom image</label><input id="tbNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbNumberImg')"><small class="helpText">This image appears at the bottom of Find Tyre By Size.</small></div><div>${preview(findByNumber.bottomImage,'Find Tyre By Size bottom image')}</div></div></div></section>`;
  const brandsSection=`<section class="tyreAdminCard" id="tyreBrandsSection"><div class="tyreCardHead"><div><span class="eyebrow">04 · BRANDS</span><h3>Tyre Brands</h3><p>Add, edit or remove the brand logos shown on the public tyre page.</p></div><button type="button" class="ghost" onclick="addTyreBrand()">+ ADD BRAND</button></div>
     <div class="tyreAdminBrandGrid">${brands.map((x,i)=>`<article class="tyreAdminBrandItem"><div class="tyreBrandNumber">BRAND ${i+1}<button type="button" class="tyreRemoveItemBtn" onclick="removeTyreBrand(${i})">Remove</button></div>${preview(x.image,(x.name||'Brand')+' logo')}${tyreInputRow('Brand name',`tb${i}n`,x.name)}<div class="formGroup"><label>Logo</label><input id="tb${i}i" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tb${i}i')"></div></article>`).join('')}</div>
    </section>`;
