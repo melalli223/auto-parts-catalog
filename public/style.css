@@ -6200,16 +6200,15 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreBrandResultsHeader{margin:0 0 28px;text-align:center}
 .tyreBrandHero{position:relative;width:calc(100% + 48px);margin-left:-24px;margin-top:-30px;height:260px;border-radius:0;overflow:hidden;background:#f3f4f5;box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .tyreBrandHeroImage{display:block;width:100%;height:100%;object-fit:cover}
-.tyreBrandHero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.38),rgba(0,0,0,.06) 42%,rgba(0,0,0,.16))}
-.tyreBrandBack{position:absolute;z-index:2;top:18px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;margin:0;padding:10px 16px;border:0;border-radius:9px;background:rgba(255,255,255,.92);color:#222;font-size:11px;font-weight:900;letter-spacing:.03em;cursor:pointer;white-space:nowrap}
-.tyreBrandBack:hover{background:#fff;color:#c8102e}
+.tyreBrandBack{position:absolute;z-index:2;top:18px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;margin:0;padding:4px 0;border:0;border-radius:0;background:transparent;color:#fff;font-size:14px;font-weight:900;letter-spacing:.03em;cursor:pointer;white-space:nowrap}
+.tyreBrandBack:hover{background:transparent;color:#fff}
 .tyreBrandHeroCopy{padding:20px 14px 0;text-align:center}
 .tyreBrandHeroCopy h1{margin:0 0 7px;font-size:34px;line-height:1.08;letter-spacing:-.6px;color:#111}
 .tyreBrandHeroCopy p{margin:0;color:#697178;font-size:14px;line-height:1.5}
 @media(max-width:650px){
  .tyreBrandResultsHeader{margin-bottom:20px}
  .tyreBrandHero{width:calc(100% + 20px);margin-left:-10px;margin-top:-18px;height:190px;border-radius:0}
- .tyreBrandBack{top:12px;padding:8px 13px;font-size:10px}
+ .tyreBrandBack{top:12px;padding:4px 0;font-size:12px}
  .tyreBrandHeroCopy{padding:16px 10px 0}
  .tyreBrandHeroCopy h1{font-size:25px}
  .tyreBrandHeroCopy p{font-size:11px;line-height:1.4}
