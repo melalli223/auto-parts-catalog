@@ -634,10 +634,13 @@ function tyresByCar(){
  setNav('');
  location.hash='tyres/by-car';
  const brands=[...db.brands].filter(b=>b.isRegular!==false);
+ const finder=db.tyres?.findByCar||defaultTyres.findByCar||{};
+ const heroImage=finder.image||db.tyres?.hero?.image||defaultTyres.hero.image;
+ const bottomImage=finder.bottomImage||'';
  render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
- <button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>
- <div class="tyreFinderPageHead"><span>TYRE FINDER</span><h1>FIND TYRES <b>BY CAR</b></h1><p>Select your vehicle to find the right tyre.</p></div>
+ <div class="tyreByCarHero" style="background-image:url('${esc(heroImage)}')"><div class="tyreByCarHeroOverlay"></div><div class="tyreByCarHeroCopy"><span>TYRE FINDER</span><h1>FIND TYRE <b>BY CAR</b></h1><p>Select your vehicle to find the right tyre.</p></div><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button></div>
  <div class="tyreFinderCarGrid">${brands.map(b=>`<button onclick="tyreFinderBrand('${b.id}')"><div><img src="${esc(b.image||placeholder(b.name))}" alt="${esc(b.name)}"></div><strong>${esc(b.name)}</strong></button>`).join('')||'<div class="empty">No car brands available.</div>'}</div>
+ ${bottomImage?`<div class="tyreFinderBottomImage"><img src="${esc(bottomImage)}" alt="Find Tyre By Car bottom image"></div>`:''}
  </div></div></section>`)
 }
 function tyreFinderBrand(brandId){
