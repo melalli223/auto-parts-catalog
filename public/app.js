@@ -882,8 +882,6 @@ function adminPanel(tab='dashboard',fromHistory=false){
      <button class="tyreSideBtn ${tyreAdminSubTab==='brands'?'active':''}" onclick="tyreAdminGo('brands')"><span>◉</span> Tyre Brands</button>
      <button class="tyreSideBtn ${tyreAdminSubTab==='featured'?'active':''}" onclick="tyreAdminGo('featured')"><span>◇</span> Featured Types</button>
      <button class="tyreSideBtn ${tyreAdminSubTab==='sizes'?'active':''}" onclick="tyreAdminGo('sizes')"><span>▣</span> Tyre Sizes</button>
-     <button class="tyreSideBtn ${tyreAdminSubTab==='by-car'?'active':''}" onclick="tyreAdminGo('by-car')"><span>🚘</span> Find Tyres By Car</button>
-     <button class="tyreSideBtn ${tyreAdminSubTab==='by-number'?'active':''}" onclick="tyreAdminGo('by-number')"><span>◉</span> Find Tyres By Number</button>
      <button class="tyreSideBtn" onclick="location.href='/#tyres'"><span>↗</span> View Tyre Website</button>
      <div class="tyreSideSpacer"></div>
      <button class="tyreSideBtn" onclick="location.href='/admin'"><span>←</span> Auto Parts Admin</button>
