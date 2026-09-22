@@ -6182,3 +6182,44 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 /* Find Tyre By Car admin-image bridge */
 .tyreByCarHero{position:relative;min-height:260px;background:center/cover no-repeat;overflow:hidden}.tyreByCarHeroOverlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.42))}.tyreByCarHeroCopy{position:relative;z-index:2;padding:70px 24px 34px;color:#000}.tyreByCarHeroCopy span{font-size:11px;font-weight:800;letter-spacing:.12em}.tyreByCarHeroCopy h1{margin:7px 0 5px;font-size:30px;font-weight:800}.tyreByCarHeroCopy h1 b{color:#d71920}.tyreByCarHeroCopy p{margin:0;font-size:15px}.tyreByCarHero .tyrePlaceholderBack{position:absolute;z-index:3;top:14px;left:14px}.tyreFinderBottomImage{width:100%;margin-top:40px;line-height:0;overflow:hidden}.tyreFinderBottomImage img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}@media(max-width:700px){.tyreByCarHero{min-height:300px}.tyreByCarHeroCopy{padding:72px 18px 28px}.tyreByCarHeroCopy h1{font-size:26px}.tyreByCarHeroCopy p{font-size:14px}}
+
+/* Tyre Products */
+.tyreProductAdminList{display:grid;gap:10px}
+.tyreProductAdminRow{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:12px;border:1px solid #e5e7eb;border-radius:14px;background:#fff}
+.tyreProductAdminImage{width:64px;height:64px;border-radius:10px;background:#f5f5f5;display:grid;place-items:center;overflow:hidden;font-size:10px;font-weight:800;color:#777}
+.tyreProductAdminImage img{width:100%;height:100%;object-fit:contain}
+.tyreProductAdminInfo strong{display:block;color:#111;font-size:14px}
+.tyreProductAdminInfo span{display:block;margin-top:5px;color:#737780;font-size:12px}
+.tyreProductAdminActions{display:flex;gap:7px}
+.tyreProductAdminActions .danger{color:#b42318}
+.tyreProductFormGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tyrePublicProductGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.tyrePublicProductCard{border:1px solid #e5e7eb;border-radius:16px;background:#fff;overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+.tyrePublicProductCard:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.08)}
+.tyrePublicProductImage{height:230px;background:#f7f7f8;display:grid;place-items:center;overflow:hidden}
+.tyrePublicProductImage img{width:100%;height:100%;object-fit:contain}
+.tyrePublicProductImage span,.tyreProductDetailImage span{font-weight:800;color:#999}
+.tyrePublicProductBody{padding:16px}
+.tyrePublicProductBody h3{margin:0 0 14px;font-size:17px;line-height:1.3;color:#111}
+.tyrePublicProductSpecs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tyrePublicProductSpecs span{font-size:10px;color:#777;text-transform:uppercase}
+.tyrePublicProductSpecs b{display:block;margin-top:2px;font-size:12px;color:#111;text-transform:none}
+.tyrePublicProductBottom{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #eee;font-size:11px}
+.tyreProductAvailability{font-weight:700;color:#16803c}
+.tyreProductAvailability.out{color:#b42318}
+.tyreProductResultsPage{padding:30px 24px 70px}
+.tyreProductResultsHead{text-align:center;margin:25px auto 0;max-width:760px}
+.tyreProductResultsHead>span{font-size:11px;font-weight:800;letter-spacing:.12em;color:#777}
+.tyreProductResultsHead h1{margin:7px 0;font-size:34px}
+.tyreProductResultsHead p{margin:0;color:#777}
+.tyreProductDetail{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.tyreProductDetailImage{height:360px;background:#f7f7f8;border-radius:14px;display:grid;place-items:center;overflow:hidden}
+.tyreProductDetailImage img{width:100%;height:100%;object-fit:contain}
+.tyreProductDetail h2{margin:8px 0 18px;font-size:28px}
+.tyreDetailFacts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.tyreDetailFacts div{padding:11px;border:1px solid #eee;border-radius:10px}
+.tyreDetailFacts small{display:block;font-size:9px;color:#777;text-transform:uppercase}
+.tyreDetailFacts strong{display:block;margin-top:4px;font-size:13px;color:#111}
+.tyreProductDescription{color:#555;line-height:1.55}
+@media(max-width:900px){.tyrePublicProductGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.tyreProductDetail{grid-template-columns:1fr}.tyreProductDetailImage{height:300px}}
+@media(max-width:650px){.tyreProductAdminRow{grid-template-columns:52px 1fr}.tyreProductAdminImage{width:52px;height:52px}.tyreProductAdminActions{grid-column:2}.tyreProductFormGrid{grid-template-columns:1fr}.tyrePublicProductGrid{grid-template-columns:1fr}.tyrePublicProductImage{height:220px}.tyreProductResultsPage{padding:20px 14px 50px}.tyreProductResultsHead h1{font-size:27px}.tyreDetailFacts{grid-template-columns:1fr 1fr}}
