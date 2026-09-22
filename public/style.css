@@ -6203,7 +6203,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreBrandBack{position:absolute;z-index:10;top:44px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;margin:0;padding:4px 0;border:0;border-radius:0;background:transparent;color:#111;font-size:16px;font-weight:900;letter-spacing:.03em;text-shadow:none;cursor:pointer;white-space:nowrap}
 .tyreBrandBack:hover{background:transparent;color:#111}
 .tyreBrandHeroCopy{padding:20px 14px 0;text-align:center}
-.tyreBrandHeroCopy h1{margin:0 0 7px;font-size:34px;line-height:1.08;letter-spacing:-.6px;color:#111}
+.tyreBrandHeroCopy h1{margin:0 0 7px;font-size:40px;line-height:1.08;letter-spacing:-.6px;color:#111;font-style:italic}.tyreBrandHeroCopy h1 sup{font-size:.42em;line-height:0;vertical-align:super;margin-left:2px;font-style:normal}
 .tyreBrandHeroCopy p{margin:0;color:#697178;font-size:14px;line-height:1.5}
 @media(max-width:650px){
  .tyreBrandResultsHeader{margin-bottom:20px}
