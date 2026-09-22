@@ -683,7 +683,7 @@ function searchTyreNumber(){
  if(!value)return toast('Please enter a tyre number or size');
  document.querySelector('#tyreNumberResults').innerHTML=`<div class="tyreNumberResult"><strong>${esc(value)}</strong><p>We will check availability for this tyre size.</p><button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to enquire about tyres with size/number: '+value+'.')})'>ENQUIRE ABOUT THIS TYRE →</button></div>`;
 }
-function tyreBrandPage(idx){const t=db.tyres||defaultTyres,b=(t.brands||[])[idx];if(!b)return tyres();location.hash=`tyres/brand/${idx}`;showTyreProductResults(`${b.name} Tyres`,p=>String(p.brandId)===String(b.id)||String(p.brand||'').toLowerCase()===String(b.name).toLowerCase())}
+function tyreBrandPage(idx){const t=db.tyres||defaultTyres,b=(t.brands||[])[idx];if(!b)return tyres();location.hash=`tyres/brand/${idx}`;showTyreProductResults(`${b.name} Tyres`,p=>String(p.brandId)===String(b.id)||String(p.brandId)===String(idx)||String(p.brand||'').toLowerCase()===String(b.name).toLowerCase())}
 
 function tyreContactPage(){
   setNav('');
@@ -694,7 +694,7 @@ function tyreContactPage(){
   render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreOwnContactPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyreOwnContactCard"><span class="tyreAboutEyebrow">CONTACT US &amp; SUPPORT</span><h1>GET IN <span>TOUCH</span></h1><p>We are here to help you find the right tyres.</p>${phones?`<div class="tyreOwnContactPhones">${phones}</div>`:''}${socials?`<div class="tyreAboutSocials">${socials}</div>`:''}<button class="primary" onclick="smartEnquiry('Hello, I would like to enquire about your tyres.')">SEND ENQUIRY</button></div></div></div></section>`);
 }
 
-function tyreTypePage(idx){const t=db.tyres||defaultTyres,x=(t.featured||defaultTyres.featured)[idx];if(!x)return tyres();location.hash=`tyres/type/${idx}`;showTyreProductResults(`${x.title} Tyres`,p=>String(p.typeId)===String(x.id)||String(p.type||'').toLowerCase()===String(x.title).toLowerCase())}
+function tyreTypePage(idx){const t=db.tyres||defaultTyres,x=(t.featured||defaultTyres.featured)[idx];if(!x)return tyres();location.hash=`tyres/type/${idx}`;showTyreProductResults(`${x.title} Tyres`,p=>String(p.typeId)===String(x.id)||String(p.typeId)===String(idx)||String(p.type||'').toLowerCase()===String(x.title).toLowerCase())}
 
 function scrollBrands(dir){scrollBrandsById('brandRail',dir)}
 function scrollBrandsById(id,dir){document.querySelector('#'+id)?.scrollBy({left:dir*300,behavior:'smooth'})}
