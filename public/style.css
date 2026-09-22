@@ -6102,3 +6102,53 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     min-height:68px !important;
   }
 }
+
+
+/* Auto Parts homepage: place the existing header contents directly over the hero image */
+.site-main > .autoPartsHero{
+  position:relative !important;
+}
+.site-main > .autoPartsHero > .heroHeaderOverlay{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  width:100% !important;
+  height:82px !important;
+  min-height:82px !important;
+  margin:0 !important;
+  z-index:30 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.site-main > .autoPartsHero > .heroHeaderOverlay .nav{
+  width:100% !important;
+  min-height:82px !important;
+  height:82px !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.site-main > .autoPartsHero > .heroHeaderOverlay .nav button{
+  color:#fff !important;
+  text-shadow:0 1px 4px rgba(0,0,0,.65) !important;
+}
+.site-main > .autoPartsHero > .heroHeaderOverlay .nav button.active{
+  color:#fff !important;
+}
+.site-main > .autoPartsHero > .heroHeaderOverlay .nav button.active:after{
+  background:#d71920 !important;
+}
+.site-main > .autoPartsHero > .heroHeaderOverlay .logoFallback b,
+.site-main > .autoPartsHero > .heroHeaderOverlay .logoFallback small{
+  color:#fff !important;
+  text-shadow:0 1px 4px rgba(0,0,0,.65) !important;
+}
+@media(max-width:760px){
+  .site-main > .autoPartsHero > .heroHeaderOverlay,
+  .site-main > .autoPartsHero > .heroHeaderOverlay .nav{
+    height:68px !important;
+    min-height:68px !important;
+  }
+}
