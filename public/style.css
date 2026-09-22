@@ -5004,7 +5004,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 }
 
 .site-main{
-  padding-top:82px !important;
+  padding-top:0 !important;
 }
 
 .site-main > .autoPartsHero{
@@ -5018,7 +5018,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
 
   .site-main{
-    padding-top:68px !important;
+    padding-top:0 !important;
   }
 
   .site-main > .autoPartsHero{
