@@ -1016,13 +1016,21 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  else if(tyreAdminSubTab==='products'){sectionsHtml=tyreProductsSection();showSaveBar=false}
  else {sectionsHtml=dashboardBody;showSaveBar=false}
  const saveBar=`<div class="tyreAdminSaveBar"><div><strong>Ready to publish?</strong><span>Save your tyre-page changes when finished.</span></div><div><button class="ghost" onclick="location.href='/#tyres'">PREVIEW</button><button class="primary" onclick="saveTyrePage()">SAVE TYRE PAGE</button></div></div>`;
- c.innerHTML=`
- <div class="tyreAdminPage">
+ const pageTitles={dashboard:'Tyre Admin Dashboard',settings:'Tyre Settings',brands:'Tyre Brands',featured:'Featured Tyre Types',sizes:'Tyre Sizes',products:'Tyre Products','by-car':'Find Tyre By Car','by-number':'Find Tyre By Size'};
+ const isDashboard=tyreAdminSubTab==='dashboard';
+ const pageHeader=isDashboard?`
   <div class="tyreAdminWelcome">
    <div><span class="eyebrow">TYRE MANAGEMENT</span><h2>Tyre Page Administration</h2><p class="muted">Manage the dedicated wheels & tyres page separately from your main auto-parts catalog.</p></div>
    <div class="tyreAdminTopActions"><a class="ghost" href="/admin">← MAIN ADMIN</a><button class="viewSite" onclick="location.href='/#tyres'">VIEW TYRE PAGE</button></div>
   </div>
-  <div class="tyreAdminStats"><div><b>1</b><span>Tyre page</span></div><div><b>${features.length}</b><span>Promo panels</span></div><div><b>${brands.length}</b><span>Brands</span></div><div><b>${featured.length}</b><span>Tyre types</span></div></div>
+  <div class="tyreAdminStats"><div><b>1</b><span>Tyre page</span></div><div><b>${features.length}</b><span>Promo panels</span></div><div><b>${brands.length}</b><span>Brands</span></div><div><b>${featured.length}</b><span>Tyre types</span></div></div>`:`
+  <div class="tyreAdminPageHeader">
+   <div><span class="eyebrow">TYRE MANAGEMENT</span><h2>${pageTitles[tyreAdminSubTab]||'Tyre Administration'}</h2></div>
+   <div class="tyreAdminTopActions"><a class="ghost" href="/admin">← MAIN ADMIN</a><button class="viewSite" onclick="location.href='/#tyres'">VIEW TYRE PAGE</button></div>
+  </div>`;
+ c.innerHTML=`
+ <div class="tyreAdminPage ${isDashboard?'tyreAdminDashboardPage':'tyreAdminFullPage'}">
+  ${pageHeader}
   <div class="tyreAdminSections">${sectionsHtml}</div>
   ${showSaveBar?saveBar:''}
  </div>`;
