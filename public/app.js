@@ -138,7 +138,7 @@ async function bootAdmin(){
   currentSession=session;if(!session)return login();
   const {data:row,error:adminErr}=await supabaseClient.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();
   if(adminErr||!row){await supabaseClient.auth.signOut();currentSession=null;return login('Your account is not authorized as an admin.')}
-  admin=true;const tyreAdminRoute=isTyreAdminRoute();try{await loadRemoteDb();adminPanel(tyreAdminRoute?'tyres':'dashboard')}catch(e){console.error(e);toast('Connected to login, but catalog data could not be loaded');adminPanel(tyreAdminRoute?'tyres':'dashboard')}
+  admin=true;const tyreAdminRoute=isTyreAdminRoute();if(tyreAdminRoute){const requested=(location.hash||'#dashboard').slice(1);const allowed=['dashboard','settings','brands','featured','sizes','products','by-car','by-number'];tyreAdminSubTab=allowed.includes(requested)?requested:'dashboard';}try{await loadRemoteDb();adminPanel(tyreAdminRoute?'tyres':'dashboard')}catch(e){console.error(e);toast('Connected to login, but catalog data could not be loaded');adminPanel(tyreAdminRoute?'tyres':'dashboard')}
 }
 function fileData(f){return f?new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)}):Promise.resolve('')}
 function dataUrlToBlob(dataUrl){const m=String(dataUrl||'').match(/^data:([^;,]+)?(?:;base64)?,(.*)$/);if(!m)return null;const mime=m[1]||'application/octet-stream';const bin=atob(m[2]);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new Blob([bytes],{type:mime})}
@@ -864,11 +864,11 @@ let adminCatalogOpen=true;
 function toggleAdminCatalog(){adminCatalogOpen=!adminCatalogOpen;adminPanel(location.hash.replace('#','')||'dashboard')}
 let adminSidebarOpen=false;
 let tyreAdminSubTab='dashboard';
-function tyreAdminGo(sub){tyreAdminSubTab=sub;adminPanel('tyres')}
+function tyreAdminGo(sub){tyreAdminSubTab=sub;history.pushState({adminTyreTab:sub},'',`#${sub}`);adminPanel('tyres',true)}
 function toggleAdminSidebar(){adminSidebarOpen=!adminSidebarOpen;const shell=document.querySelector('.adminShell')||document.querySelector('.tyreAdminShell');if(!shell)return;shell.classList.toggle('sidebarHidden',!adminSidebarOpen);const btn=document.querySelector('#adminHeaderToggle');if(btn){btn.setAttribute('aria-expanded',String(adminSidebarOpen));btn.setAttribute('title',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.setAttribute('aria-label',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.classList.toggle('isClosed',!adminSidebarOpen);}}
 function adminPanel(tab='dashboard',fromHistory=false){
  if(!admin)return login();
- if(!fromHistory){const target=tab==='dashboard'?'#dashboard':`#${tab}`;if(location.hash!==target){history.pushState({adminTab:tab},'',target)}}else if(!location.hash){history.replaceState({adminTab:tab},'',`#${tab}`)}
+ if(!fromHistory){const target=tab==='tyres'?`#${tyreAdminSubTab}`:(tab==='dashboard'?'#dashboard':`#${tab}`);if(location.hash!==target){history.pushState({adminTab:tab,adminTyreTab:tyreAdminSubTab},'',target)}}else if(!location.hash){history.replaceState({adminTab:tab,adminTyreTab:tyreAdminSubTab},'',tab==='tyres'?`#${tyreAdminSubTab}`:`#${tab}`)}
  if(tab==='tyres'){
   document.querySelector('#app').innerHTML=`
    <header class="adminGlobalHeader tyreAdminGlobalHeader">
@@ -890,7 +890,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
      <button class="tyreSideBtn ${tyreAdminSubTab==='by-number'?'active':''}" onclick="tyreAdminGo('by-number')"><span>◉</span> Find Tyre By Size</button>
      <button class="tyreSideBtn" onclick="location.href='/#tyres'"><span>↗</span> View Tyre Website</button>
      <div class="tyreSideSpacer"></div>
-     <button class="tyreSideBtn" onclick="location.href='/admin'"><span>←</span> Auto Parts Admin</button>
+     <button class="tyreSideBtn tyreDashboardOnly" onclick="location.href='/admin'"><span>←</span> Auto Parts Admin</button>
      <button class="tyreSideBtn" onclick="logout()"><span>⇥</span> Sign out</button>
      <div class="tyreSideNote"><strong>TYRE SECTION</strong><span>Manage the dedicated tyre page separately from the auto-parts catalog.</span></div>
     </aside>
@@ -902,12 +902,12 @@ function adminPanel(tab='dashboard',fromHistory=false){
  const catalogTabs=['brands','models','years','categories','products'];
  if(catalogTabs.includes(tab))adminCatalogOpen=true;
  const label=tab==='dashboard'?'Dashboard':tab==='settings'?'Settings':tab==='backup'?'Backup':tab[0].toUpperCase()+tab.slice(1);
- const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a><a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a><button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
+ const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a>${tab==='dashboard'?'<a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a>':''}<button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
  document.querySelector('#app').innerHTML=`${adminHeader}<div class="adminShell ${adminSidebarOpen?'':'sidebarHidden'}"><aside class="adminSide"><div class="adminTitle">ADMIN CONTROL PANEL</div><button class="sideBtn ${tab==='dashboard'?'active':''}" onclick="adminPanel('dashboard')">⌂ &nbsp; Dashboard</button><button class="sideBtn ${tab==='enquiries'?'active':''}" onclick="adminPanel('enquiries')">▤ &nbsp; Enquiries</button><button class="sideBtn catalogToggle ${catalogTabs.includes(tab)?'activeGroup':''}" onclick="toggleAdminCatalog()">▣ &nbsp; Catalog <span class="sideChevron">${adminCatalogOpen?'▾':'▸'}</span></button>${adminCatalogOpen?`<div class="catalogSubmenu">${catalogTabs.map(t=>`<button class="sideBtn subSideBtn ${tab===t?'active':''}" onclick="adminPanel('${t}')">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</div>`:''}<button class="sideBtn ${tab==='settings'?'active':''}" onclick="adminPanel('settings')">⚙ &nbsp; Settings</button><button class="sideBtn ${tab==='backup'?'active':''}" onclick="adminPanel('backup')">↕ &nbsp; Backup</button><div class="sideSpacer"></div><button class="sideBtn" onclick="logout()">⇥ &nbsp; Sign out</button></aside><section class="adminMain"><div class="adminTop"><div class="adminHeading"><div><div class="adminEyebrow">ADMIN</div><h1>${label}</h1></div></div><a class="viewSite" href="/">VIEW WEBSITE</a></div><section class="adminPanel" id="adminContent"></section></section></div>`;
  adminContent(tab);
 }
-window.addEventListener('popstate',()=>{if(!admin)return;const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
-window.addEventListener('hashchange',()=>{if(!admin)return;const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
+window.addEventListener('popstate',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
+window.addEventListener('hashchange',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
 function adminContent(t){const c=document.querySelector('#adminContent');if(t==='dashboard')dashboardAdmin(c);else if(t==='enquiries')enquiriesAdmin(c);else if(t==='brands')brandAdmin(c);else if(t==='models')modelAdmin(c);else if(t==='years')yearAdmin(c);else if(t==='categories')categoryAdmin(c);else if(t==='products')productAdmin(c);else if(t==='settings')settingsAdmin(c);else if(t==='tyres')tyresAdmin(c);else backupAdmin(c)}
 function tyreInputRow(label,id,value,placeholder=''){return `<div class="formGroup"><label>${label}</label><input id="${id}" class="input" value="${esc(value||'')}" placeholder="${esc(placeholder)}"></div>`}
 function tyreMediaIcon(type){
