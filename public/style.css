@@ -6463,3 +6463,28 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreBrandHeaderCopy h1{font-family:Arial,Helvetica,sans-serif!important;font-size:33px!important;line-height:1.15!important;font-weight:700!important;font-style:normal!important;letter-spacing:.2px!important;color:#111!important}
 .tyreBrandRegistered{font-size:.48em!important;line-height:0!important;vertical-align:super!important;font-weight:700!important;margin-left:-1px!important;position:relative;top:-.04em!important}
 @media(max-width:650px){.tyreBrandHeaderImageFrame{height:155px!important}.tyreBrandHeaderCopy h1{font-size:23px!important}.tyreBrandRegistered{font-size:.48em!important;margin-left:-1px!important}}
+
+/* Tyre finder vehicle result header — styled like the tyre brand page, with the selected car brand and model shown together. */
+.tyreFinderResultHeader{margin:-30px -24px 28px!important;width:calc(100% + 48px);background:#fff;color:#111;box-sizing:border-box}
+.tyreFinderResultImageFrame{display:grid;grid-template-columns:1fr 1fr;width:100%;height:220px;overflow:hidden;background:#f3f4f5}
+.tyreFinderResultImageFrame>div{min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f3f4f5}
+.tyreFinderResultImageFrame img{display:block;width:100%;height:100%;object-fit:contain}
+.tyreFinderResultBrandImage{border-right:1px solid #e5e5e5}
+.tyreFinderResultCopy{padding:18px 10px 0}
+.tyreFinderResultCopy .eyebrow{display:block;margin-bottom:8px;color:#6e767c!important}
+.tyreFinderResultCopy h1{margin:0 0 8px!important;font-family:Arial,Helvetica,sans-serif!important;font-size:33px!important;line-height:1.15!important;font-weight:700!important;font-style:normal!important;letter-spacing:.2px!important;color:#111!important}
+.tyreFinderResultCopy h1 b{font-weight:700!important}
+.tyreFinderResultCopy p{margin:0!important;color:#697178!important;font-size:14px!important;line-height:1.5!important}
+.tyreFinderResultAction{text-align:center;max-width:760px;margin:0 auto;padding:18px 0 40px}
+.tyreFinderResultAction h2{margin:0 0 8px;font-size:24px;line-height:1.15;color:#111}
+.tyreFinderResultAction h2 span{color:#d71920}
+.tyreFinderResultAction p{margin:0 0 20px;color:#697178;font-size:14px;line-height:1.55}
+@media(max-width:650px){
+ .tyreFinderResultHeader{margin-bottom:20px!important}
+ .tyreFinderResultImageFrame{height:155px}
+ .tyreFinderResultCopy{padding:16px 10px 0}
+ .tyreFinderResultCopy h1{font-size:23px!important}
+ .tyreFinderResultCopy p{font-size:11px!important;line-height:1.4!important}
+ .tyreFinderResultAction{padding:12px 8px 30px}
+ .tyreFinderResultAction h2{font-size:20px}
+}
