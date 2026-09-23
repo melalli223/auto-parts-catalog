@@ -662,7 +662,34 @@ function tyreFinderShowResults(modelId){
  const m=db.models.find(x=>x.id===modelId);
  const b=db.brands.find(x=>x.id===m?.brandId);
  if(!m||!b)return tyresByCar();
- showTyreProductResults(m.name+' Tyres',p=>String(p.modelId)===String(m.id),{name:b.name,image:b.image,headerImage:b.image,kind:'brand'});
+ const ps=(db.tyres?.tyreProducts||[]).filter(p=>String(p.modelId)===String(m.id));
+ const brandImage=b.image||placeholder(b.name);
+ const modelImage=m.image||placeholder(m.name);
+ setNav('');
+ location.hash='tyres/by-car';
+ render('<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreProductResultsPage tyreFinderActionResultsPage">'+
+  '<button class="tyrePlaceholderBack" onclick="tyreFinderBrand(\''+b.id+'\')">← Back to Models</button>'+
+  '<div class="tyreFinderActionHeader">'+
+    '<div class="tyreFinderActionImageFrame">'+
+      '<div class="tyreFinderActionBrandImage"><img src="'+esc(brandImage)+'" alt="'+esc(b.name)+'"></div>'+
+      '<div class="tyreFinderActionModelImage"><img src="'+esc(modelImage)+'" alt="'+esc(m.name)+'"></div>'+
+    '</div>'+
+    '<div class="tyreFinderActionCopy">'+
+      '<span class="eyebrow">TYRE FINDER</span>'+
+      '<h1>'+esc(b.name.toUpperCase())+' <b>'+esc(m.name.toUpperCase())+'</b></h1>'+
+      '<p>Tyres available for your selected vehicle.</p>'+
+    '</div>'+
+  '</div>'+
+  '<div class="tyreProductSlider">'+
+    '<button class="tyreProductSliderArrow tyreProductSliderPrev" type="button" aria-label="Previous products" onclick="tyreProductSliderScroll(-1)">‹</button>'+
+    '<div class="tyrePublicProductGrid">'+
+      (ps.map(tyreProductCard).join('')||'<div class="empty">No tyre products found for this vehicle.</div>')+
+    '</div>'+
+    '<button class="tyreProductSliderArrow tyreProductSliderNext" type="button" aria-label="Next products" onclick="tyreProductSliderScroll(1)">›</button>'+
+  '</div>'+
+  '<button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>'+
+ '</div></div></section>');
+ ensureTyreCompareUI();
 }
 function tyreFinderResult(modelId){
  const m=db.models.find(x=>x.id===modelId);
