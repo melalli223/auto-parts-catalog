@@ -6271,3 +6271,16 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 }
 /* On tyre admin sub-pages, keep the main auto-parts switch out of the sidebar. */
 .tyreAdminShell:has(.tyreSideBtn.active:not(.tyreDashboardOnly)) .tyreDashboardOnly{display:none}
+
+
+/* Restore Tyre Admin panel content to the original vertical layout */
+.tyreAdminFullPage .tyreAdminFeatureGrid,
+.tyreAdminFullPage .tyreAdminBrandGrid,
+.tyreAdminFullPage .tyreAdminHeroLayout,
+.tyreAdminFullPage .tyreAdminGrid{grid-template-columns:1fr!important}
+.tyreAdminFullPage .tyreAdminEditorItem,
+.tyreAdminFullPage .tyreAdminBrandItem{width:100%;box-sizing:border-box}
+.tyreAdminFullPage .tyreAdminSections{display:flex!important;flex-direction:column!important;gap:18px!important}
+.tyreAdminFullPage .tyreAdminCard{width:100%!important}
+.tyreAdminFullPage .tyreAdminFeatureGrid{display:grid!important}
+.tyreAdminFullPage .tyreAdminBrandGrid{display:grid!important}
