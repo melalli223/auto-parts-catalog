@@ -6488,3 +6488,24 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
  .tyreFinderResultAction{padding:12px 8px 30px}
  .tyreFinderResultAction h2{font-size:20px}
 }
+
+/* Find Tyres action results: brand image on the left, selected model image on the right, styled like the Tyre Brands result header. */
+.tyreFinderActionHeader{margin:-30px -24px 28px!important;width:calc(100% + 48px);background:#fff;color:#111;box-sizing:border-box}
+.tyreFinderActionImageFrame{display:grid;grid-template-columns:1fr 1fr;width:100%;height:220px;overflow:hidden;background:#f3f4f5}
+.tyreFinderActionImageFrame>div{min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f3f4f5}
+.tyreFinderActionImageFrame img{display:block;width:100%;height:100%;object-fit:contain}
+.tyreFinderActionBrandImage{border-right:1px solid #e5e5e5}
+.tyreFinderActionCopy{padding:18px 10px 0}
+.tyreFinderActionCopy .eyebrow{display:block;margin-bottom:8px;color:#6e767c!important}
+.tyreFinderActionCopy h1{margin:0 0 8px!important;font-family:Arial,Helvetica,sans-serif!important;font-size:33px!important;line-height:1.15!important;font-weight:700!important;font-style:normal!important;letter-spacing:.2px!important;color:#111!important}
+.tyreFinderActionCopy h1 b{font-weight:700!important}
+.tyreFinderActionCopy p{margin:0!important;color:#697178!important;font-size:14px!important;line-height:1.5!important}
+.tyreFinderActionResultsPage .tyreProductSlider{margin-top:4px!important}
+@media(max-width:650px){
+ .tyreFinderActionHeader{margin-bottom:20px!important}
+ .tyreFinderActionImageFrame{height:155px}
+ .tyreFinderActionCopy{padding:16px 10px 0}
+ .tyreFinderActionCopy h1{font-size:23px!important}
+ .tyreFinderActionCopy p{font-size:11px!important;line-height:1.4!important}
+ .tyreFinderActionResultsPage .tyreProductSlider{margin-top:0!important}
+}
