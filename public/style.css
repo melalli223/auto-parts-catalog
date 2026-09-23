@@ -6237,7 +6237,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreTypeResultsTitle{font-style:normal!important;font-family:inherit;font-weight:800;}
 
 /* Featured tyre type header sizing */
-.tyreTypeResultsHeader{padding:46px 30px 34px!important;min-height:150px;}
+.tyreTypeResultsHeader{padding:46px 30px 34px!important;min-height:150px;background:#fff!important;}
 .tyreTypeResultsHeader .eyebrow{font-size:12px!important;letter-spacing:1.2px;}
 .tyreTypeResultsTitle{font-size:34px!important;line-height:1.1!important;}
 .tyreTypeResultsHeader .tyreTypeHeaderCopy p{font-size:15px!important;line-height:1.55!important;}
