@@ -6232,3 +6232,6 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   border-color:#d71920;
   background:#fff;
 }
+
+/* Featured tyre type result title */
+.tyreTypeResultsTitle{font-style:normal!important;font-family:inherit;font-weight:800;}
