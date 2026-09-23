@@ -1859,6 +1859,15 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .adminHeaderSwitch:hover{background:#b9141a;border-color:#b9141a;transform:translateY(-1px)}
 @media(max-width:650px){.adminGlobalHeader{height:56px;padding:0 14px;gap:12px}.adminGlobalLogo img,.adminGlobalLogo .logoMark{max-height:32px}.adminHeaderSwitch{height:32px;padding:0 13px;font-size:10px}}
 .tyreAdminPage{max-width:1500px;margin:0 auto}
+.tyreAdminFullPage{width:100%;max-width:none}
+.tyreAdminFullPage .tyreAdminSections{width:100%}
+.tyreAdminPageHeader{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:0 0 20px;padding:0 0 16px;border-bottom:1px solid var(--line)}
+.tyreAdminPageHeader h2{font-family:'Montserrat',sans-serif;font-size:25px;margin:5px 0 0}
+.tyreAdminFullPage .tyreAdminCard{width:100%;border-radius:6px;padding:26px}
+.tyreAdminFullPage .tyreAdminHeroLayout{grid-template-columns:minmax(0,1fr) 380px}
+.tyreAdminFullPage .tyreAdminFeatureGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tyreAdminFullPage .tyreAdminBrandGrid{grid-template-columns:repeat(5,minmax(0,1fr))}
+
 .tyreAdminWelcome{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:20px}
 .tyreAdminWelcome h2{font-family:'Montserrat',sans-serif;font-size:25px;margin:5px 0 6px}
 .tyreAdminTopActions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
