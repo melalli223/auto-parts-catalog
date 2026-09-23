@@ -6284,3 +6284,80 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreAdminFullPage .tyreAdminCard{width:100%!important}
 .tyreAdminFullPage .tyreAdminFeatureGrid{display:grid!important}
 .tyreAdminFullPage .tyreAdminBrandGrid{display:grid!important}
+
+
+/* Tyre Admin visual spacing and section hierarchy polish */
+.tyreAdminFullPage .tyreAdminSections{
+  gap:24px!important;
+}
+.tyreAdminFullPage .tyreAdminCard{
+  padding:26px 28px!important;
+  border:1px solid #e1e5e8!important;
+  border-radius:12px!important;
+  box-shadow:0 3px 14px rgba(17,20,23,.045)!important;
+}
+.tyreAdminFullPage .tyreCardHead{
+  margin:0 0 22px!important;
+  padding:0 0 15px!important;
+  border-bottom:1px solid #edf0f2;
+  align-items:flex-start!important;
+}
+.tyreAdminFullPage .tyreCardHead h3,
+.tyreAdminFullPage .tyreCardHead h4{
+  margin:0!important;
+}
+.tyreAdminFullPage .tyreAdminFeatureGrid,
+.tyreAdminFullPage .tyreAdminBrandGrid,
+.tyreAdminFullPage .tyreAdminHeroLayout,
+.tyreAdminFullPage .tyreAdminGrid{
+  gap:18px!important;
+}
+.tyreAdminFullPage .tyreAdminSections > .tyreAdminCard > .tyreAdminCard,
+.tyreAdminFullPage .tyreAdminSections .tyreAdminSubsection{
+  margin-top:18px;
+}
+.tyreAdminFullPage .tyreAdminSections .formGroup{
+  margin-bottom:18px;
+}
+.tyreAdminFullPage .tyreAdminSections .formGroup:last-child{
+  margin-bottom:0;
+}
+.tyreAdminFullPage .tyreAdminEditorItem,
+.tyreAdminFullPage .tyreAdminBrandItem{
+  padding:18px!important;
+  border:1px solid #e5e8ea!important;
+  border-radius:10px!important;
+  background:#fbfcfc!important;
+}
+.tyreAdminFullPage .tyreAdminEditorItem + .tyreAdminEditorItem,
+.tyreAdminFullPage .tyreAdminBrandItem + .tyreAdminBrandItem{
+  margin-top:0;
+}
+.tyreAdminFullPage .helpText{
+  margin-top:7px!important;
+  line-height:1.45;
+}
+.tyreAdminFullPage .row{
+  gap:18px!important;
+}
+.tyreAdminFullPage .adminDivider{
+  margin:26px 0!important;
+  border-top-color:#e3e7e9;
+}
+.tyreAdminFullPage .tyreAdminCard > .tyreAdminCard{
+  box-shadow:none!important;
+}
+@media(max-width:650px){
+  .tyreAdminFullPage .tyreAdminSections{gap:16px!important}
+  .tyreAdminFullPage .tyreAdminCard{padding:18px 15px!important;border-radius:9px!important}
+  .tyreAdminFullPage .tyreCardHead{margin-bottom:17px!important;padding-bottom:12px!important}
+  .tyreAdminFullPage .tyreAdminFeatureGrid,
+  .tyreAdminFullPage .tyreAdminBrandGrid,
+  .tyreAdminFullPage .tyreAdminHeroLayout,
+  .tyreAdminFullPage .tyreAdminGrid,
+  .tyreAdminFullPage .row{gap:12px!important}
+  .tyreAdminFullPage .tyreAdminEditorItem,
+  .tyreAdminFullPage .tyreAdminBrandItem{padding:14px!important}
+  .tyreAdminFullPage .tyreAdminSections .formGroup{margin-bottom:14px}
+}
+
