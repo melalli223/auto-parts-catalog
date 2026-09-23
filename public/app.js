@@ -658,6 +658,12 @@ function tyreFinderModel(modelId){
  if(!m)return tyresByCar();
  tyreFinderResult(modelId);
 }
+function tyreFinderShowResults(modelId){
+ const m=db.models.find(x=>x.id===modelId);
+ const b=db.brands.find(x=>x.id===m?.brandId);
+ if(!m||!b)return tyresByCar();
+ showTyreProductResults(m.name+' Tyres',p=>String(p.modelId)===String(m.id),{name:b.name,image:b.image,headerImage:b.image,kind:'brand'});
+}
 function tyreFinderResult(modelId){
  const m=db.models.find(x=>x.id===modelId);
  const b=db.brands.find(x=>x.id===m?.brandId);
@@ -680,7 +686,7 @@ function tyreFinderResult(modelId){
  <div class="tyreFinderResultAction">
    <h2>TYRES FOR <span>${esc(m.name.toUpperCase())}</span></h2>
    <p>We have your vehicle details. Continue to enquire about suitable tyres.</p>
-   <button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to find tyres for my '+b.name+' '+m.name+'.')})'>FIND TYRES →</button>
+   <button class="primary" onclick="tyreFinderShowResults('${m.id}')">FIND TYRES →</button>
  </div>
  </div></div></section>`);
 }
