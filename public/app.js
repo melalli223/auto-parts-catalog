@@ -873,7 +873,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
   document.querySelector('#app').innerHTML=`
    <header class="adminGlobalHeader tyreAdminGlobalHeader">
     <a class="adminGlobalLogo" href="/admin">${logo()}</a>
-    ${tyreAdminSubTab==='dashboard'?'<a class="adminHeaderSwitch" href="/admin">AUTO PARTS</a>':''}
+    <a class="adminHeaderSwitch" href="/admin">AUTO PARTS</a>
     <button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle tyre admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide tyre admin control panel':'Show tyre admin control panel'}"><span></span><span></span><span></span></button>
    </header>
    <div class="tyreAdminShell ${adminSidebarOpen?'':'sidebarHidden'}">
@@ -890,7 +890,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
      <button class="tyreSideBtn ${tyreAdminSubTab==='by-number'?'active':''}" onclick="tyreAdminGo('by-number')"><span>◉</span> Find Tyre By Size</button>
      <button class="tyreSideBtn" onclick="location.href='/#tyres'"><span>↗</span> View Tyre Website</button>
      <div class="tyreSideSpacer"></div>
-     ${tyreAdminSubTab==='dashboard'?'<button class="tyreSideBtn" onclick="location.href=\'/admin\'"><span>←</span> Auto Parts Admin</button>':''}
+     <button class="tyreSideBtn" onclick="location.href='/admin'"><span>←</span> Auto Parts Admin</button>
      <button class="tyreSideBtn" onclick="logout()"><span>⇥</span> Sign out</button>
      <div class="tyreSideNote"><strong>TYRE SECTION</strong><span>Manage the dedicated tyre page separately from the auto-parts catalog.</span></div>
     </aside>
@@ -902,7 +902,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
  const catalogTabs=['brands','models','years','categories','products'];
  if(catalogTabs.includes(tab))adminCatalogOpen=true;
  const label=tab==='dashboard'?'Dashboard':tab==='settings'?'Settings':tab==='backup'?'Backup':tab[0].toUpperCase()+tab.slice(1);
- const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a>${tab==='dashboard'?'<a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a>':''}<button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
+ const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a><a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a><button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
  document.querySelector('#app').innerHTML=`${adminHeader}<div class="adminShell ${adminSidebarOpen?'':'sidebarHidden'}"><aside class="adminSide"><div class="adminTitle">ADMIN CONTROL PANEL</div><button class="sideBtn ${tab==='dashboard'?'active':''}" onclick="adminPanel('dashboard')">⌂ &nbsp; Dashboard</button><button class="sideBtn ${tab==='enquiries'?'active':''}" onclick="adminPanel('enquiries')">▤ &nbsp; Enquiries</button><button class="sideBtn catalogToggle ${catalogTabs.includes(tab)?'activeGroup':''}" onclick="toggleAdminCatalog()">▣ &nbsp; Catalog <span class="sideChevron">${adminCatalogOpen?'▾':'▸'}</span></button>${adminCatalogOpen?`<div class="catalogSubmenu">${catalogTabs.map(t=>`<button class="sideBtn subSideBtn ${tab===t?'active':''}" onclick="adminPanel('${t}')">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</div>`:''}<button class="sideBtn ${tab==='settings'?'active':''}" onclick="adminPanel('settings')">⚙ &nbsp; Settings</button><button class="sideBtn ${tab==='backup'?'active':''}" onclick="adminPanel('backup')">↕ &nbsp; Backup</button><div class="sideSpacer"></div><button class="sideBtn" onclick="logout()">⇥ &nbsp; Sign out</button></aside><section class="adminMain"><div class="adminTop"><div class="adminHeading"><div><div class="adminEyebrow">ADMIN</div><h1>${label}</h1></div></div><a class="viewSite" href="/">VIEW WEBSITE</a></div><section class="adminPanel" id="adminContent"></section></section></div>`;
  adminContent(tab);
 }
