@@ -863,7 +863,7 @@ async function doLogin(){const email=document.querySelector('#adminEmail')?.valu
 let adminCatalogOpen=true;
 function toggleAdminCatalog(){adminCatalogOpen=!adminCatalogOpen;adminPanel(location.hash.replace('#','')||'dashboard')}
 let adminSidebarOpen=false;
-let tyreAdminSubTab='settings';
+let tyreAdminSubTab='dashboard';
 function tyreAdminGo(sub){tyreAdminSubTab=sub;adminPanel('tyres')}
 function toggleAdminSidebar(){adminSidebarOpen=!adminSidebarOpen;const shell=document.querySelector('.adminShell')||document.querySelector('.tyreAdminShell');if(!shell)return;shell.classList.toggle('sidebarHidden',!adminSidebarOpen);const btn=document.querySelector('#adminHeaderToggle');if(btn){btn.setAttribute('aria-expanded',String(adminSidebarOpen));btn.setAttribute('title',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.setAttribute('aria-label',adminSidebarOpen?'Hide admin control panel':'Show admin control panel');btn.classList.toggle('isClosed',!adminSidebarOpen);}}
 function adminPanel(tab='dashboard',fromHistory=false){
