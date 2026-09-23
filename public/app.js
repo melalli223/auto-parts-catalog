@@ -655,24 +655,17 @@ function tyreFinderBrand(brandId){
 }
 function tyreFinderModel(modelId){
  const m=db.models.find(x=>x.id===modelId);
- const b=db.brands.find(x=>x.id===m?.brandId);
- if(!m||!b)return tyresByCar();
- const ys=modelYears(modelId);
- render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
- <button class="tyrePlaceholderBack" onclick="tyreFinderBrand('${b.id}')">← Back to Models</button>
- <div class="tyreFinderPageHead"><span>${esc(b.name)} · ${esc(m.name)}</span><h1>SELECT VEHICLE <b>YEAR</b></h1><p>Choose the year to continue.</p></div>
- <div class="tyreFinderYearGrid">${ys.map(y=>`<button onclick="tyreFinderResult('${m.id}','${encodeURIComponent(y)}')"><strong>${esc(y)}</strong><span>→</span></button>`).join('')||'<div class="empty">No years available for this model.</div>'}</div>
- </div></div></section>`)
+ if(!m)return tyresByCar();
+ tyreFinderResult(modelId);
 }
-function tyreFinderResult(modelId,yearValue){
+function tyreFinderResult(modelId){
  const m=db.models.find(x=>x.id===modelId);
  const b=db.brands.find(x=>x.id===m?.brandId);
  if(!m||!b)return tyresByCar();
- const y=decodeURIComponent(yearValue);
  const brandImage=b.image||placeholder(b.name);
  const modelImage=m.image||placeholder(m.name);
  render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage tyreFinderResultPage">
- <button class="tyrePlaceholderBack" onclick="tyreFinderModel('${m.id}')">← Back to Years</button>
+ <button class="tyrePlaceholderBack" onclick="tyreFinderBrand('${b.id}')">← Back to Models</button>
  <div class="tyreFinderResultHeader">
    <div class="tyreFinderResultImageFrame">
      <div class="tyreFinderResultBrandImage"><img src="${esc(brandImage)}" alt="${esc(b.name)}"></div>
@@ -681,13 +674,13 @@ function tyreFinderResult(modelId,yearValue){
    <div class="tyreFinderResultCopy">
      <span class="eyebrow">TYRE FINDER</span>
      <h1>${esc(b.name.toUpperCase())} <b>${esc(m.name.toUpperCase())}</b></h1>
-     <p>${esc(y)} · Find tyres for your selected vehicle.</p>
+     <p>Find tyres for your selected vehicle.</p>
    </div>
  </div>
  <div class="tyreFinderResultAction">
    <h2>TYRES FOR <span>${esc(m.name.toUpperCase())}</span></h2>
    <p>We have your vehicle details. Continue to enquire about suitable tyres.</p>
-   <button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to find tyres for my '+b.name+' '+m.name+', year '+y+'.')})'>FIND TYRES →</button>
+   <button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to find tyres for my '+b.name+' '+m.name+'.')})'>FIND TYRES →</button>
  </div>
  </div></div></section>`);
 }
