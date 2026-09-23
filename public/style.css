@@ -6450,11 +6450,11 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 /* Keep the existing tyre homepage hero size; only the feature-card placement is corrected. */
 .tyreDesktopHero{height:370px!important;margin-bottom:86px!important;overflow:visible!important}
 .tyreDesktopHeroText{padding-top:114px!important}
-.tyreFeatureCardsHtml{bottom:-58px!important;height:140px!important}
+.tyreFeatureCardsHtml{bottom:-46px!important;height:140px!important}
 @media(max-width:800px){
   .tyreDesktopHero{height:325px!important;margin-bottom:66px!important}
   .tyreDesktopHeroText{padding-top:78px!important}
-  .tyreFeatureCardsHtml{bottom:-43px!important;height:103px!important}
+  .tyreFeatureCardsHtml{bottom:-34px!important;height:103px!important}
 }
 
 /* Restore tyre brand header image and refine brand name typography. */
