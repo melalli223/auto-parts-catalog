@@ -6361,3 +6361,54 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreAdminFullPage .tyreAdminSections .formGroup{margin-bottom:14px}
 }
 
+
+
+/* Tyre brand results: keep the title/description readable over the header image */
+.tyreBrandResultsHeader{
+  position:relative!important;
+  overflow:hidden!important;
+  min-height:220px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  isolation:isolate;
+}
+.tyreBrandResultsHeader::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.48))!important;
+  z-index:-1!important;
+}
+.tyreBrandResultsHeader .tyreTypeHeaderCopy{
+  position:relative!important;
+  z-index:2!important;
+  width:min(760px,100%)!important;
+  padding:28px 22px!important;
+  text-align:center!important;
+  color:#fff!important;
+  text-shadow:0 2px 8px rgba(0,0,0,.55)!important;
+}
+.tyreBrandResultsHeader .tyreTypeHeaderCopy .eyebrow,
+.tyreBrandResultsHeader .tyreTypeHeaderCopy h1,
+.tyreBrandResultsHeader .tyreTypeHeaderCopy p{
+  color:#fff!important;
+}
+.tyreBrandResultsHeader .tyreTypeHeaderCopy h1{
+  margin:7px 0 9px!important;
+}
+.tyreBrandResultsHeader .tyreTypeHeaderCopy p{
+  max-width:650px!important;
+  margin:0 auto!important;
+}
+@media(max-width:650px){
+  .tyreBrandResultsHeader{
+    min-height:155px!important;
+  }
+  .tyreBrandResultsHeader .tyreTypeHeaderCopy{
+    padding:22px 14px!important;
+  }
+  .tyreBrandResultsHeader .tyreTypeHeaderCopy h1{
+    font-size:25px!important;
+  }
+}
