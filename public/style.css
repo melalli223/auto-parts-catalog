@@ -6461,5 +6461,5 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreBrandHeaderImageFrame{width:100%!important;height:220px!important;overflow:hidden!important;background:#f3f4f5!important}
 .tyreBrandHeaderImageFrame img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
 .tyreBrandHeaderCopy h1{font-family:Arial,Helvetica,sans-serif!important;font-size:30px!important;line-height:1.15!important;font-weight:700!important;font-style:normal!important;letter-spacing:.2px!important;color:#111!important}
-.tyreBrandRegistered{font-size:.48em!important;line-height:0!important;vertical-align:super!important;font-weight:700!important;margin-left:2px!important}
-@media(max-width:650px){.tyreBrandHeaderImageFrame{height:155px!important}.tyreBrandHeaderCopy h1{font-size:21px!important}.tyreBrandRegistered{font-size:.5em!important}}
+.tyreBrandRegistered{font-size:.38em!important;line-height:0!important;vertical-align:super!important;font-weight:700!important;margin-left:4px!important;position:relative;top:-.05em!important}
+@media(max-width:650px){.tyreBrandHeaderImageFrame{height:155px!important}.tyreBrandHeaderCopy h1{font-size:21px!important}.tyreBrandRegistered{font-size:.4em!important}}
