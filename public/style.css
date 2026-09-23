@@ -6446,3 +6446,13 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreBrandHeaderCopy h1{font-size:25px!important}
   .tyreBrandHeaderCopy p{font-size:11px!important;line-height:1.4!important}
 }
+
+/* Exact historical tyre homepage hero geometry */
+.tyreDesktopHero{height:405px!important;margin-bottom:86px!important;overflow:visible!important}
+.tyreDesktopHeroText{padding-top:114px!important}
+.tyreFeatureCardsHtml{bottom:-70px!important;height:140px!important}
+@media(max-width:800px){
+  .tyreDesktopHero{height:405px!important;margin-bottom:66px!important}
+  .tyreDesktopHeroText{padding-top:78px!important}
+  .tyreFeatureCardsHtml{bottom:-52px!important;height:103px!important}
+}
