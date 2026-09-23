@@ -6300,3 +6300,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     max-width:none!important;
   }
 }
+
+/* V131: keep tyre hero title inside the image frame and place its description directly below the frame */
+.tyreDesktopHeroDescription{position:relative;z-index:5;text-align:center;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;color:#222;background:#fff;margin:0;padding:14px 20px 16px}
+@media(max-width:800px){.tyreDesktopHeroDescription{font-size:11px;padding:10px 14px 12px}}
