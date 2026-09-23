@@ -575,56 +575,7 @@ function tyres(){
  const h=location.hash||'';
  if(/^#?tyres\/by-car(?:\/|$)/.test(h)&&typeof window.tyresByCar==='function'){window.tyresByCar();return}
  if(/^#?tyres\/by-number(?:\/|$)/.test(h)&&typeof window.tyresByNumber==='function'){window.tyresByNumber();return}
- setNav('');location.hash='tyres';const t=db.tyres||defaultTyres;const hero=t.hero||defaultTyres.hero;const heroImages=(hero.images&&hero.images.length?hero.images:[hero.image||defaultTyres.hero.image]);const features=(t.features||defaultTyres.features).slice(0,3);const brands=(t.brands||defaultTyres.brands);const featured=(t.featured||defaultTyres.featured);const findByCar=t.findByCar||defaultTyres.findByCar;const findByNumber=t.findByNumber||defaultTyres.findByNumber;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreDesktopHero"><div class="tyreHeroSlider" id="tyreHeroSlider">${heroImages.map((src,i)=>`<div class="tyreHeroSlide ${i===0?'active':''}" style="background-image:linear-gradient(180deg,rgba(0,0,0,.40),rgba(0,0,0,.68)),url('${esc(src)}')"></div>`).join('')}</div><div class="tyreDesktopHeroText"><h1>${esc(hero.title)}</h1><h2>${esc(hero.red)}</h2><i></i></div></div><div class="tyreDesktopHeroDescription">${esc(hero.description||'').replace(/\n/g,'<br>')}</div><div class="tyreFeatureCardsHtml">${features.map(x=>`<button class="tyreFeatureCardHtml ${esc(x.key)}" onclick="smartEnquiry('${esc(x.message||'Hello, I would like to enquire about tyres.').replace(/'/g,"\\'")}')"><span class="featureTextHtml"><b>${esc(x.title)}</b><em>${esc(x.subtitle)}</em><i></i></span><img src="${esc(x.image)}" alt="${esc(x.title+' '+x.subtitle)}"></button>`).join('')}</div><div class="tyreHtmlBrands"><h2>Tyre Brands</h2><div class="tyreHtmlBrandGrid">${brands.map((x,i)=>`<button onclick="tyreBrandPage(${i})"><img src="${esc(x.image)}" alt="${esc(x.name)}"></button>`).join('')}</div></div><div class="tyreHtmlFeatured"><div class="tyreHtmlFeaturedHead"><h2>Featured Tyre Types</h2><button onclick="smartEnquiry('Hello, I would like to enquire about your available tyres.')">View All Tyres →</button></div><div class="tyreHtmlFeaturedGrid">${featured.map((x,i)=>`<button onclick="tyreTypePage(${i})"><img src="${esc(x.image)}" alt="${esc(x.title)}"><b>${esc(x.title)}</b><small>${esc(x.description)}</small><span>→</span></button>`).join('')}</div></div><section class="tyreFinderSection">
-<div class="tyreFinderHead">
-<span>TYRE FINDER</span>
-<h2>FIND THE RIGHT <b>TYRES</b></h2>
-<p>Choose how you want to find your tyres.</p>
-</div>
-<div class="tyreFinderGrid">
-<button class="tyreFinderCard" onclick="location.hash='tyres/by-car'">
-<span class="tyreFinderCardImage"><img src="${esc(findByCar.homeImage||findByCar.image||placeholder('Find Tyre by Car'))}" alt=""></span>
-<div><strong>FIND TYRE BY CAR</strong><small>Choose your car brand, model and year.</small></div>
-<span class="tyreFinderArrow">→</span>
-</button>
-<button class="tyreFinderCard" onclick="location.hash='tyres/by-size'">
-<span class="tyreFinderCardImage"><img src="${esc(findByNumber.homeImage||findByNumber.image||placeholder('Find Tyre by Size'))}" alt=""></span>
-<div><strong>FIND TYRE BY SIZE</strong><small>Search using your tyre size.</small></div>
-<span class="tyreFinderArrow">→</span>
-</button>
-</div>
-</section><div class="tyreAboutContactSection">
-<section class="tyreAboutSection">
-<div class="tyreAboutContent">
-<span class="tyreAboutEyebrow">ABOUT US</span>
-<h2>${esc((db.tyres?.contact?.aboutTitle)||'About Our Business')}</h2>
-<p>${esc((db.tyres?.contact?.aboutText)||'').replace(/\n/g,'<br>')}</p>
-${tyreMediaLinksHtml()?`<div class="tyreAboutSocials" aria-label="Social media links">${tyreMediaLinksHtml()}</div>`:''}
-</div>
-</section>
-<a class="tyreContactSupport" href="#tyres/contact" onclick="tyreContactPage();return false;">
-<div class="tyreContactText">
-<span>CONTACT &amp; SUPPORT</span>
-<small>We are here to help you find the right tyres.</small>
-<div class="tyreContactPhones">
-${[db.tyres?.contact?.phone,db.tyres?.contact?.phone2,db.tyres?.contact?.phone3].filter(Boolean).map(p=>'<b>'+esc(p)+'</b>').join('')}
-</div>
-</div>
-<div class="tyreContactImageFrame" aria-hidden="true">
-${db.tyres?.contact?.contactImage?`<img src="${esc(db.tyres.contact.contactImage)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">`:''}
-</div>
-</a>
-<a class="tyreAutoPartsPromo" href="/" aria-label="${esc(db.settings.promoButton||'Explore Auto Parts')}" ${db.settings.promoBackground?`style="background-image:url('${db.settings.promoBackground}')"`:''}>
-  <div class="tyreAutoPartsPromoText">
-    <span class="tyreAutoPartsPromoEyebrow">${esc(db.settings.promoEyebrow||'AUTO PARTS')}</span>
-    <h3>${esc(db.settings.promoTitle||'LOOKING FOR MORE THAN TYRES?')}</h3>
-    <p>${esc(db.settings.promoDescription||'Explore our full range of quality auto parts for your vehicle.')}</p>
-    <span class="tyreAutoPartsPromoButton">${esc(db.settings.promoButton||'EXPLORE AUTO PARTS')} <b>→</b></span>
-  </div>
-  <div class="tyreAutoPartsPromoVisual" aria-hidden="true">
-    <span>PARTS</span>
-  </div>
-</a>
+ setNav('');location.hash='tyres';const t=db.tyres||defaultTyres;const hero=t.hero||defaultTyres.hero;const heroImages=(hero.images&&hero.images.length?hero.images:[hero.image||defaultTyres.hero.image]);const features=(t.features||defaultTyres.features).slice(0,3);const brands=(t.brands||defaultTyres.brands);const featured=(t.featured||defaultTyres.featured);const findByCar=t.findByCar||defaultTyres.findByCar;const findByNumber=t.findByNumber||defaultTyres.findByNumber;render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreDesktopHero"><div class="tyreHeroSlider" id="tyreHeroSlider">${heroImages.map((src,i)=>`<div class="tyreHeroSlide ${i===0?'active':''}" style="background-image:linear-gradient(180deg,rgba(0,0,0,.40),rgba(0,0,0,.68)),url('${esc(src)}')"></div>`).join('')}</div><div class="tyreDesktopHeroText"><h1>${esc(hero.title)}</h1><h2>${esc(hero.red)}</h2><i></i></div><
 </div>
 <div class="tyreBottomGap"></div><img class="tyreBottomArt" src="${esc(t.bottomImage||defaultTyres.bottomImage)}" alt=""></div></section>`);initHeroSlider(heroImages) }
 
