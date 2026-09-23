@@ -669,7 +669,27 @@ function tyreFinderResult(modelId,yearValue){
  const b=db.brands.find(x=>x.id===m?.brandId);
  if(!m||!b)return tyresByCar();
  const y=decodeURIComponent(yearValue);
- smartEnquiry(`Hello, I would like to find tyres for my ${b.name} ${m.name}, year ${y}.`);
+ const brandImage=b.image||placeholder(b.name);
+ const modelImage=m.image||placeholder(m.name);
+ render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage tyreFinderResultPage">
+ <button class="tyrePlaceholderBack" onclick="tyreFinderModel('${m.id}')">← Back to Years</button>
+ <div class="tyreFinderResultHeader">
+   <div class="tyreFinderResultImageFrame">
+     <div class="tyreFinderResultBrandImage"><img src="${esc(brandImage)}" alt="${esc(b.name)}"></div>
+     <div class="tyreFinderResultModelImage"><img src="${esc(modelImage)}" alt="${esc(m.name)}"></div>
+   </div>
+   <div class="tyreFinderResultCopy">
+     <span class="eyebrow">TYRE FINDER</span>
+     <h1>${esc(b.name.toUpperCase())} <b>${esc(m.name.toUpperCase())}</b></h1>
+     <p>${esc(y)} · Find tyres for your selected vehicle.</p>
+   </div>
+ </div>
+ <div class="tyreFinderResultAction">
+   <h2>TYRES FOR <span>${esc(m.name.toUpperCase())}</span></h2>
+   <p>We have your vehicle details. Continue to enquire about suitable tyres.</p>
+   <button class="primary" onclick='smartEnquiry(${JSON.stringify('Hello, I would like to find tyres for my '+b.name+' '+m.name+', year '+y+'.')})'>FIND TYRES →</button>
+ </div>
+ </div></div></section>`);
 }
 function tyresByNumber(){
  setNav('');
