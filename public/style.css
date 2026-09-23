@@ -6412,3 +6412,11 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:25px!important;
   }
 }
+
+/* Restore original tyre homepage hero-text and promo positions */
+.tyreDesktopHeroText{padding-top:78px!important}
+.tyreAutoPartsPromo{margin-top:18px!important}
+@media(max-width:800px){
+  .tyreDesktopHeroText{padding-top:78px!important}
+  .tyreAutoPartsPromo{margin-top:14px!important}
+}
