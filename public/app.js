@@ -1023,7 +1023,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
    <div><span class="eyebrow">TYRE MANAGEMENT</span><h2>Tyre Page Administration</h2><p class="muted">Manage the dedicated wheels & tyres page separately from your main auto-parts catalog.</p></div>
    <div class="tyreAdminTopActions"><a class="ghost" href="/admin">← MAIN ADMIN</a><button class="viewSite" onclick="location.href='/#tyres'">VIEW TYRE PAGE</button></div>
   </div>
-  <div class="tyreAdminStats"><div><b>1</b><span>Tyre page</span></div><div><b>${features.length}</b><span>Promo panels</span></div><div><b>${brands.length}</b><span>Brands</span></div><div><b>${featured.length}</b><span>Tyre types</span></div></div>`:`'';
+  <div class="tyreAdminStats"><div><b>1</b><span>Tyre page</span></div><div><b>${features.length}</b><span>Promo panels</span></div><div><b>${brands.length}</b><span>Brands</span></div><div><b>${featured.length}</b><span>Tyre types</span></div></div>`:``;
 
  c.innerHTML=`
  <div class="tyreAdminPage ${isDashboard?'tyreAdminDashboardPage':'tyreAdminFullPage'}">
