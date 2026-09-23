@@ -6217,8 +6217,18 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreProductResultsPage > .tyrePlaceholderBack{
   display:block;
   width:max-content;
-  margin:34px auto 0;
+  margin:52px auto 0;
+  padding:7px 14px;
+  border:1px solid #d9d9d9;
+  border-radius:7px;
   text-align:center;
   font-size:16px;
   font-weight:700;
+  color:#555;
+  transition:color .18s ease,border-color .18s ease,background-color .18s ease;
+}
+.tyreProductResultsPage > .tyrePlaceholderBack:hover{
+  color:#d71920;
+  border-color:#d71920;
+  background:#fff;
 }
