@@ -365,6 +365,7 @@ function render(content){
    window.__renderTimer=setTimeout(draw,260);
  }else draw();
 }
+window.render=render;
 function contextBanner(label,image,title,subtitle){return `<div class="contextBanner"><div><span class="eyebrow">${esc(label)}</span><h1>${esc(title)}</h1>${subtitle?`<div class="contextSub">${esc(subtitle)}</div>`:''}</div><div class="contextImage">${image?`<img src="${image}" alt="${esc(title)}">`:''}</div></div>`}
 function hero(){
  const slides=Array.isArray(db.settings.heroSlides)&&db.settings.heroSlides.length?db.settings.heroSlides:(Array.isArray(db.settings.heroImages)&&db.settings.heroImages.length?db.settings.heroImages.map(image=>({image,black:db.settings.heroBlack,red:db.settings.heroRed,description:db.settings.heroDescription,align:'left'})):(db.settings.heroImage?[{image:db.settings.heroImage,black:db.settings.heroBlack,red:db.settings.heroRed,description:db.settings.heroDescription,align:'left'}]:[]));
@@ -1115,6 +1116,7 @@ function showTyreProductResults(title,filter,brandHeader=null){const ps=(db.tyre
 
 async function addTyreHeroImage(inputEl){const files=[...(inputEl.files||[])];if(!files.length)return;try{const t=clone(db.tyres||defaultTyres);if(!Array.isArray(t.hero.images))t.hero.images=t.hero.image?[t.hero.image]:[];for(const f of files){const url=await uploadImage(f,'product-images','hero');if(url)t.hero.images.push(url)}t.hero.image=t.hero.images[0]||'';await saveTyreData(t);toast(files.length>1?files.length+' hero images added':'Hero image added');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not upload image')}}
 async function removeTyreHeroImage(idx){try{const t=clone(db.tyres||defaultTyres);if(!Array.isArray(t.hero.images))t.hero.images=t.hero.image?[t.hero.image]:[];if(t.hero.images.length<=1){toast('Keep at least one hero image');return}t.hero.images.splice(idx,1);t.hero.image=t.hero.images[0]||'';await saveTyreData(t);toast('Image removed');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not remove image')}}
+window.showTyreProductResults=showTyreProductResults;
 function openTyreSizeModal(){
  modal(`<div class="tyreSizeModalHead"><span class="eyebrow">TYRE SIZE</span><h2>Add tyre size</h2><p class="muted">Enter the standard measurements. The size label is generated automatically.</p></div>
  <div class="tyreSizeFormGrid">
