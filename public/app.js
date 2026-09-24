@@ -118,6 +118,9 @@ async function bootCustomer(){
     setTimeout(restoreInitialTyreFindRoute,50);
     return true;
   };
+  // Render Find Tyre routes immediately from the local/default catalog.
+  // Do not make these pages wait for the remote Supabase load to finish.
+  if(isTyreFindRoute)restoreInitialTyreFindRoute();
   if(!initSupabase()){
     if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();
     toast('Online connection library could not load. Showing local catalog.');
