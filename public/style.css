@@ -6509,3 +6509,84 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
  .tyreFinderActionCopy p{font-size:11px!important;line-height:1.4!important}
  .tyreFinderActionResultsPage .tyreProductSlider{margin-top:0!important}
 }
+
+/* Find Tyres result page — match the supplied reference: split vehicle images, divider, large centered vehicle title, then results. */
+.tyreFinderActionResultsPage{padding-top:0!important}
+.tyreFinderActionHeader{
+  margin:-30px -24px 0!important;
+  width:calc(100% + 48px);
+  background:#fff!important;
+  color:#111!important;
+  box-sizing:border-box;
+}
+.tyreFinderActionImageFrame{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  width:100%!important;
+  height:310px!important;
+  overflow:hidden!important;
+  background:#fff!important;
+  border-bottom:1px solid #777!important;
+}
+.tyreFinderActionImageFrame>div{
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+  background:#fff!important;
+}
+.tyreFinderActionImageFrame img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+.tyreFinderActionBrandImage{border-right:0!important}
+.tyreFinderActionTitle{
+  min-height:112px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px 20px 16px;
+  text-align:center;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-size:52px!important;
+  line-height:1.08!important;
+  font-weight:700!important;
+  letter-spacing:-1.1px!important;
+  color:#050505!important;
+}
+.tyreFinderActionTitle span{font-weight:700!important}
+.tyreFinderActionProducts{
+  margin-top:36px!important;
+}
+.tyreFinderActionResultsPage .tyrePublicProductGrid{
+  margin-top:0!important;
+}
+.tyreFinderActionBack{
+  display:flex!important;
+  justify-content:center!important;
+  gap:12px!important;
+  margin:34px 0 28px!important;
+}
+@media(max-width:650px){
+  .tyreFinderActionHeader{
+    margin:-18px -14px 0!important;
+    width:calc(100% + 28px)!important;
+  }
+  .tyreFinderActionImageFrame{height:190px!important}
+  .tyreFinderActionTitle{
+    min-height:78px;
+    padding:14px 10px 12px;
+    font-size:27px!important;
+    line-height:1.1!important;
+    letter-spacing:-.5px!important;
+  }
+  .tyreFinderActionProducts{margin-top:24px!important}
+  .tyreFinderActionBack{
+    flex-direction:column;
+    align-items:center;
+    margin:26px 0 20px!important;
+  }
+}
