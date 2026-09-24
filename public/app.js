@@ -668,27 +668,29 @@ function tyreFinderShowResults(modelId){
  setNav('');
  location.hash='tyres/by-car';
  render('<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreProductResultsPage tyreFinderActionResultsPage">'+
+  '<button class="tyrePlaceholderBack" onclick="tyreFinderBrand(\''+b.id+'\')">← Back to Models</button>'+
   '<div class="tyreFinderActionHeader">'+
     '<div class="tyreFinderActionImageFrame">'+
       '<div class="tyreFinderActionBrandImage"><img src="'+esc(brandImage)+'" alt="'+esc(b.name)+'"></div>'+
       '<div class="tyreFinderActionModelImage"><img src="'+esc(modelImage)+'" alt="'+esc(m.name)+'"></div>'+
     '</div>'+
-    '<div class="tyreFinderActionTitle">'+esc(b.name.toUpperCase())+' '+esc(m.name)+' <span>Tyres</span></div>'+
-  '</div>'+
-  '<div class="tyreFinderActionProducts">'+
-    '<div class="tyreProductSlider">'+
-      '<button class="tyreProductSliderArrow tyreProductSliderPrev" type="button" aria-label="Previous products" onclick="tyreProductSliderScroll(-1)">‹</button>'+
-      '<div class="tyrePublicProductGrid">'+
-        (ps.map(tyreProductCard).join('')||'<div class="empty">No tyre products found for this vehicle.</div>')+
-      '</div>'+
-      '<button class="tyreProductSliderArrow tyreProductSliderNext" type="button" aria-label="Next products" onclick="tyreProductSliderScroll(1)">›</button>'+
+    '<div class="tyreFinderActionCopy">'+
+      '<span class="eyebrow">TYRE FINDER</span>'+
+      '<h1>'+esc(b.name.toUpperCase())+' <b>'+esc(m.name.toUpperCase())+'</b></h1>'+
+      '<p>Tyres available for your selected vehicle.</p>'+
     '</div>'+
   '</div>'+
-  '<div class="tyreFinderActionBack"><button class="tyrePlaceholderBack" onclick="tyreFinderBrand(\''+b.id+'\')">← Back to Models</button><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button></div>'+
+  '<div class="tyreProductSlider">'+
+    '<button class="tyreProductSliderArrow tyreProductSliderPrev" type="button" aria-label="Previous products" onclick="tyreProductSliderScroll(-1)">‹</button>'+
+    '<div class="tyrePublicProductGrid">'+
+      (ps.map(tyreProductCard).join('')||'<div class="empty">No tyre products found for this vehicle.</div>')+
+    '</div>'+
+    '<button class="tyreProductSliderArrow tyreProductSliderNext" type="button" aria-label="Next products" onclick="tyreProductSliderScroll(1)">›</button>'+
+  '</div>'+
+  '<button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>'+
  '</div></div></section>');
  ensureTyreCompareUI();
 }
-
 function tyreFinderResult(modelId){
  const m=db.models.find(x=>x.id===modelId);
  const b=db.brands.find(x=>x.id===m?.brandId);
