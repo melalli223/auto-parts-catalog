@@ -45,5 +45,5 @@ const bb=dropdown(bh,brands.map(x=>({id:String(x.id),name:String(x.name)})),'Sel
 dropdown(mh,[],'Select Vehicle Model',true,()=>{});
 const hero=document.querySelector('.tyreByCarHero');const heroImage=d.tyres?.findByCar?.image||d.tyres?.hero?.image||'/assets/tyre-ref/hero.png';if(hero&&heroImage)hero.style.backgroundImage=`url("${String(heroImage).replace(/"/g,'\\\"')}")`;
 document.addEventListener('click',()=>document.querySelectorAll('.tyreCustomSelect.open').forEach(x=>x.classList.remove('open')));
-btn.addEventListener('click',()=>{if(brand&&model)location.hash='tyres/by-car/'+encodeURIComponent(brand)+'/'+encodeURIComponent(model)});document.querySelector('.tyre-home-button').addEventListener('click',()=>{if(history.length>1)history.back();else location.hash='tyres'});
+btn.addEventListener('click',()=>{if(brand&&model)location.hash='tyres/by-car/'+encodeURIComponent(brand)+'/'+encodeURIComponent(model)});document.querySelector('.tyre-home-button').addEventListener('click',()=>{location.hash='tyres/by-car'});
 };})();
