@@ -126,7 +126,15 @@ async function bootCustomer(){
     toast('Online connection library could not load. Showing local catalog.');
     return;
   }
-  try{await loadRemoteDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home()}
+  try{
+    // Never leave the public site stuck on the boot screen if the remote catalog is slow or unreachable.
+    // Supabase can be queried in parallel, but the UI must fall back to the local/default catalog promptly.
+    await Promise.race([
+      loadRemoteDb(),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('Remote catalog load timed out')),8000))
+    ]);
+    if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home()
+  }
   catch(e){
     console.error(e);onlineLoaded=false;
     try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Online catalog unavailable — showing cached data')}else{if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Online catalog is empty or unavailable')}}
