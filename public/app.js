@@ -291,6 +291,7 @@ async function migrateLocalCatalog(){
  }catch(e){console.error(e);toast('Migration stopped: '+(e.message||'unknown error'))}
 }
 const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+window.esc=esc;
 const catByName=n=>db.categories.find(c=>c.name===n);
 const branchesForCategory=cid=>db.branches.filter(br=>br.categoryId===cid);
 const branchById=id=>db.branches.find(br=>br.id===id);
