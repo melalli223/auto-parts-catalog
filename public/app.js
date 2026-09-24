@@ -687,7 +687,7 @@ function tyreFinderShowResults(modelId){
     '</div>'+
     '<button class="tyreProductSliderArrow tyreProductSliderNext" type="button" aria-label="Next products" onclick="tyreProductSliderScroll(1)">›</button>'+
   '</div>'+
-  (brandHeader&&brandHeader.kind==='car'?'<button class="tyrePlaceholderBack" onclick="location.hash=&quot;tyres/by-car&quot;">← Back to Find Tyres</button>':brandHeader&&brandHeader.kind==='size'?'<button class="tyrePlaceholderBack" onclick="location.hash=&quot;tyres/by-size&quot;">← Back to Find Tyres</button>':'<button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>')+
+  (brandHeader&&brandHeader.kind==='car'?'<button class="tyrePlaceholderBack" onclick="tyresByCar()">← Back to Find Tyres</button>':brandHeader&&brandHeader.kind==='size'?'<button class="tyrePlaceholderBack" onclick="tyresByNumber()">← Back to Find Tyres</button>':'<button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button>')+
  '</div></div></section>');
  ensureTyreCompareUI();
 }
