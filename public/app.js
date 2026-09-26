@@ -116,7 +116,7 @@ async function loadRemoteDb(){
  cacheDb();window.__apCatalogDb=db;onlineLoaded=true;return db;
 }
 function showBoot(message='Loading catalog…'){document.querySelector('#app').innerHTML=`<div class="login"><div class="loginBox"><h2>${esc(message)}</h2><p class="muted">Connecting to the online catalog.</p></div></div>`}
-function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(+parts[2]);return true}if(parts[1]==='contact'){tyreContactPage();return true}
+function routeTyresHash(){const parts=location.hash.replace('#','').split('/');if(parts[0]!=='tyres')return false;if(parts[1]==='brand'&&parts[2]!==undefined){tyreBrandPage(+parts[2]);return true}if(parts[1]==='type'&&parts[2]!==undefined){tyreTypePage(parts[2]);return true}if(parts[1]==='contact'){tyreContactPage();return true}
 if(parts[1]==='by-car'){if(typeof window.tyresByCar==='function'){window.tyresByCar()}else{setTimeout(routeTyresHash,50)}return true}
 if(parts[1]==='by-size'){if(typeof window.tyresByNumber==='function'){window.tyresByNumber()}else{setTimeout(routeTyresHash,50)}return true}tyres();return true}
 window.addEventListener('hashchange',()=>{const h=location.hash||'';if(/^#?tyres(?:\/|$)/.test(h))routeTyresHash()});
