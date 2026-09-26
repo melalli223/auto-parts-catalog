@@ -1071,12 +1071,44 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  const promoTextItems=(t.promoImages||[]).map((src,i)=>({...promoDefaults[i%promoDefaults.length],...((t.promoTexts||[])[i]||{})}));
  const promoTextEditor='<div id="tyrePromoTextEditors" class="tyrePromoTextEditors">'+promoTextItems.map((x,i)=>'<div class="tyrePromoTextCard" data-promo-index="'+i+'"><div id="tyrePromoTextForm'+i+'" class="tyrePromoTextForm" hidden><div class="tyreAdminSubHead"><span>Image '+(i+1)+' text</span><small>Edit the text shown while this image is displayed.</small></div><div class="tyrePromoTextFields"><div class="formGroup"><label>Heading</label><div class="tyrePromoTextControl"><input id="tPromoTitle'+i+'" class="input" value="'+esc(x.title||'')+'"><input id="tPromoTitleColor'+i+'" type="color" class="tyrePromoColor" value="'+esc(x.titleColor||'#ffffff')+'"></div></div><div class="formGroup"><label>Highlight</label><div class="tyrePromoTextControl"><input id="tPromoHighlight'+i+'" class="input" value="'+esc(x.highlight||'')+'"><input id="tPromoHighlightColor'+i+'" type="color" class="tyrePromoColor" value="'+esc(x.highlightColor||'#d71920')+'"></div></div><div class="formGroup"><label>Description</label><div class="tyrePromoTextControl"><textarea id="tPromoDesc'+i+'" class="input" rows="2">'+esc(x.desc||'')+'</textarea><input id="tPromoDescColor'+i+'" type="color" class="tyrePromoColor" value="'+esc(x.descColor||'#ffffff')+'"></div></div><div class="formGroup"><label>Button text</label><div class="tyrePromoTextControl"><input id="tPromoButton'+i+'" class="input" value="'+esc(x.button||'')+'"><input id="tPromoButtonColor'+i+'" type="color" class="tyrePromoColor" value="'+esc(x.buttonColor||'#ffffff')+'"></div></div><div class="formGroup"><label>Text alignment</label><select id="tPromoAlign'+i+'" class="select"><option value="left" '+(x.align==='left'?'selected':'')+'>Left</option><option value="center" '+(x.align==='center'?'selected':'')+'>Center</option><option value="right" '+(x.align==='right'?'selected':'')+'>Right</option></select><small class="helpText">Aligns all text in this section together.</small></div></div></div></div></div>').join('')+'</div>';
  const shopTyresPromoSection='<section class="tyreAdminCard tyreAdminPromoSection" id="tyreShopTyresPromoSection"><div class="tyreCardHead"><div><span class="eyebrow">SHOP TYRES PROMO</span><h3>Shop Tyres Promo Box</h3><p>Upload multiple background images for the Shop Tyres box on the Auto Parts homepage.</p></div></div><div class="tyreAdminSubSection"><div class="tyreAdminSubHead"><span>Promo slideshow images</span><small>Multiple images rotate automatically inside the full promo box.</small></div><div class="tyreAdminHeroLayout"><div class="formGroup"><label>Promo images</label><input id="tPromoImages" type="file" accept="image/*" multiple class="input" onchange="previewTyrePromoUploads(this)"><small class="helpText">Select multiple images at once. New uploads stay listed with the existing images until you save.</small><div id="tyrePromoImageGallery">'+promoGallery(t.promoImages)+'</div></div><div></div></div></div>'+promoTextEditor+'</section>';
+ const tyreDashboardProducts=Array.isArray(t.tyreProducts)?t.tyreProducts:[];
+ const tyreInStock=tyreDashboardProducts.filter(p=>String(p.availability||'Available').toLowerCase()==='available').length;
+ const tyreOutOfStock=tyreDashboardProducts.filter(p=>String(p.availability||'').toLowerCase()==='out of stock').length;
+ const tyreWithImages=tyreDashboardProducts.filter(p=>p.image).length;
+ const tyreWithPrices=tyreDashboardProducts.filter(p=>p.price!==''&&p.price!=null&&Number(p.price)>=0).length;
+ const tyreImageCoverage=tyreDashboardProducts.length?Math.round(tyreWithImages/tyreDashboardProducts.length*100):0;
  const dashboardBody=`<div class="tyreAdminDashGrid">
    <button class="tyreDashCard" onclick="tyreAdminGo('settings')"><span class="tyreDashIcon">◆</span><div><strong>Settings</strong><span>Hero, promotional panels &amp; bottom banner image</span></div><span class="tyreDashArrow">→</span></button>
    <button class="tyreDashCard" onclick="tyreAdminGo('brands')"><span class="tyreDashIcon">◉</span><div><strong>Tyre Brands</strong><span>${brands.length} brand logos shown on the public page</span></div><span class="tyreDashArrow">→</span></button>
-   <button class="tyreDashCard" onclick="tyreAdminGo('featured')"><span class="tyreDashIcon">◇</span><div><strong>Tyre Types</strong><span>${featured.length} tyre-type cards shown on the public page</span></div><span class="tyreDashArrow">→</span></button>\n   <button class="tyreDashCard" onclick="tyreAdminGo('sizes')"><span class="tyreDashIcon">▣</span><div><strong>Tyre Sizes</strong><span>${sizes.length} reusable tyre sizes available</span></div><span class="tyreDashArrow">→</span></button>
-   <button class="tyreDashCard" onclick="tyreAdminGo('products')"><span class="tyreDashIcon">◈</span><div><strong>Tyre Products</strong><span>${(t.tyreProducts||[]).length} tyre products in the catalogue</span></div><span class="tyreDashArrow">→</span></button>
-  </div>`;
+   <button class="tyreDashCard" onclick="tyreAdminGo('featured')"><span class="tyreDashIcon">◇</span><div><strong>Tyre Types</strong><span>${featured.length} tyre-type cards shown on the public page</span></div><span class="tyreDashArrow">→</span></button>
+   <button class="tyreDashCard" onclick="tyreAdminGo('sizes')"><span class="tyreDashIcon">▣</span><div><strong>Tyre Sizes</strong><span>${sizes.length} reusable tyre sizes available</span></div><span class="tyreDashArrow">→</span></button>
+   <button class="tyreDashCard" onclick="tyreAdminGo('products')"><span class="tyreDashIcon">◈</span><div><strong>Tyre Products</strong><span>${tyreDashboardProducts.length} tyre products in the catalogue</span></div><span class="tyreDashArrow">→</span></button>
+  </div>
+  <section class="tyreAdminCard">
+   <div class="tyreCardHead"><div><span class="eyebrow">PRODUCT MANAGEMENT</span><h3>Manage tyre catalogue</h3><p>Quick access to the areas used to build and maintain the public tyre catalogue.</p></div></div>
+   <div class="tyreAdminDashGrid">
+    <button class="tyreDashCard" onclick="tyreAdminGo('products')"><span class="tyreDashIcon">◈</span><div><strong>Manage Products</strong><span>Add, edit and remove tyre products</span></div><span class="tyreDashArrow">→</span></button>
+    <button class="tyreDashCard" onclick="tyreAdminGo('brands')"><span class="tyreDashIcon">◉</span><div><strong>Manage Brands</strong><span>Add, edit and order tyre brands</span></div><span class="tyreDashArrow">→</span></button>
+    <button class="tyreDashCard" onclick="tyreAdminGo('featured')"><span class="tyreDashIcon">◇</span><div><strong>Manage Tyre Types</strong><span>Maintain the tyre-type catalogue</span></div><span class="tyreDashArrow">→</span></button>
+    <button class="tyreDashCard" onclick="tyreAdminGo('sizes')"><span class="tyreDashIcon">▣</span><div><strong>Manage Sizes</strong><span>Add and maintain reusable tyre sizes</span></div><span class="tyreDashArrow">→</span></button>
+    <button class="tyreDashCard" onclick="tyreAdminGo('by-car')"><span class="tyreDashIcon">🚘</span><div><strong>Find Tyre By Car</strong><span>Manage the customer car-search page</span></div><span class="tyreDashArrow">→</span></button>
+    <button class="tyreDashCard" onclick="tyreAdminGo('by-number')"><span class="tyreDashIcon">◉</span><div><strong>Find Tyre By Size</strong><span>Manage the customer size-search page</span></div><span class="tyreDashArrow">→</span></button>
+   </div>
+  </section>
+  <section class="tyreAdminCard">
+   <div class="tyreCardHead"><div><span class="eyebrow">TYRE ANALYTICS</span><h3>Catalogue overview</h3><p>Live counts from the tyre products, brands, types and sizes currently loaded in the admin.</p></div></div>
+   <div class="tyreAdminStats">
+    <div><b>${tyreDashboardProducts.length}</b><span>Tyre products</span></div>
+    <div><b>${tyreInStock}</b><span>Available</span></div>
+    <div><b>${tyreOutOfStock}</b><span>Out of stock</span></div>
+    <div><b>${tyreImageCoverage}%</b><span>Products with images</span></div>
+    <div><b>${tyreWithPrices}</b><span>Products with prices</span></div>
+    <div><b>${brands.length}</b><span>Brands</span></div>
+    <div><b>${featured.length}</b><span>Tyre types</span></div>
+    <div><b>${sizes.length}</b><span>Tyre sizes</span></div>
+   </div>
+  </section>`;
+
  let sectionsHtml,showSaveBar;
  if(tyreAdminSubTab==='settings'){sectionsHtml=heroSection+contactSettingsSection+promoSection+shopTyresPromoSection;showSaveBar=true}
  else if(tyreAdminSubTab==='by-car'){sectionsHtml=finderCarSection;showSaveBar=true}
