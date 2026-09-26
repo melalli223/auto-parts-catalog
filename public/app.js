@@ -1077,18 +1077,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  const tyreWithImages=tyreDashboardProducts.filter(p=>p.image).length;
  const tyreWithPrices=tyreDashboardProducts.filter(p=>p.price!==''&&p.price!=null&&Number(p.price)>=0).length;
  const tyreImageCoverage=tyreDashboardProducts.length?Math.round(tyreWithImages/tyreDashboardProducts.length*100):0;
- const dashboardBody=`  <section class="tyreAdminCard">
-   <div class="tyreCardHead"><div><span class="eyebrow">PRODUCT MANAGEMENT</span><h3>Manage tyre catalogue</h3><p>Quick access to the areas used to build and maintain the public tyre catalogue.</p></div></div>
-   <div class="tyreAdminDashGrid">
-    <button class="tyreDashCard" onclick="tyreAdminGo('products')"><span class="tyreDashIcon">◈</span><div><strong>Manage Products</strong><span>Add, edit and remove tyre products</span></div><span class="tyreDashArrow">→</span></button>
-    <button class="tyreDashCard" onclick="tyreAdminGo('brands')"><span class="tyreDashIcon">◉</span><div><strong>Manage Brands</strong><span>Add, edit and order tyre brands</span></div><span class="tyreDashArrow">→</span></button>
-    <button class="tyreDashCard" onclick="tyreAdminGo('featured')"><span class="tyreDashIcon">◇</span><div><strong>Manage Tyre Types</strong><span>Maintain the tyre-type catalogue</span></div><span class="tyreDashArrow">→</span></button>
-    <button class="tyreDashCard" onclick="tyreAdminGo('sizes')"><span class="tyreDashIcon">▣</span><div><strong>Manage Sizes</strong><span>Add and maintain reusable tyre sizes</span></div><span class="tyreDashArrow">→</span></button>
-    <button class="tyreDashCard" onclick="tyreAdminGo('by-car')"><span class="tyreDashIcon">🚘</span><div><strong>Find Tyre By Car</strong><span>Manage the customer car-search page</span></div><span class="tyreDashArrow">→</span></button>
-    <button class="tyreDashCard" onclick="tyreAdminGo('by-number')"><span class="tyreDashIcon">◉</span><div><strong>Find Tyre By Size</strong><span>Manage the customer size-search page</span></div><span class="tyreDashArrow">→</span></button>
-   </div>
-  </section>
-  <section class="tyreAdminCard">
+ const dashboardBody=`<section class="tyreAdminCard">
    <div class="tyreCardHead"><div><span class="eyebrow">TYRE ANALYTICS</span><h3>Catalogue overview</h3><p>Live counts from the tyre products, brands, types and sizes currently loaded in the admin.</p></div></div>
    <div class="tyreAdminStats">
     <div><b>${tyreDashboardProducts.length}</b><span>Tyre products</span></div>
