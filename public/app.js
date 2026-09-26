@@ -1077,6 +1077,21 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  const tyreWithImages=tyreDashboardProducts.filter(p=>p.image).length;
  const tyreWithPrices=tyreDashboardProducts.filter(p=>p.price!==''&&p.price!=null&&Number(p.price)>=0).length;
  const tyreImageCoverage=tyreDashboardProducts.length?Math.round(tyreWithImages/tyreDashboardProducts.length*100):0;
+ const tyreBrandCount=new Map(),tyreTypeCount=new Map(),tyreSizeCount=new Map();
+ tyreDashboardProducts.forEach(p=>{
+  const brand=(brands.find((b,i)=>String(b.id||i)===String(p.brandId))?.name||p.brand||'Unassigned').trim();
+  const type=(featured.find((x,i)=>String(x.id||i)===String(p.typeId))?.title||p.type||'Unassigned').trim();
+  const size=(sizes.find((x,i)=>String(x.id||i)===String(p.sizeId))?.label||p.size||'Unassigned').trim();
+  tyreBrandCount.set(brand,(tyreBrandCount.get(brand)||0)+1);
+  tyreTypeCount.set(type,(tyreTypeCount.get(type)||0)+1);
+  tyreSizeCount.set(size,(tyreSizeCount.get(size)||0)+1);
+ });
+ const tyreRank=(map)=>[...map.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,6);
+ const tyreTopBrands=tyreRank(tyreBrandCount),tyreTopTypes=tyreRank(tyreTypeCount),tyreTopSizes=tyreRank(tyreSizeCount);
+ const tyreMaxBrand=Math.max(1,...tyreTopBrands.map(x=>x[1])),tyreMaxType=Math.max(1,...tyreTopTypes.map(x=>x[1])),tyreMaxSize=Math.max(1,...tyreTopSizes.map(x=>x[1]));
+ const tyreRecent=[...tyreDashboardProducts].sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,6);
+ const tyreRecentHtml=tyreRecent.length?tyreRecent.map(p=>`<div class="recentEnquiry"><div><strong>${esc(tyreProductName(p)||'Unnamed tyre')}</strong><small>${esc([p.brand,p.type,p.size].filter(Boolean).join(' · ')||'Tyre details not provided')}</small></div><span class="enquiryStatus">${esc(p.availability||'Available')}</span></div>`).join(''):'<p class="muted">No tyre products yet.</p>';
+ const tyreRankHtml=(items,max)=>items.length?items.map(x=>`<div class="simpleRank"><span>${esc(x[0])}</span><b>${x[1]}</b><div class="bar"><i style="width:${Math.round(x[1]/max*100)}%"></i></div></div>`).join(''):'<p class="muted">No data yet.</p>';
  const dashboardBody=`<section class="tyreAdminCard">
    <div class="tyreCardHead"><div><span class="eyebrow">TYRE ANALYTICS</span><h3>Catalogue overview</h3><p>Live counts from the tyre products, brands, types and sizes currently loaded in the admin.</p></div></div>
    <div class="tyreAdminStats">
