@@ -1093,17 +1093,33 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  const tyreRecentHtml=tyreRecent.length?tyreRecent.map(p=>`<div class="recentEnquiry"><div><strong>${esc(tyreProductName(p)||'Unnamed tyre')}</strong><small>${esc([p.brand,p.type,p.size].filter(Boolean).join(' · ')||'Tyre details not provided')}</small></div><span class="enquiryStatus">${esc(p.availability||'Available')}</span></div>`).join(''):'<p class="muted">No tyre products yet.</p>';
  const tyreRankHtml=(items,max)=>items.length?items.map(x=>`<div class="simpleRank"><span>${esc(x[0])}</span><b>${x[1]}</b><div class="bar"><i style="width:${Math.round(x[1]/max*100)}%"></i></div></div>`).join(''):'<p class="muted">No data yet.</p>';
  const dashboardBody=`<section class="tyreAdminCard">
-   <div class="tyreCardHead"><div><span class="eyebrow">TYRE ANALYTICS</span><h3>Catalogue overview</h3><p>Live counts from the tyre products, brands, types and sizes currently loaded in the admin.</p></div></div>
+   <div class="tyreCardHead"><div><span class="eyebrow">TYRE ANALYTICS</span><h3>Catalogue overview</h3><p>Live catalogue and inventory health for the dedicated tyre section.</p></div></div>
    <div class="tyreAdminStats">
     <div><b>${tyreDashboardProducts.length}</b><span>Tyre products</span></div>
     <div><b>${tyreInStock}</b><span>Available</span></div>
     <div><b>${tyreOutOfStock}</b><span>Out of stock</span></div>
-    <div><b>${tyreImageCoverage}%</b><span>Products with images</span></div>
-    <div><b>${tyreWithPrices}</b><span>Products with prices</span></div>
+    <div><b>${tyreImageCoverage}%</b><span>Image coverage</span></div>
+    <div><b>${tyreWithPrices}</b><span>With prices</span></div>
     <div><b>${brands.length}</b><span>Brands</span></div>
     <div><b>${featured.length}</b><span>Tyre types</span></div>
     <div><b>${sizes.length}</b><span>Tyre sizes</span></div>
    </div>
+  </section>
+  <div class="analyticsOverview">
+   <section class="card analyticsCard"><div class="analyticsCardHead"><div><span class="eyebrow">INVENTORY HEALTH</span><h3>Availability</h3></div></div>
+    <div class="statusMetric"><div><span>Available</span><b>${tyreInStock}</b></div><div class="statusBar"><i style="width:${tyreDashboardProducts.length?Math.round(tyreInStock/tyreDashboardProducts.length*100):0}%"></i></div></div>
+    <div class="statusMetric"><div><span>Out of stock</span><b>${tyreOutOfStock}</b></div><div class="statusBar"><i style="width:${tyreDashboardProducts.length?Math.round(tyreOutOfStock/tyreDashboardProducts.length*100):0}%"></i></div></div>
+    <div class="statusMetric"><div><span>Missing images</span><b>${tyreDashboardProducts.length-tyreWithImages}</b></div><div class="statusBar"><i style="width:${tyreDashboardProducts.length?Math.round((tyreDashboardProducts.length-tyreWithImages)/tyreDashboardProducts.length*100):0}%"></i></div></div>
+    <div class="statusMetric"><div><span>Missing prices</span><b>${tyreDashboardProducts.length-tyreWithPrices}</b></div><div class="statusBar"><i style="width:${tyreDashboardProducts.length?Math.round((tyreDashboardProducts.length-tyreWithPrices)/tyreDashboardProducts.length*100):0}%"></i></div></div>
+   </section>
+   <section class="card analyticsCard"><div class="analyticsCardHead"><div><span class="eyebrow">CATALOGUE MIX</span><h3>Products by brand</h3></div></div>${tyreRankHtml(tyreTopBrands,tyreMaxBrand)}</section>
+  </div>
+  <div class="analyticsGrid">
+   <section class="card analyticsCard"><span class="eyebrow">TYRE TYPES</span><h3>Products by tyre type</h3>${tyreRankHtml(tyreTopTypes,tyreMaxType)}</section>
+   <section class="card analyticsCard"><span class="eyebrow">TYRE SIZES</span><h3>Products by size</h3>${tyreRankHtml(tyreTopSizes,tyreMaxSize)}</section>
+  </div>
+  <section class="card analyticsCard"><div class="analyticsCardHead"><div><span class="eyebrow">RECENT CATALOGUE ACTIVITY</span><h3>Recently added tyre products</h3></div><button class="ghost" onclick="tyreAdminGo('products')">OPEN PRODUCTS</button></div>
+   <div class="recentEnquiryList">${tyreRecentHtml}</div>
   </section>`;
 
  let sectionsHtml,showSaveBar;
