@@ -1077,14 +1077,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  const tyreWithImages=tyreDashboardProducts.filter(p=>p.image).length;
  const tyreWithPrices=tyreDashboardProducts.filter(p=>p.price!==''&&p.price!=null&&Number(p.price)>=0).length;
  const tyreImageCoverage=tyreDashboardProducts.length?Math.round(tyreWithImages/tyreDashboardProducts.length*100):0;
- const dashboardBody=`<div class="tyreAdminDashGrid">
-   <button class="tyreDashCard" onclick="tyreAdminGo('settings')"><span class="tyreDashIcon">◆</span><div><strong>Settings</strong><span>Hero, promotional panels &amp; bottom banner image</span></div><span class="tyreDashArrow">→</span></button>
-   <button class="tyreDashCard" onclick="tyreAdminGo('brands')"><span class="tyreDashIcon">◉</span><div><strong>Tyre Brands</strong><span>${brands.length} brand logos shown on the public page</span></div><span class="tyreDashArrow">→</span></button>
-   <button class="tyreDashCard" onclick="tyreAdminGo('featured')"><span class="tyreDashIcon">◇</span><div><strong>Tyre Types</strong><span>${featured.length} tyre-type cards shown on the public page</span></div><span class="tyreDashArrow">→</span></button>
-   <button class="tyreDashCard" onclick="tyreAdminGo('sizes')"><span class="tyreDashIcon">▣</span><div><strong>Tyre Sizes</strong><span>${sizes.length} reusable tyre sizes available</span></div><span class="tyreDashArrow">→</span></button>
-   <button class="tyreDashCard" onclick="tyreAdminGo('products')"><span class="tyreDashIcon">◈</span><div><strong>Tyre Products</strong><span>${tyreDashboardProducts.length} tyre products in the catalogue</span></div><span class="tyreDashArrow">→</span></button>
-  </div>
-  <section class="tyreAdminCard">
+ const dashboardBody=`  <section class="tyreAdminCard">
    <div class="tyreCardHead"><div><span class="eyebrow">PRODUCT MANAGEMENT</span><h3>Manage tyre catalogue</h3><p>Quick access to the areas used to build and maintain the public tyre catalogue.</p></div></div>
    <div class="tyreAdminDashGrid">
     <button class="tyreDashCard" onclick="tyreAdminGo('products')"><span class="tyreDashIcon">◈</span><div><strong>Manage Products</strong><span>Add, edit and remove tyre products</span></div><span class="tyreDashArrow">→</span></button>
