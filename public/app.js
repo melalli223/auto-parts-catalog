@@ -765,7 +765,7 @@ function tyreContactPage(){
   render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreOwnContactPage"><button class="tyrePlaceholderBack" onclick="tyres()">← Back to Tyres</button><div class="tyreOwnContactCard"><span class="tyreAboutEyebrow">CONTACT US &amp; SUPPORT</span><h1>GET IN <span>TOUCH</span></h1><p>We are here to help you find the right tyres.</p>${phones?`<div class="tyreOwnContactPhones">${phones}</div>`:''}${socials?`<div class="tyreAboutSocials">${socials}</div>`:''}<button class="primary" onclick="smartEnquiry('Hello, I would like to enquire about your tyres.')">SEND ENQUIRY</button></div></div></div></section>`);
 }
 
-function tyreTypePage(ref){const t=db.tyres||defaultTyres,list=t.featured||defaultTyres.featured,x=list.find(v=>String(v.id)===String(ref))||list[Number(ref)];if(!x)return tyres();location.hash=`tyres/type/${encodeURIComponent(x.id||ref)}`;showTyreProductResults(`${x.title} Tyres`,p=>String(p.typeId)===String(x.id)||String(p.typeId)===String(idx)||String(p.type||'').toLowerCase()===String(x.title).toLowerCase(),{...x,kind:"type"})}
+function tyreTypePage(ref){const t=db.tyres||defaultTyres,list=t.featured||defaultTyres.featured,x=list.find(v=>String(v.id)===String(ref))||list[Number(ref)];if(!x)return tyres();location.hash=`tyres/type/${encodeURIComponent(x.id||ref)}`;showTyreProductResults(`${x.title} Tyres`,p=>String(p.typeId)===String(x.id)||String(p.typeId)===String(ref)||String(p.typeId)===String(list.indexOf(x))||String(p.type||'').toLowerCase()===String(x.title).toLowerCase(),{...x,kind:"type"})}
 
 function scrollBrands(dir){scrollBrandsById('brandRail',dir)}
 function scrollBrandsById(id,dir){document.querySelector('#'+id)?.scrollBy({left:dir*300,behavior:'smooth'})}
