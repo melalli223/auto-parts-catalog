@@ -1120,8 +1120,8 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
   </div>
   <section class="card analyticsCard"><div class="analyticsCardHead"><div><span class="eyebrow">RECENT CATALOGUE ACTIVITY</span><h3>Recently added tyre products</h3></div><button class="ghost" onclick="tyreAdminGo('products')">OPEN PRODUCTS</button></div>
    <div class="recentEnquiryList">${tyreRecentHtml}</div>
-  </section>`;
-  <div id="tyreEnquiryStats"><div class="adminTip"><strong>Loading tyre enquiry intelligence…</strong><span>Reading customer tyre enquiries from Supabase.</span></div></div>
+  </section>
+  <div id="tyreEnquiryStats"><div class="adminTip"><strong>Loading tyre enquiry intelligence…</strong><span>Reading customer tyre enquiries from Supabase.</span></div></div>`;
 
  let sectionsHtml,showSaveBar;
  if(tyreAdminSubTab==='settings'){sectionsHtml=heroSection+contactSettingsSection+promoSection+shopTyresPromoSection;showSaveBar=true}
