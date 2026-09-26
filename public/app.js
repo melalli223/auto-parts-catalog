@@ -1121,6 +1121,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
   <section class="card analyticsCard"><div class="analyticsCardHead"><div><span class="eyebrow">RECENT CATALOGUE ACTIVITY</span><h3>Recently added tyre products</h3></div><button class="ghost" onclick="tyreAdminGo('products')">OPEN PRODUCTS</button></div>
    <div class="recentEnquiryList">${tyreRecentHtml}</div>
   </section>`;
+  <div id="tyreEnquiryStats"><div class="adminTip"><strong>Loading tyre enquiry intelligence…</strong><span>Reading customer tyre enquiries from Supabase.</span></div></div>
 
  let sectionsHtml,showSaveBar;
  if(tyreAdminSubTab==='settings'){sectionsHtml=heroSection+contactSettingsSection+promoSection+shopTyresPromoSection;showSaveBar=true}
@@ -1147,6 +1148,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
   <div class="tyreAdminSections">${sectionsHtml}</div>
   ${showSaveBar?saveBar:''}
  </div>`;
+ if(isDashboard)loadTyreDashboardEnquiries().then(renderTyreDashboardEnquiries);
 }
 function tyreProductName(p){const findTyre=(arr,id)=>{const a=arr||[],direct=a.find(x=>String(x.id)===String(id));if(direct)return direct;const n=Number(id);return Number.isInteger(n)&&n>=0?a[n]:null};const brand=findTyre(db.tyres?.brands,p.brandId)?.name||p.brand||'';const type=findTyre(db.tyres?.featured,p.typeId)?.title||p.type||'';const size=findTyre(db.tyres?.sizes,p.sizeId)?.label||p.size||'';return [brand,type,size,p.tubeType].map(x=>String(x||'').trim()).filter(Boolean).join(' ')}
 function tyreProductsSection(){const t=db.tyres||defaultTyres,ps=Array.isArray(t.tyreProducts)?t.tyreProducts:[],brands=t.brands||[],types=t.featured||[],sizes=t.sizes||[];return '<section class="tyreAdminCard tyreProductsAdminSection"><div class="tyreCardHead"><div><span class="eyebrow">06 · TYRE PRODUCTS</span><h3>Tyre Products</h3><p>Manage the separate tyre catalogue using your existing brands, tyre types and tyre sizes.</p></div><button class="primary" type="button" onclick="openTyreProductModal()">+ ADD TYRE PRODUCT</button></div><div class="tyreProductAdminList">'+(ps.map((p,i)=>{const name=tyreProductName(p)||'Unnamed tyre';return '<div class="tyreProductAdminRow"><div class="tyreProductAdminImage">'+(p.image?'<img src="'+esc(p.image)+'" alt="">':'<span>TYRE</span>')+'</div><div class="tyreProductAdminInfo"><strong>'+esc(name)+'</strong><span>'+esc(p.size||'')+(p.availability?' · '+esc(p.availability):'')+(p.price!==''&&p.price!=null?' · Price '+esc(String(p.price)):'')+'</span></div><div class="tyreProductAdminActions"><button class="ghost" type="button" onclick="openTyreProductModal('+i+')">EDIT</button><button class="ghost danger" type="button" onclick="removeTyreProduct('+i+')">DELETE</button></div></div>'}).join('')||'<div class="tyreSizesEmpty"><strong>No tyre products yet.</strong><span>Add the first tyre product using the existing Tyre Brands, Tyre Types and Tyre Sizes.</span></div>')+'</div></section>'}
