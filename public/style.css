@@ -6668,3 +6668,33 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .tyreAdminFullPage .tyreSizeCard:not(.tyreCompactOpen) .tyreSizeCardTop{min-height:40px!important}
   .tyreAdminFullPage [data-tyre-drag-group].tyreDragging{z-index:20;transform:scale(1.015);box-shadow:0 14px 32px rgba(0,0,0,.18)!important}
 }
+
+/* Keep mobile tyre catalogue cards inside their owning section */
+@media(max-width:650px){
+  .tyreAdminFullPage #tyreBrandsSection{
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+    box-sizing:border-box!important;
+  }
+  .tyreAdminFullPage #tyreBrandsSection .tyreAdminBrandGrid{
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    gap:14px!important;
+  }
+  .tyreAdminFullPage #tyreBrandsSection .tyreAdminBrandItem{
+    position:relative!important;
+    width:100%!important;
+    flex:0 0 auto!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+  }
+  .tyreAdminFullPage #tyreBrandsSection .tyreAdminBrandItem.tyreCompactOpen{
+    overflow:hidden!important;
+  }
+}
