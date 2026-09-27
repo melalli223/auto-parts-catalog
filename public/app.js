@@ -111,10 +111,11 @@ function initTyreCatalogueDrag(){
    if(!tyreDragState||tyreDragState.row!==row)return;
    if(Math.abs(e.clientY-tyreDragState.startY)>6){
     tyreDragState.moved=true;
-    // Dragging must never expand the mobile card. Keep the compact
-    // row closed while it is being moved so the drag handle remains
-    // a pure reorder control.
+    // Drag the actual compact box with the finger/mouse. The card stays
+    // collapsed; only its visual position follows the pointer.
     row.classList.add('tyreDragging');
+    const deltaY=e.clientY-tyreDragState.startY;
+    row.style.transform='translateY('+deltaY+'px) scale(1.015)';
     const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
     const next=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
     rows.forEach(r=>r.classList.remove('tyreDragTarget'));
@@ -125,6 +126,7 @@ function initTyreCatalogueDrag(){
    if(!tyreDragState||tyreDragState.row!==row)return;
    const state=tyreDragState;tyreDragState=null;
    row.classList.remove('tyreDragPressed','tyreDragging');
+   row.style.transform='';
    document.documentElement.classList.remove('tyreCatalogueDragging');
    document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
    if(!state.moved)return;
@@ -146,7 +148,7 @@ function initTyreCatalogueDrag(){
    adminPanel('tyres');
    toast('Order changed — click Save to apply');
   });
-  row.addEventListener('pointercancel',()=>{tyreDragState=null;row.classList.remove('tyreDragPressed','tyreDragging');document.documentElement.classList.remove('tyreCatalogueDragging');document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'))});
+  row.addEventListener('pointercancel',()=>{tyreDragState=null;row.classList.remove('tyreDragPressed','tyreDragging');row.style.transform='';document.documentElement.classList.remove('tyreCatalogueDragging');document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'))});
  });
 }
 function initTyreCatalogueCompactCards(){
