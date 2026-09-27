@@ -207,6 +207,30 @@ function initTyreCatalogueDrag(){
  document.addEventListener('pointerup',finishDrag,true);
  document.addEventListener('pointercancel',finishDrag,true);
 }
+function initTyreSettingsSubCards(){
+ const settings=document.querySelector('.tyreAdminFullPage');
+ if(!settings||!settings.querySelector('#tyreHeroSection'))return;
+ settings.classList.add('tyreSettingsCompact');
+ settings.querySelectorAll('.tyreAdminSubSection').forEach(section=>{
+  if(section.dataset.tyreSettingsBound)return;
+  section.dataset.tyreSettingsBound='1';
+  section.classList.remove('tyreSubOpen');
+  const head=section.querySelector('.tyreAdminSubHead');
+  if(!head)return;
+  head.setAttribute('role','button');
+  head.setAttribute('tabindex','0');
+  head.setAttribute('aria-expanded','false');
+  const toggle=()=>{
+   const open=!section.classList.contains('tyreSubOpen');
+   section.classList.toggle('tyreSubOpen',open);
+   head.setAttribute('aria-expanded',String(open));
+  };
+  head.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle()});
+  head.addEventListener('keydown',e=>{
+   if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}
+  });
+ });
+}
 function initTyreCatalogueCompactCards(){
  const mq=window.matchMedia('(max-width:650px)');
  const rows=[...document.querySelectorAll('[data-tyre-drag-group]')];
@@ -1443,6 +1467,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  </div>`;
  initTyreCatalogueDrag();
  initTyreCatalogueCompactCards();
+ initTyreSettingsSubCards();
  if(isDashboard)loadTyreDashboardEnquiries().then(renderTyreDashboardEnquiries);
 }
 function tyreProductName(p){const findTyre=(arr,id)=>{const a=arr||[],direct=a.find(x=>String(x.id)===String(id));if(direct)return direct;const n=Number(id);return Number.isInteger(n)&&n>=0?a[n]:null};const brand=findTyre(db.tyres?.brands,p.brandId)?.name||p.brand||'';const type=findTyre(db.tyres?.featured,p.typeId)?.title||p.type||'';const size=findTyre(db.tyres?.sizes,p.sizeId)?.label||p.size||'';return [brand,type,size,p.tubeType].map(x=>String(x||'').trim()).filter(Boolean).join(' ')}
