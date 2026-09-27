@@ -1270,8 +1270,14 @@ function tyresAdmin(c){
  </div></section>
 <section class="tyreAdminCard tyreAdminHeroCard" id="tyreFindSection">
  <div class="tyreCardHead"><div><span class="eyebrow">03 · FIND TYRE SECTION</span><h3>Find Tyre section images</h3><p>Manage the two images shown beside the tyre-finder options on the Tyre homepage.</p></div></div>
- <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Car image</label><input id="tbHomeCarImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeCarImg')"><small class="helpText">Image shown beside “Find Tyre by Car”.</small></div><div>${preview(findByCar.homeImage||findByCar.image,'Find Tyre by Car image')}</div></div>
- <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Size image</label><input id="tbHomeNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeNumberImg')"><small class="helpText">Image shown beside “Find Tyre by Size”.</small></div><div>${preview(findByNumber.homeImage||findByNumber.image,'Find Tyre by Size image')}</div></div>
+ <div class="tyreAdminSubSection">
+  <div class="tyreAdminSubHead"><span>Find Tyre by Car</span><small>Homepage image used for the Find Tyre by Car option.</small></div>
+  <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Car image</label><input id="tbHomeCarImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeCarImg')"><small class="helpText">Image shown beside “Find Tyre by Car”.</small></div><div>${preview(findByCar.homeImage||findByCar.image,'Find Tyre by Car image')}</div></div>
+ </div>
+ <div class="tyreAdminSubSection">
+  <div class="tyreAdminSubHead"><span>Find Tyre by Size</span><small>Homepage image used for the Find Tyre by Size option.</small></div>
+  <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Size image</label><input id="tbHomeNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeNumberImg')"><small class="helpText">Image shown beside “Find Tyre by Size”.</small></div><div>${preview(findByNumber.homeImage||findByNumber.image,'Find Tyre by Size image')}</div></div>
+ </div>
 </section>`;
  const contactSettingsSection=`<section class="tyreAdminCard">
 <div class="tyreCardHead"><div>
