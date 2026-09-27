@@ -90,7 +90,9 @@ function moveTyreCatalogueItem(group,index,direction){
  ensureTyreCatalogueOrder(t);
  const ordered=t[group];[ordered[from],ordered[to]]=[ordered[to],ordered[from]];
  ordered.forEach((x,i)=>{if(x)x.position=i});
- saveTyreData(t).then(()=>{toast('Order updated');adminPanel('tyres')}).catch(e=>{console.error(e);toast(e.message||'Could not update order')});
+ db.tyres=t;
+ adminPanel('tyres');
+ toast('Order changed — click Save to apply');
 }
 let tyreDragState=null;
 function initTyreCatalogueDrag(){
@@ -141,7 +143,7 @@ function initTyreCatalogueDrag(){
    // Reorder only the in-memory admin catalogue. Do not persist it yet;
    // the Tyre Admin page Save button is the single commit point.
    db.tyres=t;
-   renderTyreAdminCatalogue?.();
+   adminPanel('tyres');
    toast('Order changed — click Save to apply');
   });
   row.addEventListener('pointercancel',()=>{tyreDragState=null;row.classList.remove('tyreDragPressed','tyreDragging');document.documentElement.classList.remove('tyreCatalogueDragging');document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'))});
