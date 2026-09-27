@@ -1279,7 +1279,7 @@ function tyresAdmin(c){
   <div class="tyreAdminHeroLayout"><div class="formGroup"><label>Find Tyre by Size image</label><input id="tbHomeNumberImg" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tbHomeNumberImg')"><small class="helpText">Image shown beside “Find Tyre by Size”.</small></div><div>${preview(findByNumber.homeImage||findByNumber.image,'Find Tyre by Size image')}</div></div>
  </div>
 </section>`;
- const contactSettingsSection=\`<section class="tyreAdminCard" id="tyreAboutContactSection">
+ const contactSettingsSection=`<section class="tyreAdminCard" id="tyreAboutContactSection">
 <div class="tyreCardHead"><div>
 <span class="eyebrow">02 · ABOUT & CONTACT</span>
 <h3>About Us & Contact</h3>
@@ -1290,10 +1290,10 @@ function tyresAdmin(c){
  <div class="tyreAdminSubHead"><span>About Us</span><small>Edit the business information displayed in the About Us section.</small></div>
  <div class="tyreAdminFeatureGrid">
   <article class="tyreAdminEditorItem">
-   \${tyreInputRow('About Us title','tcAboutTitle',contact.aboutTitle||'')}
+   ${tyreInputRow('About Us title','tcAboutTitle',contact.aboutTitle||'')}
    <div class="formGroup">
     <label for="tcAboutText">About Us information</label>
-    <textarea id="tcAboutText" class="textarea" rows="6" placeholder="Enter your About Us information...">\${esc(contact.aboutText||'')}</textarea>
+    <textarea id="tcAboutText" class="textarea" rows="6" placeholder="Enter your About Us information...">${esc(contact.aboutText||'')}</textarea>
    </div>
   </article>
  </div>
@@ -1303,24 +1303,24 @@ function tyresAdmin(c){
  <div class="tyreAdminSubHead"><span>Contact Information</span><small>Phone numbers and social/contact links.</small></div>
  <div class="tyreAdminFeatureGrid">
   <article class="tyreAdminEditorItem">
-   \${tyreInputRow('Phone 1','tcPhone',contact.phone||'')}
-   \${tyreInputRow('Phone 2 (optional)','tcPhone2',contact.phone2||'')}
-   \${tyreInputRow('Phone 3 (optional)','tcPhone3',contact.phone3||'')}
-   \${tyreInputRow('WhatsApp number (optional)','tcWhatsapp',contact.whatsapp||'','Example: +251 9XX XXX XXX')}
-   \${tyreInputRow('Instagram','tcInstagram',contact.instagram||'')}
-   \${tyreInputRow('Facebook','tcFacebook',contact.facebook||'')}
-   \${tyreInputRow('Telegram','tcTelegram',contact.telegram||'')}
-   \${tyreInputRow('X','tcX',contact.x||'')}
+   ${tyreInputRow('Phone 1','tcPhone',contact.phone||'')}
+   ${tyreInputRow('Phone 2 (optional)','tcPhone2',contact.phone2||'')}
+   ${tyreInputRow('Phone 3 (optional)','tcPhone3',contact.phone3||'')}
+   ${tyreInputRow('WhatsApp number (optional)','tcWhatsapp',contact.whatsapp||'','Example: +251 9XX XXX XXX')}
+   ${tyreInputRow('Instagram','tcInstagram',contact.instagram||'')}
+   ${tyreInputRow('Facebook','tcFacebook',contact.facebook||'')}
+   ${tyreInputRow('Telegram','tcTelegram',contact.telegram||'')}
+   ${tyreInputRow('X','tcX',contact.x||'')}
    <div class="formGroup">
     <label for="tcContactImage">Contact box image</label>
     <input id="tcContactImage" type="file" accept="image/png,image/*" class="input" onchange="prepareImageSelection(event,'tcContactImage')">
     <small class="helpText">Image displayed in the contact box.</small>
    </div>
-   \${contact.contactImage?\`<div class="tyreAdminPreview"><img src="\${esc(contact.contactImage)}" alt="Contact box image"></div>\`:\`<div class="tyreAdminPreview emptyPreview">No contact image selected</div>\`}
+   ${contact.contactImage?`<div class="tyreAdminPreview"><img src="${esc(contact.contactImage)}" alt="Contact box image"></div>`:`<div class="tyreAdminPreview emptyPreview">No contact image selected</div>`}
   </article>
  </div>
 </div>
-</section>\`;
+</section>`;
 const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyrePromoSection"><div class="tyreCardHead"><div><span class="eyebrow">03 · PROMOTIONAL PANELS</span><h3>Winter, Summer & Custom Wheels</h3><p>Each panel has its own text, image and enquiry message.</p></div></div>
     <div class="tyreAdminFeatureGrid">${features.map((x,i)=>`<article class="tyreAdminEditorItem"><div class="tyreAdminItemTop"><strong>${i+1}. ${esc(x.title)} ${esc(x.subtitle)}</strong>${preview(x.image,x.title+' '+x.subtitle)}</div>${tyreInputRow('Title',`tf${i}t`,x.title)}${tyreInputRow('Subtitle',`tf${i}s`,x.subtitle)}${tyreInputRow('Enquiry message',`tf${i}m`,x.message)}<div class="formGroup"><label>Panel image</label><input id="tf${i}i" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,'tf${i}i')"></div></article>`).join('')}</div></div>
    </section>`;
