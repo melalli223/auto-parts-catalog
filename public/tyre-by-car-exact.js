@@ -41,7 +41,7 @@ if(typeof window.showTyreProductResults==='function'){
   window.showTyreProductResults(
     title,
     p=>String(p.typeId||p.tyreTypeId||p.tyre_type_id||'').trim()===modelTypeId,
-    {kind:'car',title,brandName,modelName,vehicleLabel:brandName+' '+modelName,image:String(model.image||'')}
+    {kind:'car',title,brandName,modelName,image:String(model.image||'')}
   );
   return;
 }
