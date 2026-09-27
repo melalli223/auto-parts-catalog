@@ -6804,3 +6804,45 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   }
   .tyreAdminFullPage #tyreBrandsSection [data-mobile-collapsed="true"] .tyreBrandEditSubSection{display:none!important}
 }
+
+
+/* Keep Tyre Settings form fields visible on mobile.
+   The compact-card rules apply only to draggable catalogue rows;
+   settings editor cards must never be collapsed by those selectors. */
+@media(max-width:650px){
+  .tyreAdminFullPage #tyreAboutContactSection .tyreAdminEditorItem,
+  .tyreAdminFullPage #tyrePromoSection .tyreAdminEditorItem,
+  .tyreAdminFullPage #tyreFindImagesSection .tyreAdminSubSection,
+  .tyreAdminFullPage #tyreFindSection .tyreAdminSubSection,
+  .tyreAdminFullPage #tyreHeroSection .tyreAdminSubSection{
+    display:block!important;
+    max-height:none!important;
+    height:auto!important;
+    overflow:visible!important;
+  }
+  .tyreAdminFullPage #tyreAboutContactSection .tyreAdminEditorItem > *,
+  .tyreAdminFullPage #tyrePromoSection .tyreAdminEditorItem > *{
+    display:block!important;
+  }
+  .tyreAdminFullPage #tyreAboutContactSection .formGroup,
+  .tyreAdminFullPage #tyrePromoSection .formGroup,
+  .tyreAdminFullPage #tyreFindImagesSection .formGroup,
+  .tyreAdminFullPage #tyreFindSection .formGroup,
+  .tyreAdminFullPage #tyreHeroSection .formGroup{
+    display:block!important;
+    visibility:visible!important;
+  }
+  .tyreAdminFullPage #tyreAboutContactSection input,
+  .tyreAdminFullPage #tyreAboutContactSection textarea,
+  .tyreAdminFullPage #tyrePromoSection input,
+  .tyreAdminFullPage #tyrePromoSection textarea,
+  .tyreAdminFullPage #tyreFindImagesSection input,
+  .tyreAdminFullPage #tyreFindSection input,
+  .tyreAdminFullPage #tyreHeroSection input,
+  .tyreAdminFullPage #tyreHeroSection textarea{
+    display:block!important;
+    visibility:visible!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+  }
+}
