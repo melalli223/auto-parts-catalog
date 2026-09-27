@@ -109,9 +109,9 @@ function initTyreCatalogueDrag(){
    if(!tyreDragState||tyreDragState.row!==row)return;
    if(Math.abs(e.clientY-tyreDragState.startY)>6){
     tyreDragState.moved=true;
-    collapseOtherTyreCards(row);
-    row.classList.add('tyreCompactOpen');
-    row.dataset.mobileCollapsed='false';
+    // Dragging must never expand the mobile card. Keep the compact
+    // row closed while it is being moved so the drag handle remains
+    // a pure reorder control.
     row.classList.add('tyreDragging');
     const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
     const next=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
