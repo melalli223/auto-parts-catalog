@@ -156,10 +156,14 @@ function initTyreCatalogueCompactCards(){
   if(!row.dataset.tyreCompactBound){
    row.dataset.tyreCompactBound='1';
    // Controls are independent from the card's expand/collapse gesture.
-   row.querySelectorAll('[data-tyre-drag-handle],.tyreOrderControls,.tyreRemoveItemBtn').forEach(control=>{
+   row.querySelectorAll('.tyreOrderControls,.tyreRemoveItemBtn').forEach(control=>{
     control.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();},true);
     control.addEventListener('pointerdown',e=>{e.stopPropagation();},true);
     control.addEventListener('pointerup',e=>{e.stopPropagation();},true);
+   });
+   // The drag handle must receive pointerdown so the row drag handler can start.
+   row.querySelectorAll('[data-tyre-drag-handle]').forEach(handle=>{
+    handle.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();},true);
    });
    row.addEventListener('click',e=>{
     if(!mq.matches)return;
