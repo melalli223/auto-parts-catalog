@@ -649,7 +649,7 @@ function initHeroSlider(images){if(window.__heroSliderTimer)clearInterval(window
 function tyresByCar(){
  setNav('');
  location.hash='tyres/by-car';
- const brands=[...db.brands].filter(b=>b.isRegular!==false);
+ const brands=[...db.brands];
  const finder=db.tyres?.findByCar||defaultTyres.findByCar||{};
  const heroImage=finder.image||db.tyres?.hero?.image||defaultTyres.hero.image;
  const bottomImage=finder.bottomImage||'';
@@ -662,7 +662,7 @@ function tyresByCar(){
 function tyreFinderBrand(brandId){
  const b=db.brands.find(x=>x.id===brandId);
  if(!b)return tyresByCar();
- const models=db.models.filter(m=>m.brandId===brandId&&m.isEv!==true);
+ const models=db.models.filter(m=>m.brandId===brandId);
  render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
  <button class="tyrePlaceholderBack" onclick="tyresByCar()">← Back to Car Brands</button>
  <div class="tyreFinderPageHead"><span>${esc(b.name)}</span><h1>SELECT YOUR <b>MODEL</b></h1><p>Choose your vehicle model.</p></div>
