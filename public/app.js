@@ -680,15 +680,13 @@ function tyreFinderShowResults(modelId){
  if(!m||!b)return tyresByCar();
  const modelTypeId=String(m.tyreTypeId||m.tyre_type_id||'').trim();
  const type=(db.tyres?.featured||[]).find(x=>String(x.id)===modelTypeId);
- if(!modelTypeId){
+ if(!modelTypeId||!type){
   render('<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreProductResultsPage tyreFinderActionResultsPage"><button class="tyrePlaceholderBack" onclick="tyreFinderBrand(\''+b.id+'\')">← Back to Models</button><div class="empty" style="max-width:720px;margin:80px auto;text-align:center"><h2 style="margin-bottom:10px">Tyre type not assigned</h2><p>This vehicle model has not been assigned a tyre type yet. Please assign one in the admin panel before searching for tyres.</p></div></div></div></section>');
   return;
  }
  const ps=(db.tyres?.tyreProducts||[]).filter(p=>{
   const productTypeId=String(p.typeId||p.tyreTypeId||p.tyre_type_id||'').trim();
-  if(productTypeId===modelTypeId)return true;
-  const productTypeTitle=String(p.type||'').trim().toLowerCase();
-  return !productTypeId&&!!type&&productTypeTitle===String(type.title||'').trim().toLowerCase();
+  return productTypeId===modelTypeId;
  });
  const brandImage=b.image||placeholder(b.name);
  const modelImage=m.image||placeholder(m.name);
