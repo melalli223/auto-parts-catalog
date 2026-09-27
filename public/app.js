@@ -86,8 +86,8 @@ async function loadRemoteDb(){
  const localTyres=clone(db.tyres||defaultTyres);
  const [settingsR,brandsR,modelsR,yearsR,catsR,branchesR,productsR,pyR,pbrR,tyreR]=await Promise.all([
   supabaseClient.from('site_settings').select('*').eq('id',true).maybeSingle(),
-  supabaseClient.from('brands').select('*').eq('active',true).order('sort_order').order('name'),
-  supabaseClient.from('models').select('*').eq('active',true).order('sort_order').order('name'),
+  supabaseClient.from('brands').select('*').or('active.eq.true,active.is.null').order('sort_order').order('name'),
+  supabaseClient.from('models').select('*').or('active.eq.true,active.is.null').order('sort_order').order('name'),
   supabaseClient.from('model_years').select('*').order('year',{ascending:false}),
   supabaseClient.from('categories').select('*').eq('active',true).order('sort_order').order('name'),
   supabaseClient.from('category_branches').select('*').eq('active',true).order('sort_order').order('name'),
