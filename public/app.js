@@ -92,6 +92,51 @@ function moveTyreCatalogueItem(group,index,direction){
  ordered.forEach((x,i)=>{if(x)x.position=i});
  saveTyreData(t).then(()=>{toast('Order updated');adminPanel('tyres')}).catch(e=>{console.error(e);toast(e.message||'Could not update order')});
 }
+let tyreDragState=null;
+function initTyreCatalogueDrag(){
+ document.querySelectorAll('[data-tyre-drag-group]').forEach(row=>{
+  row.addEventListener('pointerdown',e=>{
+   const handle=e.target.closest('[data-tyre-drag-handle]');
+   if(!handle)return;
+   const group=row.dataset.tyreDragGroup,index=Number(row.dataset.tyreDragIndex);
+   if(!group||!Number.isInteger(index))return;
+   tyreDragState={row,group,index,startY:e.clientY,moved:false};
+   row.classList.add('tyreDragPressed');
+   handle.setPointerCapture?.(e.pointerId);
+  });
+  row.addEventListener('pointermove',e=>{
+   if(!tyreDragState||tyreDragState.row!==row)return;
+   if(Math.abs(e.clientY-tyreDragState.startY)>6){
+    tyreDragState.moved=true;
+    row.classList.add('tyreDragging');
+    const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
+    const next=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
+    rows.forEach(r=>r.classList.remove('tyreDragTarget'));
+    if(next&&next!==row)next.classList.add('tyreDragTarget');
+   }
+  });
+  row.addEventListener('pointerup',e=>{
+   if(!tyreDragState||tyreDragState.row!==row)return;
+   const state=tyreDragState;tyreDragState=null;
+   row.classList.remove('tyreDragPressed','tyreDragging');
+   document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
+   if(!state.moved)return;
+   const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(state.group)+'"]')];
+   const target=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
+   if(!target||target===row)return;
+   const to=Number(target.dataset.tyreDragIndex);
+   const from=state.index;
+   const t=clone(db.tyres||defaultTyres),list=Array.isArray(t[state.group])?t[state.group]:[];
+   if(!list[from]||!list[to])return;
+   ensureTyreCatalogueOrder(t);
+   const [item]=t[state.group].splice(from,1);
+   t[state.group].splice(to,0,item);
+   t[state.group].forEach((x,i)=>{if(x)x.position=i});
+   saveTyreData(t).then(()=>{toast('Order updated');adminPanel('tyres')}).catch(err=>{console.error(err);toast(err.message||'Could not update order')});
+  });
+  row.addEventListener('pointercancel',()=>{tyreDragState=null;row.classList.remove('tyreDragPressed','tyreDragging');document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'))});
+ });
+}
 const slug=x=>String(x).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 function validTyreTypeId(id){const v=String(id||'').trim();return !!v&&(db.tyres?.featured||[]).some(x=>x&&String(x.id||'').trim()===v);}
 const defaultCategoryNames=['Headlights','Bumpers','Mirrors','Grilles','Body Parts','Tail Lights','Hoods','Radiators & Cooling','Fenders','Doors','Fog Lights','Interior Parts','Suspension Parts','Engine Parts','Electrical Parts','Other'];
