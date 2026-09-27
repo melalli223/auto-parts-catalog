@@ -25,8 +25,9 @@ function addStyle(){if(document.getElementById(styleId))return;const s=document.
 function getData(){try{return window.__apCatalogDb||JSON.parse(localStorage.getItem('ap_catalog_v4')||'null')||{}}catch(e){return{}}}
 window.tyresByCar=function(){addStyle();document.body.classList.add('tyre-by-car-page');const d=getData(),parts=(location.hash||'').replace(/^#tyres\/by-car\/?/,'').split('/').filter(Boolean);if(parts.length>=2){
 const brandId=decodeURIComponent(parts[0]),modelId=decodeURIComponent(parts[1]);
-const brand=(d.brands||[]).find(x=>String(x.id)===brandId)||{};
-const model=(d.models||[]).find(x=>String(x.id)===modelId)||{};
+const brand=(d.brands||[]).find(x=>String(x.id)===brandId);
+const model=(d.models||[]).find(x=>String(x.id)===modelId);
+if(!brand||!model){location.hash='tyres/by-car';return;}
 const brandName=String(brand.name||brandId);
 const modelName=String(model.name||modelId);
 const title=(brandName+' '+modelName+' Tyres').trim();
@@ -34,7 +35,7 @@ if(typeof window.showTyreProductResults==='function'){
   const modelTypeId=String(model.tyreTypeId||model.tyre_type_id||'').trim();
   const tyreTypes=Array.isArray(d.tyres?.featured)?d.tyres.featured:[];
   const matchedType=tyreTypes.find(t=>String(t.id||'')===modelTypeId);
-  if(!modelTypeId){
+  if(!modelTypeId||!matchedType){
     render('<section class="tyreExactPage tyreFindActionPage"><div style="max-width:760px;margin:90px auto;padding:28px 20px;text-align:center"><h1 style="margin:0 0 12px;font-size:26px;color:#14283f">Tyre type not assigned</h1><p style="margin:0 auto 24px;color:#697178;line-height:1.6">This vehicle model has not been assigned a tyre type yet. Please choose a tyre type for this model in the admin panel.</p><button class="tyre-home-button" type="button" onclick="location.hash='tyres/by-car/'+encodeURIComponent(brandId)">← Back to Models</button></div></section>');
     return;
   }
