@@ -13,6 +13,28 @@ function initSupabase(){
   return false;
 }
 const clone=o=>structuredClone(o);
+function ensureTyreBrandIds(tyres){
+ const list=Array.isArray(tyres?.brands)?tyres.brands:[];
+ const used=new Set();let changed=false;
+ list.forEach((x,i)=>{
+  if(!x)return;
+  if(x.id){used.add(String(x.id));return}
+  const base='tb-'+(slug(x.name||('brand-'+(i+1)))||('brand-'+(i+1)));
+  let id=base,n=2;while(used.has(id))id=base+'-'+n++;
+  x.id=id;used.add(id);changed=true;
+ });
+ if(changed&&Array.isArray(tyres?.tyreProducts)){
+  tyres.tyreProducts.forEach(p=>{
+   if(!p)return;
+   const raw=String(p.brandId??'').trim();
+   const idx=Number(raw);
+   if(Number.isInteger(idx)&&idx>=0&&idx<list.length){
+    p.brandId=String(list[idx].id||'').trim();
+   }
+  });
+ }
+ return changed;
+}
 function ensureTyreTypeIds(tyres){
  const list=Array.isArray(tyres?.featured)?tyres.featured:[];
  const used=new Set();let changed=false;
@@ -1249,7 +1271,7 @@ async function addTyreBrand(){try{const t=clone(db.tyres||defaultTyres);t.brands
 async function removeTyreBrand(idx){try{const t=clone(db.tyres||defaultTyres);if(t.brands.length<=1){toast('Keep at least one brand');return}t.brands.splice(idx,1);await saveTyreData(t);toast('Brand removed');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not remove brand')}}
 async function addTyreFeaturedType(){try{const t=clone(db.tyres||defaultTyres);t.featured.push({id:'tt-new-'+Date.now().toString(36),title:'New Type',description:'',image:''});await saveTyreData(t);toast('Type added — fill in the details and Save');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not add type')}}
 async function removeTyreFeaturedType(idx){try{const t=clone(db.tyres||defaultTyres);if(t.featured.length<=1){toast('Keep at least one type');return}t.featured.splice(idx,1);await saveTyreData(t);toast('Type removed');adminPanel('tyres')}catch(e){console.error(e);toast(e.message||'Could not remove type')}}
-async function saveTyreData(t){ensureTyreTypeIds(t);const {error}=await supabaseClient.from('tyre_page').upsert({id:true,data:t},{onConflict:'id'});if(error)throw error;db.tyres=t;normalizeDb();cacheDb();window.__apCatalogDb=db}
+async function saveTyreData(t){ensureTyreBrandIds(t);ensureTyreTypeIds(t);const {error}=await supabaseClient.from('tyre_page').upsert({id:true,data:t},{onConflict:'id'});if(error)throw error;db.tyres=t;normalizeDb();cacheDb();window.__apCatalogDb=db}
 function toggleTyrePromoText(index){
  const form=document.querySelector('#tyrePromoTextForm'+index);
  if(form)form.hidden=!form.hidden;
