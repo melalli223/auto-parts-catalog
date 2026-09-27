@@ -30,10 +30,25 @@ const model=(d.models||[]).find(x=>String(x.id)===modelId)||{};
 const brandName=String(brand.name||brandId);
 const modelName=String(model.name||modelId);
 const title=(brandName+' '+modelName+' Tyres').trim();
+const modelTypeId=String(model.tyreTypeId||'').trim();
+const tyreTypes=Array.isArray(d.tyres?.featured)?d.tyres.featured:[];
+const productMatchesModelType=p=>{
+  if(!modelTypeId)return false;
+  const rawTypeId=String(p?.typeId??'').trim();
+  if(rawTypeId===modelTypeId)return true;
+  const legacyIndex=Number(rawTypeId);
+  if(Number.isInteger(legacyIndex)&&legacyIndex>=0){
+    const legacyType=tyreTypes[legacyIndex];
+    if(legacyType&&String(legacyType.id||'')===modelTypeId)return true;
+  }
+  const rawTypeName=String(p?.type||'').trim().toLowerCase();
+  const modelTypeName=String(tyreTypes.find(x=>String(x?.id||'')===modelTypeId)?.title||'').trim().toLowerCase();
+  return !!rawTypeName&&!!modelTypeName&&rawTypeName===modelTypeName;
+};
 if(typeof window.showTyreProductResults==='function'){
   window.showTyreProductResults(
     title,
-    p=>String(p.vehicleBrandId||p.brandId)===brandId&&String(p.vehicleModelId||p.modelId)===modelId,
+    p=>productMatchesModelType(p),
     {kind:'car',title,modelName,vehicleLabel:brandName+' '+modelName,image:String(model.image||'')}
   );
   return;
