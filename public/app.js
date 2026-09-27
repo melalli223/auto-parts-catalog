@@ -236,18 +236,13 @@ function initTyreSettingsSubCards(){
  });
 
  // Promotional panels: each individual panel is its own minimized card.
- settings.querySelectorAll('#tyrePromoSection .tyreAdminEditorItem').forEach((card,index)=>{
+ settings.querySelectorAll('#tyrePromoSection .tyreAdminEditorItem').forEach(card=>{
   const top=card.querySelector('.tyreAdminItemTop');
   if(!top)return;
-  let head=top.querySelector('.tyrePromoCompactHead');
-  if(!head){
-   head=document.createElement('div');
-   head.className='tyrePromoCompactHead';
-   head.innerHTML=top.innerHTML;
-   top.innerHTML='';
-   top.appendChild(head);
-  }
-  bindCard(card,head);
+  // Use the existing top row itself as the compact header. This avoids
+  // nested click targets and keeps the toggle reliable after re-renders.
+  top.classList.add('tyrePromoCompactHead');
+  bindCard(card,top);
  });
 
  // Find Tyre image uploaders: keep Car and Size as separate minimized cards.
