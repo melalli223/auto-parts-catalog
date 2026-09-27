@@ -111,44 +111,67 @@ function initTyreCatalogueDrag(){
    if(!tyreDragState||tyreDragState.row!==row)return;
    if(Math.abs(e.clientY-tyreDragState.startY)>6){
     tyreDragState.moved=true;
-    // Drag the actual compact box with the finger/mouse. The card stays
-    // collapsed; only its visual position follows the pointer.
     row.classList.add('tyreDragging');
-    const deltaY=e.clientY-tyreDragState.startY;
-    row.style.transform='translateY('+deltaY+'px) scale(1.015)';
-    const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
-    const next=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
-    rows.forEach(r=>r.classList.remove('tyreDragTarget'));
-    if(next&&next!==row)next.classList.add('tyreDragTarget');
+
+    const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')]
+      .filter(r=>r!==row);
+    const target=rows.find(r=>{
+      const box=r.getBoundingClientRect();
+      return e.clientY < box.top + box.height/2;
+    });
+
+    // Physically move the held box through the list while dragging.
+    // The surrounding boxes move out of the way immediately instead
+    // of only showing a drop highlight.
+    if(target){
+      target.parentNode.insertBefore(row,target);
+    }else if(rows.length){
+      const last=rows[rows.length-1];
+      last.parentNode.appendChild(row);
+    }
+
+    document.querySelectorAll('.tyreDragTarget').forEach(r=>r.classList.remove('tyreDragTarget'));
+    const currentRows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
+    const heldIndex=currentRows.indexOf(row);
+    const after=currentRows[heldIndex+1];
+    const before=currentRows[heldIndex-1];
+    if(after)after.classList.add('tyreDragTarget');
+    else if(before)before.classList.add('tyreDragTarget');
    }
   });
   row.addEventListener('pointerup',e=>{
    if(!tyreDragState||tyreDragState.row!==row)return;
    const state=tyreDragState;tyreDragState=null;
    row.classList.remove('tyreDragPressed','tyreDragging');
-   row.style.transform='';
    document.documentElement.classList.remove('tyreCatalogueDragging');
    document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
    if(!state.moved)return;
+
+   // Use the actual DOM order produced by the drag, not the original
+   // indexes, so the order shown on screen is exactly the pending order.
    const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(state.group)+'"]')];
-   const target=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
-   if(!target||target===row)return;
-   const to=Number(target.dataset.tyreDragIndex);
-   const from=state.index;
-   const t=clone(db.tyres||defaultTyres),list=Array.isArray(t[state.group])?t[state.group]:[];
-   if(!list[from]||!list[to])return;
+   const t=clone(db.tyres||defaultTyres);
+   const original=Array.isArray(t[state.group])?t[state.group]:[];
+   if(!original.length)return;
    ensureTyreCatalogueOrder(t);
-   const [item]=t[state.group].splice(from,1);
-   const insertAt=to>from?to-1:to;
-   t[state.group].splice(insertAt,0,item);
+
+   const reordered=rows.map(r=>original[Number(r.dataset.tyreDragIndex)]).filter(Boolean);
+   if(reordered.length!==original.length)return;
+   t[state.group]=reordered;
    t[state.group].forEach((x,i)=>{if(x)x.position=i});
-   // Reorder only the in-memory admin catalogue. Do not persist it yet;
-   // the Tyre Admin page Save button is the single commit point.
+
+   // Keep this as a pending in-memory change. Supabase is updated only
+   // when the user presses SAVE TYRE PAGE.
    db.tyres=t;
    adminPanel('tyres');
    toast('Order changed — click Save to apply');
   });
-  row.addEventListener('pointercancel',()=>{tyreDragState=null;row.classList.remove('tyreDragPressed','tyreDragging');row.style.transform='';document.documentElement.classList.remove('tyreCatalogueDragging');document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'))});
+  row.addEventListener('pointercancel',()=>{
+   tyreDragState=null;
+   row.classList.remove('tyreDragPressed','tyreDragging');
+   document.documentElement.classList.remove('tyreCatalogueDragging');
+   document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
+  });
  });
 }
 function initTyreCatalogueCompactCards(){
