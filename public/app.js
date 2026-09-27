@@ -71,22 +71,26 @@ function ensureTyreSizeIds(tyres){
  return changed;
 }
 function ensureTyreCatalogueOrder(tyres){
- const groups=[
-  ['brands','position'],
-  ['featured','position'],
-  ['sizes','position'],
-  ['tyreProducts','position']
- ];
+ const groups=[['brands','position'],['featured','position'],['sizes','position'],['tyreProducts','position']];
  let changed=false;
  for(const [key,field] of groups){
   const list=Array.isArray(tyres?.[key])?tyres[key]:[];
-  list.forEach((x,i)=>{
-   if(!x)return;
-   const n=Number(x[field]);
-   if(!Number.isInteger(n)||n<0){x[field]=i;changed=true}
-  });
+  const seen=new Set();
+  list.forEach((x,i)=>{if(!x)return;const n=Number(x[field]);if(!Number.isInteger(n)||n<0||seen.has(n)){x[field]=i;changed=true}seen.add(Number(x[field]))});
+  const sorted=list.slice().sort((x,y)=>Number(x?.[field])-Number(y?.[field]));
+  sorted.forEach((x,i)=>{if(list[i]!==x||Number(x?.[field])!==i)changed=true;if(x)x[field]=i});
+  tyres[key]=sorted;
  }
  return changed;
+}
+function moveTyreCatalogueItem(group,index,direction){
+ const t=clone(db.tyres||defaultTyres),list=Array.isArray(t[group])?t[group]:[];
+ const from=Number(index),to=from+Number(direction);
+ if(!Number.isInteger(from)||!Number.isInteger(to)||from<0||to<0||from>=list.length||to>=list.length)return;
+ ensureTyreCatalogueOrder(t);
+ const ordered=t[group];[ordered[from],ordered[to]]=[ordered[to],ordered[from]];
+ ordered.forEach((x,i)=>{if(x)x.position=i});
+ saveTyreData(t).then(()=>{toast('Order updated');adminPanel('tyres')}).catch(e=>{console.error(e);toast(e.message||'Could not update order')});
 }
 const slug=x=>String(x).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 function validTyreTypeId(id){const v=String(id||'').trim();return !!v&&(db.tyres?.featured||[]).some(x=>x&&String(x.id||'').trim()===v);}
@@ -1300,8 +1304,7 @@ async function addTyreSize(){
  try{
   const t=clone(db.tyres||defaultTyres);t.sizes=Array.isArray(t.sizes)?t.sizes:[];
   if(t.sizes.some(x=>String(x.label||'').toLowerCase()===label.toLowerCase()))return toast('This tyre size already exists');
-  t.sizes.push({id:'ts-'+Date.now().toString(36),width:w,aspect:a,rim:r,label});
-  t.sizes.sort((x,y)=>Number(x.width)-Number(y.width)||Number(x.aspect)-Number(y.aspect)||Number(x.rim)-Number(y.rim));
+  t.sizes.push({id:'ts-'+Date.now().toString(36),width:w,aspect:a,rim:r,label,position:t.sizes.length});
   await saveTyreData(t);closeModal();toast('Tyre size added');adminPanel('tyres');
  }catch(e){console.error(e);toast(e.message||'Could not add tyre size')}
 }
