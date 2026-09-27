@@ -102,72 +102,127 @@ function initTyreCatalogueDrag(){
    if(!handle)return;
    const group=row.dataset.tyreDragGroup,index=Number(row.dataset.tyreDragIndex);
    if(!group||!Number.isInteger(index))return;
-   tyreDragState={row,group,index,startY:e.clientY,moved:false};
+   const rect=row.getBoundingClientRect();
+   tyreDragState={
+    row,group,index,startY:e.clientY,moved:false,
+    pointerOffsetY:e.clientY-rect.top,
+    placeholder:null
+   };
    row.classList.add('tyreDragPressed');
    document.documentElement.classList.add('tyreCatalogueDragging');
    handle.setPointerCapture?.(e.pointerId);
   });
+
   row.addEventListener('pointermove',e=>{
    if(!tyreDragState||tyreDragState.row!==row)return;
-   if(Math.abs(e.clientY-tyreDragState.startY)>6){
-    tyreDragState.moved=true;
+   const state=tyreDragState;
+
+   if(!state.moved && Math.abs(e.clientY-state.startY)>6){
+    state.moved=true;
+
+    // Leave a real placeholder in the list. The held card is taken out
+    // of normal flow, so every other card physically shifts around it.
+    const rect=row.getBoundingClientRect();
+    const placeholder=document.createElement('div');
+    placeholder.className='tyreDragPlaceholder';
+    placeholder.style.height=rect.height+'px';
+    placeholder.style.width=rect.width+'px';
+    placeholder.style.boxSizing='border-box';
+    placeholder.style.visibility='hidden';
+    row.parentNode.insertBefore(placeholder,row);
+    state.placeholder=placeholder;
+
+    row.style.position='fixed';
+    row.style.left=rect.left+'px';
+    row.style.top=rect.top+'px';
+    row.style.width=rect.width+'px';
+    row.style.zIndex='9999';
+    row.style.margin='0';
     row.classList.add('tyreDragging');
-
-    const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')]
-      .filter(r=>r!==row);
-    const target=rows.find(r=>{
-      const box=r.getBoundingClientRect();
-      return e.clientY < box.top + box.height/2;
-    });
-
-    // Physically move the held box through the list while dragging.
-    // The surrounding boxes move out of the way immediately instead
-    // of only showing a drop highlight.
-    if(target){
-      target.parentNode.insertBefore(row,target);
-    }else if(rows.length){
-      const last=rows[rows.length-1];
-      last.parentNode.appendChild(row);
-    }
-
-    document.querySelectorAll('.tyreDragTarget').forEach(r=>r.classList.remove('tyreDragTarget'));
-    const currentRows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
-    const heldIndex=currentRows.indexOf(row);
-    const after=currentRows[heldIndex+1];
-    const before=currentRows[heldIndex-1];
-    if(after)after.classList.add('tyreDragTarget');
-    else if(before)before.classList.add('tyreDragTarget');
    }
+
+   if(!state.moved)return;
+
+   // Keep the held card under the finger while the placeholder stays
+   // in the list and causes the other cards to move out of the way.
+   const rowRect=row.getBoundingClientRect();
+   row.style.top=(e.clientY-state.pointerOffsetY)+'px';
+
+   const list=[...document.querySelectorAll(
+    '[data-tyre-drag-group="'+CSS.escape(state.group)+'"]'
+   )].filter(r=>r!==row);
+
+   let inserted=false;
+   for(const candidate of list){
+    const box=candidate.getBoundingClientRect();
+    if(e.clientY < box.top+box.height/2){
+     candidate.parentNode.insertBefore(state.placeholder,candidate);
+     inserted=true;
+     break;
+    }
+   }
+   if(!inserted && list.length){
+    list[list.length-1].parentNode.appendChild(state.placeholder);
+   }
+
+   document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
+   state.placeholder.classList.add('tyreDragTarget');
   });
-  row.addEventListener('pointerup',e=>{
+
+  row.addEventListener('pointerup',()=>{
    if(!tyreDragState||tyreDragState.row!==row)return;
-   const state=tyreDragState;tyreDragState=null;
+   const state=tyreDragState;
+   tyreDragState=null;
+
+   if(state.moved && state.placeholder){
+    // Put the held card exactly where its placeholder ended up.
+    state.placeholder.parentNode.insertBefore(row,state.placeholder);
+    state.placeholder.remove();
+   }
+
+   row.style.position='';
+   row.style.left='';
+   row.style.top='';
+   row.style.width='';
+   row.style.zIndex='';
+   row.style.margin='';
    row.classList.remove('tyreDragPressed','tyreDragging');
    document.documentElement.classList.remove('tyreCatalogueDragging');
    document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
+
    if(!state.moved)return;
 
-   // Use the actual DOM order produced by the drag, not the original
-   // indexes, so the order shown on screen is exactly the pending order.
-   const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(state.group)+'"]')];
+   // Read the visual DOM order and keep it as a pending in-memory change.
+   const rows=[...document.querySelectorAll(
+    '[data-tyre-drag-group="'+CSS.escape(state.group)+'"]'
+   )];
    const t=clone(db.tyres||defaultTyres);
    const original=Array.isArray(t[state.group])?t[state.group]:[];
-   if(!original.length)return;
    ensureTyreCatalogueOrder(t);
-
    const reordered=rows.map(r=>original[Number(r.dataset.tyreDragIndex)]).filter(Boolean);
    if(reordered.length!==original.length)return;
+
    t[state.group]=reordered;
    t[state.group].forEach((x,i)=>{if(x)x.position=i});
-
-   // Keep this as a pending in-memory change. Supabase is updated only
-   // when the user presses SAVE TYRE PAGE.
    db.tyres=t;
    adminPanel('tyres');
    toast('Order changed — click Save to apply');
   });
+
   row.addEventListener('pointercancel',()=>{
+   if(!tyreDragState||tyreDragState.row!==row)return;
+   const state=tyreDragState;
    tyreDragState=null;
+   if(state.placeholder){
+    state.placeholder.parentNode?.insertBefore(row,state.placeholder);
+    state.placeholder.remove();
+   }
+   row.style.position='';
+   row.style.left='';
+   row.style.top='';
+   row.style.width='';
+   row.style.zIndex='';
+   row.style.margin='';
    row.classList.remove('tyreDragPressed','tyreDragging');
    document.documentElement.classList.remove('tyreCatalogueDragging');
    document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
