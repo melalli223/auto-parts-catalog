@@ -1,59 +1,66 @@
 (function(){'use strict';
-const styleId='tyre-by-car-exact-style';
-function addStyle(){if(document.getElementById(styleId))return;const s=document.createElement('style');s.id=styleId;s.textContent=`
-.tyreExactPage{width:100%;min-height:100vh;margin:0;padding:0 0 80px;background:#fff!important;overflow:visible;overflow-x:hidden}body.tyre-by-car-page{overflow-x:hidden}.tyreFinderBottomImage{width:100%;margin:48px 0 0;line-height:0;overflow:hidden}.tyreFinderBottomImage img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover;object-position:center}
-.tyreByCarHero{width:100%;height:360px;position:relative;overflow:visible;background:#14283f center/cover no-repeat}.tyreByCarHeroCopy{position:absolute;left:24px;right:24px;top:30%;transform:translateY(-50%);z-index:2;text-align:left;color:#061e4e;font-family:Inter,Arial,sans-serif}.tyreByCarHeroCopy h1{margin:0 0 6px;font-size:34px;line-height:1.1;font-weight:800;max-width:620px}.tyreByCarHeroCopy .red{display:block;color:#e21b23}.tyreByCarHeroCopy p{margin:0;white-space:pre-line;font-size:15px;line-height:1.5;font-weight:500}@media(max-width:700px){.tyreFinderBelowText{margin:22px auto 0;padding:0 12px;font-size:14px;line-height:1.55;white-space:normal;overflow-wrap:break-word;text-align:center}.tyreByCarHeroCopy .red{display:inline}.tyreByCarHeroCopy h1{font-size:27px}.tyreByCarHeroCopy p{font-size:13px}}
-.tyreByCarFinderWrap{width:100%;padding:0 24px;background:#fff;box-sizing:border-box}
-.tyreByCarExactPanel{width:min(850px,100%);margin:-150px auto 0;position:relative;z-index:10;padding:28px 38px 30px;box-sizing:border-box;background:#061e4e;color:#fff;border-radius:20px;box-shadow:0 15px 35px rgba(3,25,65,.16)}
-.tyreByCarExactPanel h2{margin:0 0 8px;color:#fff;font:800 28px/1.15 Inter,Arial,sans-serif;text-align:center}
-.tyreByCarExactPanel .required{margin:0;color:rgba(255,255,255,.88);font:500 13px/1.45 Inter,Arial,sans-serif;text-align:center}
-.tyreByCarExactFields{display:grid;grid-template-columns:1fr;gap:16px;margin-top:22px}.tyreByCarExactField.is-hidden{display:none}.tyreByCarExactPanel.is-expanded .tyreByCarExactFields{grid-template-columns:repeat(2,minmax(0,1fr))}
-.tyreByCarExactField label{display:block;margin:0 0 7px 5px;color:#fff;font:800 11px/1.2 Inter,Arial,sans-serif;text-transform:uppercase;letter-spacing:.4px}
-.tyreCustomSelect{position:relative;width:100%}
-.tyreCustomSelectDisplay{width:100%;height:50px;box-sizing:border-box;border:1px solid rgba(255,255,255,.22);border-radius:9px;background:#173765;color:#fff;padding:0 42px 0 15px;font:600 14px/50px Inter,Arial,sans-serif;text-align:left;position:relative;cursor:pointer}
-.tyreCustomSelectDisplay:after{content:'';position:absolute;right:16px;top:19px;width:8px;height:8px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
-.tyreCustomSelectDisplay:disabled{opacity:.5;cursor:not-allowed}
-.tyreCustomSelectList{display:none;position:absolute;z-index:99999;left:0;right:0;top:calc(100% + 6px);max-height:230px;overflow:auto;padding:5px;background:#173765;border:1px solid rgba(255,255,255,.2);border-radius:9px;box-shadow:0 12px 28px rgba(3,25,65,.2)}
-.tyreCustomSelect.open .tyreCustomSelectList{display:block!important}
-.tyreCustomSelectOption{display:block;width:100%;min-height:40px;padding:8px 12px;border:0;border-radius:6px;background:#173765!important;color:#fff!important;font:600 13px/22px Inter,Arial,sans-serif;text-align:left;cursor:pointer}
-.tyreCustomSelectOption:hover,.tyreCustomSelectOption.selected{background:#214776!important}
-.tyreByCarExactActions{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);display:flex;justify-content:center}
-.tyreByCarExactActions button{min-width:170px;height:46px;padding:0 24px;border:0;border-radius:8px;background:#e21b23;color:#fff;font:800 12px/46px Inter,Arial,sans-serif;letter-spacing:.2px;text-transform:uppercase;cursor:pointer}
-.tyreByCarExactActions button:disabled{opacity:.45;cursor:not-allowed}
-}.tyreFinderBelowText{position:relative;z-index:6;display:block;clear:both;margin:38px auto 0;max-width:760px;padding:0 18px;box-sizing:border-box;text-align:center;color:#14283f;font:500 16px/1.6 Inter,Arial,sans-serif}@media(max-width:700px){.tyreExactPage{padding-bottom:60px}.tyreByCarFinderWrap{padding:0 14px}.tyreByCarExactPanel{margin:-122px auto 0;padding:24px 18px 24px;border-radius:17px}.tyreByCarExactPanel h2{font-size:24px}.tyreByCarExactFields{grid-template-columns:1fr;gap:13px;margin-top:18px}.tyreByCarExactActions{margin-top:17px;padding-top:15px}.tyreByCarExactActions button{width:100%}}
-.tyreFindActionPage{width:100%;min-height:100vh;background:#fff;padding:0 0 80px}.tyreCarActionHeader{margin:0 0 28px;text-align:center}.tyreCarActionImages{display:grid;grid-template-columns:1fr;gap:0;background:#fff}.tyreCarActionImages .tyreBrandHeaderImageFrame{width:100%!important;height:220px!important;overflow:hidden!important;background:#fff!important}.tyreCarActionImages .tyreBrandHeaderImageFrame img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}.tyreCarActionHeader .tyreBrandHeaderCopy{padding:20px 14px 0;text-align:center}.tyreCarActionHeader .tyreBrandHeaderCopy h1{margin:0 0 7px;font-family:Arial,Helvetica,sans-serif!important;font-size:33px!important;line-height:1.15!important;font-weight:700!important;font-style:normal!important;letter-spacing:.2px!important;color:#111!important}.tyreCarActionHeader .tyreBrandHeaderCopy p{margin:0;color:#697178;font-size:14px;line-height:1.5}@media(max-width:650px){.tyreFindActionPage{padding-bottom:60px}.tyreCarActionImages .tyreBrandHeaderImageFrame{height:155px!important}.tyreCarActionHeader .tyreBrandHeaderCopy{padding:16px 10px 0}.tyreCarActionHeader .tyreBrandHeaderCopy h1{font-size:23px!important}.tyreCarActionHeader .tyreBrandHeaderCopy p{font-size:11px;line-height:1.4}}.tyreFindActionPage .tyreProductResultsPage .empty{text-align:center;width:100%;box-sizing:border-box;display:block;margin:0 auto}.tyre-home-button{display:block;width:max-content;margin:52px auto 0;padding:10px 22px;border:0;border-radius:0;background:transparent;text-align:center;font-size:16px;font-weight:700;color:#555;cursor:pointer;transition:color .18s ease,border-color .18s ease,background-color .18s ease}.tyre-home-button:hover{color:#d71920;background:#fff}@media(max-width:650px){.tyre-home-button{margin-top:52px;font-size:16px}}`;document.head.appendChild(s)}
-function getData(){try{return window.__apCatalogDb||JSON.parse(localStorage.getItem('ap_catalog_v4')||'null')||{}}catch(e){return{}}}
-window.tyresByCar=function(){addStyle();document.body.classList.add('tyre-by-car-page');const d=getData(),parts=(location.hash||'').replace(/^#tyres\/by-car\/?/,'').split('/').filter(Boolean);if(parts.length>=2){
-const brandId=decodeURIComponent(parts[0]),modelId=decodeURIComponent(parts[1]);
-const brand=(d.brands||[]).find(x=>String(x.id)===brandId);
-const model=(d.models||[]).find(x=>String(x.id)===modelId);
-if(!brand||!model){location.hash='tyres/by-car';return;}
-const brandName=String(brand.name||brandId);
-const modelName=String(model.name||modelId);
-const title=(brandName+' '+modelName+' Tyres').trim();
-if(typeof window.showTyreProductResults==='function'){
+
+/*
+ * Keep the established Find Tyre by Car landing page from app.js.
+ * This file only owns the selected-vehicle route so tyre products are
+ * matched through the vehicle model's assigned tyre type.
+ */
+const legacyTyresByCar=window.tyresByCar;
+
+function getData(){
+  try{return window.__apCatalogDb||JSON.parse(localStorage.getItem('ap_catalog_v4')||'null')||{}}
+  catch(e){return{}}
+}
+
+window.tyresByCar=function(){
+  const raw=(location.hash||'').replace(/^#tyres\/by-car\/?/,'');
+  const parts=raw.split('/').filter(Boolean);
+
+  // Preserve the original Find Tyre by Car landing page exactly.
+  if(parts.length<2){
+    if(typeof legacyTyresByCar==='function')return legacyTyresByCar();
+    return;
+  }
+
+  const d=getData();
+  const brandId=decodeURIComponent(parts[0]);
+  const modelId=decodeURIComponent(parts[1]);
+  const brand=(d.brands||[]).find(x=>String(x.id)===brandId);
+  const model=(d.models||[]).find(x=>String(x.id)===modelId);
+
+  if(!brand||!model){
+    if(typeof legacyTyresByCar==='function')return legacyTyresByCar();
+    return;
+  }
+
   const modelTypeId=String(model.tyreTypeId||model.tyre_type_id||'').trim();
   const tyreTypes=Array.isArray(d.tyres?.featured)?d.tyres.featured:[];
   const matchedType=tyreTypes.find(t=>String(t.id||'')===modelTypeId);
+
   if(!modelTypeId||!matchedType){
-    render('<section class="tyreExactPage tyreFindActionPage"><div style="max-width:760px;margin:90px auto;padding:28px 20px;text-align:center"><h1 style="margin:0 0 12px;font-size:26px;color:#14283f">Tyre type not assigned</h1><p style="margin:0 auto 24px;color:#697178;line-height:1.6">This vehicle model has not been assigned a tyre type yet. Please choose a tyre type for this model in the admin panel.</p><button class="tyre-home-button" type="button" onclick="location.hash='tyres/by-car/'+encodeURIComponent(brandId)">← Back to Models</button></div></section>');
+    render('<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreProductResultsPage tyreFinderActionResultsPage"><button class="tyrePlaceholderBack" onclick="tyreFinderBrand(\''+esc(brand.id)+'\')">← Back to Models</button><div class="empty" style="max-width:720px;margin:80px auto;text-align:center"><h2 style="margin-bottom:10px">Tyre type not assigned</h2><p>This vehicle model has not been assigned a tyre type yet. Please assign one in the admin panel before searching for tyres.</p></div></div></div></section>');
     return;
   }
+
+  const title=(String(brand.name||'')+' '+String(model.name||'')+' Tyres').trim();
+
   if(typeof window.showTyreProductResults==='function'){
     window.showTyreProductResults(
       title,
-      p=>String(p.typeId||p.tyreTypeId||p.tyre_type_id||'')===modelTypeId,
-      {kind:'car',title,modelName,vehicleLabel:brandName+' '+modelName,image:String(model.image||''),tyreTypeId:modelTypeId,tyreTypeTitle:String(matchedType?.title||'')}
+      p=>String(p.typeId||p.tyreTypeId||p.tyre_type_id||'').trim()===modelTypeId,
+      {
+        kind:'car',
+        title,
+        modelName:String(model.name||''),
+        vehicleLabel:String(brand.name||'')+' '+String(model.name||''),
+        image:String(model.image||''),
+        tyreTypeId:modelTypeId,
+        tyreTypeTitle:String(matchedType.title||'')
+      }
     );
     return;
   }
-}
-render('<section class="tyreExactPage tyreFindActionPage" aria-label="'+esc(title)+'"></section>');
-return}const brands=Array.isArray(d.brands)?d.brands.filter(b=>b.isRegular!==false):[];render('<section class="tyreExactPage"><section class="tyreByCarHero" aria-label="Find Tyre by Car"><div class="tyreByCarHeroCopy"><h1>FIND WHEELS &amp; TYRES <span class="red">FOR ALL VEHICLE TYPES</span></h1><p>High quality tyres for better performance, safety and a smoother ride.</p></div></section><div class="tyreByCarFinderWrap"><section class="tyreByCarExactPanel" aria-label="Find Tyre by Car"><h2>Find Tyre By Car</h2><p class="required">Select your vehicle details to find the right tyres.</p><div class="tyreByCarExactFields"><div class="tyreByCarExactField"><label>Brand</label><div id="brandDropdown"></div></div><div class="tyreByCarExactField is-hidden" id="modelField"><label>Model</label><div id="modelDropdown"></div></div></div><div class="tyreByCarExactActions"><button id="exactContinue" type="button" disabled>Find Tyres</button></div></section><p class="tyreFinderBelowText">Choose the right tyres for your vehicle for a safer, smoother and more confident drive.</p><button class="tyrePlaceholderBack tyre-home-button" type="button">← Back to Tyres</button></div><div class="tyreFinderBottomImage" aria-label="Find Tyre By Car footer image" style="display:${d.tyres?.findByCar?.bottomImage?"block":"none"}"><img src="${esc(String(d.tyres?.findByCar?.bottomImage||""))}" alt=""></div></section>');const bh=document.getElementById('brandDropdown'),mh=document.getElementById('modelDropdown'),mf=document.getElementById('modelField'),panel=document.querySelector('.tyreByCarExactPanel'),btn=document.getElementById('exactContinue');let brand='',model='';
-function dropdown(host,items,placeholder,disabled,onSelect){host.innerHTML='';const w=document.createElement('div');w.className='tyreCustomSelect';const b=document.createElement('button');b.type='button';b.className='tyreCustomSelectDisplay';b.textContent=placeholder;b.disabled=!!disabled;b.setAttribute('aria-haspopup','listbox');const l=document.createElement('div');l.className='tyreCustomSelectList';items.forEach(item=>{const o=document.createElement('button');o.type='button';o.className='tyreCustomSelectOption';o.textContent=item.name;o.addEventListener('click',e=>{e.stopPropagation();b.textContent=item.name;b.dataset.value=item.id;l.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));o.classList.add('selected');w.classList.remove('open');onSelect(item)});l.appendChild(o)});b.addEventListener('click',e=>{e.stopPropagation();if(b.disabled)return;w.classList.toggle('open');if(w.classList.contains('open'))document.querySelectorAll('.tyreCustomSelect.open').forEach(x=>{if(x!==w)x.classList.remove('open')})});w.append(b,l);host.appendChild(w);return b}
-const bb=dropdown(bh,brands.map(x=>({id:String(x.id),name:String(x.name)})),'Select Brand',!brands.length,item=>{brand=item.id;model='';btn.disabled=true;const models=(d.models||[]).filter(x=>String(x.brandId)===brand).map(x=>({id:String(x.id),name:String(x.name)}));mf.classList.toggle('is-hidden',!models.length);panel.classList.toggle('is-expanded',!!models.length);const mb=dropdown(mh,models,'Select Model',!models.length,m=>{model=m.id;btn.disabled=false});});
-dropdown(mh,[],'Select Vehicle Model',true,()=>{});
-const hero=document.querySelector('.tyreByCarHero');const heroImage=d.tyres?.findByCar?.image||d.tyres?.hero?.image||'/assets/tyre-ref/hero.png';if(hero&&heroImage)hero.style.backgroundImage=`url("${String(heroImage).replace(/"/g,'\\\"')}")`;
-document.addEventListener('click',()=>document.querySelectorAll('.tyreCustomSelect.open').forEach(x=>x.classList.remove('open')));
-btn.addEventListener('click',()=>{if(brand&&model)location.hash='tyres/by-car/'+encodeURIComponent(brand)+'/'+encodeURIComponent(model)});document.querySelector('.tyre-home-button').addEventListener('click',()=>{location.hash='tyres'});
-};})();
+
+  render('<section class="tyreExactPage tyreFindActionPage" aria-label="'+esc(title)+'"></section>');
+};
+})();
