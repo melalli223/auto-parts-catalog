@@ -100,9 +100,6 @@ function initTyreCatalogueDrag(){
    if(!handle)return;
    const group=row.dataset.tyreDragGroup,index=Number(row.dataset.tyreDragIndex);
    if(!group||!Number.isInteger(index))return;
-   collapseOtherTyreCards(row);
-   row.classList.add('tyreCompactOpen');
-   row.dataset.mobileCollapsed='false';
    tyreDragState={row,group,index,startY:e.clientY,moved:false};
    row.classList.add('tyreDragPressed');
    document.documentElement.classList.add('tyreCatalogueDragging');
@@ -112,6 +109,9 @@ function initTyreCatalogueDrag(){
    if(!tyreDragState||tyreDragState.row!==row)return;
    if(Math.abs(e.clientY-tyreDragState.startY)>6){
     tyreDragState.moved=true;
+    collapseOtherTyreCards(row);
+    row.classList.add('tyreCompactOpen');
+    row.dataset.mobileCollapsed='false';
     row.classList.add('tyreDragging');
     const rows=[...document.querySelectorAll('[data-tyre-drag-group="'+CSS.escape(tyreDragState.group)+'"]')];
     const next=rows.find(r=>e.clientY<r.getBoundingClientRect().top+r.getBoundingClientRect().height/2);
