@@ -211,24 +211,48 @@ function initTyreSettingsSubCards(){
  const settings=document.querySelector('.tyreAdminFullPage');
  if(!settings||!settings.querySelector('#tyreHeroSection'))return;
  settings.classList.add('tyreSettingsCompact');
- settings.querySelectorAll('.tyreAdminSubSection').forEach(section=>{
-  if(section.dataset.tyreSettingsBound)return;
-  section.dataset.tyreSettingsBound='1';
-  section.classList.remove('tyreSubOpen');
-  const head=section.querySelector('.tyreAdminSubHead');
-  if(!head)return;
+
+ const bindCard=(card,head)=>{
+  if(!card||!head||card.dataset.tyreSettingsBound)return;
+  card.dataset.tyreSettingsBound='1';
+  card.classList.remove('tyreSubOpen');
   head.setAttribute('role','button');
   head.setAttribute('tabindex','0');
   head.setAttribute('aria-expanded','false');
   const toggle=()=>{
-   const open=!section.classList.contains('tyreSubOpen');
-   section.classList.toggle('tyreSubOpen',open);
+   const open=!card.classList.contains('tyreSubOpen');
+   card.classList.toggle('tyreSubOpen',open);
    head.setAttribute('aria-expanded',String(open));
   };
   head.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle()});
   head.addEventListener('keydown',e=>{
    if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}
   });
+ };
+
+ // Main settings subsections: Hero, Find, About/Contact, etc.
+ settings.querySelectorAll('.tyreAdminSubSection').forEach(section=>{
+  bindCard(section,section.querySelector('.tyreAdminSubHead'));
+ });
+
+ // Promotional panels: each individual panel is its own minimized card.
+ settings.querySelectorAll('#tyrePromoSection .tyreAdminEditorItem').forEach((card,index)=>{
+  const top=card.querySelector('.tyreAdminItemTop');
+  if(!top)return;
+  let head=top.querySelector('.tyrePromoCompactHead');
+  if(!head){
+   head=document.createElement('div');
+   head.className='tyrePromoCompactHead';
+   head.innerHTML=top.innerHTML;
+   top.innerHTML='';
+   top.appendChild(head);
+  }
+  bindCard(card,head);
+ });
+
+ // Find Tyre image uploaders: keep Car and Size as separate minimized cards.
+ settings.querySelectorAll('#tyreFindImagesSection .tyreAdminSubSection').forEach(section=>{
+  bindCard(section,section.querySelector('.tyreAdminSubHead'));
  });
 }
 function initTyreCatalogueCompactCards(){
