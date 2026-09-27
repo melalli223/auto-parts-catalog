@@ -31,12 +31,21 @@ const brandName=String(brand.name||brandId);
 const modelName=String(model.name||modelId);
 const title=(brandName+' '+modelName+' Tyres').trim();
 if(typeof window.showTyreProductResults==='function'){
-  window.showTyreProductResults(
-    title,
-    p=>String(p.vehicleBrandId||p.brandId)===brandId&&String(p.vehicleModelId||p.modelId)===modelId,
-    {kind:'car',title,modelName,vehicleLabel:brandName+' '+modelName,image:String(model.image||'')}
-  );
-  return;
+  const modelTypeId=String(model.tyreTypeId||model.tyre_type_id||'').trim();
+  const tyreTypes=Array.isArray(d.tyres?.featured)?d.tyres.featured:[];
+  const matchedType=tyreTypes.find(t=>String(t.id||'')===modelTypeId);
+  if(!modelTypeId){
+    render('<section class="tyreExactPage tyreFindActionPage"><div style="max-width:760px;margin:90px auto;padding:28px 20px;text-align:center"><h1 style="margin:0 0 12px;font-size:26px;color:#14283f">Tyre type not assigned</h1><p style="margin:0 auto 24px;color:#697178;line-height:1.6">This vehicle model has not been assigned a tyre type yet. Please choose a tyre type for this model in the admin panel.</p><button class="tyre-home-button" type="button" onclick="location.hash='tyres/by-car/'+encodeURIComponent(brandId)">← Back to Models</button></div></section>');
+    return;
+  }
+  if(typeof window.showTyreProductResults==='function'){
+    window.showTyreProductResults(
+      title,
+      p=>String(p.typeId||p.tyreTypeId||p.tyre_type_id||'')===modelTypeId,
+      {kind:'car',title,modelName,vehicleLabel:brandName+' '+modelName,image:String(model.image||''),tyreTypeId:modelTypeId,tyreTypeTitle:String(matchedType?.title||'')}
+    );
+    return;
+  }
 }
 render('<section class="tyreExactPage tyreFindActionPage" aria-label="'+esc(title)+'"></section>');
 return}const brands=Array.isArray(d.brands)?d.brands.filter(b=>b.isRegular!==false):[];render('<section class="tyreExactPage"><section class="tyreByCarHero" aria-label="Find Tyre by Car"><div class="tyreByCarHeroCopy"><h1>FIND WHEELS &amp; TYRES <span class="red">FOR ALL VEHICLE TYPES</span></h1><p>High quality tyres for better performance, safety and a smoother ride.</p></div></section><div class="tyreByCarFinderWrap"><section class="tyreByCarExactPanel" aria-label="Find Tyre by Car"><h2>Find Tyre By Car</h2><p class="required">Select your vehicle details to find the right tyres.</p><div class="tyreByCarExactFields"><div class="tyreByCarExactField"><label>Brand</label><div id="brandDropdown"></div></div><div class="tyreByCarExactField is-hidden" id="modelField"><label>Model</label><div id="modelDropdown"></div></div></div><div class="tyreByCarExactActions"><button id="exactContinue" type="button" disabled>Find Tyres</button></div></section><p class="tyreFinderBelowText">Choose the right tyres for your vehicle for a safer, smoother and more confident drive.</p><button class="tyrePlaceholderBack tyre-home-button" type="button">← Back to Tyres</button></div><div class="tyreFinderBottomImage" aria-label="Find Tyre By Car footer image" style="display:${d.tyres?.findByCar?.bottomImage?"block":"none"}"><img src="${esc(String(d.tyres?.findByCar?.bottomImage||""))}" alt=""></div></section>');const bh=document.getElementById('brandDropdown'),mh=document.getElementById('modelDropdown'),mf=document.getElementById('modelField'),panel=document.querySelector('.tyreByCarExactPanel'),btn=document.getElementById('exactContinue');let brand='',model='';
