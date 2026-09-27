@@ -646,10 +646,18 @@ ${db.tyres?.contact?.contactImage?`<img src="${esc(db.tyres.contact.contactImage
 
 function initHeroSlider(images){if(window.__heroSliderTimer)clearInterval(window.__heroSliderTimer);if(!images||images.length<2)return;let idx=0;window.__heroSliderTimer=setInterval(()=>{const el=document.getElementById('tyreHeroSlider');if(!el){clearInterval(window.__heroSliderTimer);return}const slides=el.querySelectorAll('.tyreHeroSlide');idx=(idx+1)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===idx))},4000)}
 
-function tyresByCar(){
+async function tyresByCar(){
  setNav('');
  location.hash='tyres/by-car';
- const brands=[...db.brands].filter(b=>b&&b.id&&b.name);
+ let brands=[...db.brands].filter(b=>b&&b.id&&b.name);
+ try{
+  if(supabaseClient){
+   const {data,error}=await supabaseClient.from('brands').select('*').order('sort_order').order('name');
+   if(!error&&Array.isArray(data)){
+    brands=data.map(b=>({id:b.id,name:b.name,image:b.image_url||'',isEv:b.is_ev===true,isRegular:b.is_regular!==false,sortOrder:Number(b.sort_order??0)})).filter(b=>b.id&&b.name);
+   }
+  }
+ }catch(e){console.warn('Tyre finder brand refresh failed:',e)}
  const finder=db.tyres?.findByCar||defaultTyres.findByCar||{};
  const heroImage=finder.image||db.tyres?.hero?.image||defaultTyres.hero.image;
  const bottomImage=finder.bottomImage||'';
@@ -659,16 +667,28 @@ function tyresByCar(){
  ${bottomImage?`<div class="tyreFinderBottomImage"><img src="${esc(bottomImage)}" alt="Find Tyre By Car bottom image"></div>`:''}
  </div></div></section>`)
 }
-function tyreFinderBrand(brandId){
- const b=db.brands.find(x=>x.id===brandId);
+
+async function tyreFinderBrand(brandId){
+ let b=db.brands.find(x=>x.id===brandId);
+ let models=db.models.filter(m=>m&&m.brandId===brandId&&m.name);
+ try{
+  if(supabaseClient){
+   const [brR,moR]=await Promise.all([
+    supabaseClient.from('brands').select('*').eq('id',brandId).maybeSingle(),
+    supabaseClient.from('models').select('*').eq('brand_id',brandId).order('sort_order').order('name')
+   ]);
+   if(!brR.error&&brR.data)b={id:brR.data.id,name:brR.data.name,image:brR.data.image_url||'',isEv:brR.data.is_ev===true,isRegular:brR.data.is_regular!==false};
+   if(!moR.error&&Array.isArray(moR.data))models=moR.data.map(m=>({id:m.id,brandId:m.brand_id,name:m.name,image:m.image_url||'',isEv:m.is_ev===true,tyreTypeId:m.tyre_type_id||''})).filter(m=>m.id&&m.name);
+  }
+ }catch(e){console.warn('Tyre finder model refresh failed:',e)}
  if(!b)return tyresByCar();
- const models=db.models.filter(m=>m&&m.brandId===brandId&&m.name);
  render(`<section class="tyreExactPage"><div class="tyreDesktop"><div class="tyreFinderPage">
  <button class="tyrePlaceholderBack" onclick="tyresByCar()">← Back to Car Brands</button>
  <div class="tyreFinderPageHead"><span>${esc(b.name)}</span><h1>SELECT YOUR <b>MODEL</b></h1><p>Choose your vehicle model.</p></div>
  <div class="tyreFinderModelGrid">${models.map(m=>`<button onclick="tyreFinderModel('${m.id}')"><div><img src="${esc(m.image||placeholder(m.name))}" alt="${esc(m.name)}"></div><strong>${esc(m.name)}</strong></button>`).join('')||'<div class="empty">No models available for this brand.</div>'}</div>
  </div></div></section>`)
 }
+
 function tyreFinderModel(modelId){
  const m=db.models.find(x=>x.id===modelId);
  if(!m)return tyresByCar();
