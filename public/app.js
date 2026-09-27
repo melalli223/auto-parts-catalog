@@ -137,6 +137,19 @@ function initTyreCatalogueDrag(){
   row.addEventListener('pointercancel',()=>{tyreDragState=null;row.classList.remove('tyreDragPressed','tyreDragging');document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'))});
  });
 }
+function initTyreCatalogueCompactCards(){
+ const mq=window.matchMedia('(max-width:650px)');
+ document.querySelectorAll('[data-tyre-drag-group]').forEach(row=>{
+  if(!row.dataset.tyreCompactBound){
+   row.dataset.tyreCompactBound='1';
+   row.addEventListener('click',e=>{
+    if(!mq.matches)return;
+    if(e.target.closest('button,input,select,textarea,a,label,[data-tyre-drag-handle]'))return;
+    row.classList.toggle('tyreCompactOpen');
+   });
+  }
+ });
+}
 const slug=x=>String(x).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 function validTyreTypeId(id){const v=String(id||'').trim();return !!v&&(db.tyres?.featured||[]).some(x=>x&&String(x.id||'').trim()===v);}
 const defaultCategoryNames=['Headlights','Bumpers','Mirrors','Grilles','Body Parts','Tail Lights','Hoods','Radiators & Cooling','Fenders','Doors','Fog Lights','Interior Parts','Suspension Parts','Engine Parts','Electrical Parts','Other'];
@@ -1288,6 +1301,7 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
   ${showSaveBar?saveBar:''}
  </div>`;
  initTyreCatalogueDrag();
+ initTyreCatalogueCompactCards();
  if(isDashboard)loadTyreDashboardEnquiries().then(renderTyreDashboardEnquiries);
 }
 function tyreProductName(p){const findTyre=(arr,id)=>{const a=arr||[],direct=a.find(x=>String(x.id)===String(id));if(direct)return direct;const n=Number(id);return Number.isInteger(n)&&n>=0?a[n]:null};const brand=findTyre(db.tyres?.brands,p.brandId)?.name||p.brand||'';const type=findTyre(db.tyres?.featured,p.typeId)?.title||p.type||'';const size=findTyre(db.tyres?.sizes,p.sizeId)?.label||p.size||'';return [brand,type,size,p.tubeType].map(x=>String(x||'').trim()).filter(Boolean).join(' ')}
