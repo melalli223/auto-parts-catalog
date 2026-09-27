@@ -63,4 +63,10 @@ window.tyresByCar=function(){
 
   render('<section class="tyreExactPage tyreFindActionPage" aria-label="'+esc(title)+'"></section>');
 };
+
+// app.js boots before this exact-route override is loaded. Re-run the current
+// Find Tyre by Car route so the override actually takes effect on first load.
+if((location.hash||'').toLowerCase().startsWith('#tyres/by-car')){
+  try{window.tyresByCar();}catch(e){console.error('Find Tyre by Car route failed',e);}
+}
 })();
