@@ -6536,3 +6536,90 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 [data-tyre-drag-group].tyreDragTarget{box-shadow:inset 0 3px 0 #e53935,inset 0 -3px 0 #e53935}
 .tyreProductAdminRow .tyreDragHandle{margin-right:8px}
 .tyreBrandNumber .tyreDragHandle,.tyreSizeCardTop .tyreDragHandle,.tyreAdminItemTop .tyreDragHandle{margin-right:4px}
+
+/* Mobile tyre catalogue cards: keep lists compact until a card is tapped. */
+@media(max-width:650px){
+  .tyreAdminFullPage [data-tyre-drag-group]{
+    transition:max-height .22s ease,box-shadow .18s ease,opacity .18s ease,transform .18s ease;
+  }
+  .tyreAdminFullPage [data-tyre-drag-group]:not(.tyreCompactOpen){
+    overflow:hidden;
+  }
+  .tyreAdminFullPage .tyreAdminBrandItem:not(.tyreCompactOpen){
+    padding:10px 12px!important;
+  }
+  .tyreAdminFullPage .tyreAdminBrandItem:not(.tyreCompactOpen) .tyreBrandNumber{
+    margin-bottom:0!important;
+  }
+  .tyreAdminFullPage .tyreAdminBrandItem:not(.tyreCompactOpen) .tyreBrandEditSubSection{
+    display:none!important;
+  }
+  .tyreAdminFullPage .tyreAdminEditorItem:not(.tyreCompactOpen){
+    padding:10px 12px!important;
+  }
+  .tyreAdminFullPage .tyreAdminEditorItem:not(.tyreCompactOpen) .tyreAdminItemTop{
+    display:flex!important;
+    align-items:center!important;
+    min-height:38px;
+    margin:0!important;
+  }
+  .tyreAdminFullPage .tyreAdminEditorItem:not(.tyreCompactOpen) .tyreAdminItemTop .tyreAdminPreview{
+    display:none!important;
+  }
+  .tyreAdminFullPage .tyreAdminEditorItem:not(.tyreCompactOpen) > :not(.tyreAdminItemTop){
+    display:none!important;
+  }
+  .tyreAdminFullPage .tyreSizeCard:not(.tyreCompactOpen){
+    padding:10px 12px!important;
+  }
+  .tyreAdminFullPage .tyreSizeCard:not(.tyreCompactOpen) .tyreSizeValue,
+  .tyreAdminFullPage .tyreSizeCard:not(.tyreCompactOpen) .tyreSizeMeta{
+    display:none!important;
+  }
+  .tyreAdminFullPage .tyreSizeCard:not(.tyreCompactOpen) .tyreSizeCardTop{
+    margin-bottom:0!important;
+    min-height:38px;
+  }
+  .tyreAdminFullPage .tyreProductAdminRow:not(.tyreCompactOpen){
+    grid-template-columns:44px minmax(0,1fr) auto!important;
+    gap:9px!important;
+    padding:7px!important;
+    min-height:58px;
+  }
+  .tyreAdminFullPage .tyreProductAdminRow:not(.tyreCompactOpen) .tyreProductAdminImage{
+    width:44px!important;height:44px!important;border-radius:8px!important;
+  }
+  .tyreAdminFullPage .tyreProductAdminRow:not(.tyreCompactOpen) .tyreProductAdminInfo span{
+    display:none!important;
+  }
+  .tyreAdminFullPage .tyreProductAdminRow:not(.tyreCompactOpen) .tyreProductAdminInfo strong{
+    font-size:12px!important;
+    line-height:1.25;
+  }
+  .tyreAdminFullPage .tyreProductAdminRow:not(.tyreCompactOpen) .tyreProductAdminActions{
+    gap:4px!important;
+  }
+  .tyreAdminFullPage .tyreProductAdminRow:not(.tyreCompactOpen) .tyreProductAdminActions .ghost{
+    padding:7px 8px!important;
+    font-size:9px!important;
+  }
+  .tyreAdminFullPage [data-tyre-drag-group]:not(.tyreCompactOpen) .tyreDragHandle{
+    width:32px;height:32px;
+  }
+  .tyreAdminFullPage [data-tyre-drag-group].tyreCompactOpen{
+    position:relative;
+    z-index:2;
+  }
+  .tyreAdminFullPage [data-tyre-drag-group]:not(.tyreCompactOpen)::after{
+    content:'Tap to expand';
+    float:right;
+    margin-top:-31px;
+    margin-right:2px;
+    color:#a0a6ab;
+    font-size:8px;
+    font-weight:700;
+    letter-spacing:.04em;
+    pointer-events:none;
+  }
+  .tyreAdminFullPage [data-tyre-drag-group].tyreCompactOpen::after{display:none}
+}
