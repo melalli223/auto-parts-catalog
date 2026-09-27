@@ -679,6 +679,12 @@ async function tyreFinderBrand(brandId){
    ]);
    if(!brR.error&&brR.data)b={id:brR.data.id,name:brR.data.name,image:brR.data.image_url||'',isEv:brR.data.is_ev===true,isRegular:brR.data.is_regular!==false};
    if(!moR.error&&Array.isArray(moR.data))models=moR.data.map(m=>({id:m.id,brandId:m.brand_id,name:m.name,image:m.image_url||'',isEv:m.is_ev===true,tyreTypeId:m.tyre_type_id||''})).filter(m=>m.id&&m.name);
+   // Keep the directly refreshed EV/regular model list in the shared catalogue so the
+   // next model-selection step can resolve the selected model and its tyre type.
+   if(Array.isArray(models)&&models.length){
+    const keep=db.models.filter(x=>x&&x.brandId!==brandId);
+    db.models=[...keep,...models];
+   }
   }
  }catch(e){console.warn('Tyre finder model refresh failed:',e)}
  if(!b)return tyresByCar();
