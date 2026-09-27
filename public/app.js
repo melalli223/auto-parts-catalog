@@ -144,13 +144,19 @@ function initTyreCatalogueDrag(){
 }
 function initTyreCatalogueCompactCards(){
  const mq=window.matchMedia('(max-width:650px)');
- document.querySelectorAll('[data-tyre-drag-group]').forEach(row=>{
+ const rows=[...document.querySelectorAll('[data-tyre-drag-group]')];
+ // Always start the mobile catalogue with every item collapsed.
+ // This prevents browser/re-render state from leaving random cards expanded.
+ rows.forEach(row=>row.classList.remove('tyreCompactOpen'));
+ rows.forEach(row=>{
   if(!row.dataset.tyreCompactBound){
    row.dataset.tyreCompactBound='1';
    row.addEventListener('click',e=>{
     if(!mq.matches)return;
     if(e.target.closest('button,input,select,textarea,a,label,[data-tyre-drag-handle]'))return;
-    row.classList.toggle('tyreCompactOpen');
+    const opening=!row.classList.contains('tyreCompactOpen');
+    if(opening)collapseOtherTyreCards(row);
+    row.classList.toggle('tyreCompactOpen',opening);
    });
   }
  });
