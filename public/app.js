@@ -157,7 +157,7 @@ function initTyreCatalogueCompactCards(){
    row.dataset.tyreCompactBound='1';
    row.addEventListener('click',e=>{
     if(!mq.matches)return;
-    if(e.target.closest('button,input,select,textarea,a,label,[data-tyre-drag-handle]'))return;
+    if(e.target.closest('button,input,select,textarea,a,label,[data-tyre-drag-handle],.tyreOrderControls,.tyreRemoveItemBtn'))return;
     const opening=row.dataset.mobileCollapsed!=='false';
     if(opening)collapseOtherTyreCards(row);
     row.classList.toggle('tyreCompactOpen',opening);
