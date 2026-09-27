@@ -155,18 +155,18 @@ function initTyreCatalogueCompactCards(){
  rows.forEach(row=>{
   if(!row.dataset.tyreCompactBound){
    row.dataset.tyreCompactBound='1';
-   // Controls are independent from the card's expand/collapse gesture.
-   row.querySelectorAll('.tyreOrderControls,.tyreRemoveItemBtn').forEach(control=>{
-    control.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();},true);
-    control.addEventListener('pointerdown',e=>{e.stopPropagation();},true);
-    control.addEventListener('pointerup',e=>{e.stopPropagation();},true);
-   });
-   // The drag handle must receive pointerdown so the row drag handler can start.
-   row.querySelectorAll('[data-tyre-drag-handle]').forEach(handle=>{
-    handle.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();},true);
+   // Mark controls so the card toggle can ignore their click without
+   // blocking the control's own action or the drag handle's pointer events.
+   row.querySelectorAll('.tyreOrderControls,.tyreRemoveItemBtn,[data-tyre-drag-handle]').forEach(control=>{
+    control.addEventListener('pointerdown',()=>{row.dataset.skipTyreCardToggle='1';},true);
+    control.addEventListener('click',()=>{row.dataset.skipTyreCardToggle='1';},true);
    });
    row.addEventListener('click',e=>{
     if(!mq.matches)return;
+    if(row.dataset.skipTyreCardToggle==='1'){
+     row.dataset.skipTyreCardToggle='0';
+     return;
+    }
     if(e.target.closest('button,input,select,textarea,a,label,[data-tyre-drag-handle],.tyreOrderControls,.tyreRemoveItemBtn'))return;
     const opening=row.dataset.mobileCollapsed!=='false';
     if(opening)collapseOtherTyreCards(row);
