@@ -6896,3 +6896,81 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreSettingsCompact .tyreAdminSubSection.tyreSubOpen .tyreAdminSubHead::after{
   background:rgba(0,0,0,.04);
 }
+
+
+/* Tyre Settings: compact, expandable sub-cards */
+.tyreSettingsCompact .tyreAdminSubSection,
+.tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem{
+  overflow:hidden;
+  transition:box-shadow .18s ease,border-color .18s ease,background .18s ease;
+}
+.tyreSettingsCompact .tyreAdminSubHead,
+.tyreSettingsCompact .tyrePromoCompactHead{
+  cursor:pointer;
+  user-select:none;
+  margin-bottom:0;
+  min-height:44px;
+  align-items:center;
+}
+.tyreSettingsCompact .tyreAdminSubSection:not(.tyreSubOpen) > :not(.tyreAdminSubHead),
+.tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem:not(.tyreSubOpen) > :not(.tyreAdminItemTop){
+  display:none;
+}
+.tyreSettingsCompact .tyreAdminSubSection.tyreSubOpen,
+.tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem.tyreSubOpen{
+  background:#fff;
+  box-shadow:0 5px 18px rgba(0,0,0,.07);
+}
+.tyreSettingsCompact .tyreAdminSubHead::after,
+.tyreSettingsCompact .tyrePromoCompactHead::after{
+  content:'⌄';
+  margin-left:auto;
+  flex:0 0 auto;
+  font-size:17px;
+  font-weight:800;
+  transition:transform .18s ease;
+}
+.tyreSettingsCompact .tyreSubOpen > .tyreAdminSubHead::after,
+.tyreSettingsCompact .tyreSubOpen > .tyreAdminItemTop .tyrePromoCompactHead::after{
+  transform:rotate(180deg);
+}
+.tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem{
+  padding:0;
+  border:1px solid #d9dee2;
+  border-radius:10px;
+  background:#f8f9fa;
+}
+.tyreSettingsCompact #tyrePromoSection .tyreAdminItemTop{
+  margin:0;
+  padding:14px 16px;
+}
+.tyreSettingsCompact #tyrePromoSection .tyrePromoCompactHead{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+}
+.tyreSettingsCompact #tyrePromoSection .tyrePromoCompactHead > *:not(strong){
+  max-width:58px;
+  max-height:42px;
+  object-fit:cover;
+}
+.tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem.tyreSubOpen > :not(.tyreAdminItemTop){
+  padding-left:16px;
+  padding-right:16px;
+}
+@media(max-width:650px){
+  .tyreSettingsCompact .tyreAdminSubSection,
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem{
+    border-radius:12px;
+    margin-top:10px;
+  }
+  .tyreSettingsCompact .tyreAdminSubHead,
+  .tyreSettingsCompact .tyrePromoCompactHead{
+    min-height:50px;
+    padding:10px 12px;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminItemTop{
+    padding:0;
+  }
+}
