@@ -102,6 +102,7 @@ function initTyreCatalogueDrag(){
    if(!group||!Number.isInteger(index))return;
    collapseOtherTyreCards(row);
    row.classList.add('tyreCompactOpen');
+   row.dataset.mobileCollapsed='false';
    tyreDragState={row,group,index,startY:e.clientY,moved:false};
    row.classList.add('tyreDragPressed');
    document.documentElement.classList.add('tyreCatalogueDragging');
@@ -145,18 +146,22 @@ function initTyreCatalogueDrag(){
 function initTyreCatalogueCompactCards(){
  const mq=window.matchMedia('(max-width:650px)');
  const rows=[...document.querySelectorAll('[data-tyre-drag-group]')];
- // Always start the mobile catalogue with every item collapsed.
- // This prevents browser/re-render state from leaving random cards expanded.
- rows.forEach(row=>row.classList.remove('tyreCompactOpen'));
+ // Reset both class and explicit state so a re-render/browser-restored DOM
+ // can never leave selected cards expanded by accident.
+ rows.forEach(row=>{
+  row.classList.remove('tyreCompactOpen');
+  row.dataset.mobileCollapsed='true';
+ });
  rows.forEach(row=>{
   if(!row.dataset.tyreCompactBound){
    row.dataset.tyreCompactBound='1';
    row.addEventListener('click',e=>{
     if(!mq.matches)return;
     if(e.target.closest('button,input,select,textarea,a,label,[data-tyre-drag-handle]'))return;
-    const opening=!row.classList.contains('tyreCompactOpen');
+    const opening=row.dataset.mobileCollapsed!=='false';
     if(opening)collapseOtherTyreCards(row);
     row.classList.toggle('tyreCompactOpen',opening);
+    row.dataset.mobileCollapsed=opening?'false':'true';
    });
   }
  });
