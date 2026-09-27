@@ -96,138 +96,116 @@ function moveTyreCatalogueItem(group,index,direction){
 }
 let tyreDragState=null;
 function initTyreCatalogueDrag(){
- document.querySelectorAll('[data-tyre-drag-group]').forEach(row=>{
-  row.addEventListener('pointerdown',e=>{
-   const handle=e.target.closest('[data-tyre-drag-handle]');
-   if(!handle)return;
-   const group=row.dataset.tyreDragGroup,index=Number(row.dataset.tyreDragIndex);
-   if(!group||!Number.isInteger(index))return;
-   const rect=row.getBoundingClientRect();
-   tyreDragState={
-    row,group,index,startY:e.clientY,moved:false,
-    pointerOffsetY:e.clientY-rect.top,
-    placeholder:null
-   };
-   row.classList.add('tyreDragPressed');
-   document.documentElement.classList.add('tyreCatalogueDragging');
-   handle.setPointerCapture?.(e.pointerId);
-  });
+ if(window.__tyreCatalogueDragBound)return;
+ window.__tyreCatalogueDragBound=true;
+ document.addEventListener('pointerdown',e=>{
+  const handle=e.target.closest?.('[data-tyre-drag-handle]');
+  if(!handle)return;
+  const row=handle.closest('[data-tyre-drag-group]');
+  if(!row)return;
+  const group=row.dataset.tyreDragGroup,index=Number(row.dataset.tyreDragIndex);
+  if(!group||!Number.isInteger(index))return;
+  const rect=row.getBoundingClientRect();
+  tyreDragState={
+   row,group,index,startY:e.clientY,moved:false,
+   pointerOffsetY:e.clientY-rect.top,
+   placeholder:null
+  };
+  row.classList.add('tyreDragPressed');
+  document.documentElement.classList.add('tyreCatalogueDragging');
+  try{handle.setPointerCapture?.(e.pointerId)}catch(_){}
+ },true);
 
-  row.addEventListener('pointermove',e=>{
-   if(!tyreDragState||tyreDragState.row!==row)return;
-   const state=tyreDragState;
+ document.addEventListener('pointermove',e=>{
+  const state=tyreDragState;
+  if(!state)return;
 
-   if(!state.moved && Math.abs(e.clientY-state.startY)>6){
-    state.moved=true;
+  if(!state.moved && Math.abs(e.clientY-state.startY)>6){
+   state.moved=true;
+   const row=state.row,rect=row.getBoundingClientRect();
+   const placeholder=document.createElement('div');
+   placeholder.className='tyreDragPlaceholder';
+   placeholder.style.height=rect.height+'px';
+   placeholder.style.width=rect.width+'px';
+   placeholder.style.boxSizing='border-box';
+   placeholder.style.visibility='hidden';
+   row.parentNode.insertBefore(placeholder,row);
+   state.placeholder=placeholder;
 
-    // Leave a real placeholder in the list. The held card is taken out
-    // of normal flow, so every other card physically shifts around it.
-    const rect=row.getBoundingClientRect();
-    const placeholder=document.createElement('div');
-    placeholder.className='tyreDragPlaceholder';
-    placeholder.style.height=rect.height+'px';
-    placeholder.style.width=rect.width+'px';
-    placeholder.style.boxSizing='border-box';
-    placeholder.style.visibility='hidden';
-    row.parentNode.insertBefore(placeholder,row);
-    state.placeholder=placeholder;
+   row.style.position='fixed';
+   row.style.left=rect.left+'px';
+   row.style.top=rect.top+'px';
+   row.style.width=rect.width+'px';
+   row.style.zIndex='9999';
+   row.style.margin='0';
+   row.classList.add('tyreDragging');
+  }
 
-    row.style.position='fixed';
-    row.style.left=rect.left+'px';
-    row.style.top=rect.top+'px';
-    row.style.width=rect.width+'px';
-    row.style.zIndex='9999';
-    row.style.margin='0';
-    row.classList.add('tyreDragging');
-   }
+  if(!state.moved)return;
 
-   if(!state.moved)return;
+  const row=state.row;
+  row.style.top=(e.clientY-state.pointerOffsetY)+'px';
 
-   // Keep the held card under the finger while the placeholder stays
-   // in the list and causes the other cards to move out of the way.
-   const rowRect=row.getBoundingClientRect();
-   row.style.top=(e.clientY-state.pointerOffsetY)+'px';
+  const candidates=[...document.querySelectorAll(
+   '[data-tyre-drag-group="'+CSS.escape(state.group)+'"]'
+  )].filter(r=>r!==row);
 
-   const list=[...document.querySelectorAll(
-    '[data-tyre-drag-group="'+CSS.escape(state.group)+'"]'
-   )].filter(r=>r!==row);
+  let target=null;
+  for(const candidate of candidates){
+   const box=candidate.getBoundingClientRect();
+   if(e.clientY < box.top+box.height/2){target=candidate;break}
+  }
 
-   let inserted=false;
-   for(const candidate of list){
-    const box=candidate.getBoundingClientRect();
-    if(e.clientY < box.top+box.height/2){
-     candidate.parentNode.insertBefore(state.placeholder,candidate);
-     inserted=true;
-     break;
-    }
-   }
-   if(!inserted && list.length){
-    list[list.length-1].parentNode.appendChild(state.placeholder);
-   }
+  if(target)target.parentNode.insertBefore(state.placeholder,target);
+  else if(candidates.length)candidates[candidates.length-1].parentNode.appendChild(state.placeholder);
 
-   document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
-   state.placeholder.classList.add('tyreDragTarget');
-  });
+  document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
+  state.placeholder.classList.add('tyreDragTarget');
+ },true);
 
-  row.addEventListener('pointerup',()=>{
-   if(!tyreDragState||tyreDragState.row!==row)return;
-   const state=tyreDragState;
-   tyreDragState=null;
+ const finishDrag=()=>{
+  const state=tyreDragState;
+  if(!state)return;
+  tyreDragState=null;
+  const row=state.row;
 
-   if(state.moved && state.placeholder){
-    // Put the held card exactly where its placeholder ended up.
-    state.placeholder.parentNode.insertBefore(row,state.placeholder);
-    state.placeholder.remove();
-   }
+  if(state.moved&&state.placeholder){
+   state.placeholder.parentNode?.insertBefore(row,state.placeholder);
+   state.placeholder.remove();
+  }
 
-   row.style.position='';
-   row.style.left='';
-   row.style.top='';
-   row.style.width='';
-   row.style.zIndex='';
-   row.style.margin='';
-   row.classList.remove('tyreDragPressed','tyreDragging');
-   document.documentElement.classList.remove('tyreCatalogueDragging');
-   document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
+  row.style.position='';
+  row.style.left='';
+  row.style.top='';
+  row.style.width='';
+  row.style.zIndex='';
+  row.style.margin='';
+  row.classList.remove('tyreDragPressed','tyreDragging');
+  document.documentElement.classList.remove('tyreCatalogueDragging');
+  document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
 
-   if(!state.moved)return;
+  if(!state.moved)return;
 
-   // Read the visual DOM order and keep it as a pending in-memory change.
-   const rows=[...document.querySelectorAll(
-    '[data-tyre-drag-group="'+CSS.escape(state.group)+'"]'
-   )];
-   const t=clone(db.tyres||defaultTyres);
-   const original=Array.isArray(t[state.group])?t[state.group]:[];
-   ensureTyreCatalogueOrder(t);
-   const reordered=rows.map(r=>original[Number(r.dataset.tyreDragIndex)]).filter(Boolean);
-   if(reordered.length!==original.length)return;
+  // The DOM order is the order the user just created. Convert that
+  // visual order into the pending catalogue order without saving yet.
+  const rows=[...document.querySelectorAll(
+   '[data-tyre-drag-group="'+CSS.escape(state.group)+'"]'
+  )];
+  const t=clone(db.tyres||defaultTyres);
+  const original=Array.isArray(t[state.group])?t[state.group]:[];
+  ensureTyreCatalogueOrder(t);
+  const reordered=rows.map(r=>original[Number(r.dataset.tyreDragIndex)]).filter(Boolean);
+  if(reordered.length!==original.length)return;
 
-   t[state.group]=reordered;
-   t[state.group].forEach((x,i)=>{if(x)x.position=i});
-   db.tyres=t;
-   adminPanel('tyres');
-   toast('Order changed — click Save to apply');
-  });
+  t[state.group]=reordered;
+  t[state.group].forEach((x,i)=>{if(x)x.position=i});
+  db.tyres=t;
+  adminPanel('tyres');
+  toast('Order changed — click Save to apply');
+ };
 
-  row.addEventListener('pointercancel',()=>{
-   if(!tyreDragState||tyreDragState.row!==row)return;
-   const state=tyreDragState;
-   tyreDragState=null;
-   if(state.placeholder){
-    state.placeholder.parentNode?.insertBefore(row,state.placeholder);
-    state.placeholder.remove();
-   }
-   row.style.position='';
-   row.style.left='';
-   row.style.top='';
-   row.style.width='';
-   row.style.zIndex='';
-   row.style.margin='';
-   row.classList.remove('tyreDragPressed','tyreDragging');
-   document.documentElement.classList.remove('tyreCatalogueDragging');
-   document.querySelectorAll('.tyreDragTarget').forEach(x=>x.classList.remove('tyreDragTarget'));
-  });
- });
+ document.addEventListener('pointerup',finishDrag,true);
+ document.addEventListener('pointercancel',finishDrag,true);
 }
 function initTyreCatalogueCompactCards(){
  const mq=window.matchMedia('(max-width:650px)');
@@ -1399,8 +1377,8 @@ const promoSection=`<section class="tyreAdminCard tyreAdminPromoSection" id="tyr
  else if(tyreAdminSubTab==='by-number'){sectionsHtml=finderNumberSection;showSaveBar=true}
  else if(tyreAdminSubTab==='brands'){sectionsHtml=brandsSection;showSaveBar=true}
  else if(tyreAdminSubTab==='featured'){sectionsHtml=featuredSection;showSaveBar=true}
- else if(tyreAdminSubTab==='sizes'){sectionsHtml=sizesSection;showSaveBar=false}
- else if(tyreAdminSubTab==='products'){sectionsHtml=tyreProductsSection();showSaveBar=false}
+ else if(tyreAdminSubTab==='sizes'){sectionsHtml=sizesSection;showSaveBar=true}
+ else if(tyreAdminSubTab==='products'){sectionsHtml=tyreProductsSection();showSaveBar=true}
  else {sectionsHtml=dashboardBody;showSaveBar=false}
  const saveBar=`<div class="tyreAdminSaveBar"><div><strong>Ready to publish?</strong><span>Save your tyre-page changes when finished.</span></div><div><button class="ghost" onclick="location.href='/#tyres'">PREVIEW</button><button class="primary" onclick="saveTyrePage()">SAVE TYRE PAGE</button></div></div>`;
  const pageTitles={dashboard:'Tyre Admin Dashboard',settings:'Tyre Settings',brands:'Tyre Brands',featured:'Featured Tyre Types',sizes:'Tyre Sizes',products:'Tyre Products','by-car':'Find Tyre By Car','by-number':'Find Tyre By Size'};
