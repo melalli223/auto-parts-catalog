@@ -2462,7 +2462,7 @@ function initApModelBrandSectionDrag(){
   s.row.classList.remove('apDragPressed','apDragging');
   document.documentElement.classList.remove('apModelBrandDragging');
   if(!s.moved)return;
-  const rows=[...document.querySelectorAll('.modelBrandSection[data-ap-drag-group="modelBrands"]')];
+  const rows=[...s.groupContainer.querySelectorAll('.modelBrandSection[data-ap-drag-group="modelBrands"]')];
   const reordered=rows.map(x=>db.brands.find(b=>String(b.id)===String(x.dataset.apDragId))).filter(Boolean);
   if(reordered.length!==db.brands.length)return;
   reordered.forEach((b,i)=>b.sortOrder=i);
@@ -2477,7 +2477,7 @@ function initApModelBrandSectionDrag(){
   const row=handle.closest?.('.modelBrandSection[data-ap-drag-group="modelBrands"]');
   if(!row)return;
   const rect=row.getBoundingClientRect();
-  state={row,startY:e.clientY,offset:e.clientY-rect.top,moved:false,placeholder:null};
+  state={row,startY:e.clientY,offset:e.clientY-rect.top,moved:false,placeholder:null,groupContainer:row.closest('.apBrandTypeSection')};
   row.classList.add('apDragPressed');
   document.documentElement.classList.add('apModelBrandDragging');
   try{handle.setPointerCapture?.(e.pointerId)}catch(_){}
@@ -2494,7 +2494,7 @@ function initApModelBrandSectionDrag(){
   }
   if(!s.moved)return;
   s.row.style.top=(e.clientY-s.offset)+'px';
-  const candidates=[...document.querySelectorAll('.modelBrandSection[data-ap-drag-group="modelBrands"]')].filter(x=>x!==s.row);
+  const candidates=[...s.groupContainer.querySelectorAll('.modelBrandSection[data-ap-drag-group="modelBrands"]')].filter(x=>x!==s.row);
   let target=null;
   for(const x of candidates){const box=x.getBoundingClientRect();if(e.clientY<box.top+box.height/2){target=x;break}}
   if(target)target.parentNode.insertBefore(s.placeholder,target);
@@ -2517,7 +2517,7 @@ function initApCatalogPointerDrag(){
   document.documentElement.classList.remove('apCatalogDragging');
   document.querySelectorAll('.apDragTarget').forEach(x=>x.classList.remove('apDragTarget'));
   if(!s.moved)return;
-  const rows=[...document.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]')];
+  const rows=[...s.groupContainer?s.groupContainer.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]'):document.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]')];
   const source=s.group==='brands'?db.brands:s.group==='models'?db.models:s.group==='years'?db.years:s.group==='products'?db.parts:db.categories;
   const reordered=rows.map(x=>source.find(item=>String(item.id)===String(x.dataset.apDragId))).filter(Boolean);
   if(reordered.length!==source.length)return;
@@ -2541,7 +2541,7 @@ function initApCatalogPointerDrag(){
   const row=handle.closest?.('[data-ap-drag-group]');
   if(!row)return;
   const rect=row.getBoundingClientRect();
-  state={row,group:row.dataset.apDragGroup,startY:e.clientY,moved:false,offset:e.clientY-rect.top,placeholder:null};
+  state={row,group:row.dataset.apDragGroup,startY:e.clientY,moved:false,offset:e.clientY-rect.top,placeholder:null,groupContainer:row.closest('.apBrandTypeSection')};
   row.classList.add('apDragPressed');
   document.documentElement.classList.add('apCatalogDragging');
   try{handle.setPointerCapture?.(e.pointerId)}catch(_){}
@@ -2558,7 +2558,7 @@ function initApCatalogPointerDrag(){
   }
   if(!s.moved)return;
   s.row.style.top=(e.clientY-s.offset)+'px';
-  const candidates=[...document.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]')].filter(x=>x!==s.row);
+  const candidates=[...s.groupContainer?s.groupContainer.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]'):document.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]')].filter(x=>x!==s.row);
   let target=null;
   for(const x of candidates){const box=x.getBoundingClientRect();if(e.clientY<box.top+box.height/2){target=x;break}}
   if(target)target.parentNode.insertBefore(s.placeholder,target);
