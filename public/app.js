@@ -2414,8 +2414,8 @@ function brandAdmin(c){
   return '<section class="apBrandTypeSection" data-ap-brand-kind="'+kind+'"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>'+title+'</h3></div><strong>'+groupItems.length+' brand'+(groupItems.length===1?'':'s')+'</strong></div><div class="apCatalogCardList">'+cards+'</div></section>';
  };
  const ev=items.filter(b=>b.isEv);
- const car=items.filter(b=>!b.isEv);
- c.innerHTML=apAdminOrderCard('Vehicle Brands','Arrange the brand order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle brands</h2><p class="muted">EV brands and car brands are managed in separate groups.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle to arrange brands, then SAVE.</span></div><div class="apBrandTypeSections">'+renderBrandGroup(ev,'EV BRANDS','ev')+renderBrandGroup(car,'CAR BRANDS','car')+'</div>',true)+apCatalogBottomActions('brands');
+ const car=items.filter(b=>!b.isEv||b.isRegular);
+ c.innerHTML=apAdminOrderCard('Vehicle Brands','Arrange the brand order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle brands</h2><p class="muted">EV brands and car brands are managed in separate groups.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle to arrange brands, then SAVE.</span></div><div class="apBrandTypeSections">'+renderBrandGroup(car,'CAR BRANDS','car')+renderBrandGroup(ev,'EV BRANDS','ev')+'</div>',true)+apCatalogBottomActions('brands');
 }
 function modelAdmin(c){
  const items=[...db.models].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
@@ -2438,10 +2438,10 @@ function modelAdmin(c){
   return '<section class="apBrandTypeSection" data-ap-brand-kind="'+kind+'"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>'+title+'</h3></div><strong>'+brands.length+' brand'+(brands.length===1?'':'s')+'</strong></div><div class="modelBrandSections">'+sections+'</div></section>';
  };
  const ev=brandItems.filter(b=>b.isEv);
- const car=brandItems.filter(b=>!b.isEv);
+ const car=brandItems.filter(b=>!b.isEv||b.isRegular);
  const unassigned=items.filter(m=>!brandItems.some(b=>String(b.id)===String(m.brandId)));
  const unassignedHtml=unassigned.length?'<section class="apBrandTypeSection" data-ap-brand-kind="unassigned"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>UNASSIGNED MODELS</h3></div><strong>'+unassigned.length+' model'+(unassigned.length===1?'':'s')+'</strong></div><div class="apCatalogCardList">'+unassigned.map(m=>apCatalogCard(m.name,'Unassigned brand · '+modelYears(m.id).length+' years','<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'">'+esc(m.name)+'</div><span>Unassigned brand</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button><button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></div></div>',items.findIndex(x=>String(x.id)===String(m.id)),items.length,'apMoveModel',m.id)).join('')+'</div></section>':'';
- c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">EV brands and car brands are shown in separate groups.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle to arrange brands/models, then SAVE.</span></div><div class="apBrandTypeSections">'+renderBrandGroup(ev,'EV BRANDS','ev')+renderBrandGroup(car,'CAR BRANDS','car')+unassignedHtml+'</div>',true)+apCatalogBottomActions('models');
+ c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">EV brands and car brands are shown in separate groups.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle to arrange brands/models, then SAVE.</span></div><div class="apBrandTypeSections">'+renderBrandGroup(car,'CAR BRANDS','car')+renderBrandGroup(ev,'EV BRANDS','ev')+unassignedHtml+'</div>',true)+apCatalogBottomActions('models');
 }
 function yearAdmin(c){
  const items=[...db.years].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));
