@@ -7565,3 +7565,75 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 @media(max-width:760px){
   .apYearVehicleBrands{padding-top:14px !important}
 }
+
+
+/* Year panel — model cards inside each brand are compact square boxes */
+.apYearBrandSection .modelBrandSections{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fill,minmax(100px,1fr));
+  gap:12px !important;
+}
+.apYearBrandSection .apYearModelSection{
+  aspect-ratio:1 / 1;
+  min-width:0;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:stretch;
+}
+.apYearBrandSection .apYearModelSection .modelBrandSectionHead{
+  min-height:0;
+  height:100%;
+  margin:0;
+  padding:6px;
+  border-bottom:0;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  flex-direction:column;
+  gap:5px;
+}
+.apYearBrandSection .apYearModelSection .modelBrandSectionHead>div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.apYearBrandSection .apYearModelSection .modelBrandSectionHead h3{
+  margin:0;
+  font-size:13px;
+  line-height:1.15;
+  text-align:center;
+  word-break:break-word;
+}
+.apYearBrandSection .apYearModelSection .modelBrandSectionHead>strong{
+  position:static;
+  display:block;
+  font-size:10px;
+}
+.apYearBrandSection .apYearModelSection .modelBrandSectionBody{display:none}
+.apYearBrandSection .apYearModelSection.isOpen{
+  grid-column:1 / -1;
+  aspect-ratio:auto;
+}
+.apYearBrandSection .apYearModelSection.isOpen .modelBrandSectionHead{
+  height:auto;
+  margin:0 0 10px;
+  padding:4px 2px 10px;
+  border-bottom:3px solid rgba(0,0,0,.12);
+  flex-direction:row;
+  justify-content:space-between;
+  text-align:left;
+}
+.apYearBrandSection .apYearModelSection.isOpen .modelBrandSectionHead>div{
+  display:block;
+  text-align:left;
+}
+.apYearBrandSection .apYearModelSection.isOpen .modelBrandSectionHead h3{text-align:left;font-size:16px}
+.apYearBrandSection .apYearModelSection.isOpen .modelBrandSectionBody{display:block}
+@media(max-width:760px){
+  .apYearBrandSection .modelBrandSections{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px !important}
+  .apYearBrandSection .apYearModelSection{padding:8px;border-radius:12px}
+  .apYearBrandSection .apYearModelSection .modelBrandSectionHead h3{font-size:12px}
+}
