@@ -2443,6 +2443,18 @@ function modelAdmin(c){
  const unassignedHtml=unassigned.length?'<section class="apBrandTypeSection" data-ap-brand-kind="unassigned"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>UNASSIGNED MODELS</h3></div><strong>'+unassigned.length+' model'+(unassigned.length===1?'':'s')+'</strong></div><div class="apCatalogCardList">'+unassigned.map(m=>apCatalogCard(m.name,'Unassigned brand · '+modelYears(m.id).length+' years','<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'">'+esc(m.name)+'</div><span>Unassigned brand</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button><button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></div></div>',items.findIndex(x=>String(x.id)===String(m.id)),items.length,'apMoveModel',m.id)).join('')+'</div></section>':'';
  c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">EV brands and car brands are shown in separate groups.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle to arrange brands/models, then SAVE.</span></div><div class="apBrandTypeSections">'+renderBrandGroup(car,'CAR BRANDS','car')+renderBrandGroup(ev,'EV BRANDS','ev')+unassignedHtml+'</div>',true)+apCatalogBottomActions('models');
 }
+function toggleYearBrandCard(head){
+ const card=head.closest('.apYearBrandSection'); if(!card)return;
+ const willOpen=!card.classList.contains('isOpen'); const parent=card.parentElement;
+ if(parent) parent.querySelectorAll(':scope > .apYearBrandSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
+ card.classList.toggle('isOpen',willOpen); head.setAttribute('aria-expanded',String(willOpen));
+}
+function toggleYearModelCard(head){
+ const card=head.closest('.apYearModelSection'); if(!card)return;
+ const willOpen=!card.classList.contains('isOpen'); const parent=card.parentElement;
+ if(parent) parent.querySelectorAll(':scope > .apYearModelSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
+ card.classList.toggle('isOpen',willOpen); head.setAttribute('aria-expanded',String(willOpen));
+}
 function yearAdmin(c){
  const items=[...db.years].sort((a,b)=>Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));
  const models=[...db.models].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
@@ -2455,18 +2467,17 @@ function yearAdmin(c){
    const modelHtml=brandModels.map(m=>{
     const ys=yearsForModel(m.id);
     const yearHtml=ys.length?'<div class="apYearTextList">'+ys.map(y=>'<span class="apYearText">'+esc(String(y.year))+'</span>').join('')+'</div>':'<div class="empty">No years assigned yet.</div>';
-    return '<section class="modelBrandSection apYearModelSection"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="const p=this.parentElement;const willOpen=!p.classList.contains('isOpen');p.parentElement.querySelectorAll(':scope > .apYearModelSection.isOpen').forEach(x=>{if(x!==p)x.classList.remove('isOpen');});p.classList.toggle('isOpen',willOpen);this.setAttribute('aria-expanded',String(willOpen))"><div><span class="modelBrandEyebrow">MODEL</span><h3>'+esc(m.name)+'</h3></div><strong>'+ys.length+' year'+(ys.length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody">'+yearHtml+'<button class="primary apYearAddButton" onclick="event.stopPropagation();yearForm(\''+esc(String(m.id))+ '\')">+ ADD YEARS</button></div></section>';
+    return '<section class="modelBrandSection apYearModelSection"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="toggleYearModelCard(this)"><div><span class="modelBrandEyebrow">MODEL</span><h3>'+esc(m.name)+'</h3></div><strong>'+ys.length+' year'+(ys.length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody">'+yearHtml+'<button class="primary apYearAddButton" onclick="event.stopPropagation();yearForm(\''+esc(String(m.id))+'\')">+ ADD YEARS</button></div></section>';
    }).join('');
    const count=brandModels.reduce((n,m)=>n+yearsForModel(m.id).length,0);
-   return '<section class="apBrandTypeSection apYearBrandSection"><div class="apBrandTypeSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))"><div><span>BRAND</span><h3>'+esc(b.name)+'</h3></div><strong>'+count+' year'+(count===1?'':'s')+'</strong></div><div class="apYearBrandBody"><div class="modelBrandSections">'+(modelHtml||'<div class="empty">No models in this section yet.</div>')+'</div></div></section>';
+   return '<section class="apBrandTypeSection apYearBrandSection"><div class="apBrandTypeSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="toggleYearBrandCard(this)"><div><span>BRAND</span><h3>'+esc(b.name)+'</h3></div><strong>'+count+' year'+(count===1?'':'s')+'</strong></div><div class="apYearBrandBody"><div class="modelBrandSections">'+(modelHtml||'<div class="empty">No models in this section yet.</div>')+'</div></div></section>';
   }).join('');
   return '<section class="apYearVehicleSection"><div class="apYearVehicleSectionHead"><span>VEHICLE TYPE</span><h2>'+label+'</h2><strong>'+brandList.length+' brands</strong></div><div class="apYearVehicleBrands">'+cards+'</div></section>';
  };
- const ev=brands.filter(b=>b.isEv);
- const car=brands.filter(b=>!b.isEv||b.isRegular);
+ const ev=brands.filter(b=>b.isEv); const car=brands.filter(b=>!b.isEv||b.isRegular);
  const unassigned=items.filter(y=>!models.some(m=>String(m.id)===String(y.modelId)));
  const unassignedHtml=unassigned.length?'<section class="apBrandTypeSection apYearBrandSection"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>UNASSIGNED YEARS</h3></div><strong>'+unassigned.length+' years</strong></div><div class="apYearBrandBody"><div class="apYearTextList">'+unassigned.map(y=>'<span class="apYearText">'+esc(String(y.year))+'</span>').join('')+'</div></div></section>':'';
- c.innerHTML=apAdminOrderCard('Model Years','Years are grouped by vehicle type, brand, then model.',`<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Years are shown newest to oldest. Add or delete years inside each model.</p></div></div><div class="apBrandTypeSections">${renderGroup(car,'car')}${renderGroup(ev,'ev')}${unassignedHtml}</div>`,true)+apCatalogBottomActions('years');
+ c.innerHTML=apAdminOrderCard('Model Years','Years are grouped by vehicle type, brand, then model.','<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Years are shown newest to oldest. Add or delete years inside each model.</p></div></div><div class="apBrandTypeSections">'+renderGroup(car,'car')+renderGroup(ev,'ev')+unassignedHtml+'</div>',true)+apCatalogBottomActions('years');
 }
 function categoryAdmin(c){
  const items=[...db.categories].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
