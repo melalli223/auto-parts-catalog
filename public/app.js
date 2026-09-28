@@ -1505,7 +1505,7 @@ function initApCatalogPointerDrag(){
   else if(s.group==='years')yearAdmin(document.querySelector('#adminContent'));
   else if(s.group==='products')productAdmin(document.querySelector('#adminContent'));
   else categoryAdmin(document.querySelector('#adminContent'));
-  toast('Order changed — click SAVE ORDER to apply');
+  toast('Order changed — click SAVE to apply');
  };
  document.addEventListener('pointerdown',e=>{
   const handle=e.target.closest?.('[data-ap-drag-handle]');
