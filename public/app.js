@@ -230,7 +230,16 @@ function initTyreSettingsSubCards(){
   });
  };
 
- // Main settings subsections: Hero, Find, About/Contact, etc.
+ // Main settings sections are also compact cards, matching the
+ // Brands / Types / Sizes / Products admin layout. Open a section
+ // first, then use its smaller subsections.
+ settings.querySelectorAll('.tyreAdminCard').forEach(section=>{
+  const head=section.querySelector(':scope > .tyreCardHead');
+  if(head)bindCard(section,head);
+ });
+
+ // Inner settings subsections: Hero content, Find by Car, Find by Size,
+ // About Us, Contact Information, etc. remain independent compact cards.
  settings.querySelectorAll('.tyreAdminSubSection').forEach(section=>{
   bindCard(section,section.querySelector('.tyreAdminSubHead'));
  });
