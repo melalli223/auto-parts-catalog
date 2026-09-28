@@ -7661,3 +7661,12 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .apSettingsSection.isOpen .apSettingsSectionHead{border-bottom:3px solid rgba(0,0,0,.10)}
 .apSettingsSave{display:flex;justify-content:flex-end;padding-top:2px}
 @media(max-width:760px){.apSettingsPage{gap:14px}.apSettingsSection{border-radius:13px}.apSettingsSectionHead{padding:13px}.apSettingsSectionBody{padding:0 13px 14px}.apSettingsSectionHead b{font-size:13px}.apSettingsSectionHead small{font-size:11px}}
+
+
+/* Settings panel — slightly larger section cards */
+.apSettingsSections .apSettingsSection,
+.apSettingsSections .adminSectionCard,
+.apSettingsSections .settingsSectionCard{
+  min-height:120px;
+  padding:22px;
+}
