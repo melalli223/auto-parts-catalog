@@ -7392,7 +7392,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .apModelBrandDragging,.apModelBrandDragging *{cursor:grabbing !important}
 
 /* Auto Parts Admin — separate EV and car groups as title headers, not cards */
-.apBrandTypeSections{display:flex;flex-direction:column;gap:26px}
+.apBrandTypeSections{display:flex;flex-direction:column;gap:42px}
 .apBrandTypeSection{padding:0;border:0;border-radius:0;background:transparent}
 .apBrandTypeSectionHead{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px;padding:0 2px 11px;border-bottom:3px solid rgba(0,0,0,.14)}
 .apBrandTypeSectionHead span{display:block;font-size:10px;font-weight:800;letter-spacing:.12em;opacity:.55}
@@ -7429,7 +7429,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .apYearVehicleSectionHead h2{margin:0;font-size:20px;font-weight:900}
 .apYearVehicleSectionHead strong{margin-left:auto;font-size:12px;opacity:.65}
 .apYearVehicleBrands{padding:0}
-.apYearVehicleSection + .apYearVehicleSection{margin-top:28px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
+.apYearVehicleSection + .apYearVehicleSection{margin-top:42px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
 @media(max-width:650px){
  .apYearVehicleSection{margin-bottom:20px}
  .apYearVehicleSectionHead{padding-bottom:9px}
