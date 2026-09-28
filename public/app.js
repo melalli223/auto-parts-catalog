@@ -394,10 +394,27 @@ function routeTyresHash(){const parts=location.hash.replace('#','').split('/');i
 if(parts[1]==='by-car'){if(typeof window.tyresByCar==='function'){window.tyresByCar()}else{setTimeout(routeTyresHash,50)}return true}
 if(parts[1]==='by-size'){if(typeof window.tyresByNumber==='function'){window.tyresByNumber()}else{setTimeout(routeTyresHash,50)}return true}tyres();return true}
 window.addEventListener('hashchange',()=>{const h=location.hash||'';if(/^#?tyres(?:\/|$)/.test(h))routeTyresHash()});
+function routeCustomerHash(){
+ const h=(location.hash||'').replace(/^#/,'').split('/');
+ if(!h[0]){home();return true}
+ if(h[0]==='brands'){brands(false);return true}
+ if(h[0]==='ev'){brands(true);return true}
+ if(h[0]==='categories'){parts(false);return true}
+ if(h[0]==='about'){about();return true}
+ if(h[0]==='contact'){contact();return true}
+ return false;
+}
+window.addEventListener('hashchange',()=>{
+ const h=location.hash||'';
+ if(/^#?tyres(?:\/|$)/.test(h))routeTyresHash();
+ else if(/^(#?(?:brands|ev|categories|about|contact))(?:\/|$)/.test(h))routeCustomerHash();
+});
+
 async function bootCustomer(){
   showBoot();
   const initialHash=location.hash||'';
   const isTyreFindRoute=/^#tyres\/by-(?:car|size)(?:\/|$)/.test(initialHash);
+  const initialCustomerRoute=/^#(?:brands|ev|categories|about|contact)(?:\/|$)/.test(initialHash);
   const landOnTyres=initialHash.replace('#','').split('/')[0]==='tyres';
   const restoreInitialTyreFindRoute=()=>{
     if(!isTyreFindRoute)return false;
@@ -409,15 +426,15 @@ async function bootCustomer(){
     return true;
   };
   if(!initSupabase()){
-    if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();
+    if(isTyreFindRoute)restoreInitialTyreFindRoute();else if(landOnTyres)routeTyresHash();else if(initialCustomerRoute)routeCustomerHash();else home();
     toast('Online connection library could not load. Showing local catalog.');
     return;
   }
-  try{await loadRemoteDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home()}
+  try{await loadRemoteDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else if(landOnTyres)routeTyresHash();else if(initialCustomerRoute)routeCustomerHash();else home()}
   catch(e){
     console.error(e);onlineLoaded=false;
-    try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Online catalog unavailable — showing cached data')}else{if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Online catalog is empty or unavailable')}}
-    catch{if(isTyreFindRoute)restoreInitialTyreFindRoute();else landOnTyres?routeTyresHash():home();toast('Could not load catalog')}
+    try{const cached=localStorage.getItem(KEY);if(cached){db=JSON.parse(cached);normalizeDb();if(isTyreFindRoute)restoreInitialTyreFindRoute();else if(landOnTyres)routeTyresHash();else if(initialCustomerRoute)routeCustomerHash();else home();toast('Online catalog unavailable — showing cached data')}else{if(isTyreFindRoute)restoreInitialTyreFindRoute();else if(landOnTyres)routeTyresHash();else if(initialCustomerRoute)routeCustomerHash();else home();toast('Online catalog is empty or unavailable')}}
+    catch{if(isTyreFindRoute)restoreInitialTyreFindRoute();else if(landOnTyres)routeTyresHash();else if(initialCustomerRoute)routeCustomerHash();else home();toast('Could not load catalog')}
   }
 }
 async function bootAdmin(){
