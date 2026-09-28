@@ -7670,3 +7670,16 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   min-height:120px;
   padding:22px;
 }
+
+
+/* EV catalog selection styling */
+.evBrandCard:hover{
+  border-color:#12a150;
+  box-shadow:0 8px 22px rgba(18,161,80,.10);
+}
+.evBrandCard:hover h3{
+  color:#12a150;
+}
+.evFlow .accent{
+  color:#12a150;
+}
