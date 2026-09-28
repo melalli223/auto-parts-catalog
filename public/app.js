@@ -1318,19 +1318,56 @@ function adminContent(t){const c=document.querySelector('#adminContent');if(!c)r
 function apAdminOrderCard(title,subtitle,body,open=false){
  return '<section class="apAdminExpandCard '+(open?'isOpen':'')+'"><button type="button" class="apAdminExpandHead" aria-expanded="'+open+'" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))"><span><b>'+esc(title)+'</b><small>'+esc(subtitle||'')+'</small></span><span class="apAdminChevron">▾</span></button><div class="apAdminExpandBody">'+body+'</div></section>';
 }
-async function apSaveOrder(table,items){
+async function apSaveOrder(table,items,silent=false){
  const ordered=items.map((x,i)=>({id:x.id,sortOrder:i}));
  try{
   for(const x of ordered){const {error}=await supabaseClient.from(table).update({sort_order:x.sortOrder}).eq('id',x.id);if(error)throw error}
-  items.forEach((x,i)=>x.sortOrder=i);cacheDb();toast('Order saved');
- }catch(e){console.error(e);toast(e.message||'Could not save order')}
+  items.forEach((x,i)=>x.sortOrder=i);cacheDb();if(!silent)toast('Order saved');return true;
+ }catch(e){console.error(e);toast(e.message||'Could not save order');return false}
 }
 function apMoveItems(items,index,direction,rerender){
  const to=index+direction;if(index<0||to<0||index>=items.length||to>=items.length)return;
  [items[index],items[to]]=[items[to],items[index]];items.forEach((x,i)=>x.sortOrder=i);rerender();
 }
-function apOrderButtons(group,index,count,moveFn){
- return '<div class="apOrderControls"><button type="button" class="ghost apMoveBtn" '+(index===0?'disabled':'')+' onclick="'+moveFn+'('+index+',-1)">↑</button><button type="button" class="ghost apMoveBtn" '+(index===count-1?'disabled':'')+' onclick="'+moveFn+'('+index+',1)">↓</button></div>';
+function apOrderButtons(){return '';}
+const __apOrderSnapshots={};
+function apOrderSource(tab){
+ if(tab==='brands')return db.brands;
+ if(tab==='models')return db.models;
+ if(tab==='years')return db.years;
+ if(tab==='categories')return db.categories;
+ if(tab==='products')return db.parts;
+ return null;
+}
+function apBeginOrderSession(tab){
+ const source=apOrderSource(tab);
+ if(!source)return;
+ if(!__apOrderSnapshots[tab])__apOrderSnapshots[tab]=clone(source);
+}
+function apClearOrderSession(tab){delete __apOrderSnapshots[tab];}
+function apCancelOrder(tab){
+ const snapshot=__apOrderSnapshots[tab];
+ if(!snapshot)return adminPanel(tab);
+ const restored=clone(snapshot);
+ if(tab==='brands')db.brands=restored;
+ else if(tab==='models')db.models=restored;
+ else if(tab==='years')db.years=restored;
+ else if(tab==='categories')db.categories=restored;
+ else if(tab==='products')db.parts=restored;
+ cacheDb();
+ apClearOrderSession(tab);
+ adminPanel(tab);
+ toast('Changes cancelled');
+}
+function apCatalogBottomActions(tab){
+ return '<div class="apAdminBottomActions"><div class="apAdminBottomNote"><strong>Catalog order</strong><span>Drag cards using the ⋮⋮ handle, then save when you are finished.</span></div><div class="apAdminBottomButtons"><button type="button" class="ghost" onclick="apCancelOrder(\''+tab+'\')">CANCEL</button><button type="button" class="primary" onclick="apSaveOrderForPage(\''+tab+'\')">SAVE</button></div></div>';
+}
+async function apSaveOrderForPage(tab){
+ const source=apOrderSource(tab);
+ if(!source)return;
+ const table=tab==='years'?'model_years':tab==='products'?'products':tab;
+ const ok=await apSaveOrder(table,source,true);
+ if(ok)apClearOrderSession(tab);
 }
 function apCatalogCard(title,meta,body,index,count,moveFn,itemId){
  const group=moveFn==='apMoveBrand'?'brands':moveFn==='apMoveModel'?'models':moveFn==='apMoveYear'?'years':'categories';
