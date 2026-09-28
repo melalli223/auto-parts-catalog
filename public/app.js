@@ -1309,6 +1309,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
  const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a>${tab==='dashboard'?'<a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a>':''}<button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
  document.querySelector('#app').innerHTML=`${adminHeader}<div class="adminShell ${adminSidebarOpen?'':'sidebarHidden'}"><aside class="adminSide"><div class="adminTitle">ADMIN CONTROL PANEL</div><button class="sideBtn ${tab==='dashboard'?'active':''}" onclick="adminPanel('dashboard')">⌂ &nbsp; Dashboard</button><button class="sideBtn ${tab==='enquiries'?'active':''}" onclick="adminPanel('enquiries')">▤ &nbsp; Enquiries</button><button class="sideBtn catalogToggle ${catalogTabs.includes(tab)?'activeGroup':''}" onclick="toggleAdminCatalog()">▣ &nbsp; Catalog <span class="sideChevron">${adminCatalogOpen?'▾':'▸'}</span></button>${adminCatalogOpen?`<div class="catalogSubmenu">${catalogTabs.map(t=>`<button class="sideBtn subSideBtn ${tab===t?'active':''}" onclick="adminPanel('${t}')">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</div>`:''}<button class="sideBtn ${tab==='settings'?'active':''}" onclick="adminPanel('settings')">⚙ &nbsp; Settings</button><button class="sideBtn ${tab==='backup'?'active':''}" onclick="adminPanel('backup')">↕ &nbsp; Backup</button><div class="sideSpacer"></div><button class="sideBtn" onclick="logout()">⇥ &nbsp; Sign out</button></aside><section class="adminMain"><div class="adminTop"><div class="adminHeading"><div><div class="adminEyebrow">ADMIN</div><h1>${label}</h1></div></div><a class="viewSite" href="/">VIEW WEBSITE</a></div><section class="adminPanel" id="adminContent"></section></section></div>`;
  adminContent(tab);
+ if(catalogTabs.includes(tab)){initApCatalogDrag();initApCatalogCompactCards()}
 }
 
 /* AUTO PARTS ADMIN — Tyre Admin-style movable expandable catalog cards */
@@ -1330,7 +1331,50 @@ function apOrderButtons(group,index,count,moveFn){
  return '<div class="apOrderControls"><button type="button" class="ghost apMoveBtn" '+(index===0?'disabled':'')+' onclick="'+moveFn+'('+index+',-1)">↑</button><button type="button" class="ghost apMoveBtn" '+(index===count-1?'disabled':'')+' onclick="'+moveFn+'('+index+',1)">↓</button></div>';
 }
 function apCatalogCard(title,meta,body,index,count,moveFn){
- return '<article class="apCatalogItemCard"><div class="apCatalogItemHead" role="button" tabindex="0" aria-expanded="false" onclick="apToggleCatalogCard(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();apToggleCatalogCard(this)}"><span class="apCatalogItemTitle"><b>'+esc(title)+'</b><small>'+esc(meta||'')+'</small></span><span class="apCatalogItemActions">'+apOrderButtons('',index,count,moveFn)+'<span class="apCatalogChevron">⌄</span></span></div><div class="apCatalogItemBody">'+body+'</div></article>';
+ const group=moveFn==='apMoveBrand'?'brands':moveFn==='apMoveModel'?'models':moveFn==='apMoveYear'?'years':'categories';
+ return '<article class="apCatalogItemCard" draggable="true" data-ap-drag-group="'+group+'" data-ap-drag-index="'+index+'"><div class="apCatalogItemHead" role="button" tabindex="0" aria-expanded="false" onclick="apToggleCatalogCard(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();apToggleCatalogCard(this)}"><span class="apCatalogItemTitle"><span class="apDragHandle" title="Hold and drag to reorder">⋮⋮</span><b>'+esc(title)+'</b><small>'+esc(meta||'')+'</small></span><span class="apCatalogItemActions">'+apOrderButtons('',index,count,moveFn)+'<span class="apCatalogChevron">⌄</span></span></div><div class="apCatalogItemBody">'+body+'</div></article>';
+}
+function initApCatalogCompactCards(){
+ document.querySelectorAll('.apCatalogItemCard').forEach(card=>{
+  if(card.dataset.apCompactBound)return;
+  card.dataset.apCompactBound='1';
+  card.querySelector('.apDragHandle')?.addEventListener('click',e=>e.stopPropagation());
+ });
+}
+function initApCatalogDrag(){
+ if(window.__apCatalogDragBound)return;
+ window.__apCatalogDragBound=true;
+ let dragged=null;
+ document.addEventListener('dragstart',e=>{
+  const card=e.target.closest?.('[data-ap-drag-group]');if(!card)return;
+  if(!e.target.closest('.apDragHandle')){e.preventDefault();return}
+  dragged=card;card.classList.add('apDragging');
+  try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain','ap')}catch(_){}
+ },true);
+ document.addEventListener('dragover',e=>{
+  if(!dragged)return;
+  const target=e.target.closest?.('[data-ap-drag-group="'+dragged.dataset.apDragGroup+'"]');
+  if(!target||target===dragged)return;
+  e.preventDefault();
+  const box=target.getBoundingClientRect();
+  target.parentNode.insertBefore(dragged,e.clientY<box.top+box.height/2?target:target.nextSibling);
+ },true);
+ document.addEventListener('dragend',async()=>{
+  if(!dragged)return;
+  const group=dragged.dataset.apDragGroup;dragged.classList.remove('apDragging');
+  const rows=[...document.querySelectorAll('[data-ap-drag-group="'+group+'"]')];
+  const source=group==='brands'?db.brands:group==='models'?db.models:group==='years'?db.years:db.categories;
+  const ordered=rows.map(r=>source[Number(r.dataset.apDragIndex)]).filter(Boolean);
+  if(ordered.length!==source.length){dragged=null;return}
+  ordered.forEach((x,i)=>x.sortOrder=i);
+  if(group==='brands')db.brands=ordered;
+  else if(group==='models')db.models=ordered;
+  else if(group==='years')db.years=ordered;
+  else db.categories=ordered;
+  dragged=null;
+  toast('Order changed — click SAVE ORDER to apply');
+  document.querySelectorAll('[data-ap-drag-group]').forEach((row,i)=>row.dataset.apDragIndex=i);
+ },true);
 }
 function apToggleCatalogCard(head){
  const card=head?.closest('.apCatalogItemCard');if(!card)return;
