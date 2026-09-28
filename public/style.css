@@ -7390,3 +7390,13 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .apBrandSectionDragHandle:active{cursor:grabbing}
 .modelBrandSection.apDragging{opacity:.92;box-shadow:0 14px 35px rgba(0,0,0,.16);cursor:grabbing}
 .apModelBrandDragging,.apModelBrandDragging *{cursor:grabbing !important}
+
+/* Auto Parts Admin — separate EV and car brand groups */
+.apBrandTypeSections{display:flex;flex-direction:column;gap:32px}
+.apBrandTypeSection{padding:18px;border:2px solid rgba(0,0,0,.10);border-radius:16px;background:var(--panel,#fff)}
+.apBrandTypeSectionHead{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px;padding:2px 2px 12px;border-bottom:3px solid rgba(0,0,0,.12)}
+.apBrandTypeSectionHead span{display:block;font-size:10px;font-weight:800;letter-spacing:.12em;opacity:.55}
+.apBrandTypeSectionHead h3{margin:3px 0 0;font-size:20px;font-weight:900}
+.apBrandTypeSectionHead>strong{font-size:12px;opacity:.65;white-space:nowrap}
+.apBrandTypeSection .modelBrandSections{gap:14px}
+@media(max-width:760px){.apBrandTypeSections{gap:22px}.apBrandTypeSection{padding:11px;border-radius:13px}.apBrandTypeSectionHead{margin-bottom:12px;padding-bottom:10px}.apBrandTypeSectionHead h3{font-size:17px}}
