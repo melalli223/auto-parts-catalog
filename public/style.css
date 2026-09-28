@@ -7223,18 +7223,26 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 }
 
 /* Auto Parts Admin — Models grouped into clear brand subsections */
-.modelBrandSections{display:flex;flex-direction:column;gap:24px}
-.modelBrandSection{border:2px solid rgba(0,0,0,.10);border-radius:16px;background:var(--panel,#fff);padding:16px;box-shadow:0 5px 18px rgba(0,0,0,.045)}
-.modelBrandSectionHead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px;padding:4px 2px 12px;border-bottom:3px solid rgba(0,0,0,.12)}
+.modelBrandSections{display:flex;flex-direction:column;gap:14px}
+.modelBrandSection{border:2px solid rgba(0,0,0,.10);border-radius:16px;background:var(--panel,#fff);overflow:hidden;box-shadow:0 5px 18px rgba(0,0,0,.045)}
+.modelBrandSectionHead{width:100%;border:0;background:transparent;color:inherit;font:inherit;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 16px;cursor:pointer}
+.modelBrandSectionHead>span:first-child{min-width:0}
 .modelBrandSectionHead h3{margin:2px 0 0;font-size:19px;font-weight:800}
-.modelBrandSectionHead>strong{font-size:12px;opacity:.65;white-space:nowrap}
+.modelBrandSectionMeta{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.modelBrandSectionMeta strong{font-size:12px;opacity:.65;white-space:nowrap}
+.modelBrandSectionChevron{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid rgba(0,0,0,.10);border-radius:9px;font-size:18px;line-height:1;transition:transform .18s ease}
+.modelBrandSection:not(.isOpen) .modelBrandSectionChevron{transform:rotate(-90deg)}
+.modelBrandSectionBody{display:none;padding:0 16px 16px;border-top:1px solid rgba(0,0,0,.08)}
+.modelBrandSection.isOpen .modelBrandSectionBody{display:block}
 .modelBrandEyebrow{font-size:10px;font-weight:800;letter-spacing:.12em;opacity:.55}
 .modelBrandSection .apCatalogCardList{gap:10px}
 @media(max-width:760px){
- .modelBrandSections{gap:18px}
- .modelBrandSection{padding:10px;border-radius:13px}
- .modelBrandSectionHead{margin-bottom:10px;padding-bottom:10px}
+ .modelBrandSections{gap:12px}
+ .modelBrandSection{border-radius:13px}
+ .modelBrandSectionHead{padding:13px 12px}
  .modelBrandSectionHead h3{font-size:16px}
+ .modelBrandSectionBody{padding:0 10px 10px}
+ .modelBrandSectionMeta strong{font-size:11px}
 }
 
 /* Auto Parts catalog — Tyre Admin-style movable expandable item cards */
