@@ -1312,6 +1312,8 @@ function adminPanel(tab='dashboard',fromHistory=false){
  if(catalogTabs.includes(tab)){initApCatalogDrag();initApCatalogCompactCards()}
 }
 
+function adminContent(t){const c=document.querySelector('#adminContent');if(!c)return;if(t==='dashboard')dashboardAdmin(c);else if(t==='enquiries')enquiriesAdmin(c);else if(t==='brands')brandAdmin(c);else if(t==='models')modelAdmin(c);else if(t==='years')yearAdmin(c);else if(t==='categories')categoryAdmin(c);else if(t==='products')productAdmin(c);else if(t==='settings')settingsAdmin(c);else if(t==='tyres')tyresAdmin(c);else if(t==='backup')backupAdmin(c);}
+
 /* AUTO PARTS ADMIN — Tyre Admin-style movable expandable catalog cards */
 function apAdminOrderCard(title,subtitle,body,open=false){
  return '<section class="apAdminExpandCard '+(open?'isOpen':'')+'"><button type="button" class="apAdminExpandHead" aria-expanded="'+open+'" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))"><span><b>'+esc(title)+'</b><small>'+esc(subtitle||'')+'</small></span><span class="apAdminChevron">▾</span></button><div class="apAdminExpandBody">'+body+'</div></section>';
