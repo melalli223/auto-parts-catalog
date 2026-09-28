@@ -1309,7 +1309,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
  const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a>${tab==='dashboard'?'<a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a>':''}<button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
  document.querySelector('#app').innerHTML=`${adminHeader}<div class="adminShell ${adminSidebarOpen?'':'sidebarHidden'}"><aside class="adminSide"><div class="adminTitle">ADMIN CONTROL PANEL</div><button class="sideBtn ${tab==='dashboard'?'active':''}" onclick="adminPanel('dashboard')">⌂ &nbsp; Dashboard</button><button class="sideBtn ${tab==='enquiries'?'active':''}" onclick="adminPanel('enquiries')">▤ &nbsp; Enquiries</button><button class="sideBtn catalogToggle ${catalogTabs.includes(tab)?'activeGroup':''}" onclick="toggleAdminCatalog()">▣ &nbsp; Catalog <span class="sideChevron">${adminCatalogOpen?'▾':'▸'}</span></button>${adminCatalogOpen?`<div class="catalogSubmenu">${catalogTabs.map(t=>`<button class="sideBtn subSideBtn ${tab===t?'active':''}" onclick="adminPanel('${t}')">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</div>`:''}<button class="sideBtn ${tab==='settings'?'active':''}" onclick="adminPanel('settings')">⚙ &nbsp; Settings</button><button class="sideBtn ${tab==='backup'?'active':''}" onclick="adminPanel('backup')">↕ &nbsp; Backup</button><div class="sideSpacer"></div><button class="sideBtn" onclick="logout()">⇥ &nbsp; Sign out</button></aside><section class="adminMain"><div class="adminTop"><div class="adminHeading"><div><div class="adminEyebrow">ADMIN</div><h1>${label}</h1></div></div><a class="viewSite" href="/">VIEW WEBSITE</a></div><section class="adminPanel" id="adminContent"></section></section></div>`;
  adminContent(tab);
- if(catalogTabs.includes(tab)){apBeginOrderSession(tab);initApCatalogDrag();initApCatalogCompactCards();initApCatalogPointerDrag()}
+ if(catalogTabs.includes(tab)){apBeginOrderSession(tab);initApCatalogCompactCards();initApCatalogPointerDrag()}
 }
 
 function adminContent(t){const c=document.querySelector('#adminContent');if(!c)return;if(t==='dashboard')dashboardAdmin(c);else if(t==='enquiries')enquiriesAdmin(c);else if(t==='brands')brandAdmin(c);else if(t==='models')modelAdmin(c);else if(t==='years')yearAdmin(c);else if(t==='categories')categoryAdmin(c);else if(t==='products')productAdmin(c);else if(t==='settings')settingsAdmin(c);else if(t==='tyres')tyresAdmin(c);else if(t==='backup')backupAdmin(c);}
@@ -1412,7 +1412,7 @@ function initApCatalogDrag(){
   else if(group==='products')db.parts=ordered;
   else db.categories=ordered;
   dragged=null;
-  toast('Order changed — click SAVE ORDER to apply');
+  toast('Order changed — click SAVE to apply');
   document.querySelectorAll('[data-ap-drag-group]').forEach((row,i)=>row.dataset.apDragIndex=i);
  },true);
 }
