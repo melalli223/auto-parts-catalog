@@ -1326,15 +1326,30 @@ function categoryAdmin(c){
 function apMoveCategory(i,d){apMoveItems(db.categories.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)),i,d,()=>categoryAdmin(document.querySelector('#adminContent')))}
 function productAdmin(c){__apOrig.productAdmin(c);setTimeout(()=>apDecorateProducts(c),0)}
 function apDecorateProducts(c){
+ const existing=c.querySelector('.apAdminExpandCard');
+ if(!existing){
+  const html=c.innerHTML;
+  c.innerHTML=apAdminOrderCard('Auto Parts Products','Arrange products with the same move controls used in Tyre Admin.',html,true);
+ }
  const list=c.querySelector('.adminProductList');if(!list)return;
  const cards=[...list.querySelectorAll('.adminProductCard')];
  const items=cards.map(card=>db.parts.find(p=>p.id===card.querySelector('.productSelect')?.value)).filter(Boolean).sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder));
- cards.forEach(card=>{const p=db.parts.find(x=>x.id===card.querySelector('.productSelect')?.value);if(!p)return;card.classList.add('apProductOrderCard');});
- const head='<div class="apAdminExpandCard isOpen"><button type="button" class="apAdminExpandHead" aria-expanded="true" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))"><span><b>Auto Parts Products</b><small>Arrange products with the same move controls used in Tyre Admin.</small></span><span class="apAdminChevron">▾</span></button><div class="apAdminExpandBody">'+c.querySelector('.adminHead')?.outerHTML+c.querySelector('.productFilters')?.outerHTML+c.querySelector('.bulkBar')?.outerHTML+'</div></div>';
- const oldHead=c.querySelector('.adminHead'); if(oldHead){oldHead.outerHTML=head}
- cards.forEach(card=>{const p=db.parts.find(x=>x.id===card.querySelector('.productSelect')?.value);if(!p)return;const i=items.indexOf(p);card.insertAdjacentHTML('beforeend',apOrderButtons('products',i,items.length,'apMoveProduct'));});
- const wrap=c.querySelector('.apAdminExpandCard .apAdminExpandBody');if(wrap)wrap.insertAdjacentHTML('beforeend','<div class="apOrderBar"><span>Move products with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'products\',db.parts)">SAVE ORDER</button></div>');
+ cards.forEach(card=>{
+  const p=db.parts.find(x=>x.id===card.querySelector('.productSelect')?.value);if(!p)return;
+  card.querySelector('.apOrderControls')?.remove();
+  const i=items.indexOf(p);
+  card.classList.add('apProductOrderCard');
+  card.insertAdjacentHTML('beforeend',apOrderButtons('products',i,items.length,'apMoveProduct'));
+ });
+ let bar=c.querySelector('.apProductOrderBar');
+ if(!bar){
+  bar=document.createElement('div');bar.className='apOrderBar apProductOrderBar';
+  bar.innerHTML='<span>Move products with ↑ / ↓, then save.</span><button class="primary" type="button" onclick="apSaveOrder(\'products\',db.parts)">SAVE ORDER</button>';
+  c.querySelector('.apAdminExpandBody')?.appendChild(bar);
+ }
 }
+const __apOrigRenderProductTable=renderProductTable;
+function renderProductTable(){__apOrigRenderProductTable();setTimeout(()=>apDecorateProducts(document.querySelector('#adminContent')),0)}
 function apMoveProduct(i,d){const items=db.parts.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder));apMoveItems(items,i,d,()=>{adminPanel('products')})}
 window.addEventListener('popstate',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
 window.addEventListener('hashchange',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
