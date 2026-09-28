@@ -7283,3 +7283,26 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .apCatalogDetailGrid{grid-template-columns:1fr;align-items:start;gap:9px}
   .apCatalogActions{justify-content:flex-start}
 }
+
+
+/* Auto Parts catalog card controls — match Tyre Admin interaction */
+.apCatalogItemCard[draggable="true"]{cursor:default}
+.apCatalogItemCard.apDragging{opacity:.55;transform:scale(.995)}
+.apDragHandle{
+ display:inline-flex;align-items:center;justify-content:center;
+ width:28px;height:28px;margin-right:8px;border:1px solid rgba(0,0,0,.10);
+ border-radius:8px;cursor:grab;font-weight:800;letter-spacing:-3px;
+ flex:0 0 auto;opacity:.7;
+}
+.apDragHandle:active{cursor:grabbing}
+.apCatalogItemTitle{flex-direction:row;align-items:center}
+.apCatalogItemTitle b{white-space:nowrap}
+.apCatalogItemTitle small{position:absolute;margin-top:37px;margin-left:36px}
+.apCatalogItemHead{min-height:68px}
+.apCatalogItemBody{min-height:0}
+@media(max-width:760px){
+ .apCatalogItemHead{min-height:62px}
+ .apCatalogItemTitle{max-width:calc(100vw - 150px)}
+ .apCatalogItemTitle b{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+ .apCatalogItemTitle small{margin-top:37px}
+}
