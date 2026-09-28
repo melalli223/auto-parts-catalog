@@ -1391,8 +1391,7 @@ function apMoveBrand(i,d){apMoveItems(db.brands.sort((a,b)=>Number(a.sortOrder)-
 function modelAdmin(c){
  const items=[...db.models].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
  const brandItems=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
- const groups=[];
- brandItems.forEach(b=>groups.push({brand:b,models:items.filter(m=>String(m.brandId)===String(b.id))}));
+ const groups=brandItems.map(b=>({brand:b,models:items.filter(m=>String(m.brandId)===String(b.id))}));
  const unassigned=items.filter(m=>!brandItems.some(b=>String(b.id)===String(m.brandId)));
  if(unassigned.length)groups.push({brand:null,models:unassigned});
  const sections=groups.map(group=>{
@@ -1403,14 +1402,14 @@ function modelAdmin(c){
    const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));
    return apCatalogCard(
     m.name,
-    (label)+(type?' · '+type:'')+' · '+modelYears(m.id).length+' years'+(tt?' · '+tt.title:''),
-    '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'" onerror="this.onerror=null;this.src=placeholder(\\''+esc(m.name)+'\\')">'+esc(m.name)+'</div><span>'+esc(label)+'</span><span>'+esc(tt?.title||'Not assigned')+'</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\\''+m.id+'\\')">EDIT</button><button class="danger" onclick="delModel(\\''+m.id+'\\')">Delete</button></div></div>',
+    label+(type?' · '+type:'')+' · '+modelYears(m.id).length+' years'+(tt?' · '+tt.title:''),
+    `<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="${m.image||placeholder(m.name)}" onerror="this.onerror=null;this.src=placeholder('${esc(m.name)}')">${esc(m.name)}</div><span>${esc(label)}</span><span>${esc(tt?.title||'Not assigned')}</span><span>${esc(modelYears(m.id).join(', ')||'No years')}</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm('${m.id}')">EDIT</button><button class="danger" onclick="delModel('${m.id}')">Delete</button></div></div>`,
     globalIndex,items.length,'apMoveModel',m.id
    );
   }).join('');
-  return '<section class="modelBrandSection"><div class="modelBrandSectionHead"><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(label)+'</h3></div><strong>'+group.models.length+' model'+(group.models.length===1?'':'s')+'</strong></div><div class="apCatalogCardList">'+cards+'</div></section>';
+  return `<section class="modelBrandSection"><div class="modelBrandSectionHead"><div><span class="modelBrandEyebrow">BRAND</span><h3>${esc(label)}</h3></div><strong>${group.models.length} model${group.models.length===1?'':'s'}</strong></div><div class="apCatalogCardList">${cards}</div></section>`;
  }).join('');
- c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Models are grouped into separate subsections by vehicle brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\\'models\\',db.models)">SAVE ORDER</button></div><div class="modelBrandSections">'+sections+'</div>',true);
+ c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.',`<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Models are grouped into separate subsections by vehicle brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder('models',db.models)">SAVE ORDER</button></div><div class="modelBrandSections">${sections}</div>`,true);
 }
 function yearAdmin(c){
  const items=[...db.years].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));
