@@ -7239,6 +7239,19 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
  .modelBrandSectionHead h3{font-size:16px}
 }
 
+/* Auto Parts admin — bottom catalog save/cancel actions */
+.apAdminBottomActions{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:24px 0 8px;padding:16px 0 0;border-top:1px solid #e5e7eb}
+.apAdminBottomNote{display:flex;flex-direction:column;gap:3px}
+.apAdminBottomNote strong{font-size:12px}
+.apAdminBottomNote span{font-size:10px;color:#7b8389}
+.apAdminBottomButtons{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.apAdminBottomButtons button{margin:0;min-width:100px}
+@media(max-width:650px){
+ .apAdminBottomActions{align-items:stretch;flex-direction:column;padding-top:14px}
+ .apAdminBottomButtons{width:100%;display:grid;grid-template-columns:1fr 1fr}
+ .apAdminBottomButtons button{width:100%}
+}
+
 /* Auto Parts catalog — Tyre Admin-style movable expandable item cards */
 .apCatalogCardList{display:flex;flex-direction:column;gap:12px}
 .apCatalogItemCard{
