@@ -1311,59 +1311,63 @@ function adminPanel(tab='dashboard',fromHistory=false){
  adminContent(tab);
 }
 
-/* AUTO PARTS ADMIN — Tyre Admin style controls */
+/* AUTO PARTS ADMIN — Tyre Admin-style movable expandable catalog cards */
 function apAdminOrderCard(title,subtitle,body,open=false){
  return '<section class="apAdminExpandCard '+(open?'isOpen':'')+'"><button type="button" class="apAdminExpandHead" aria-expanded="'+open+'" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))"><span><b>'+esc(title)+'</b><small>'+esc(subtitle||'')+'</small></span><span class="apAdminChevron">▾</span></button><div class="apAdminExpandBody">'+body+'</div></section>';
 }
 async function apSaveOrder(table,items){
  const ordered=items.map((x,i)=>({id:x.id,sortOrder:i}));
  try{
-  for(const x of ordered){const {error}=await supabaseClient.from(table).update({sort_order:x.sortOrder}).eq('id',x.id);if(error)throw error;}
-  items.forEach((x,i)=>x.sortOrder=i);
-  cacheDb();toast('Order saved');
+  for(const x of ordered){const {error}=await supabaseClient.from(table).update({sort_order:x.sortOrder}).eq('id',x.id);if(error)throw error}
+  items.forEach((x,i)=>x.sortOrder=i);cacheDb();toast('Order saved');
  }catch(e){console.error(e);toast(e.message||'Could not save order')}
 }
 function apMoveItems(items,index,direction,rerender){
  const to=index+direction;if(index<0||to<0||index>=items.length||to>=items.length)return;
- [items[index],items[to]]=[items[to],items[index]];
- items.forEach((x,i)=>x.sortOrder=i);
- rerender();
+ [items[index],items[to]]=[items[to],items[index]];items.forEach((x,i)=>x.sortOrder=i);rerender();
 }
 function apOrderButtons(group,index,count,moveFn){
  return '<div class="apOrderControls"><button type="button" class="ghost apMoveBtn" '+(index===0?'disabled':'')+' onclick="'+moveFn+'('+index+',-1)">↑</button><button type="button" class="ghost apMoveBtn" '+(index===count-1?'disabled':'')+' onclick="'+moveFn+'('+index+',1)">↓</button></div>';
 }
-function apInitExpandableCards(root){
- root?.querySelectorAll('.apAdminExpandCard').forEach(card=>{
-  if(card.dataset.bound)return;card.dataset.bound='1';
-  const head=card.querySelector('.apAdminExpandHead');head?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();head.click()}});
- });
+function apCatalogCard(title,meta,body,index,count,moveFn){
+ return '<article class="apCatalogItemCard"><div class="apCatalogItemHead" role="button" tabindex="0" aria-expanded="false" onclick="apToggleCatalogCard(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();apToggleCatalogCard(this)}"><span class="apCatalogItemTitle"><b>'+esc(title)+'</b><small>'+esc(meta||'')+'</small></span><span class="apCatalogItemActions">'+apOrderButtons('',index,count,moveFn)+'<span class="apCatalogChevron">⌄</span></span></div><div class="apCatalogItemBody">'+body+'</div></article>';
 }
-const __apOrig={brandAdmin,modelAdmin,categoryAdmin,productAdmin};
+function apToggleCatalogCard(head){
+ const card=head?.closest('.apCatalogItemCard');if(!card)return;
+ const open=!card.classList.contains('isOpen');card.classList.toggle('isOpen',open);head.setAttribute('aria-expanded',String(open));
+}
 function brandAdmin(c){
  const items=[...db.brands].sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
- const rows=items.map((b,i)=>'<tr><td>'+(i+1)+'</td><td><div class="tableBrand"><img class="thumb" src="'+(b.image||placeholder(b.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(b.name)+'\')">'+esc(b.name)+'</div></td><td><span class="brandTypeBadge '+(b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular')+'">'+(b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+'</span></td><td>'+db.models.filter(m=>m.brandId===b.id).length+'</td><td><button class="ghost" onclick="brandEditForm(\''+b.id+'\')">EDIT</button> <button class="danger" onclick="delBrand(\''+b.id+'\')">Delete</button>'+apOrderButtons('brands',i,items.length,'apMoveBrand')+'</td></tr>').join('');
- c.innerHTML=apAdminOrderCard('Vehicle Brands','Arrange the brand order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle brands</h2><p class="muted">Create a brand once, then add its vehicle models.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><div class="apOrderBar"><span>Move brands with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'brands\',db.brands)">SAVE ORDER</button></div><table class="table"><tr><th>#</th><th>Brand</th><th>Type</th><th>Models</th><th>Actions / Order</th></tr>'+rows+'</table>',true);
+ const cards=items.map((b,i)=>apCatalogCard(b.name,(b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+' · '+db.models.filter(m=>m.brandId===b.id).length+' models',
+  '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(b.image||placeholder(b.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(b.name)+'\')">'+esc(b.name)+'</div><span class="brandTypeBadge '+(b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular')+'">'+(b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+'</span><div class="apCatalogActions"><button class="ghost" onclick="brandEditForm(\''+b.id+'\')">EDIT</button> <button class="danger" onclick="delBrand(\''+b.id+'\')">Delete</button></div></div>',i,items.length,'apMoveBrand')).join('');
+ c.innerHTML=apAdminOrderCard('Vehicle Brands','Arrange the brand order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle brands</h2><p class="muted">Create a brand once, then add its vehicle models.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><div class="apOrderBar"><span>Move cards with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'brands\',db.brands)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
 }
 function apMoveBrand(i,d){apMoveItems(db.brands.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)),i,d,()=>brandAdmin(document.querySelector('#adminContent')))}
 function modelAdmin(c){
  const items=[...db.models].sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)||String(a.name||'').localeCompare(String(b.name||'')));
- const rows=items.map((m,i)=>{const b=db.brands.find(x=>x.id===m.brandId),tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));return '<tr><td>'+(i+1)+'</td><td><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'">'+esc(m.name)+'</div></td><td>'+esc(b?.name||'Unknown brand')+'</td><td>'+(tt?'<span class="brandTypeBadge regular">'+esc(tt.title)+'</span>':'<span class="muted">Not assigned</span>')+'</td><td>'+modelYears(m.id).join(', ')+'</td><td><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button> <button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button>'+apOrderButtons('models',i,items.length,'apMoveModel')+'</td></tr>'}).join('');
- c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange model order within the Auto Parts catalogue.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Each model keeps its brand and tyre-type classification.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Move models with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'models\',db.models)">SAVE ORDER</button></div><table class="table"><tr><th>#</th><th>Model</th><th>Brand</th><th>Tyre Type</th><th>Years</th><th>Actions / Order</th></tr>'+rows+'</table>',true);
+ const cards=items.map((m,i)=>{const b=db.brands.find(x=>x.id===m.brandId),tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));return apCatalogCard(m.name,(b?.name||'Unknown brand')+' · '+modelYears(m.id).length+' years',
+  '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'">'+esc(m.name)+'</div><span>'+esc(b?.name||'Unknown brand')+'</span><span>'+(tt?'<span class="brandTypeBadge regular">'+esc(tt.title)+'</span>':'<span class="muted">Not assigned</span>')+'</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button> <button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></div></div>',i,items.length,'apMoveModel')}).join('');
+ c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange model order within the Auto Parts catalogue.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Each model keeps its brand and tyre-type classification.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Move cards with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'models\',db.models)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
 }
 function apMoveModel(i,d){apMoveItems(db.models.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)),i,d,()=>modelAdmin(document.querySelector('#adminContent')))}
+function yearAdmin(c){
+ const items=[...db.years].sort((a,b)=>Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));
+ const cards=items.map((y,i)=>{const m=db.models.find(x=>x.id===y.modelId),b=db.brands.find(x=>x.id===m?.brandId);return apCatalogCard(String(y.year),(b?.name||'Unknown brand')+' · '+(m?.name||'Unknown model'),
+  '<div class="apCatalogDetailGrid"><strong>'+esc(y.year)+'</strong><span>'+esc(m?.name||'Unknown model')+'</span><span>'+esc(b?.name||'Unknown brand')+'</span><div class="apCatalogActions"><button class="danger" onclick="delYear(\''+y.id+'\')">Delete</button></div></div>',i,items.length,'apMoveYear')}).join('');
+ c.innerHTML=apAdminOrderCard('Model Years','Manage the years available under each vehicle model.','<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Select many years at once. Customers will see Year immediately after Model.</p></div><button class="primary" onclick="yearForm()">+ SELECT YEARS</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
+}
+function apMoveYear(i,d){const items=[...db.years].sort((a,b)=>Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));apMoveItems(items,i,d,()=>{db.years=items;yearAdmin(document.querySelector('#adminContent'))})}
 function categoryAdmin(c){
  const items=[...db.categories].sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)||String(a.name||'').localeCompare(String(b.name||'')));
- const html=items.map((x,i)=>'<div class="categoryAdminItem categoryAdminRich"><div class="catAdminInfo"><img class="thumb" src="'+(x.image||placeholder(x.name))+'"><div><strong>'+esc(x.name)+'</strong><small>'+branchesForCategory(x.id).length+' branch parts</small></div></div><div class="categoryAdminActions"><button class="ghost" onclick="categoryEditForm(\''+x.id+'\')">EDIT</button><button class="ghost" onclick="branchForm(\''+x.id+'\')">+ BRANCH</button><button class="danger" onclick="delCategory(\''+x.id+'\')">Delete</button>'+apOrderButtons('categories',i,items.length,'apMoveCategory')+'</div><div class="branchAdminList">'+branchesForCategory(x.id).map(br=>'<div class="branchAdminItem"><div><img class="thumb smallThumb" src="'+(br.image||x.image||placeholder(br.name))+'"><span>'+esc(br.name)+'</span></div><span><button class="ghost" onclick="branchEditForm(\''+br.id+'\')">EDIT</button> <button class="danger" onclick="delBranch(\''+br.id+'\')">DELETE</button></span></div>').join('')+'</div></div>').join('');
- c.innerHTML=apAdminOrderCard('Part Categories','Arrange the category order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Part categories</h2><p class="muted">Edit category names/images and manage branch parts.</p></div><button class="primary" onclick="categoryForm()">+ ADD CATEGORY</button></div><div class="apOrderBar"><span>Move categories with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'categories\',db.categories)">SAVE ORDER</button></div><div class="categoryAdminGrid">'+html+'</div>',true);
+ const html=items.map((x,i)=>apCatalogCard(x.name,branchesForCategory(x.id).length+' branch parts',
+  '<div class="apCatalogCategoryBody"><div class="catAdminInfo"><img class="thumb" src="'+(x.image||placeholder(x.name))+'"><div><strong>'+esc(x.name)+'</strong><small>'+branchesForCategory(x.id).length+' branch parts</small></div></div><div class="categoryAdminActions"><button class="ghost" onclick="categoryEditForm(\''+x.id+'\')">EDIT</button><button class="ghost" onclick="branchForm(\''+x.id+'\')">+ BRANCH</button><button class="danger" onclick="delCategory(\''+x.id+'\')">Delete</button></div><div class="branchAdminList">'+branchesForCategory(x.id).map(br=>'<div class="branchAdminItem"><div><img class="thumb smallThumb" src="'+(br.image||x.image||placeholder(br.name))+'"><span>'+esc(br.name)+'</span></div><span><button class="ghost" onclick="branchEditForm(\''+br.id+'\')">EDIT</button> <button class="danger" onclick="delBranch(\''+br.id+'\')">DELETE</button></span></div>').join('')+'</div>',i,items.length,'apMoveCategory')).join('');
+ c.innerHTML=apAdminOrderCard('Part Categories','Arrange the category order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Part categories</h2><p class="muted">Edit category names/images and manage branch parts.</p></div><button class="primary" onclick="categoryForm()">+ ADD CATEGORY</button></div><div class="apOrderBar"><span>Move cards with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'categories\',db.categories)">SAVE ORDER</button></div><div class="apCatalogCardList">'+html+'</div>',true);
 }
 function apMoveCategory(i,d){apMoveItems(db.categories.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)),i,d,()=>categoryAdmin(document.querySelector('#adminContent')))}
 function productAdmin(c){__apOrig.productAdmin(c);setTimeout(()=>apDecorateProducts(c),0)}
 function apDecorateProducts(c){
  const existing=c.querySelector('.apAdminExpandCard');
- if(!existing){
-  const html=c.innerHTML;
-  c.innerHTML=apAdminOrderCard('Auto Parts Products','Arrange products with the same move controls used in Tyre Admin.',html,true);
- }
+ if(!existing){const html=c.innerHTML;c.innerHTML=apAdminOrderCard('Auto Parts Products','Arrange products with the same move controls used in Tyre Admin.',html,true)}
  const list=c.querySelector('.adminProductList');if(!list)return;
  const cards=[...list.querySelectorAll('.adminProductCard')];
  const items=cards.map(card=>db.parts.find(p=>p.id===card.querySelector('.productSelect')?.value)).filter(Boolean).sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder));
@@ -1371,20 +1375,25 @@ function apDecorateProducts(c){
   const p=db.parts.find(x=>x.id===card.querySelector('.productSelect')?.value);if(!p)return;
   card.querySelector('.apOrderControls')?.remove();
   const i=items.indexOf(p);
-  card.classList.add('apProductOrderCard');
-  card.insertAdjacentHTML('beforeend',apOrderButtons('products',i,items.length,'apMoveProduct'));
+  card.classList.add('apProductOrderCard','apCatalogItemCard');
+  if(!card.dataset.apCatalogBound){
+   card.dataset.apCatalogBound='1';
+   const nodes=[...card.childNodes];
+   const head=document.createElement('div');head.className='apCatalogItemHead';head.setAttribute('role','button');head.tabIndex=0;head.setAttribute('aria-expanded','false');
+   head.innerHTML='<span class="apCatalogItemTitle"><b>'+esc(p.name||'Unnamed product')+'</b><small>'+(esc(p.category||'Auto part'))+'</small></span><span class="apCatalogItemActions">'+apOrderButtons('products',i,items.length,'apMoveProduct')+'<span class="apCatalogChevron">⌄</span></span>';
+   const body=document.createElement('div');body.className='apCatalogItemBody';
+   nodes.forEach(n=>body.appendChild(n));card.append(head,body);
+   head.addEventListener('click',e=>{if(e.target.closest('button'))return;apToggleCatalogCard(head)});
+   head.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();apToggleCatalogCard(head)}});
+  }
  });
  let bar=c.querySelector('.apProductOrderBar');
- if(!bar){
-  bar=document.createElement('div');bar.className='apOrderBar apProductOrderBar';
-  bar.innerHTML='<span>Move products with ↑ / ↓, then save.</span><button class="primary" type="button" onclick="apSaveOrder(\'products\',db.parts)">SAVE ORDER</button>';
-  c.querySelector('.apAdminExpandBody')?.appendChild(bar);
- }
+ if(!bar){bar=document.createElement('div');bar.className='apOrderBar apProductOrderBar';bar.innerHTML='<span>Move products with ↑ / ↓, then save.</span><button class="primary" type="button" onclick="apSaveOrder(\'products\',db.parts)">SAVE ORDER</button>';c.querySelector('.apAdminExpandBody')?.appendChild(bar)}
 }
 const __apOrigRenderProductTable=renderProductTable;
 function renderProductTable(){__apOrigRenderProductTable();setTimeout(()=>apDecorateProducts(document.querySelector('#adminContent')),0)}
 function apMoveProduct(i,d){const items=db.parts.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder));apMoveItems(items,i,d,()=>{adminPanel('products')})}
-window.addEventListener('popstate',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
+window.addEventListener('popstate',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'#dashboard';adminPanel(tab,true)});
 window.addEventListener('hashchange',()=>{if(!admin)return;if(isTyreAdminRoute()){tyreAdminSubTab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel('tyres',true);return}const tab=(location.hash||'#dashboard').slice(1)||'dashboard';adminPanel(tab,true)});
 function adminContent(t){const c=document.querySelector('#adminContent');if(t==='dashboard')dashboardAdmin(c);else if(t==='enquiries')enquiriesAdmin(c);else if(t==='brands')brandAdmin(c);else if(t==='models')modelAdmin(c);else if(t==='years')yearAdmin(c);else if(t==='categories')categoryAdmin(c);else if(t==='products')productAdmin(c);else if(t==='settings')settingsAdmin(c);else if(t==='tyres')tyresAdmin(c);else backupAdmin(c)}
 function tyreInputRow(label,id,value,placeholder=''){return `<div class="formGroup"><label>${label}</label><input id="${id}" class="input" value="${esc(value||'')}" placeholder="${esc(placeholder)}"></div>`}
