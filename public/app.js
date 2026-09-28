@@ -1438,7 +1438,15 @@ function initApCatalogDrag(){
 }
 function apToggleCatalogCard(head){
  const card=head?.closest('.apCatalogItemCard');if(!card)return;
- const open=!card.classList.contains('isOpen');card.classList.toggle('isOpen',open);head.setAttribute('aria-expanded',String(open));
+ const open=!card.classList.contains('isOpen');
+ document.querySelectorAll('.apCatalogItemCard.isOpen').forEach(x=>{if(x!==card){x.classList.remove('isOpen');x.querySelector('.apCatalogItemHead')?.setAttribute('aria-expanded','false')}});
+ card.classList.toggle('isOpen',open);head.setAttribute('aria-expanded',String(open));
+}
+function toggleApModelBrandCard(head){
+ const card=head?.closest('.modelBrandSection');if(!card)return;
+ const open=!card.classList.contains('isOpen');
+ document.querySelectorAll('.modelBrandSection.isOpen').forEach(x=>{if(x!==card){x.classList.remove('isOpen');x.querySelector('.modelBrandSectionHead')?.setAttribute('aria-expanded','false')}});
+ card.classList.toggle('isOpen',open);head.setAttribute('aria-expanded',String(open));
 }
 function brandAdmin(c){
  const items=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
@@ -1472,7 +1480,7 @@ function modelAdmin(c){
      globalIndex,items.length,'apMoveModel',m.id
     );
    }).join('');
-   return '<section class="modelBrandSection" data-ap-drag-group="modelBrands" data-ap-drag-id="'+esc(String(group.id))+'" data-ap-brand-kind="'+kind+'"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="if(!event.target.closest(\'[data-ap-brand-drag-handle]\')){this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))}" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){if(event.target.closest(\'[data-ap-brand-drag-handle]\'))return;event.preventDefault();this.click()}"><span class="apBrandSectionDragHandle" data-ap-brand-drag-handle title="Hold and drag to reorder brand sections">⋮⋮</span><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(label)+'</h3></div><strong>'+items.filter(m=>String(m.brandId)===String(group.id)).length+' model'+(items.filter(m=>String(m.brandId)===String(group.id)).length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody"><div class="apCatalogCardList">'+cards+'</div></div></section>';
+   return '<section class="modelBrandSection" data-ap-drag-group="modelBrands" data-ap-drag-id="'+esc(String(group.id))+'" data-ap-brand-kind="'+kind+'"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="if(!event.target.closest(\'[data-ap-brand-drag-handle]\')){toggleApModelBrandCard(this)}" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){if(event.target.closest(\'[data-ap-brand-drag-handle]\'))return;event.preventDefault();this.click()}"><span class="apBrandSectionDragHandle" data-ap-brand-drag-handle title="Hold and drag to reorder brand sections">⋮⋮</span><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(label)+'</h3></div><strong>'+items.filter(m=>String(m.brandId)===String(group.id)).length+' model'+(items.filter(m=>String(m.brandId)===String(group.id)).length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody"><div class="apCatalogCardList">'+cards+'</div></div></section>';
   }).join('');
   return '<section class="apBrandTypeSection" data-ap-brand-kind="'+kind+'"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>'+title+'</h3></div><strong>'+brands.length+' brand'+(brands.length===1?'':'s')+'</strong></div><div class="modelBrandSections">'+groups+'</div></section>';
  };
@@ -2448,7 +2456,7 @@ function modelAdmin(c){
      globalIndex,items.length,'apMoveModel',m.id
     );
    }).join('');
-   return '<section class="modelBrandSection" data-ap-drag-group="modelBrands" data-ap-drag-id="'+esc(String(b.id))+'" data-ap-brand-kind="'+kind+'"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="if(!event.target.closest(\'[data-ap-brand-drag-handle]\')){this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))}" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){if(event.target.closest(\'[data-ap-brand-drag-handle]\'))return;event.preventDefault();this.click()}"><span class="apBrandSectionDragHandle" data-ap-brand-drag-handle title="Hold and drag to reorder brand sections">⋮⋮</span><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(b.name)+'</h3></div><strong>'+models.length+' model'+(models.length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody"><div class="apCatalogCardList">'+cards+'</div></div></section>';
+   return '<section class="modelBrandSection" data-ap-drag-group="modelBrands" data-ap-drag-id="'+esc(String(b.id))+'" data-ap-brand-kind="'+kind+'"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="if(!event.target.closest(\'[data-ap-brand-drag-handle]\')){toggleApModelBrandCard(this)}" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){if(event.target.closest(\'[data-ap-brand-drag-handle]\'))return;event.preventDefault();this.click()}"><span class="apBrandSectionDragHandle" data-ap-brand-drag-handle title="Hold and drag to reorder brand sections">⋮⋮</span><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(b.name)+'</h3></div><strong>'+models.length+' model'+(models.length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody"><div class="apCatalogCardList">'+cards+'</div></div></section>';
   }).join('');
   return '<section class="apBrandTypeSection" data-ap-brand-kind="'+kind+'"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>'+title+'</h3></div><strong>'+brands.length+' brand'+(brands.length===1?'':'s')+'</strong></div><div class="modelBrandSections">'+sections+'</div></section>';
  };
