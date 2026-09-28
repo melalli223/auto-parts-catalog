@@ -6974,3 +6974,67 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     padding:0;
   }
 }
+
+
+/* Keep each tyre promotional panel as an individual compact card on phones. */
+@media(max-width:650px){
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminFeatureGrid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem{
+    display:block!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+    min-height:0!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow:hidden!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem:not(.tyreSubOpen){
+    height:52px!important;
+    max-height:52px!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem:not(.tyreSubOpen) > :not(.tyreAdminItemTop){
+    display:none!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem.tyreSubOpen{
+    height:auto!important;
+    max-height:none!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem.tyreSubOpen > :not(.tyreAdminItemTop){
+    display:block!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminItemTop{
+    display:flex!important;
+    align-items:center!important;
+    min-height:50px!important;
+    box-sizing:border-box!important;
+    padding:10px 12px!important;
+    margin:0!important;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyrePromoCompactHead::after{
+    content:'⌄';
+    margin-left:auto;
+    flex:0 0 auto;
+    width:28px;
+    height:28px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(0,0,0,.10);
+    border-radius:8px;
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyreAdminEditorItem.tyreSubOpen .tyrePromoCompactHead::after{
+    transform:rotate(180deg);
+  }
+  .tyreSettingsCompact #tyrePromoSection .tyrePromoCompactHead > strong{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+}
