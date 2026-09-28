@@ -374,7 +374,7 @@ async function loadRemoteDb(){
  const remoteTyres=(tyreR&&!tyreR.error&&tyreR.data&&tyreR.data.data)?tyreR.data.data:null;
  let tyreTypesChanged=false;let tyreSizesChanged=false;if(remoteTyres){tyreTypesChanged=ensureTyreTypeIds(remoteTyres);tyreSizesChanged=ensureTyreSizeIds(remoteTyres);}
  const settings=settingsR.data||clone(defaults.settings);
- const years=(yearsR.data||[]).map(y=>({id:y.id,modelId:y.model_id,year:String(y.year)}));
+ const years=(yearsR.data||[]).map(y=>({id:y.id,modelId:y.model_id,year:String(y.year),sortOrder:Number(y.sort_order??0),createdAt:y.created_at||''}));
  const catMap=new Map((catsR.data||[]).map(c=>[c.id,c.name]));
  const yearById=new Map(years.map(y=>[y.id,String(y.year)]));const pyMap=new Map();for(const row of (pyR.data||[])){const yr=yearById.get(row.model_year_id);if(!yr)continue;if(!pyMap.has(row.product_id))pyMap.set(row.product_id,[]);pyMap.get(row.product_id).push(yr)}
  const pbMap=new Map();for(const row of (pbrR.data||[])){if(!pbMap.has(row.product_id))pbMap.set(row.product_id,[]);pbMap.get(row.product_id).push({branchId:row.branch_id,image:row.image_url||''})}
