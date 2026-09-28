@@ -2460,14 +2460,14 @@ function modelAdmin(c){
 }
 function toggleYearBrandCard(head){
  const card=head.closest('.apYearBrandSection'); if(!card)return;
- const willOpen=!card.classList.contains('isOpen'); const parent=card.parentElement;
- if(parent) parent.querySelectorAll(':scope > .apYearBrandSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
+ const willOpen=!card.classList.contains('isOpen');
+ document.querySelectorAll('.apYearBrandSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
  card.classList.toggle('isOpen',willOpen); head.setAttribute('aria-expanded',String(willOpen));
 }
 function toggleYearModelCard(head){
  const card=head.closest('.apYearModelSection'); if(!card)return;
- const willOpen=!card.classList.contains('isOpen'); const parent=card.parentElement;
- if(parent) parent.querySelectorAll(':scope > .apYearModelSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
+ const willOpen=!card.classList.contains('isOpen');
+ document.querySelectorAll('.apYearModelSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
  card.classList.toggle('isOpen',willOpen); head.setAttribute('aria-expanded',String(willOpen));
 }
 function yearAdmin(c){
