@@ -7153,9 +7153,11 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   font-size:12px !important;
   padding:11px 10px !important;
 }
-.innerPageHeader nav button:hover,
-.innerPageHeader nav button.active{
+.innerPageHeader nav button:hover{
   color:#20252a !important;
+}
+.innerPageHeader nav button.active{
+  color:var(--red) !important;
 }
 .innerPageHeader nav .searchBtn{
   color:#20252a !important;
