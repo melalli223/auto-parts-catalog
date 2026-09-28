@@ -2422,7 +2422,7 @@ function modelAdmin(c){
  const brandItems=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
  const renderBrandGroup=(brands,title,kind)=>{
   const sections=brands.map(b=>{
-   const models=items.filter(m=>String(m.brandId)===String(b.id)&&(!b.isEv||b.isRegular?kind==='ev'?m.isEv===true:m.isEv!==true:true));
+   const models=items.filter(m=>String(m.brandId)===String(b.id)&&(kind==='ev'?m.isEv===true:m.isEv!==true));
    const cards=models.map(m=>{
     const globalIndex=items.findIndex(x=>String(x.id)===String(m.id));
     const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));
