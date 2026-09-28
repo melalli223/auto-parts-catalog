@@ -1309,7 +1309,7 @@ function adminPanel(tab='dashboard',fromHistory=false){
  const adminHeader=`<header class="adminGlobalHeader"><a class="adminGlobalLogo" href="/admin">${logo()}</a>${tab==='dashboard'?'<a class="adminHeaderSwitch" href="/admin/tyres.html" data-admin-tyres-link="true">TYRES</a>':''}<button id="adminHeaderToggle" class="adminHeaderToggle" type="button" onclick="toggleAdminSidebar()" aria-label="Toggle admin control panel" aria-expanded="${adminSidebarOpen}" title="${adminSidebarOpen?'Hide admin control panel':'Show admin control panel'}"><span></span><span></span><span></span></button></header>`;
  document.querySelector('#app').innerHTML=`${adminHeader}<div class="adminShell ${adminSidebarOpen?'':'sidebarHidden'}"><aside class="adminSide"><div class="adminTitle">ADMIN CONTROL PANEL</div><button class="sideBtn ${tab==='dashboard'?'active':''}" onclick="adminPanel('dashboard')">⌂ &nbsp; Dashboard</button><button class="sideBtn ${tab==='enquiries'?'active':''}" onclick="adminPanel('enquiries')">▤ &nbsp; Enquiries</button><button class="sideBtn catalogToggle ${catalogTabs.includes(tab)?'activeGroup':''}" onclick="toggleAdminCatalog()">▣ &nbsp; Catalog <span class="sideChevron">${adminCatalogOpen?'▾':'▸'}</span></button>${adminCatalogOpen?`<div class="catalogSubmenu">${catalogTabs.map(t=>`<button class="sideBtn subSideBtn ${tab===t?'active':''}" onclick="adminPanel('${t}')">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</div>`:''}<button class="sideBtn ${tab==='settings'?'active':''}" onclick="adminPanel('settings')">⚙ &nbsp; Settings</button><button class="sideBtn ${tab==='backup'?'active':''}" onclick="adminPanel('backup')">↕ &nbsp; Backup</button><div class="sideSpacer"></div><button class="sideBtn" onclick="logout()">⇥ &nbsp; Sign out</button></aside><section class="adminMain"><div class="adminTop"><div class="adminHeading"><div><div class="adminEyebrow">ADMIN</div><h1>${label}</h1></div></div><a class="viewSite" href="/">VIEW WEBSITE</a></div><section class="adminPanel" id="adminContent"></section></section></div>`;
  adminContent(tab);
- if(catalogTabs.includes(tab)){apBeginOrderSession(tab);initApCatalogCompactCards();initApCatalogPointerDrag()}
+ if(catalogTabs.includes(tab)){apBeginOrderSession(tab);initApCatalogCompactCards();initApCatalogPointerDrag();if(tab==='models')initApModelBrandSectionDrag()}
 }
 
 /* AUTO PARTS ADMIN — Tyre Admin-style movable expandable catalog cards */
@@ -1341,14 +1341,15 @@ function apBeginOrderSession(tab){
  const source=apOrderSource(tab);
  if(!source)return;
  if(!__apOrderSnapshots[tab])__apOrderSnapshots[tab]=clone(source);
+ if(tab==='models'&&!__apOrderSnapshots.modelsBrands)__apOrderSnapshots.modelsBrands=clone(db.brands);
 }
-function apClearOrderSession(tab){delete __apOrderSnapshots[tab];}
+function apClearOrderSession(tab){delete __apOrderSnapshots[tab];if(tab==='models')delete __apOrderSnapshots.modelsBrands;}
 function apCancelOrder(tab){
  const snapshot=__apOrderSnapshots[tab];
  if(!snapshot)return adminPanel(tab);
  const restored=clone(snapshot);
  if(tab==='brands')db.brands=restored;
- else if(tab==='models')db.models=restored;
+ else if(tab==='models'){db.models=restored;if(__apOrderSnapshots.modelsBrands)db.brands=clone(__apOrderSnapshots.modelsBrands);}
  else if(tab==='years')db.years=restored;
  else if(tab==='categories')db.categories=restored;
  else if(tab==='products')db.parts=restored;
@@ -1365,7 +1366,13 @@ async function apSaveOrderForPage(tab){
  if(!source)return;
  const table=tab==='years'?'model_years':tab==='products'?'products':tab;
  const ok=await apSaveOrder(table,source,true);
- if(ok)apClearOrderSession(tab);
+ if(!ok)return;
+ if(tab==='models'){
+  const brandsOk=await apSaveOrder('brands',db.brands,true);
+  if(!brandsOk)return;
+ }
+ apClearOrderSession(tab);
+ toast('Order saved');
 }
 function apCatalogCard(title,meta,body,index,count,moveFn,itemId){
  const group=moveFn==='apMoveBrand'?'brands':moveFn==='apMoveModel'?'models':moveFn==='apMoveYear'?'years':'categories';
@@ -2412,7 +2419,7 @@ function modelAdmin(c){
     globalIndex,items.length,'apMoveModel',m.id
    );
   }).join('');
-  return '<section class="modelBrandSection"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click()}"><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(label)+'</h3></div><strong>'+group.models.length+' model'+(group.models.length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody"><div class="apCatalogCardList">'+cards+'</div></div></section>';
+  return '<section class="modelBrandSection" data-ap-drag-group="modelBrands" data-ap-drag-id="'+esc(String(group.brand?.id||''))+'"><div class="modelBrandSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="if(!event.target.closest(\'[data-ap-brand-drag-handle]\')){this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))}" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){if(event.target.closest(\'[data-ap-brand-drag-handle]\'))return;event.preventDefault();this.click()}"><span class="apBrandSectionDragHandle" data-ap-brand-drag-handle title="Hold and drag to reorder brand sections">⋮⋮</span><div><span class="modelBrandEyebrow">BRAND</span><h3>'+esc(label)+'</h3></div><strong>'+group.models.length+' model'+(group.models.length===1?'':'s')+'</strong></div><div class="modelBrandSectionBody"><div class="apCatalogCardList">'+cards+'</div></div></section>';
  }).join('');
  c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Models are grouped into separate subsections by vehicle brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle to arrange the order.</span></div><div class="modelBrandSections">'+sections+'</div>',true)+apCatalogBottomActions('models');
 }
@@ -2431,6 +2438,59 @@ function productAdmin(c){
  setTimeout(()=>apDecorateProducts(c),0);
 }
 /* FINAL MOBILE-SAFE AUTO PARTS REORDER — pointer drag, matching Tyre Admin */
+function initApModelBrandSectionDrag(){
+ if(window.__apModelBrandSectionDragBound)return;
+ window.__apModelBrandSectionDragBound=true;
+ let state=null;
+ const finish=()=>{
+  if(!state)return;
+  const s=state;state=null;
+  if(s.placeholder){s.placeholder.parentNode?.insertBefore(s.row,s.placeholder);s.placeholder.remove()}
+  s.row.style.position='';s.row.style.left='';s.row.style.top='';s.row.style.width='';s.row.style.zIndex='';s.row.style.margin='';
+  s.row.classList.remove('apDragPressed','apDragging');
+  document.documentElement.classList.remove('apModelBrandDragging');
+  if(!s.moved)return;
+  const rows=[...document.querySelectorAll('.modelBrandSection[data-ap-drag-group="modelBrands"]')];
+  const reordered=rows.map(x=>db.brands.find(b=>String(b.id)===String(x.dataset.apDragId))).filter(Boolean);
+  if(reordered.length!==db.brands.length)return;
+  reordered.forEach((b,i)=>b.sortOrder=i);
+  db.brands=reordered;
+  cacheDb();
+  modelAdmin(document.querySelector('#adminContent'));
+  toast('Brand section order changed — click SAVE to apply');
+ };
+ document.addEventListener('pointerdown',e=>{
+  const handle=e.target.closest?.('[data-ap-brand-drag-handle]');
+  if(!handle)return;
+  const row=handle.closest?.('.modelBrandSection[data-ap-drag-group="modelBrands"]');
+  if(!row)return;
+  const rect=row.getBoundingClientRect();
+  state={row,startY:e.clientY,offset:e.clientY-rect.top,moved:false,placeholder:null};
+  row.classList.add('apDragPressed');
+  document.documentElement.classList.add('apModelBrandDragging');
+  try{handle.setPointerCapture?.(e.pointerId)}catch(_){}
+ },true);
+ document.addEventListener('pointermove',e=>{
+  const s=state;if(!s)return;
+  if(!s.moved&&Math.abs(e.clientY-s.startY)>6){
+   s.moved=true;
+   const rect=s.row.getBoundingClientRect();
+   const ph=document.createElement('div');ph.className='apDragPlaceholder';ph.style.height=rect.height+'px';ph.style.width=rect.width+'px';ph.style.boxSizing='border-box';
+   s.placeholder=ph;s.row.parentNode.insertBefore(ph,s.row);
+   s.row.style.position='fixed';s.row.style.left=rect.left+'px';s.row.style.top=rect.top+'px';s.row.style.width=rect.width+'px';s.row.style.zIndex='9999';s.row.style.margin='0';
+   s.row.classList.add('apDragging');
+  }
+  if(!s.moved)return;
+  s.row.style.top=(e.clientY-s.offset)+'px';
+  const candidates=[...document.querySelectorAll('.modelBrandSection[data-ap-drag-group="modelBrands"]')].filter(x=>x!==s.row);
+  let target=null;
+  for(const x of candidates){const box=x.getBoundingClientRect();if(e.clientY<box.top+box.height/2){target=x;break}}
+  if(target)target.parentNode.insertBefore(s.placeholder,target);
+  else if(candidates.length)candidates[candidates.length-1].parentNode.appendChild(s.placeholder);
+ },true);
+ document.addEventListener('pointerup',finish,true);
+ document.addEventListener('pointercancel',finish,true);
+}
 function initApCatalogPointerDrag(){
  if(window.__apCatalogPointerDragBound)return;
  window.__apCatalogPointerDragBound=true;
