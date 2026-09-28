@@ -7637,3 +7637,10 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .apYearBrandSection .apYearModelSection{padding:8px;border-radius:12px}
   .apYearBrandSection .apYearModelSection .modelBrandSectionHead h3{font-size:12px}
 }
+
+
+/* Year panel — plain ordered year text, not cards */
+.apYearTextList{display:flex;flex-wrap:wrap;gap:8px 16px;padding:4px 0 12px}
+.apYearText{display:inline-block;font-size:14px;font-weight:700;line-height:1.4}
+.apYearModelSection .apYearTextList .apYearText{border:0;background:none;box-shadow:none;padding:0}
+.apYearModelSection .apYearAddButton{margin-top:4px}
