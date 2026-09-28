@@ -384,7 +384,7 @@ async function loadRemoteDb(){
     promoTitle:settings.promo_title||defaults.settings.promoTitle,
     promoDescription:settings.promo_description||defaults.settings.promoDescription,
     promoButton:settings.promo_button||defaults.settings.promoButton,
-    promoBackground:settings.promo_background_url||''},brands:(brandsR.data||[]).map(b=>({id:b.id,name:b.name,image:b.image_url||'',isEv:b.is_ev===true,isRegular:b.is_regular!==false,sortOrder:Number(b.sort_order??0),createdAt:b.created_at||''})).sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||''))),models:(modelsR.data||[]).map(m=>({id:m.id,brandId:m.brand_id,name:m.name,image:m.image_url||'',isEv:m.is_ev===true,tyreTypeId:m.tyre_type_id||''})),years,categories:(catsR.data||[]).map(c=>({id:c.id,name:c.name,image:c.image_url||''})),branches:(branchesR.data||[]).map(br=>({id:br.id,categoryId:br.category_id,name:br.name,image:br.image_url||''})),parts};
+    promoBackground:settings.promo_background_url||''},brands:(brandsR.data||[]).map(b=>({id:b.id,name:b.name,image:b.image_url||'',isEv:b.is_ev===true,isRegular:b.is_regular!==false,sortOrder:Number(b.sort_order??0),createdAt:b.created_at||''})).sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||''))),models:(modelsR.data||[]).map(m=>({id:m.id,brandId:m.brand_id,name:m.name,image:m.image_url||'',isEv:m.is_ev===true,tyreTypeId:m.tyre_type_id||'',sortOrder:Number(m.sort_order??0)})).sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)||String(a.name||'').localeCompare(String(b.name||''))),years,categories:(catsR.data||[]).map(c=>({id:c.id,name:c.name,image:c.image_url||'',sortOrder:Number(c.sort_order??0)})).sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)||String(a.name||'').localeCompare(String(b.name||''))),branches:(branchesR.data||[]).map(br=>({id:br.id,categoryId:br.category_id,name:br.name,image:br.image_url||'',sortOrder:Number(br.sort_order??0)})),parts};
  normalizeDb();
  if(remoteTyres&&(tyreTypesChanged||tyreSizesChanged||ensureTyreCatalogueOrder(db.tyres))){try{const {error}=await supabaseClient.from('tyre_page').upsert({id:true,data:db.tyres},{onConflict:'id'});if(error)console.warn('Could not persist tyre reference IDs:',error.message||error)}catch(e){console.warn('Could not persist tyre reference IDs:',e)}}
  cacheDb();window.__apCatalogDb=db;onlineLoaded=true;return db;
@@ -1166,8 +1166,8 @@ function productDetails(id,encodedYear=''){
 
 function parts(focusSearch=false){
  setNav('categories');location.hash='categories';
- const brands=[...db.brands].sort((a,b)=>String(a.name).localeCompare(String(b.name)));
- const cats=[...db.categories].sort((a,b)=>String(a.name).localeCompare(String(b.name)));
+ const brands=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name).localeCompare(String(b.name)));
+ const cats=[...db.categories].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name).localeCompare(String(b.name)));
  const years=[...new Set(db.years.map(y=>String(y.year)).filter(Boolean))].sort((a,b)=>Number(b)-Number(a));
  render(`<div class="breadcrumb">Home <span>›</span> Catalog Search</div>
  <div class="catalogSearchHead advancedSearchHead">
