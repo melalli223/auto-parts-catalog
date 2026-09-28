@@ -7342,3 +7342,12 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .modalFooter{flex:0 0 auto;display:flex;justify-content:flex-end;align-items:center;gap:10px;margin:18px -25px -25px;padding:14px 25px;background:#fff;border-top:1px solid #e5e7eb;box-shadow:0 -4px 14px rgba(0,0,0,.04)}
 .modalSaveSlot{display:flex;align-items:center;gap:10px}
 .modalFooter .primary,.modalFooter .ghost{margin:0}
+
+
+/* Keep SAVE/CANCEL outside the form box, fixed as the bottom action bar. */
+.modal{display:flex!important;align-items:center!important;justify-content:center!important;}
+.modalFrame{width:min(720px,100%);max-height:90vh;display:flex;flex-direction:column;min-height:0;}
+.modalFrame .modalBox{width:100%!important;max-width:none!important;max-height:none!important;min-height:0;overflow:hidden!important;border-radius:8px 8px 0 0!important;box-sizing:border-box!important;}
+.modalFrame .modalContent{min-height:0;overflow:auto!important;flex:1 1 auto;}
+.modalFrame .modalFooter{width:100%;box-sizing:border-box;flex:0 0 auto;margin:0!important;padding:14px 25px!important;border-radius:0 0 8px 8px!important;background:#fff!important;border-top:1px solid #e5e7eb;display:flex!important;justify-content:flex-end;align-items:center;gap:10px;}
+@media(max-width:600px){.modalFrame{width:100%;max-height:94vh}.modalFrame .modalFooter{padding:12px 16px!important}}
