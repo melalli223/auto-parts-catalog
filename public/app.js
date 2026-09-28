@@ -1389,11 +1389,47 @@ function brandAdmin(c){
 }
 function apMoveBrand(i,d){apMoveItems(db.brands.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)),i,d,()=>brandAdmin(document.querySelector('#adminContent')))}
 function modelAdmin(c){
- const items=[...db.models].sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)||String(a.name||'').localeCompare(String(b.name||'')));
- const cards=items.map((m,i)=>{const b=db.brands.find(x=>x.id===m.brandId),tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));return apCatalogCard(m.name,(b?.name||'Unknown brand')+' · '+modelYears(m.id).length+' years',
-  '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'">'+esc(m.name)+'</div><span>'+esc(b?.name||'Unknown brand')+'</span><span>'+(tt?'<span class="brandTypeBadge regular">'+esc(tt.title)+'</span>':'<span class="muted">Not assigned</span>')+'</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button> <button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></div></div>',i,items.length,'apMoveModel',m.id)}).join('');
- c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange model order within the Auto Parts catalogue.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Each model keeps its brand and tyre-type classification.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Move cards with ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'models\',db.models)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
+ const ordered=[...db.models].sort((a,b)=>{
+  const ba=db.brands.find(x=>String(x.id)===String(a.brandId));
+  const bb=db.brands.find(x=>String(x.id)===String(b.brandId));
+  return String(ba?.name||'').localeCompare(String(bb?.name||''))||
+    Number(a.sortOrder??0)-Number(b.sortOrder??0)||
+    String(a.name||'').localeCompare(String(b.name||''));
+ });
+ const brands=[...db.brands].sort((a,b)=>String(a.name||'').localeCompare(String(b.name||'')));
+ const sections=brands.map(b=>{
+  const models=ordered.filter(m=>String(m.brandId)===String(b.id));
+  if(!models.length)return '';
+  return '<section class="modelBrandSection">'+
+   '<div class="modelBrandSectionHead"><div><span class="eyebrow">BRAND</span><h3>'+esc(b.name)+'</h3></div>'+
+   '<span class="modelBrandCount">'+models.length+' model'+(models.length===1?'':'s')+'</span></div>'+
+   '<div class="modelBrandTable"><table class="table"><tr><th>Model</th><th>Tyre Type</th><th>Years</th><th>Actions</th></tr>'+
+   models.map(m=>{
+    const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));
+    return '<tr><td><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(m.name)+'\')">'+esc(m.name)+'</div></td>'+
+     '<td>'+(tt?'<span class="brandTypeBadge regular">'+esc(tt.title)+'</span>':'<span class="muted">Not assigned</span>')+'</td>'+
+     '<td>'+esc(modelYears(m.id).join(', ')||'—')+'</td>'+
+     '<td><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button> <button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></td></tr>';
+   }).join('')+
+   '</table></div></section>';
+ }).join('');
+ const ungrouped=ordered.filter(m=>!brands.some(b=>String(b.id)===String(m.brandId)));
+ const ungroupedSection=ungrouped.length?
+  '<section class="modelBrandSection modelBrandSectionUnassigned">'+
+   '<div class="modelBrandSectionHead"><div><span class="eyebrow">BRAND</span><h3>Unassigned Brand</h3></div>'+
+   '<span class="modelBrandCount">'+ungrouped.length+' model'+(ungrouped.length===1?'':'s')+'</span></div>'+
+   '<div class="modelBrandTable"><table class="table"><tr><th>Model</th><th>Tyre Type</th><th>Years</th><th>Actions</th></tr>'+
+   ungrouped.map(m=>{
+    const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));
+    return '<tr><td><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(m.name)+'\')">'+esc(m.name)+'</div></td>'+
+     '<td>'+(tt?'<span class="brandTypeBadge regular">'+esc(tt.title)+'</span>':'<span class="muted">Not assigned</span>')+'</td>'+
+     '<td>'+esc(modelYears(m.id).join(', ')||'—')+'</td>'+
+     '<td><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button> <button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></td></tr>';
+   }).join('')+
+   '</table></div></section>' : '';
+ c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange model order within the Auto Parts catalogue.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Models are grouped into separate subsections by vehicle brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Models are grouped by brand. Move controls remain available through the existing order system.</span><button class="primary" onclick="apSaveOrder(\'models\',db.models)">SAVE ORDER</button></div><div class="modelBrandSections">'+sections+ungroupedSection+'</div>',true);
 }
+
 function apMoveModel(i,d){apMoveItems(db.models.sort((a,b)=>Number(a.sortOrder)-Number(b.sortOrder)),i,d,()=>modelAdmin(document.querySelector('#adminContent')))}
 function yearAdmin(c){
  const items=[...db.years].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));
