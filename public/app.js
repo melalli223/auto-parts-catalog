@@ -2371,5 +2371,72 @@ function productAdmin(c){
  apBaseProductAdmin(c);
  setTimeout(()=>apDecorateProducts(c),0);
 }
+/* FINAL MOBILE-SAFE AUTO PARTS REORDER — pointer drag, matching Tyre Admin */
+function initApCatalogPointerDrag(){
+ if(window.__apCatalogPointerDragBound)return;
+ window.__apCatalogPointerDragBound=true;
+ let state=null;
+ const finish=()=>{
+  if(!state)return;
+  const s=state;state=null;
+  const row=s.row;
+  if(s.placeholder){s.placeholder.parentNode?.insertBefore(row,s.placeholder);s.placeholder.remove()}
+  row.style.position='';row.style.left='';row.style.top='';row.style.width='';row.style.zIndex='';row.style.margin='';
+  row.classList.remove('apDragPressed','apDragging');
+  document.documentElement.classList.remove('apCatalogDragging');
+  document.querySelectorAll('.apDragTarget').forEach(x=>x.classList.remove('apDragTarget'));
+  if(!s.moved)return;
+  const rows=[...document.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]')];
+  const source=s.group==='brands'?db.brands:s.group==='models'?db.models:s.group==='years'?db.years:s.group==='products'?db.parts:db.categories;
+  const reordered=rows.map(x=>source.find(item=>String(item.id)===String(x.dataset.apDragId))).filter(Boolean);
+  if(reordered.length!==source.length)return;
+  reordered.forEach((item,i)=>item.sortOrder=i);
+  if(s.group==='brands')db.brands=reordered;
+  else if(s.group==='models')db.models=reordered;
+  else if(s.group==='years')db.years=reordered;
+  else if(s.group==='products')db.parts=reordered;
+  else db.categories=reordered;
+  cacheDb();
+  if(s.group==='brands')brandAdmin(document.querySelector('#adminContent'));
+  else if(s.group==='models')modelAdmin(document.querySelector('#adminContent'));
+  else if(s.group==='years')yearAdmin(document.querySelector('#adminContent'));
+  else if(s.group==='products')productAdmin(document.querySelector('#adminContent'));
+  else categoryAdmin(document.querySelector('#adminContent'));
+  toast('Order changed — click SAVE ORDER to apply');
+ };
+ document.addEventListener('pointerdown',e=>{
+  const handle=e.target.closest?.('[data-ap-drag-handle]');
+  if(!handle)return;
+  const row=handle.closest?.('[data-ap-drag-group]');
+  if(!row)return;
+  const rect=row.getBoundingClientRect();
+  state={row,group:row.dataset.apDragGroup,startY:e.clientY,moved:false,offset:e.clientY-rect.top,placeholder:null};
+  row.classList.add('apDragPressed');
+  document.documentElement.classList.add('apCatalogDragging');
+  try{handle.setPointerCapture?.(e.pointerId)}catch(_){}
+ },true);
+ document.addEventListener('pointermove',e=>{
+  const s=state;if(!s)return;
+  if(!s.moved&&Math.abs(e.clientY-s.startY)>6){
+   s.moved=true;
+   const rect=s.row.getBoundingClientRect();
+   const ph=document.createElement('div');ph.className='apDragPlaceholder';ph.style.height=rect.height+'px';ph.style.width=rect.width+'px';ph.style.boxSizing='border-box';
+   s.placeholder=ph;s.row.parentNode.insertBefore(ph,s.row);
+   s.row.style.position='fixed';s.row.style.left=rect.left+'px';s.row.style.top=rect.top+'px';s.row.style.width=rect.width+'px';s.row.style.zIndex='9999';s.row.style.margin='0';
+   s.row.classList.add('apDragging');
+  }
+  if(!s.moved)return;
+  s.row.style.top=(e.clientY-s.offset)+'px';
+  const candidates=[...document.querySelectorAll('[data-ap-drag-group="'+CSS.escape(s.group)+'"]')].filter(x=>x!==s.row);
+  let target=null;
+  for(const x of candidates){const box=x.getBoundingClientRect();if(e.clientY<box.top+box.height/2){target=x;break}}
+  if(target)target.parentNode.insertBefore(s.placeholder,target);
+  else if(candidates.length)candidates[candidates.length-1].parentNode.appendChild(s.placeholder);
+  s.placeholder.classList.add('apDragTarget');
+ },true);
+ document.addEventListener('pointerup',finish,true);
+ document.addEventListener('pointercancel',finish,true);
+}
+function initApCatalogDrag(){initApCatalogPointerDrag();}
 window.addEventListener('error',e=>{console.error(e.error||e.message);const app=document.querySelector('#app');if(app && !app.innerHTML.trim()){app.innerHTML='<div class=\"login\"><div class=\"loginBox\"><h2>Website could not start</h2><p class=\"muted\">Please refresh this page. If the problem continues, send a screenshot to the developer.</p></div></div>'}});
 if(isAdminRoute())bootAdmin();else bootCustomer();
