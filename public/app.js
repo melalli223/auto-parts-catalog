@@ -2449,7 +2449,8 @@ function yearAdmin(c){
  const brands=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
  const yearsForModel=mid=>items.filter(y=>String(y.modelId)===String(mid));
  const renderGroup=(brandList,kind)=>{
-  return brandList.map(b=>{
+  const label=kind==='ev'?'EV BRANDS':'CAR BRANDS';
+  const cards=brandList.map(b=>{
    const brandModels=models.filter(m=>String(m.brandId)===String(b.id)&&(kind==='ev'?m.isEv===true:m.isEv!==true));
    const modelHtml=brandModels.map(m=>{
     const ys=yearsForModel(m.id);
@@ -2464,6 +2465,7 @@ function yearAdmin(c){
    const count=brandModels.reduce((n,m)=>n+yearsForModel(m.id).length,0);
    return '<section class="apBrandTypeSection apYearBrandSection"><div class="apBrandTypeSectionHead" role="button" tabindex="0" aria-expanded="false" onclick="this.parentElement.classList.toggle(\'isOpen\');this.setAttribute(\'aria-expanded\',this.parentElement.classList.contains(\'isOpen\'))"><div><span>BRAND</span><h3>'+esc(b.name)+'</h3></div><strong>'+count+' year'+(count===1?'':'s')+'</strong></div><div class="apYearBrandBody"><div class="modelBrandSections">'+(modelHtml||'<div class="empty">No models in this section yet.</div>')+'</div></div></section>';
   }).join('');
+  return '<section class="apYearVehicleSection"><div class="apYearVehicleSectionHead"><span>VEHICLE TYPE</span><h2>'+label+'</h2><strong>'+brandList.length+' brands</strong></div><div class="apYearVehicleBrands">'+cards+'</div></section>';
  };
  const ev=brands.filter(b=>b.isEv);
  const car=brands.filter(b=>!b.isEv||b.isRegular);
