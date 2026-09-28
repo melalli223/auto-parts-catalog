@@ -7335,3 +7335,10 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .apCatalogItemCard .apDragHandle{
   pointer-events:auto;
 }
+
+/* Modal form actions sit in a separate bottom footer, outside the form sections */
+.modalBox{display:flex;flex-direction:column;overflow:hidden}
+.modalContent{overflow:auto;min-height:0;flex:1}
+.modalFooter{flex:0 0 auto;display:flex;justify-content:flex-end;align-items:center;gap:10px;margin:18px -25px -25px;padding:14px 25px;background:#fff;border-top:1px solid #e5e7eb;box-shadow:0 -4px 14px rgba(0,0,0,.04)}
+.modalSaveSlot{display:flex;align-items:center;gap:10px}
+.modalFooter .primary,.modalFooter .ghost{margin:0}
