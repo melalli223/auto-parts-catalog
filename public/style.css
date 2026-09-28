@@ -1893,11 +1893,13 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .tyreAdminBrandGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .tyreAdminBrandItem .tyreAdminPreview{height:92px}
 .tyreBrandNumber{font-size:9px;letter-spacing:1px;font-weight:800;color:#8a9298;margin-bottom:9px}
-.tyreAdminSaveBar{position:sticky;bottom:14px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:20px;padding:14px 16px;background:rgba(255,255,255,.96);border:1px solid #dfe3e6;border-radius:8px;box-shadow:0 5px 24px rgba(0,0,0,.08);backdrop-filter:blur(8px)}
-.tyreAdminSaveBar>div:first-child{display:flex;flex-direction:column;gap:2px}
-.tyreAdminSaveBar strong{font-size:12px}
-.tyreAdminSaveBar span{font-size:10px;color:#7b8389}
-.tyreAdminSaveBar>div:last-child{display:flex;gap:8px}
+.tyreAdminBottomActions{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:24px 0 4px;padding:4px 0 0;border-top:1px solid #e5e7eb}
+.tyreAdminBottomNote{display:flex;flex-direction:column;gap:2px}
+.tyreAdminBottomNote strong{font-size:12px}
+.tyreAdminBottomNote span{font-size:10px;color:#7b8389}
+.tyreAdminBottomButtons{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.tyreAdminBottomButtons button{margin:0}
+@media(max-width:650px){.tyreAdminBottomActions{align-items:stretch;flex-direction:column;padding-top:14px}.tyreAdminBottomButtons{width:100%;display:grid;grid-template-columns:1fr 1fr}.tyreAdminBottomButtons .primary{grid-column:1/-1}.tyreAdminBottomButtons button{width:100%}}
 @media(max-width:1000px){.tyreAdminHeroLayout{grid-template-columns:1fr}.tyreAdminFeatureGrid{grid-template-columns:1fr 1fr}.tyreAdminBrandGrid{grid-template-columns:repeat(3,1fr)}.tyreAdminStats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){.tyreAdminWelcome{align-items:stretch;flex-direction:column}.tyreAdminTopActions{width:100%}.tyreAdminTopActions>*{flex:1;text-align:center}.tyreAdminCard{padding:15px}.tyreAdminFeatureGrid,.tyreAdminBrandGrid{grid-template-columns:1fr}.tyreAdminStats{grid-template-columns:repeat(2,1fr)}.tyreAdminSaveBar{align-items:stretch;flex-direction:column}.tyreAdminSaveBar>div:last-child{width:100%}.tyreAdminSaveBar button{flex:1}.tyreAdminWelcome h2{font-size:21px}}
 
