@@ -445,7 +445,23 @@ async function bootAdmin(){
   currentSession=session;if(!session)return login();
   const {data:row,error:adminErr}=await supabaseClient.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();
   if(adminErr||!row){await supabaseClient.auth.signOut();currentSession=null;return login('Your account is not authorized as an admin.')}
-  admin=true;const tyreAdminRoute=isTyreAdminRoute();if(tyreAdminRoute){const requested=(location.hash||'#dashboard').slice(1);const allowed=['dashboard','settings','brands','featured','sizes','products','by-car','by-number'];tyreAdminSubTab=allowed.includes(requested)?requested:'dashboard';}try{await loadRemoteDb();adminPanel(tyreAdminRoute?'tyres':'dashboard')}catch(e){console.error(e);toast('Connected to login, but catalog data could not be loaded');adminPanel(tyreAdminRoute?'tyres':'dashboard')}
+  admin=true;
+  const tyreAdminRoute=isTyreAdminRoute();
+  const requested=(location.hash||'#dashboard').slice(1)||'dashboard';
+  if(tyreAdminRoute){
+    const allowed=['dashboard','settings','brands','featured','sizes','products','by-car','by-number'];
+    tyreAdminSubTab=allowed.includes(requested)?requested:'dashboard';
+  }
+  const autoPartTabs=['dashboard','enquiries','brands','models','years','categories','products','settings','backup'];
+  const initialAdminTab=tyreAdminRoute?'tyres':(autoPartTabs.includes(requested)?requested:'dashboard');
+  try{
+    await loadRemoteDb();
+    adminPanel(initialAdminTab);
+  }catch(e){
+    console.error(e);
+    toast('Connected to login, but catalog data could not be loaded');
+    adminPanel(initialAdminTab);
+  }
 }
 function fileData(f){return f?new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)}):Promise.resolve('')}
 function dataUrlToBlob(dataUrl){const m=String(dataUrl||'').match(/^data:([^;,]+)?(?:;base64)?,(.*)$/);if(!m)return null;const mime=m[1]||'application/octet-stream';const bin=atob(m[2]);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new Blob([bytes],{type:mime})}
