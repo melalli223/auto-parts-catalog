@@ -1313,8 +1313,23 @@ function adminPanel(tab='dashboard',fromHistory=false){
 }
 
 /* AUTO PARTS ADMIN — Tyre Admin-style movable expandable catalog cards */
+
+function toggleApAdminExpandCard(head){
+ const p=head?.parentElement;if(!p)return;
+ const willOpen=!p.classList.contains('isOpen');
+ p.classList.toggle('isOpen',willOpen);
+ head.setAttribute('aria-expanded',String(willOpen));
+}
+function toggleApModelBrandCard(head){
+ const card=head?.parentElement;if(!card)return;
+ const willOpen=!card.classList.contains('isOpen');
+ const parent=card.parentElement;
+ if(parent) parent.querySelectorAll('.modelBrandSection.isOpen').forEach(x=>{if(x!==card)x.classList.remove('isOpen');});
+ card.classList.toggle('isOpen',willOpen);
+ head.setAttribute('aria-expanded',String(willOpen));
+}
 function apAdminOrderCard(title,subtitle,body,open=false){
- return '<section class="apAdminExpandCard '+(open?'isOpen':'')+'"><button type="button" class="apAdminExpandHead" aria-expanded="'+open+'" onclick="const p=this.parentElement;const willOpen=!p.classList.contains('isOpen');p.parentElement.querySelectorAll(':scope > .apYearBrandSection.isOpen').forEach(x=>{if(x!==p)x.classList.remove('isOpen');});p.classList.toggle('isOpen',willOpen);this.setAttribute('aria-expanded',String(willOpen))"><span><b>'+esc(title)+'</b><small>'+esc(subtitle||'')+'</small></span><span class="apAdminChevron">▾</span></button><div class="apAdminExpandBody">'+body+'</div></section>';
+ return '<section class="apAdminExpandCard '+(open?'isOpen':'')+'"><button type="button" class="apAdminExpandHead" aria-expanded="'+open+'" onclick="toggleApAdminExpandCard(this)"><span><b>'+esc(title)+'</b><small>'+esc(subtitle||'')+'</small></span><span class="apAdminChevron">▾</span></button><div class="apAdminExpandBody">'+body+'</div></section>';
 }
 async function apSaveOrder(table,items,silent=false){
  const ordered=items.map((x,i)=>({id:x.id,sortOrder:i}));
