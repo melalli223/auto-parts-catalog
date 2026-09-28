@@ -1089,6 +1089,7 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 /* V65 optional social/media links on Contact page */
 .adminMediaBox{margin-top:18px}
 .contactMedia{margin:26px 0 24px;max-width:760px}
+.contactActions{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-top:2px}.contactActions .backBtn{margin-top:0}
 .contactMedia h3{font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:.8px;margin:0 0 12px}
 .mediaGrid{display:flex;flex-wrap:wrap;gap:10px}
 .mediaLink{display:inline-flex;align-items:center;gap:9px;min-width:125px;padding:10px 13px;border:1px solid #e0e3e5;border-radius:7px;background:#fff;color:#222;font-size:10px;font-weight:800;transition:.18s}
