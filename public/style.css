@@ -7435,3 +7435,68 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
  .apYearVehicleSectionHead{padding-bottom:9px}
  .apYearVehicleSectionHead h2{font-size:17px}
 }
+
+
+/* Year panel — use the same brand-group and model-card treatment as the other catalog panels */
+.apYearBrandSection{
+  padding:16px;
+  border:2px solid rgba(0,0,0,.10);
+  border-radius:16px;
+  background:var(--panel,#fff);
+  box-shadow:0 5px 18px rgba(0,0,0,.045);
+}
+.apYearBrandSection .apBrandTypeSectionHead{
+  margin:0 0 14px;
+  padding:4px 2px 12px;
+  border-bottom:3px solid rgba(0,0,0,.12);
+}
+.apYearBrandSection .apYearBrandBody{padding:0}
+.apYearBrandSection .modelBrandSections{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  padding:0;
+}
+.apYearModelSection{
+  border:2px solid rgba(0,0,0,.10);
+  border-radius:16px;
+  padding:16px;
+  background:var(--panel,#fff);
+  box-shadow:0 5px 18px rgba(0,0,0,.045);
+  overflow:hidden;
+}
+.apYearModelSection .modelBrandSectionHead{
+  min-height:0;
+  margin:0 0 14px;
+  padding:4px 2px 12px;
+  justify-content:space-between;
+  text-align:left;
+  border-bottom:3px solid rgba(0,0,0,.12);
+}
+.apYearModelSection .modelBrandSectionHead>div{
+  display:block;
+  min-width:0;
+}
+.apYearModelSection .modelBrandSectionHead h3{
+  margin:2px 0 0;
+  font-size:19px;
+  font-weight:800;
+  line-height:1.2;
+}
+.apYearModelSection .modelBrandSectionHead>strong{
+  position:static;
+  display:block;
+  font-size:12px;
+  opacity:.65;
+  white-space:nowrap;
+}
+.apYearModelSection .modelBrandSectionBody{padding:0}
+.apYearBrandSection .modelBrandSection.isOpen{grid-column:auto}
+@media(max-width:760px){
+  .apYearBrandSection{padding:10px;border-radius:13px}
+  .apYearBrandSection .apBrandTypeSectionHead{margin-bottom:10px;padding-bottom:10px}
+  .apYearBrandSection .modelBrandSections{gap:18px}
+  .apYearModelSection{padding:10px;border-radius:13px}
+  .apYearModelSection .modelBrandSectionHead{margin-bottom:10px;padding-bottom:10px}
+  .apYearModelSection .modelBrandSectionHead h3{font-size:16px}
+}
