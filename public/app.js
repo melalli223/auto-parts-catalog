@@ -2407,7 +2407,7 @@ function brandAdmin(c){
  const renderBrandGroup=(groupItems,title,kind)=>{
   const cards=groupItems.map((b,i)=>apCatalogCard(
    b.name,
-   (b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+' · '+db.models.filter(m=>String(m.brandId)===String(b.id)).length+' models',
+   (b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+' · '+db.models.filter(m=>String(m.brandId)===String(b.id)&&(kind==='ev'?m.isEv===true:m.isEv!==true)).length+' models',
    '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(b.image||placeholder(b.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(b.name)+'\')">'+esc(b.name)+'</div><span class="brandTypeBadge '+(b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular')+'">'+(b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+'</span><div class="apCatalogActions"><button class="ghost" onclick="brandEditForm(\''+b.id+'\')">EDIT</button><button class="danger" onclick="delBrand(\''+b.id+'\')">Delete</button></div></div>',
    i,groupItems.length,'apMoveBrand',b.id
   )).join('');
@@ -2422,7 +2422,7 @@ function modelAdmin(c){
  const brandItems=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
  const renderBrandGroup=(brands,title,kind)=>{
   const sections=brands.map(b=>{
-   const models=items.filter(m=>String(m.brandId)===String(b.id)&&(!b.isEv||b.isRegular?kind==='ev'?m.isEv===true:m.isEv!==true:true));
+   const models=items.filter(m=>String(m.brandId)===String(b.id)&&(kind==='ev'?m.isEv===true:m.isEv!==true));
    const cards=models.map(m=>{
     const globalIndex=items.findIndex(x=>String(x.id)===String(m.id));
     const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));
