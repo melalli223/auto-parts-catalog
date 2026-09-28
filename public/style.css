@@ -7558,3 +7558,10 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 @media(max-width:760px){
   .apYearVehicleBrands{gap:14px !important}
 }
+
+
+/* Year panel — add breathing room below CAR/EV group headers before first brand card */
+.apYearVehicleBrands{padding-top:18px !important}
+@media(max-width:760px){
+  .apYearVehicleBrands{padding-top:14px !important}
+}
