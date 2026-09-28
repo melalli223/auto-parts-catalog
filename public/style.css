@@ -7421,3 +7421,18 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
  .apYearModelSection .modelBrandSectionHead h3{font-size:12px}
  .apYearBrandSection .modelBrandSection.isOpen{grid-column:1/-1}
 }
+
+/* Year panel — explicit CAR / EV separation */
+.apYearVehicleSection{margin:0 0 28px;padding:0;border:2px solid rgba(0,0,0,.10);border-radius:16px;background:var(--panel,#fff);overflow:hidden}
+.apYearVehicleSectionHead{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:3px solid rgba(0,0,0,.10)}
+.apYearVehicleSectionHead span{font-size:10px;font-weight:800;letter-spacing:.12em;opacity:.55}
+.apYearVehicleSectionHead h2{margin:0;font-size:20px;font-weight:900}
+.apYearVehicleSectionHead strong{margin-left:auto;font-size:12px;opacity:.65}
+.apYearVehicleBrands{padding:16px}
+.apYearVehicleSection + .apYearVehicleSection{margin-top:28px}
+@media(max-width:650px){
+ .apYearVehicleSection{border-radius:13px;margin-bottom:20px}
+ .apYearVehicleSectionHead{padding:12px}
+ .apYearVehicleSectionHead h2{font-size:17px}
+ .apYearVehicleBrands{padding:10px}
+}
