@@ -2326,5 +2326,50 @@ async function smartEnquiry(msg,image='',title='Auto Parts enquiry'){
 }
 function wa(msg){const n=String(db.settings.whatsapp||'').replace(/\D/g,'');if(!n)return toast('Configure WhatsApp in admin settings');location.href='https://wa.me/'+n+'?text='+encodeURIComponent(msg)}
 function sms(msg){const n=String(db.settings.phone||'').replace(/[^0-9+]/g,'');if(!n)return toast('Configure the phone number in admin settings');location.href='sms:'+n+'?body='+encodeURIComponent(msg)}
+/* FINAL AUTO PARTS CATALOG CARD OVERRIDES — must remain after legacy admin renderers */
+function brandAdmin(c){
+ const items=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
+ const cards=items.map((b,i)=>apCatalogCard(
+  b.name,
+  (b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+' · '+db.models.filter(m=>m.brandId===b.id).length+' models',
+  '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(b.image||placeholder(b.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(b.name)+'\')">'+esc(b.name)+'</div><span class="brandTypeBadge '+(b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular')+'">'+(b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+'</span><div class="apCatalogActions"><button class="ghost" onclick="brandEditForm(\''+b.id+'\')">EDIT</button><button class="danger" onclick="delBrand(\''+b.id+'\')">Delete</button></div></div>',
+  i,items.length,'apMoveBrand',b.id
+ )).join('');
+ c.innerHTML=apAdminOrderCard('Vehicle Brands','Arrange the brand order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle brands</h2><p class="muted">Create a brand once, then add its vehicle models.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'brands\',db.brands)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
+}
+function modelAdmin(c){
+ const items=[...db.models].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
+ const cards=items.map((m,i)=>{const b=db.brands.find(x=>x.id===m.brandId),tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));return apCatalogCard(
+  m.name,
+  (b?.name||'Unknown brand')+' · '+modelYears(m.id).length+' years'+(tt?' · '+tt.title:''),
+  '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(m.name)+'\')">'+esc(m.name)+'</div><span>'+esc(b?.name||'Unknown brand')+'</span><span>'+esc(tt?.title||'Not assigned')+'</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button><button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></div></div>',
+  i,items.length,'apMoveModel',m.id
+ )}).join('');
+ c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Each model keeps its brand and tyre-type classification.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'models\',db.models)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
+}
+function yearAdmin(c){
+ const items=[...db.years].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||Number(b.year)-Number(a.year)||String(a.id||'').localeCompare(String(b.id||'')));
+ const cards=items.map((y,i)=>{const m=db.models.find(x=>x.id===y.modelId),b=db.brands.find(x=>x.id===m?.brandId);return apCatalogCard(
+  String(y.year),
+  (b?.name||'Unknown brand')+' · '+(m?.name||'Unknown model'),
+  '<div class="apCatalogDetailGrid"><strong>'+esc(y.year)+'</strong><span>'+esc(m?.name||'Unknown model')+'</span><span>'+esc(b?.name||'Unknown brand')+'</span><div class="apCatalogActions"><button class="danger" onclick="delYear(\''+y.id+'\')">Delete</button></div></div>',
+  i,items.length,'apMoveYear',y.id
+ )}).join('');
+ c.innerHTML=apAdminOrderCard('Model Years','Arrange the model-year order shown in the Auto Parts Admin.','<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Select many years at once. Customers will see Year immediately after Model.</p></div><button class="primary" onclick="yearForm()">+ SELECT YEARS</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'model_years\',db.years)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
+}
+function categoryAdmin(c){
+ const items=[...db.categories].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));
+ const cards=items.map((x,i)=>apCatalogCard(
+  x.name,
+  branchesForCategory(x.id).length+' branch parts',
+  '<div class="apCatalogCategoryBody"><div class="catAdminInfo"><img class="thumb" src="'+(x.image||placeholder(x.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(x.name)+'\')"><div><strong>'+esc(x.name)+'</strong><small>'+branchesForCategory(x.id).length+' branch parts</small></div></div><div class="categoryAdminActions"><button class="ghost" onclick="categoryEditForm(\''+x.id+'\')">EDIT</button><button class="ghost" onclick="branchForm(\''+x.id+'\')">+ BRANCH</button><button class="danger" onclick="delCategory(\''+x.id+'\')">Delete</button></div><div class="branchAdminList">'+branchesForCategory(x.id).map(br=>'<div class="branchAdminItem"><div><img class="thumb smallThumb" src="'+(br.image||x.image||placeholder(br.name))+'"><span>'+esc(br.name)+'</span></div><span><button class="ghost" onclick="branchEditForm(\''+br.id+'\')">EDIT</button> <button class="danger" onclick="delBranch(\''+br.id+'\')">DELETE</button></span></div>').join('')+'</div>',
+  i,items.length,'apMoveCategory',x.id
+ )).join('');
+ c.innerHTML=apAdminOrderCard('Part Categories','Arrange the category order shown on the Auto Parts website.','<div class="adminHead"><div><h2>Part categories</h2><p class="muted">Edit category names/images and manage branch parts.</p></div><button class="primary" onclick="categoryForm()">+ ADD CATEGORY</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder(\'categories\',db.categories)">SAVE ORDER</button></div><div class="apCatalogCardList">'+cards+'</div>',true);
+}
+function productAdmin(c){
+ apBaseProductAdmin(c);
+ setTimeout(()=>apDecorateProducts(c),0);
+}
 window.addEventListener('error',e=>{console.error(e.error||e.message);const app=document.querySelector('#app');if(app && !app.innerHTML.trim()){app.innerHTML='<div class=\"login\"><div class=\"loginBox\"><h2>Website could not start</h2><p class=\"muted\">Please refresh this page. If the problem continues, send a screenshot to the developer.</p></div></div>'}});
 if(isAdminRoute())bootAdmin();else bootCustomer();
