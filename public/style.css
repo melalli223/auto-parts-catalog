@@ -7219,3 +7219,67 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:10px !important;
   }
 }
+
+/* Auto Parts catalog — Tyre Admin-style movable expandable item cards */
+.apCatalogCardList{display:flex;flex-direction:column;gap:12px}
+.apCatalogItemCard{
+  background:var(--panel,#fff);
+  border:1px solid rgba(0,0,0,.10);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.045);
+  transition:box-shadow .18s ease,border-color .18s ease;
+}
+.apCatalogItemCard.isOpen{border-color:rgba(0,0,0,.16);box-shadow:0 7px 22px rgba(0,0,0,.07)}
+.apCatalogItemHead{
+  min-height:62px;
+  padding:13px 15px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  cursor:pointer;
+  user-select:none;
+}
+.apCatalogItemTitle{min-width:0;display:flex;flex-direction:column;gap:4px}
+.apCatalogItemTitle b{font-size:14px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.apCatalogItemTitle small{font-size:11px;opacity:.62;line-height:1.25}
+.apCatalogItemActions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.apCatalogItemActions .apOrderControls{margin:0}
+.apCatalogChevron{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:29px;height:29px;border:1px solid rgba(0,0,0,.10);
+  border-radius:9px;font-size:18px;line-height:1;
+  transition:transform .18s ease;
+}
+.apCatalogItemCard:not(.isOpen) .apCatalogChevron{transform:rotate(-90deg)}
+.apCatalogItemBody{
+  display:none;
+  padding:0 15px 15px;
+  border-top:1px solid rgba(0,0,0,.07);
+}
+.apCatalogItemCard.isOpen .apCatalogItemBody{display:block}
+.apCatalogDetailGrid{
+  display:grid;
+  grid-template-columns:minmax(180px,1.4fr) minmax(120px,1fr) minmax(120px,1fr) minmax(150px,auto);
+  align-items:center;
+  gap:12px;
+  padding-top:14px;
+}
+.apCatalogDetailGrid .tableBrand{margin:0}
+.apCatalogActions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.apCatalogCategoryBody{padding-top:14px}
+.apCatalogCategoryBody .catAdminInfo{margin-bottom:12px}
+.apCatalogItemCard .branchAdminList{margin-top:12px}
+.apCatalogItemCard .categoryAdminActions{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.apCatalogItemCard .branchAdminItem{border-radius:9px}
+.apCatalogItemCard.apProductOrderCard{margin:0}
+.apCatalogItemCard.apProductOrderCard .apCatalogItemBody{padding-top:0}
+@media(max-width:760px){
+  .apCatalogItemHead{min-height:58px;padding:11px 12px}
+  .apCatalogItemActions{gap:5px}
+  .apCatalogItemActions .apMoveBtn{width:29px;min-width:29px!important;height:29px}
+  .apCatalogDetailGrid{grid-template-columns:1fr;align-items:start;gap:9px}
+  .apCatalogActions{justify-content:flex-start}
+}
