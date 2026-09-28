@@ -2407,8 +2407,8 @@ function brandAdmin(c){
  const renderBrandGroup=(groupItems,title,kind)=>{
   const cards=groupItems.map((b,i)=>apCatalogCard(
    b.name,
-   (b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+' · '+db.models.filter(m=>String(m.brandId)===String(b.id)&&(kind==='ev'?m.isEv===true:m.isEv!==true)).length+' models',
-   '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(b.image||placeholder(b.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(b.name)+'\')">'+esc(b.name)+'</div><span class="brandTypeBadge '+(b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular')+'">'+(b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR')+'</span><div class="apCatalogActions"><button class="ghost" onclick="brandEditForm(\''+b.id+'\')">EDIT</button><button class="danger" onclick="delBrand(\''+b.id+'\')">Delete</button></div></div>',
+   (kind==='ev'?'EV':'CAR')+' · '+db.models.filter(m=>String(m.brandId)===String(b.id)&&(kind==='ev'?m.isEv===true:m.isEv!==true)).length+' models',
+   '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(b.image||placeholder(b.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(b.name)+'\')">'+esc(b.name)+'</div><span class="brandTypeBadge '+(kind==='ev'?'ev':'regular')+'">'+(kind==='ev'?'EV':'CAR')+'</span><div class="apCatalogActions"><button class="ghost" onclick="brandEditForm(\''+b.id+'\')">EDIT</button><button class="danger" onclick="delBrand(\''+b.id+'\')">Delete</button></div></div>',
    i,groupItems.length,'apMoveBrand',b.id
   )).join('');
   return '<section class="apBrandTypeSection" data-ap-brand-kind="'+kind+'"><div class="apBrandTypeSectionHead"><div><span>BRAND GROUP</span><h3>'+title+'</h3></div><strong>'+groupItems.length+' brand'+(groupItems.length===1?'':'s')+'</strong></div><div class="apCatalogCardList">'+cards+'</div></section>';
@@ -2428,7 +2428,7 @@ function modelAdmin(c){
     const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));
     return apCatalogCard(
      m.name,
-     b.name+' · '+(b.isEv?'EV':'CAR')+' · '+modelYears(m.id).length+' years'+(tt?' · '+tt.title:''),
+     b.name+' · '+(kind==='ev'?'EV':'CAR')+' · '+modelYears(m.id).length+' years'+(tt?' · '+tt.title:''),
      '<div class="apCatalogDetailGrid"><div class="tableBrand"><img class="thumb" src="'+(m.image||placeholder(m.name))+'" onerror="this.onerror=null;this.src=placeholder(\''+esc(m.name)+'\')">'+esc(m.name)+'</div><span>'+esc(b.name)+'</span><span>'+esc(tt?.title||'Not assigned')+'</span><span>'+esc(modelYears(m.id).join(', ')||'No years')+'</span><div class="apCatalogActions"><button class="ghost" onclick="modelEditForm(\''+m.id+'\')">EDIT</button><button class="danger" onclick="delModel(\''+m.id+'\')">Delete</button></div></div>',
      globalIndex,items.length,'apMoveModel',m.id
     );
