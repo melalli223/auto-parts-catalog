@@ -7500,3 +7500,50 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .apYearModelSection .modelBrandSectionHead{margin-bottom:10px;padding-bottom:10px}
   .apYearModelSection .modelBrandSectionHead h3{font-size:16px}
 }
+
+
+/* Year panel — add space between brand cards and make models compact square cards */
+.apYearBrandSection .modelBrandSections{gap:24px}
+.apYearModelSection .modelBrandSectionBody .apCatalogCardList{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(92px,1fr));
+  gap:10px;
+}
+.apYearModelSection .modelBrandSectionBody .apCatalogItemCard{
+  min-width:0;
+  min-height:92px;
+  border-radius:12px;
+}
+.apYearModelSection .modelBrandSectionBody .apCatalogItemHead{
+  min-height:92px;
+  height:92px;
+  padding:8px;
+  justify-content:center;
+  text-align:center;
+}
+.apYearModelSection .modelBrandSectionBody .apCatalogItemTitle{
+  width:100%;
+  justify-content:center;
+  text-align:center;
+}
+.apYearModelSection .modelBrandSectionBody .apCatalogItemTitle b{
+  white-space:normal;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  line-height:1.2;
+  font-size:12px;
+}
+.apYearModelSection .modelBrandSectionBody .apCatalogItemTitle small,
+.apYearModelSection .modelBrandSectionBody .apCatalogItemActions{
+  display:none;
+}
+@media(max-width:760px){
+  .apYearBrandSection .modelBrandSections{gap:18px}
+  .apYearModelSection .modelBrandSectionBody .apCatalogCardList{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .apYearModelSection .modelBrandSectionBody .apCatalogItemCard,
+  .apYearModelSection .modelBrandSectionBody .apCatalogItemHead{min-height:78px;height:78px}
+  .apYearModelSection .modelBrandSectionBody .apCatalogItemTitle b{font-size:11px}
+}
