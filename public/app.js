@@ -1323,7 +1323,27 @@ function renderEnquiryTable(){
  wrap.innerHTML=`<div class="enquiryKpis"><div><b>${rows.length}</b><span>Total</span></div><div><b>${stats.New}</b><span>New</span></div><div><b>${stats.Contacted}</b><span>Contacted</span></div><div><b>${stats.Quoted}</b><span>Quoted</span></div><div><b>${stats.Sold}</b><span>Sold</span></div></div>${window.__adminEnquiryError?`<div class="adminTip"><strong>Enquiry CRM needs the V81 database migration.</strong><span>Run the included V81 SQL once, then refresh this page.</span></div>`:''}${filtered.length?`<div class="table enquiryTable"><div class="enquiryTableHead"><span>ENQUIRY</span><span>VEHICLE</span><span>STATUS</span><span>RECEIVED</span><span>ACTIONS</span></div>${filtered.map(e=>`<div class="enquiryRow"><div><strong>${esc(e.product_name||'Product')}</strong><small>${esc([e.category_name,e.part_no].filter(Boolean).join(' · ')||'Part details not provided')}</small></div><div><strong>${esc([e.brand_name,e.model_name].filter(Boolean).join(' · ')||'—')}</strong><small>${e.year?`Year ${esc(e.year)}`:'Year —'}</small></div><div><span class="enquiryStatus ${enquiryStatusClass(e.status)}">${esc(e.status||'New')}</span></div><div><small>${enquiryTime(e.created_at)}</small></div><div class="enquiryActions"><button class="ghost" onclick="enquiryDetails('${e.id}')">VIEW</button><button class="danger" onclick="deleteEnquiry('${e.id}')">DELETE</button></div></div>`).join('')}</div>`:'<div class="empty"><strong>No enquiries found</strong><span>Try another search or status filter.</span></div>'}`;
 }
 
-async function dashboardAdmin(c){
+async async function loadEnquiryStats(){
+ const empty={total_enquiries:0,enquiries_today:0,enquiries_this_week:0,enquiries_this_month:0};
+ try{
+  const direct=await supabaseClient.from('product_enquiries').select('*').order('created_at',{ascending:false}).limit(500);
+  if(direct.error)throw direct.error;
+  const rows=direct.data||[];
+  const now=new Date(),startDay=new Date(now.getFullYear(),now.getMonth(),now.getDate()),startWeek=new Date(startDay);startWeek.setDate(startWeek.getDate()-startWeek.getDay());
+  const startMonth=new Date(now.getFullYear(),now.getMonth(),1);
+  const inRange=(v,d)=>{const t=new Date(v);return !Number.isNaN(t.getTime())&&t>=d};
+  const summary={total_enquiries:rows.length,enquiries_today:rows.filter(x=>inRange(x.created_at,startDay)).length,enquiries_this_week:rows.filter(x=>inRange(x.created_at,startWeek)).length,enquiries_this_month:rows.filter(x=>inRange(x.created_at,startMonth)).length};
+  const counts=(key)=>{const m=new Map();rows.forEach(x=>{const k=x[key]||'Unknown';m.set(k,(m.get(k)||0)+1)});return [...m.entries()].map(([k,n])=>({[key]:k,enquiry_count:n})).sort((a,b)=>b.enquiry_count-a.enquiry_count).slice(0,10)};
+  const products=counts('product_name').map(x=>({...x,product_name:x.product_name}));
+  const categories=counts('category_name').map(x=>({...x,category_name:x.category_name}));
+  const brands=counts('brand_name').map(x=>({...x,brand_name:x.brand_name}));
+  const days=[];for(let i=13;i>=0;i--){const d=new Date(startDay);d.setDate(d.getDate()-i);const key=d.toISOString().slice(0,10);days.push({enquiry_date:key,enquiry_count:rows.filter(x=>String(x.created_at||'').slice(0,10)===key).length})}
+  const statuses=rows.map(x=>({status:x.status||'New'}));
+  return {summary,products,categories,brands,daily:days,statuses,recent:rows.slice(0,6),error:null};
+ }catch(e){console.warn('Could not load enquiry analytics:',e);return {summary:empty,products:[],categories:[],brands:[],daily:[],statuses:[],recent:[],error:e}}
+}
+
+function dashboardAdmin(c){
  const total=db.parts.length,withImages=db.parts.filter(p=>p.image).length,missingImages=total-withImages;
  const stock=db.parts.filter(p=>String(p.availability||'').toLowerCase()==='in stock').length;
  const enquiry=db.parts.filter(p=>String(p.availability||'').toLowerCase()==='available on enquiry').length;
