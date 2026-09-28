@@ -1409,7 +1409,7 @@ function modelAdmin(c){
     globalIndex,items.length,'apMoveModel',m.id
    );
   }).join('');
-  return `<section class="modelBrandSection"><div class="modelBrandSectionHead"><div><span class="modelBrandEyebrow">BRAND</span><h3>${esc(label)}</h3></div><strong>${group.models.length} model${group.models.length===1?'':'s'}</strong></div><div class="apCatalogCardList">${cards}</div></section>`;
+  return `<section class="modelBrandSection"><button type="button" class="modelBrandSectionHead" aria-expanded="false" onclick="this.parentElement.classList.toggle('isOpen');this.setAttribute('aria-expanded',this.parentElement.classList.contains('isOpen'))"><span><span class="modelBrandEyebrow">BRAND</span><h3>${esc(label)}</h3></span><span class="modelBrandSectionMeta"><strong>${group.models.length} model${group.models.length===1?'':'s'}</strong><span class="modelBrandSectionChevron">⌄</span></span></button><div class="modelBrandSectionBody"><div class="apCatalogCardList">${cards}</div></div></section>`;
  }).join('');
  c.innerHTML=apAdminOrderCard('Vehicle Models','Arrange the model order shown on the Auto Parts website.',`<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Models are grouped into separate subsections by vehicle brand.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div><div class="apOrderBar"><span>Drag the ⋮⋮ handle or use ↑ / ↓, then save.</span><button class="primary" onclick="apSaveOrder('models',db.models)">SAVE ORDER</button></div><div class="modelBrandSections">${sections}</div>`,true);
 }
