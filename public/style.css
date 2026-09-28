@@ -7306,3 +7306,32 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
  .apCatalogItemTitle b{max-width:100%;overflow:hidden;text-overflow:ellipsis}
  .apCatalogItemTitle small{margin-top:37px}
 }
+
+
+/* Auto Parts catalogue cards: touch-friendly drag handle, same interaction model as Tyre Admin */
+.apDragHandle{
+  touch-action:none !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-touch-callout:none !important;
+}
+[data-ap-drag-group]{touch-action:pan-y}
+.apCatalogItemCard.apDragging{
+  opacity:.82;
+  transform:scale(1.012);
+  box-shadow:0 12px 28px rgba(0,0,0,.14);
+  position:relative;
+  z-index:5;
+}
+.apDragTarget{
+  box-shadow:inset 0 3px 0 #e53935,inset 0 -3px 0 #e53935 !important;
+}
+.apDragPlaceholder{
+  min-height:60px;
+  border:1px dashed #e53935;
+  border-radius:14px;
+  background:rgba(229,57,53,.04);
+}
+.apCatalogItemCard .apDragHandle{
+  pointer-events:auto;
+}
