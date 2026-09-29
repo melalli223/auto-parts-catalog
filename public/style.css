@@ -7691,53 +7691,49 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
 
 
 
-/* Auto Parts product cards — desktop proportions matched to the reference phone layout */
+/* Auto Parts product cards — desktop uses the same two-column proportions as the reference */
 @media (min-width:1001px){
   .grid.productGrid{
-    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
     gap:16px !important;
   }
   .grid.productGrid .product-card{
     width:100% !important;
     min-width:0 !important;
+    padding:9px !important;
     border-radius:8px !important;
-    padding:0 !important;
-    overflow:hidden !important;
   }
   .grid.productGrid .productFrame{
-    height:155px !important;
+    height:145px !important;
   }
   .grid.productGrid .productBody{
-    padding:0 9px 9px !important;
+    padding:0 13px 15px !important;
+  }
+  .grid.productGrid .product-card h3{
+    font-size:13px !important;
+    line-height:1.25 !important;
+    margin:13px 0 5px !important;
+    min-height:28px !important;
+  }
+  .grid.productGrid .product-card p{
+    font-size:11px !important;
+    line-height:1.35 !important;
+    min-height:34px !important;
+    margin:8px 0 !important;
   }
   .grid.productGrid .product-card .productTopLine{
-    gap:6px !important;
-    font-size:10px !important;
+    gap:10px !important;
+    margin-bottom:7px !important;
   }
   .grid.productGrid .product-card .miniLabel,
   .grid.productGrid .product-card .stock,
   .grid.productGrid .product-card .partNo,
   .grid.productGrid .product-card .muted{
-    font-size:9px !important;
-    line-height:1.35 !important;
-  }
-  .grid.productGrid .product-card h3{
-    font-size:13px !important;
-    line-height:1.25 !important;
-    margin:10px 0 4px !important;
-  }
-  .grid.productGrid .product-card p{
-    min-height:30px !important;
-    margin:6px 0 !important;
     font-size:10px !important;
-    line-height:1.35 !important;
-  }
-  .grid.productGrid .productCardActions{
-    gap:6px !important;
   }
   .grid.productGrid .productCardActions button{
     min-height:40px !important;
-    padding:8px !important;
+    padding:9px !important;
     font-size:10px !important;
   }
 }
