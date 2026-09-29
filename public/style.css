@@ -8133,3 +8133,15 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   margin-left:7px !important;
   font-size:14px !important;
 }
+
+/* Product-detail ENQUIRE — red action button */
+.productDetailModal .modalFooter .modalSaveSlot .autoPartSendEnquiry.enquire{
+  border-color:var(--red,#d71920) !important;
+  background:var(--red,#d71920) !important;
+  color:#fff !important;
+}
+.productDetailModal .modalFooter .modalSaveSlot .autoPartSendEnquiry.enquire:hover{
+  border-color:var(--red,#d71920) !important;
+  background:var(--red,#d71920) !important;
+  color:#fff !important;
+}
