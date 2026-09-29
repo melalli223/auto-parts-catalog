@@ -2389,6 +2389,11 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   color:#16a34a;
 }
 
+/* EV vehicle-flow accents */
+.evPageAccent{
+  color:#16a34a !important;
+}
+
 .evPageHeading p{
   margin:0;
   color:#777;
