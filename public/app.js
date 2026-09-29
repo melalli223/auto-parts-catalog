@@ -712,9 +712,10 @@ function ensureAutoYearRangeStyles(){if(document.getElementById('autoYearRangeSt
 .autoPartEnquiryCard .autoPartChoice .select{font-weight:800!important;color:#15191d!important;}
 .autoPartEnquiryCard .autoPartChoice .select option{font-weight:800!important;}
 .autoPartEnquiryModal .modalFooter{align-items:center!important;justify-content:flex-end!important;}
-.autoPartEnquiryModal .modalFooter .tyreDetailClose{width:44px!important;height:44px!important;min-width:44px!important;padding:0!important;border:0!important;border-radius:50%!important;background:#f1f3f4!important;color:#202428!important;font-size:30px!important;line-height:1!important;font-weight:400!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;box-shadow:none!important;}
-.autoPartEnquiryModal .modalFooter .tyreDetailClose:hover{background:#e2e5e7!important;transform:scale(1.04)!important;}
-@media(max-width:650px){.autoPartEnquiryModal .modalFooter .tyreDetailClose{width:42px!important;height:42px!important;min-width:42px!important;font-size:28px!important;}}
+.autoPartEnquiryModal .modalFooter .tyreDetailClose{width:46px!important;height:46px!important;min-width:46px!important;padding:0 0 3px!important;margin:0 2px 0 0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#15191d!important;font-family:Arial,sans-serif!important;font-size:34px!important;line-height:46px!important;font-weight:300!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;box-shadow:none!important;outline:none!important;opacity:.88!important;}
+.autoPartEnquiryModal .modalFooter .tyreDetailClose:hover{background:transparent!important;color:#d71920!important;transform:scale(1.08)!important;opacity:1!important;}
+.autoPartEnquiryModal .modalFooter .tyreDetailClose:focus{background:transparent!important;outline:none!important;box-shadow:none!important;}
+@media(max-width:650px){.autoPartEnquiryModal .modalFooter .tyreDetailClose{width:44px!important;height:44px!important;min-width:44px!important;font-size:32px!important;line-height:44px!important;padding-bottom:3px!important;margin-right:0!important;}}
 .autoPartEnquiryTop{display:flex!important;align-items:flex-start!important;gap:12px!important;padding:0 0 16px!important;border-bottom:1px solid #e7e9eb!important;}
 .autoPartEnquiryIcon{width:36px!important;height:36px!important;flex:0 0 36px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;background:#d71920!important;color:#fff!important;font-size:18px!important;font-weight:900!important;}
 .autoPartEnquiryHeader{margin-bottom:20px;}
