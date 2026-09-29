@@ -1361,7 +1361,7 @@ function productDetails(id,encodedYear=''){
      ${branches.length?`<div class="detailBranches"><small>AVAILABLE VARIANTS</small><div>${branches.map(br=>`<span>${esc(br.name)}</span>`).join('')}</div></div>`:''}
      <p class="detailDescription">${esc(p.description||'Contact us for fitment and availability details.')}</p>
      <div class="detailEnquiryBox"><strong>Need to confirm fitment?</strong><span>Send this exact part and vehicle information to us on WhatsApp.</span></div>
-     <div class="detailActions"><button class="primary detailEnquire" onclick='closeModal();openAutoPartEnquiry(${JSON.stringify(p.sourceProductId||p.id)},${JSON.stringify(selectedYear)},${JSON.stringify(p.branchId||'')})'>ENQUIRE</button>${p.virtual?'':`<button class="ghost" onclick='shareProduct(${JSON.stringify(p.sourceProductId||p.id)},${JSON.stringify(selectedYear).replace(/'/g,'&#39;')})'>SHARE PRODUCT</button>`}</div>
+     <div class="detailActions"><button class="primary autoPartSendEnquiry detailEnquire" onclick='closeModal();openAutoPartEnquiry(${JSON.stringify(p.sourceProductId||p.id)},${JSON.stringify(selectedYear)},${JSON.stringify(p.branchId||'')})'>ENQUIRE</button>${p.virtual?'':`<button class="ghost" onclick='shareProduct(${JSON.stringify(p.sourceProductId||p.id)},${JSON.stringify(selectedYear).replace(/'/g,'&#39;')})'>SHARE PRODUCT</button>`}</div>
    </div>
  </div>`)
 }
