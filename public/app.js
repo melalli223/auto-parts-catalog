@@ -709,24 +709,25 @@ function ensureAutoYearRangeStyles(){if(document.getElementById('autoYearRangeSt
 @media(max-width:650px){.yearRangeGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.yearRangeCard{min-height:68px;padding:0 10px}.yearRangeCard strong{font-size:13px}.autoPartEnquiryHeader h2{font-size:19px}.autoPartEnquirySummary{grid-template-columns:auto 1fr;}}
 `;document.head.appendChild(s);}
 function ensureAutoYearRangeAdminStyles(){if(document.getElementById('autoYearRangeAdminStyles'))return;const s=document.createElement('style');s.id='autoYearRangeAdminStyles';s.textContent=`
-.yearRangeAdminBox{margin-top:20px;border:1px solid #dfe3e6;border-radius:12px;padding:16px;background:#f8f9fa}
-.yearRangeAdminHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #e5e7e9}
-.yearRangeAdminHead strong{font-size:12px;letter-spacing:.08em}
-.yearRangeAddBtn{border:0!important;border-radius:7px!important;background:#15191d!important;color:#fff!important;padding:10px 14px!important;font-size:11px!important;font-weight:800!important;letter-spacing:.03em;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.12)}
+.yearRangeAdminBox{margin-top:20px!important;border:1px solid #dfe3e6!important;border-radius:12px!important;padding:16px!important;background:#f7f8f9!important}
+.yearRangeAdminHead{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:14px!important;padding:0 0 13px!important;border-bottom:2px solid #e1e4e7!important}
+.yearRangeAdminHead>div{display:flex!important;flex-direction:column!important;gap:3px!important}
+.yearRangeAdminHead strong{font-size:13px!important;letter-spacing:.07em!important}
+.yearRangeAdminSub{font-size:10px!important;color:#7b8186!important}
+.yearRangeAddBtn{border:0!important;border-radius:7px!important;background:#15191d!important;color:#fff!important;padding:10px 14px!important;font-size:11px!important;font-weight:800!important;letter-spacing:.03em!important;cursor:pointer!important;box-shadow:0 2px 5px rgba(0,0,0,.12)!important}
 .yearRangeAddBtn:hover{background:#d51f2a!important}
-.yearRangeRows{display:flex;flex-direction:column;gap:12px}
-.yearRangeAdminRow{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) auto;align-items:center;gap:8px;margin:0;padding:12px;background:#fff;border:1px solid #e1e4e6;border-radius:9px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-.yearRangeAdminRow .input{min-width:0;width:100%;box-sizing:border-box}
-.yearRangeAdminRow span{text-align:center;font-weight:900;color:#60676d;font-size:16px}
-.yearRangeRemove{white-space:nowrap;padding:9px 11px!important;border-radius:6px!important;font-size:10px!important;font-weight:800!important}
-.yearRangeAdminPreview{margin:12px 0 0;padding:10px 11px;border-radius:7px;background:#fff;border:1px dashed #d7dadd;font-size:11px}
+.yearRangeRows{display:flex!important;flex-direction:column!important;gap:10px!important}
+.yearRangeAdminRow{display:flex!important;align-items:center!important;gap:8px!important}
+.yearRangeAdminRow .yearRangeFields{display:flex!important;align-items:center!important;gap:8px!important;flex:1 1 auto!important;min-width:0!important}
+.yearRangeAdminRow .input{min-width:0!important}
+.yearRangeAdminRow .yearRangeRemove{padding:9px 11px!important;border-radius:6px!important;font-size:10px!important;font-weight:800!important}
+.yearRangeAdminPreview{margin:12px 0 0!important;padding:10px 11px!important;border-radius:7px!important;background:#fff!important;border:1px dashed #d7dadd!important;font-size:11px!important}
 @media(max-width:650px){
- .yearRangeAdminHead{align-items:center;flex-direction:row}
- .yearRangeAdminHead strong{font-size:11px}
+ .yearRangeAdminHead{align-items:center!important}
  .yearRangeAddBtn{padding:9px 11px!important}
- .yearRangeRows{gap:10px}
- .yearRangeAdminRow{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:6px;padding:10px}
- .yearRangeAdminRow .yearRangeRemove{grid-column:1/-1;justify-self:start;margin-top:2px}
+ .yearRangeAdminRow{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important}
+ .yearRangeAdminRow .yearRangeFields{display:flex!important;width:100%!important}
+ .yearRangeAdminRow .yearRangeRemove{align-self:flex-start!important}
 }
 `;document.head.appendChild(s);}
 function render(content){
@@ -2107,7 +2108,7 @@ function yearForm(modelId){
  const targetBrandId=target?.brandId||db.brands[0]?.id||'';
  const brandOptions=db.brands.map(b=>`<option value="${b.id}"${String(b.id)===String(targetBrandId)?' selected':''}>${esc(b.name)}</option>`).join('');
  const modelOptionsHtml=modelOptions(targetBrandId);
- modal(`<h2>Add model year ranges</h2><p class="muted">Add compatible years as ranges instead of selecting every year individually. The range is expanded into the individual model years in the catalog automatically.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${brandOptions}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearRangeInfo()">${modelOptionsHtml}</select></div></div><div class="yearRangeAdminBox"><div class="yearRangeAdminHead"><strong>YEAR RANGES</strong><button type="button" class="yearRangeAddBtn" onclick="addYearRangeRow()">+ ADD RANGE</button></div><div id="yearRangeRows" class="yearRangeRows"></div><p id="yearRangePreview" class="muted yearRangeAdminPreview"></p></div><button class="primary" onclick="addSelectedYearRanges()">SAVE YEAR RANGES</button>`);
+ modal(`<h2>Add model year ranges</h2><p class="muted">Add compatible years as ranges instead of selecting every year individually. The range is expanded into the individual model years in the catalog automatically.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${brandOptions}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearRangeInfo()">${modelOptionsHtml}</select></div></div><div class="yearRangeAdminBox"><div class="yearRangeAdminHead"><div><strong>YEAR RANGES</strong><small class="yearRangeAdminSub">Add one or more compatible year ranges</small></div><button type="button" class="yearRangeAddBtn" onclick="addYearRangeRow()">＋ ADD RANGE</button></div><div id="yearRangeRows" class="yearRangeRows"></div><p id="yearRangePreview" class="muted yearRangeAdminPreview"></p></div><button class="primary" onclick="addSelectedYearRanges()">SAVE YEAR RANGES</button>`);
  setTimeout(()=>{
   const model=document.querySelector('#y2');
   if(modelId&&target&&[...model.options].some(o=>String(o.value)===String(modelId)))model.value=String(modelId);
@@ -2118,7 +2119,8 @@ function yearForm(modelId){
 function addYearRangeRow(start='',end=''){
  const box=document.querySelector('#yearRangeRows');if(!box)return;
  const row=document.createElement('div');row.className='yearRangeAdminRow';
- row.innerHTML=`<input class="input yearRangeStart" inputmode="numeric" maxlength="4" placeholder="2010" value="${esc(start)}"><span>–</span><input class="input yearRangeEnd" inputmode="numeric" maxlength="4" placeholder="2015" value="${esc(end)}"><button type="button" class="danger yearRangeRemove" onclick="this.closest('.yearRangeAdminRow').remove();syncYearRangeInfo()">REMOVE</button>`;
+ row.style.cssText='display:flex!important;align-items:center!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;padding:12px!important;margin:0!important;background:#fff!important;border:1px solid #e1e4e6!important;border-radius:9px!important;';
+ row.innerHTML=`<div class="yearRangeFields" style="display:flex!important;align-items:center!important;gap:8px!important;flex:1 1 auto!important;min-width:0!important;"><input class="input yearRangeStart" style="flex:1 1 0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;" inputmode="numeric" maxlength="4" placeholder="Start year" value="${esc(start)}"><span style="flex:0 0 18px!important;text-align:center!important;font-weight:900!important;color:#555!important;">–</span><input class="input yearRangeEnd" style="flex:1 1 0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;" inputmode="numeric" maxlength="4" placeholder="End year" value="${esc(end)}"></div><button type="button" class="danger yearRangeRemove" style="flex:0 0 auto!important;white-space:nowrap!important;" onclick="this.closest('.yearRangeAdminRow').remove();syncYearRangeInfo()">REMOVE</button>`;
  box.appendChild(row);
  row.querySelectorAll('input').forEach(x=>x.addEventListener('input',syncYearRangeInfo));
  syncYearRangeInfo();
