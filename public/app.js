@@ -709,25 +709,30 @@ function ensureAutoYearRangeStyles(){if(document.getElementById('autoYearRangeSt
 @media(max-width:650px){.yearRangeGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.yearRangeCard{min-height:68px;padding:0 10px}.yearRangeCard strong{font-size:13px}.autoPartEnquiryHeader h2{font-size:19px}.autoPartEnquirySummary{grid-template-columns:auto 1fr;}}
 `;document.head.appendChild(s);}
 function ensureAutoYearRangeAdminStyles(){if(document.getElementById('autoYearRangeAdminStyles'))return;const s=document.createElement('style');s.id='autoYearRangeAdminStyles';s.textContent=`
-.yearRangeAdminBox{margin-top:20px!important;border:1px solid #dfe3e6!important;border-radius:12px!important;padding:16px!important;background:#f7f8f9!important}
-.yearRangeAdminHead{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:14px!important;padding:0 0 13px!important;border-bottom:2px solid #e1e4e7!important}
-.yearRangeAdminHead>div{display:flex!important;flex-direction:column!important;gap:3px!important}
+.yearRangeAdminBox{margin-top:20px!important;border:1px solid #dfe3e6!important;border-radius:12px!important;padding:18px!important;background:#f7f8f9!important}
+.yearRangeAdminHead{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;margin-bottom:16px!important;padding:0 0 15px!important;border-bottom:2px solid #d9dde0!important}
+.yearRangeAdminHead>div{display:flex!important;flex-direction:column!important;gap:4px!important}
 .yearRangeAdminHead strong{font-size:13px!important;letter-spacing:.07em!important}
 .yearRangeAdminSub{font-size:10px!important;color:#7b8186!important}
-.yearRangeAddBtn{border:0!important;border-radius:7px!important;background:#15191d!important;color:#fff!important;padding:10px 14px!important;font-size:11px!important;font-weight:800!important;letter-spacing:.03em!important;cursor:pointer!important;box-shadow:0 2px 5px rgba(0,0,0,.12)!important}
-.yearRangeAddBtn:hover{background:#d51f2a!important}
-.yearRangeRows{display:flex!important;flex-direction:column!important;gap:10px!important}
-.yearRangeAdminRow{display:flex!important;align-items:center!important;gap:8px!important}
-.yearRangeAdminRow .yearRangeFields{display:flex!important;align-items:center!important;gap:8px!important;flex:1 1 auto!important;min-width:0!important}
+.yearRangeAddBtn{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;border:1px solid #15191d!important;border-radius:8px!important;background:#15191d!important;color:#fff!important;padding:10px 15px!important;font-size:11px!important;font-weight:800!important;letter-spacing:.04em!important;cursor:pointer!important;box-shadow:0 2px 6px rgba(0,0,0,.14)!important;white-space:nowrap!important;transition:background .15s ease,transform .15s ease,box-shadow .15s ease!important}
+.yearRangeAddBtn:hover{background:#d51f2a!important;border-color:#d51f2a!important;box-shadow:0 3px 9px rgba(0,0,0,.16)!important}
+.yearRangeAddBtn:active{transform:translateY(1px)!important}
+.yearRangeRows{display:flex!important;flex-direction:column!important;gap:16px!important;padding:2px 0 0!important}
+.yearRangeAdminRow{display:flex!important;align-items:center!important;gap:12px!important}
+.yearRangeAdminRow+.yearRangeAdminRow{border-top:1px solid #e3e5e7!important;padding-top:16px!important}
+.yearRangeAdminRow .yearRangeFields{display:flex!important;align-items:center!important;gap:10px!important;flex:1 1 auto!important;min-width:0!important}
 .yearRangeAdminRow .input{min-width:0!important}
+.yearRangeIndex{flex:0 0 26px!important;width:26px!important;height:26px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:#15191d!important;color:#fff!important;font-size:10px!important;font-weight:900!important}
 .yearRangeAdminRow .yearRangeRemove{padding:9px 11px!important;border-radius:6px!important;font-size:10px!important;font-weight:800!important}
-.yearRangeAdminPreview{margin:12px 0 0!important;padding:10px 11px!important;border-radius:7px!important;background:#fff!important;border:1px dashed #d7dadd!important;font-size:11px!important}
+.yearRangeAdminPreview{margin:16px 0 0!important;padding:11px 12px!important;border-radius:8px!important;background:#fff!important;border:1px dashed #d1d5d8!important;font-size:11px!important}
 @media(max-width:650px){
  .yearRangeAdminHead{align-items:center!important}
- .yearRangeAddBtn{padding:9px 11px!important}
- .yearRangeAdminRow{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important}
- .yearRangeAdminRow .yearRangeFields{display:flex!important;width:100%!important}
- .yearRangeAdminRow .yearRangeRemove{align-self:flex-start!important}
+ .yearRangeAddBtn{padding:9px 12px!important}
+ .yearRangeRows{gap:14px!important}
+ .yearRangeAdminRow{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important}
+ .yearRangeAdminRow+.yearRangeAdminRow{padding-top:14px!important}
+ .yearRangeAdminRow .yearRangeFields{display:flex!important;width:calc(100% - 34px)!important}
+ .yearRangeAdminRow .yearRangeRemove{margin-left:34px!important}
 }
 `;document.head.appendChild(s);}
 function render(content){
@@ -2119,11 +2124,15 @@ function yearForm(modelId){
 function addYearRangeRow(start='',end=''){
  const box=document.querySelector('#yearRangeRows');if(!box)return;
  const row=document.createElement('div');row.className='yearRangeAdminRow';
- row.style.cssText='display:flex!important;align-items:center!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;padding:12px!important;margin:0!important;background:#fff!important;border:1px solid #e1e4e6!important;border-radius:9px!important;';
- row.innerHTML=`<div class="yearRangeFields" style="display:flex!important;align-items:center!important;gap:8px!important;flex:1 1 auto!important;min-width:0!important;"><input class="input yearRangeStart" style="flex:1 1 0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;" inputmode="numeric" maxlength="4" placeholder="Start year" value="${esc(start)}"><span style="flex:0 0 18px!important;text-align:center!important;font-weight:900!important;color:#555!important;">–</span><input class="input yearRangeEnd" style="flex:1 1 0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;" inputmode="numeric" maxlength="4" placeholder="End year" value="${esc(end)}"></div><button type="button" class="danger yearRangeRemove" style="flex:0 0 auto!important;white-space:nowrap!important;" onclick="this.closest('.yearRangeAdminRow').remove();syncYearRangeInfo()">REMOVE</button>`;
+ row.style.cssText='display:flex!important;align-items:center!important;gap:12px!important;width:100%!important;box-sizing:border-box!important;padding:14px!important;margin:0!important;background:#fff!important;border:1px solid #dfe3e6!important;border-radius:10px!important;box-shadow:0 2px 8px rgba(0,0,0,.04)!important;';
+ const n=box.querySelectorAll('.yearRangeAdminRow').length+1;
+ row.innerHTML=`<div class="yearRangeIndex" aria-hidden="true">${n}</div><div class="yearRangeFields" style="display:flex!important;align-items:center!important;gap:10px!important;flex:1 1 auto!important;min-width:0!important;"><input class="input yearRangeStart" style="flex:1 1 0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;" inputmode="numeric" maxlength="4" placeholder="Start year" value="${esc(start)}"><span class="yearRangeDash" style="flex:0 0 16px!important;text-align:center!important;font-weight:900!important;color:#777!important;">–</span><input class="input yearRangeEnd" style="flex:1 1 0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;" inputmode="numeric" maxlength="4" placeholder="End year" value="${esc(end)}"></div><button type="button" class="danger yearRangeRemove" style="flex:0 0 auto!important;white-space:nowrap!important;" onclick="this.closest('.yearRangeAdminRow').remove();renumberYearRangeRows();syncYearRangeInfo()">REMOVE</button>`;
  box.appendChild(row);
  row.querySelectorAll('input').forEach(x=>x.addEventListener('input',syncYearRangeInfo));
  syncYearRangeInfo();
+}
+function renumberYearRangeRows(){
+ document.querySelectorAll('.yearRangeAdminRow .yearRangeIndex').forEach((el,i)=>el.textContent=String(i+1));
 }
 function yearsFromRangeRows(){
  const out=[];
