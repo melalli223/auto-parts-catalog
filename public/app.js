@@ -708,7 +708,18 @@ function ensureAutoYearRangeStyles(){if(document.getElementById('autoYearRangeSt
 .autoPartSendEnquiry{width:100%;margin-top:2px;}
 @media(max-width:650px){.yearRangeGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.yearRangeCard{min-height:68px;padding:0 10px}.yearRangeCard strong{font-size:13px}.autoPartEnquiryHeader h2{font-size:19px}.autoPartEnquirySummary{grid-template-columns:auto 1fr;}}
 `;document.head.appendChild(s);}
+function ensureAutoYearRangeAdminStyles(){if(document.getElementById('autoYearRangeAdminStyles'))return;const s=document.createElement('style');s.id='autoYearRangeAdminStyles';s.textContent=`
+.yearRangeAdminBox{margin-top:16px;border:1px solid #e3e6e8;border-radius:8px;padding:14px;background:#fafafa}
+.yearRangeAdminHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.yearRangeAdminHead strong{font-size:11px;letter-spacing:.08em}
+.yearRangeAdminRow{display:grid;grid-template-columns:1fr 18px 1fr auto;align-items:center;gap:7px;margin-bottom:8px}
+.yearRangeAdminRow span{text-align:center;font-weight:800}
+.yearRangeRemove{white-space:nowrap;padding:8px 9px}
+.yearRangeAdminPreview{margin:9px 0 0;font-size:11px}
+@media(max-width:650px){.yearRangeAdminRow{grid-template-columns:1fr 12px 1fr}.yearRangeRemove{grid-column:1/-1;width:max-content}.yearRangeAdminHead{align-items:flex-start;flex-direction:column}}
+`;document.head.appendChild(s);}
 function render(content){
+ ensureAutoYearRangeAdminStyles();
  ensureAutoYearRangeStyles();
  const app=document.querySelector('#app');
  if(!app)return;
@@ -2080,11 +2091,76 @@ async function dashboardAdmin(c){
 function brandAdmin(c){const ordered=[...db.brands].sort((a,b)=>Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));c.innerHTML=`<div class="adminHead"><div><h2>Vehicle brands</h2><p class="muted">Create a brand once, then add its vehicle models. EV-only, car-only and combined brands are supported.</p></div><button class="primary" onclick="brandForm()">+ ADD BRAND</button></div><div class="adminTip"><strong>${ordered.length} brand${ordered.length===1?'':'s'} · ${db.models.length} model${db.models.length===1?'':'s'}</strong><span>Brand type controls where the brand appears in the vehicle catalogue.</span></div><table class="table"><tr><th>#</th><th>Brand</th><th>Type</th><th>Models</th><th>Actions</th></tr>${ordered.map((b,i)=>`<tr><td>${i+1}</td><td><div class="tableBrand"><img class="thumb" src="${b.image||placeholder(b.name)}" onerror="this.onerror=null;this.src=placeholder('${esc(b.name)}')">${esc(b.name)}</div></td><td><span class="brandTypeBadge ${b.isEv&&b.isRegular?'both':b.isEv?'ev':'regular'}">${b.isEv&&b.isRegular?'CAR + EV':b.isEv?'EV':'CAR'}</span></td><td>${db.models.filter(m=>m.brandId===b.id).length}</td><td><button class="ghost" onclick="brandEditForm('${b.id}')">EDIT</button> <button class="danger" onclick="delBrand('${b.id}')">Delete</button></td></tr>`).join('')}</table>`}
 function modelAdmin(c){const ordered=[...db.models].sort((a,b)=>String(db.brands.find(x=>x.id===a.brandId)?.name||'').localeCompare(String(db.brands.find(x=>x.id===b.brandId)?.name||''))||Number(a.sortOrder??0)-Number(b.sortOrder??0)||String(a.name||'').localeCompare(String(b.name||'')));const unclassified=ordered.filter(m=>!m.tyreTypeId).length;c.innerHTML=`<div class="adminHead"><div><h2>Vehicle models</h2><p class="muted">Each model has one primary tyre type. All years under the model inherit that classification.</p></div><button class="primary" onclick="modelForm()">+ ADD MODEL</button></div>${unclassified?`<div class="adminTip"><strong>${unclassified} model${unclassified===1?' is':'s are'} not classified yet.</strong><span>Edit the model and choose its tyre type. Existing unclassified models are allowed, but new models require a tyre type.</span></div>`:''}<table class="table"><tr><th>Model</th><th>Brand</th><th>Tyre Type</th><th>Years</th><th>Actions</th></tr>${ordered.map(m=>{const b=db.brands.find(x=>x.id===m.brandId);const tt=(db.tyres?.featured||[]).find(x=>String(x.id)===String(m.tyreTypeId));return `<tr><td><div class="tableBrand"><img class="thumb" src="${m.image||placeholder(m.name)}" onerror="this.onerror=null;this.src=placeholder('${esc(m.name)}')">${esc(m.name)}</div></td><td>${esc(b?.name||'Unknown brand')}</td><td>${tt?`<span class="brandTypeBadge regular">${esc(tt.title)}</span>`:'<span class="muted">Not assigned</span>'}</td><td>${modelYears(m.id).join(', ')||'—'}</td><td><button class="ghost" onclick="modelEditForm('${m.id}')">EDIT</button> <button class="danger" onclick="delModel('${m.id}')">Delete</button></td></tr>`}).join('')}</table>`}
 function yearAdmin(c){c.innerHTML=`<div class="adminHead"><div><h2>Manage model years</h2><p class="muted">Select many years at once. Customers will see Year immediately after Model.</p></div><button class="primary" onclick="yearForm()">+ SELECT YEARS</button></div><table class="table"><tr><th>Year</th><th>Model</th><th>Brand</th><th>Actions</th></tr>${[...db.years].sort((a,b)=>Number(b.year)-Number(a.year)).map(y=>{const m=db.models.find(x=>x.id===y.modelId),b=db.brands.find(x=>x.id===m?.brandId);return `<tr><td>${esc(y.year)}</td><td>${esc(m?.name)}</td><td>${esc(b?.name)}</td><td><button class="danger" onclick="delYear('${y.id}')">Delete</button></td></tr>`}).join('')}</table>`}
-function yearForm(modelId){const years=Array.from({length:57},(_,i)=>2026-i);const target=db.models.find(m=>String(m.id)===String(modelId));const targetBrandId=target?.brandId||db.brands[0]?.id||'';const brandOptions=db.brands.map(b=>`<option value="${b.id}"${String(b.id)===String(targetBrandId)?' selected':''}>${esc(b.name)}</option>`).join('');const modelOptionsHtml=modelOptions(targetBrandId);modal(`<h2>Select model years</h2><p class="muted">Choose multiple years for one model. Existing years for that model are pre-selected.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${brandOptions}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearChecks()">${modelOptionsHtml}</select></div></div><div class="yearPicker">${years.map(y=>`<label class="yearCheck"><input type="checkbox" name="yearPick" value="${y}"><span>${y}</span></label>`).join('')}</div><div class="customYear"><input id="customYear" class="input" inputmode="numeric" placeholder="Optional custom year, e.g. 1988"><button class="ghost" onclick="addCustomYear()">Add to selection</button></div><button class="primary" onclick="addSelectedYears()">SAVE SELECTED YEARS</button>`);setTimeout(()=>{const model=document.querySelector('#y2');if(modelId&&target&&[...model.options].some(o=>String(o.value)===String(modelId)))model.value=String(modelId);syncYearChecks()},0)}
-function syncYearChecks(){const mid=document.querySelector('#y2')?.value;if(!mid)return;const set=new Set(modelYears(mid));document.querySelectorAll('input[name="yearPick"]').forEach(x=>x.checked=set.has(x.value))}
-function addCustomYear(){const el=document.querySelector('#customYear'),v=el.value.trim();if(!/^\d{4}$/.test(v))return toast('Enter a 4-digit year');let box=[...document.querySelectorAll('input[name="yearPick"]')].find(x=>x.value===v);if(box)box.checked=true;else{const wrap=document.querySelector('.yearPicker');const lab=document.createElement('label');lab.className='yearCheck';lab.innerHTML=`<input type="checkbox" name="yearPick" value="${esc(v)}" checked><span>${esc(v)}</span>`;wrap.appendChild(lab)}el.value=''}
-async function addSelectedYears(){const mid=document.querySelector('#y2').value;const selected=[...document.querySelectorAll('input[name="yearPick"]:checked')].map(x=>Number(x.value));if(!mid||!selected.length)return toast('Select a model and at least one year');try{let added=0;for(const y of selected){if(!db.years.some(x=>x.modelId===mid&&Number(x.year)===y)){const {data,error}=await supabaseClient.from('model_years').insert({model_id:mid,year:y,sort_order:db.years.filter(x=>x.modelId===mid).length}).select().single();if(error&&error.code!=='23505')throw error;if(data){db.years.push({id:data.id,modelId:mid,year:String(y),sortOrder:Number(data.sort_order??0),createdAt:data.created_at||''});added++}}}cacheDb();closeModal();adminPanel('years');toast(`${added} year${added===1?'':'s'} saved`)}catch(e){console.error(e);toast(e.message||'Could not save years')}}
-function refreshYearModelOptions(){const el=document.querySelector('#y2');if(el){el.innerHTML=modelOptions(document.querySelector('#y1').value);syncYearChecks()}}
+function yearForm(modelId){
+ const target=db.models.find(m=>String(m.id)===String(modelId));
+ const targetBrandId=target?.brandId||db.brands[0]?.id||'';
+ const brandOptions=db.brands.map(b=>`<option value="${b.id}"${String(b.id)===String(targetBrandId)?' selected':''}>${esc(b.name)}</option>`).join('');
+ const modelOptionsHtml=modelOptions(targetBrandId);
+ modal(`<h2>Add model year ranges</h2><p class="muted">Add compatible years as ranges instead of selecting every year individually. The range is expanded into the individual model years in the catalog automatically.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${brandOptions}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearRangeInfo()">${modelOptionsHtml}</select></div></div><div class="yearRangeAdminBox"><div class="yearRangeAdminHead"><strong>YEAR RANGES</strong><button type="button" class="ghost" onclick="addYearRangeRow()">+ ADD RANGE</button></div><div id="yearRangeRows"></div><p id="yearRangePreview" class="muted yearRangeAdminPreview"></p></div><button class="primary" onclick="addSelectedYearRanges()">SAVE YEAR RANGES</button>`);
+ setTimeout(()=>{
+  const model=document.querySelector('#y2');
+  if(modelId&&target&&[...model.options].some(o=>String(o.value)===String(modelId)))model.value=String(modelId);
+  addYearRangeRow();
+  syncYearRangeInfo();
+ },0)
+}
+function addYearRangeRow(start='',end=''){
+ const box=document.querySelector('#yearRangeRows');if(!box)return;
+ const row=document.createElement('div');row.className='yearRangeAdminRow';
+ row.innerHTML=`<input class="input yearRangeStart" inputmode="numeric" maxlength="4" placeholder="2010" value="${esc(start)}"><span>–</span><input class="input yearRangeEnd" inputmode="numeric" maxlength="4" placeholder="2015" value="${esc(end)}"><button type="button" class="danger yearRangeRemove" onclick="this.closest('.yearRangeAdminRow').remove();syncYearRangeInfo()">REMOVE</button>`;
+ box.appendChild(row);
+ row.querySelectorAll('input').forEach(x=>x.addEventListener('input',syncYearRangeInfo));
+ syncYearRangeInfo();
+}
+function yearsFromRangeRows(){
+ const out=[];
+ document.querySelectorAll('.yearRangeAdminRow').forEach(row=>{
+  const a=Number(row.querySelector('.yearRangeStart')?.value),b=Number(row.querySelector('.yearRangeEnd')?.value);
+  if(Number.isInteger(a)&&Number.isInteger(b)&&a>=1900&&b>=1900){
+   const lo=Math.min(a,b),hi=Math.max(a,b);
+   for(let y=lo;y<=hi;y++)out.push(y);
+  }
+ });
+ return [...new Set(out)].sort((a,b)=>a-b);
+}
+function syncYearRangeInfo(){
+ const mid=document.querySelector('#y2')?.value;
+ const existing=mid?modelYears(mid).map(Number).filter(Number.isFinite):[];
+ const selected=yearsFromRangeRows();
+ const preview=document.querySelector('#yearRangePreview');
+ if(preview){
+  const added=selected.filter(y=>!existing.includes(y));
+  const skipped=selected.length-added.length;
+  preview.textContent=selected.length?`${selected[0]}–${selected[selected.length-1]} · ${selected.length} year${selected.length===1?'':'s'} in the selected range${skipped?' · '+skipped+' already exist':''}`:'Enter a start and end year for each range.';
+ }
+}
+async function addSelectedYearRanges(){
+ const mid=document.querySelector('#y2')?.value;
+ const rows=[...document.querySelectorAll('.yearRangeAdminRow')];
+ if(!mid||!rows.length)return toast('Select a model and add at least one year range');
+ const selected=[];
+ for(const row of rows){
+  const a=Number(row.querySelector('.yearRangeStart')?.value),b=Number(row.querySelector('.yearRangeEnd')?.value);
+  if(!Number.isInteger(a)||!Number.isInteger(b)||a<1900||b<1900||a>2200||b>2200)return toast('Enter valid 4-digit start and end years');
+  const lo=Math.min(a,b),hi=Math.max(a,b);
+  for(let y=lo;y<=hi;y++)selected.push(y);
+ }
+ const unique=[...new Set(selected)].sort((a,b)=>a-b);
+ if(!unique.length)return toast('Add at least one year range');
+ try{
+  let added=0;
+  const existing=new Set(db.years.filter(x=>x.modelId===mid).map(x=>Number(x.year)));
+  let nextOrder=db.years.filter(x=>x.modelId===mid).length;
+  for(const y of unique){
+   if(existing.has(y))continue;
+   const {data,error}=await supabaseClient.from('model_years').insert({model_id:mid,year:y,sort_order:nextOrder++}).select().single();
+   if(error&&error.code!=='23505')throw error;
+   if(data){db.years.push({id:data.id,modelId:mid,year:String(y),sortOrder:Number(data.sort_order??nextOrder-1),createdAt:data.created_at||''});added++;existing.add(y)}
+  }
+  cacheDb();closeModal();adminPanel('years');toast(`${added} year${added===1?'':'s'} saved from range${rows.length>1?'s':''}`)
+ }catch(e){console.error(e);toast(e.message||'Could not save year ranges')}
+}
+function refreshYearModelOptions(){const el=document.querySelector('#y2');if(el){el.innerHTML=modelOptions(document.querySelector('#y1').value);syncYearRangeInfo()}}
 function categoryAdmin(c){c.innerHTML=`<div class="adminHead"><div><h2>Manage part categories</h2><p class="muted">Edit category names/images and manage branch parts such as Left Headlight and Right Headlight.</p></div><button class="primary" onclick="categoryForm()">+ ADD CATEGORY</button></div><div class="categoryAdminGrid">${db.categories.map(x=>`<div class="categoryAdminItem categoryAdminRich"><div class="catAdminInfo"><img class="thumb" src="${x.image||placeholder(x.name)}" onerror="this.onerror=null;this.src=placeholder('${x.name}')"><div><strong>${esc(x.name)}</strong><small>${branchesForCategory(x.id).length} branch part${branchesForCategory(x.id).length===1?'':'s'}</small></div></div><div class="categoryAdminActions"><button class="ghost" onclick="categoryEditForm('${x.id}')">EDIT</button><button class="ghost" onclick="branchForm('${x.id}')">+ BRANCH</button><button class="danger" onclick="delCategory('${x.id}')">Delete</button></div><div class="branchAdminList">${branchesForCategory(x.id).map(br=>`<div class="branchAdminItem"><div><img class="thumb smallThumb" src="${br.image||x.image||placeholder(br.name)}" onerror="this.onerror=null;this.src=placeholder('${br.name}')"><span>${esc(br.name)}</span></div><span><button class="ghost" onclick="branchEditForm('${br.id}')">EDIT</button> <button class="danger" onclick="delBranch('${br.id}')">DELETE</button></span></div>`).join('')||'<small class="helpText">No branches yet.</small>'}</div></div>`).join('')}</div>`}
 function categoryForm(){modal(`<h2>Add part category</h2><p class="muted">Create a main category, then add branch parts under it.</p><div class="formGroup"><label>Category name</label><input id="catName" class="input" placeholder="e.g. Fog Lights"></div><div class="formGroup"><label>Category image (optional)</label><input id="catImage" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,\'catImage\')"></div><button class="primary" onclick="addCategory()">SAVE CATEGORY</button>`)}
 function categoryEditForm(id){const c=db.categories.find(x=>x.id===id);if(!c)return;modal(`<h2>Edit category</h2><div class="formGroup"><label>Category name</label><input id="ecatName" class="input" value="${esc(c.name)}"></div><div class="formGroup"><label>Replace category image <span class="optional">(optional)</span></label><input id="ecatImage" type="file" accept="image/*" class="input" onchange="prepareImageSelection(event,\'ecatImage\')"></div><button class="primary" onclick="saveCategoryEdit('${id}')">SAVE CATEGORY</button>`)}
