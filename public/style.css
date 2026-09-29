@@ -7800,3 +7800,59 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:10px;
   }
 }
+
+
+/* Product detail actions — match the polished enquiry controls */
+.productDetailPro .detailActions{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:10px !important;
+  margin-top:14px !important;
+}
+.productDetailPro .detailActions button{
+  min-height:48px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  border-radius:8px !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  letter-spacing:.03em !important;
+  cursor:pointer !important;
+  transition:.18s ease !important;
+}
+.productDetailPro .detailActions .detailEnquire{
+  border:1px solid var(--red,#d71920) !important;
+  background:var(--red,#d71920) !important;
+  color:#fff !important;
+  box-shadow:none !important;
+}
+.productDetailPro .detailActions .detailEnquire:hover{
+  filter:brightness(.94) !important;
+  transform:translateY(-1px) !important;
+}
+.productDetailPro .detailActions .detailEnquire::after{
+  content:' →' !important;
+  font-size:16px !important;
+  margin-left:6px !important;
+}
+.productDetailPro .detailActions .ghost{
+  border:1px solid #d7dbde !important;
+  background:#fff !important;
+  color:#15191d !important;
+  padding:9px 12px !important;
+}
+.productDetailPro .detailActions .ghost:hover{
+  border-color:var(--red,#d71920) !important;
+  color:var(--red,#d71920) !important;
+  background:#fffafa !important;
+  transform:translateY(-1px) !important;
+}
+@media(max-width:760px){
+  .productDetailPro .detailActions{
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+  .productDetailPro .detailActions button{
+    min-height:48px !important;
+  }
+}
