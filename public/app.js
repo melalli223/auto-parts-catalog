@@ -707,7 +707,39 @@ function ensureAutoYearRangeStyles(){if(document.getElementById('autoYearRangeSt
 .autoPartEnquirySummary strong{font-size:11px;text-align:right;}
 .autoPartSendEnquiry{width:100%;margin-top:2px;}
 @media(max-width:650px){.yearRangeGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.yearRangeCard{min-height:68px;padding:0 10px}.yearRangeCard strong{font-size:13px}.autoPartEnquiryHeader h2{font-size:19px}.autoPartEnquirySummary{grid-template-columns:auto 1fr;}}
-`;document.head.appendChild(s);}
+
+.autoPartEnquiryCard{padding:4px 2px 2px!important;}
+.autoPartEnquiryTop{display:flex!important;align-items:flex-start!important;gap:12px!important;padding:0 0 16px!important;border-bottom:1px solid #e7e9eb!important;}
+.autoPartEnquiryIcon{width:36px!important;height:36px!important;flex:0 0 36px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;background:#d71920!important;color:#fff!important;font-size:18px!important;font-weight:900!important;}
+.autoPartEnquiryHeader{margin-bottom:20px;}
+.autoPartEnquiryTop .eyebrow{display:block!important;font-size:9px!important;letter-spacing:.14em!important;}
+.autoPartEnquiryTop h2{margin:5px 0 4px!important;font-family:'Montserrat',sans-serif!important;font-size:21px!important;line-height:1.15!important;}
+.autoPartEnquiryTop p{margin:0!important;color:#737b81!important;font-size:12px!important;font-weight:600!important;}
+.autoPartEnquiryIntro{margin:15px 0!important;padding:11px 12px!important;background:#fafafa!important;border:1px solid #e8eaec!important;border-radius:8px!important;color:#5f666b!important;font-size:11px!important;line-height:1.45!important;}
+.autoPartChoiceGrid{display:grid!important;grid-template-columns:1.35fr .9fr!important;gap:12px!important;margin:0 0 14px!important;}
+.autoPartChoice{padding:13px!important;background:#fff!important;border:1px solid #e1e4e7!important;border-radius:9px!important;box-sizing:border-box!important;}
+.autoPartChoice label{display:block!important;margin:0 0 8px!important;font-size:10px!important;font-weight:800!important;letter-spacing:.08em!important;color:#626a70!important;}
+.autoPartChoice small{display:block!important;margin-top:7px!important;color:#8a9095!important;font-size:9px!important;line-height:1.35!important;}
+.autoPartChoice .select{width:100%!important;min-height:42px!important;}
+.autoPartQty{display:grid!important;grid-template-columns:40px 1fr 40px!important;width:100%!important;max-width:none!important;}
+.autoPartQty button{border:1px solid #d7dbde!important;background:#fff!important;font-size:20px!important;font-weight:800!important;cursor:pointer!important;height:42px!important;}
+.autoPartQty input{border:1px solid #d7dbde!important;border-left:0!important;border-right:0!important;text-align:center!important;font-weight:800!important;font-size:14px!important;min-width:0!important;height:42px!important;box-sizing:border-box!important;}
+.autoPartEnquirySummary{display:grid!important;grid-template-columns:1.4fr .7fr .7fr!important;gap:0!important;padding:0!important;margin:0 0 16px!important;background:#f7f8f9!important;border:1px solid #e2e5e7!important;border-radius:9px!important;overflow:hidden!important;}
+.autoPartEnquirySummary div{padding:11px 12px!important;min-width:0!important;}
+.autoPartEnquirySummary div+div{border-left:1px solid #e1e4e6!important;}
+.autoPartEnquirySummary span{display:block!important;margin-bottom:4px!important;font-size:8px!important;color:#858b90!important;font-weight:800!important;letter-spacing:.08em!important;text-transform:uppercase!important;}
+.autoPartEnquirySummary strong{display:block!important;font-size:11px!important;text-align:left!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.autoPartSendEnquiry{width:100%!important;margin-top:0!important;min-height:48px!important;border-radius:8px!important;font-size:12px!important;font-weight:900!important;letter-spacing:.03em!important;}
+.autoPartSendEnquiry span{margin-left:7px!important;font-size:16px!important;}
+@media(max-width:650px){
+ .autoPartEnquiryCard{padding:2px 0!important;}
+ .autoPartEnquiryTop h2{font-size:19px!important;}
+ .autoPartChoiceGrid{grid-template-columns:1fr!important;gap:10px!important;}
+ .autoPartChoice{padding:12px!important;}
+ .autoPartEnquirySummary{grid-template-columns:1.2fr .8fr .8fr!important;}
+ .autoPartEnquirySummary div{padding:10px 9px!important;}
+ .autoPartEnquirySummary strong{font-size:10px!important;}
+}`;document.head.appendChild(s);}
 function ensureAutoYearRangeAdminStyles(){if(document.getElementById('autoYearRangeAdminStyles'))return;const s=document.createElement('style');s.id='autoYearRangeAdminStyles';s.textContent=`
 .yearRangeAdminBox{margin-top:20px!important;border:1px solid #dfe3e6!important;border-radius:12px!important;padding:18px!important;background:#f7f8f9!important}
 .yearRangeAdminHead{display:flex!important;align-items:flex-start!important;justify-content:flex-start!important;gap:14px!important;margin:0!important;padding:0 0 10px!important}
@@ -1238,8 +1270,53 @@ function categoryBranch(modelId,yearValue,cat,branchId){
  return category(modelId,yearValue,cat);
 }
 function productCard(p,currentYear='',branchId=''){const m=db.models.find(x=>x.id===p.modelId),b=db.brands.find(x=>x.id===m?.brandId);const selectedYears=expandYearSelection(currentYear);const yearLabel=selectedYears.length>1?(selectedYears[0]+' - '+selectedYears[selectedYears.length-1]):(selectedYears[0]||productYears(p)[0]||'');return `<article class="card product-card" onclick="productDetails('${p.id}','${encodeURIComponent(yearLabel)}')"><div class="media-frame productFrame"><img src="${productBranchImage(p,branchId)||placeholder('PART')}" alt="${esc(p.name)}"></div><div class="productBody"><div class="productTopLine"><span class="miniLabel">${esc(b?.name||'')}</span><span class="stock">● ${esc(p.availability||'Available on enquiry')}</span></div><h3>${esc(p.name)}</h3>${p.partNo?`<div class="partNo">Part No: ${esc(p.partNo)}</div>`:''}${hasPrice(p)?`<div class="productPrice">${esc(priceDisplay(p))}</div>`:''}<p class="muted">${esc(p.description||'Enquire for details')}</p><div class="productCardActions"><button class="enquire" onclick='event.stopPropagation();openAutoPartEnquiry(${JSON.stringify(p.id)},${JSON.stringify(yearLabel)},${JSON.stringify(branchId||p.branchId||'')})'>ENQUIRE</button></div></div></article>`}
-function openAutoPartEnquiry(id,yearSelection='',branchId=''){const p=db.parts.find(x=>x.id===id)||window.__displayProducts?.find(x=>x.id===id)||window.__virtualProducts?.find(x=>x.id===id);if(!p)return;const requested=expandYearSelection(yearSelection);let years=p.virtual?requested:productYears(p).filter(y=>!requested.length||requested.includes(String(y)));if(!years.length)years=requested.length?requested:productYears(p);years=[...new Set(years.map(String).filter(Boolean))].sort((a,b)=>Number(a)-Number(b));const m=db.models.find(x=>x.id===p.modelId),b=db.brands.find(x=>x.id===m?.brandId);const title=p.name||'Product';modal(`<div class="autoPartEnquiryCard"><div class="autoPartEnquiryHeader"><span class="eyebrow">PRODUCT ENQUIRY</span><h2>${esc(title)}</h2><p>${esc(b?.name||'')} ${esc(m?.name||'')}</p></div><div class="formGroup"><label>SELECT EXACT YEAR</label><select id="autoPartEnquiryYear" class="select">${years.map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('')}</select></div><div class="formGroup"><label>QUANTITY</label><div class="autoPartQty"><button type="button" onclick="autoPartChangeQty(-1)">−</button><input id="autoPartEnquiryQty" type="number" min="1" step="1" value="1"><button type="button" onclick="autoPartChangeQty(1)">+</button></div></div><div class="autoPartEnquirySummary"><span>Vehicle</span><strong>${esc(b?.name||'')} ${esc(m?.name||'')}</strong><span>Year</span><strong id="autoPartEnquiryYearSummary">${esc(years[0]||'')}</strong><span>Quantity</span><strong id="autoPartEnquiryQtySummary">1</strong></div><button class="primary autoPartSendEnquiry" onclick="submitAutoPartEnquiry(${JSON.stringify(p.id)},${JSON.stringify(branchId||p.branchId||'')})">SEND ENQUIRY →</button></div>`);const ys=document.querySelector('#autoPartEnquiryYear');if(ys)ys.onchange=()=>{const s=document.querySelector('#autoPartEnquiryYearSummary');if(s)s.textContent=ys.value};const q=document.querySelector('#autoPartEnquiryQty');if(q)q.oninput=()=>{const n=Math.max(1,parseInt(q.value,10)||1);q.value=n;const s=document.querySelector('#autoPartEnquiryQtySummary');if(s)s.textContent=n};}
-function autoPartChangeQty(delta){const q=document.querySelector('#autoPartEnquiryQty');if(!q)return;const n=Math.max(1,(parseInt(q.value,10)||1)+Number(delta||0));q.value=n;q.dispatchEvent(new Event('input',{bubbles:true}));}
+function openAutoPartEnquiry(id,yearSelection='',branchId=''){
+ const p=db.parts.find(x=>x.id===id)||window.__displayProducts?.find(x=>x.id===id)||window.__virtualProducts?.find(x=>x.id===id);if(!p)return;
+ const requested=expandYearSelection(yearSelection);
+ let years=p.virtual?requested:productYears(p).filter(y=>!requested.length||requested.includes(String(y)));
+ if(!years.length)years=requested.length?requested:productYears(p);
+ years=[...new Set(years.map(String).filter(Boolean))].sort((a,b)=>Number(a)-Number(b));
+ const m=db.models.find(x=>x.id===p.modelId),b=db.brands.find(x=>x.id===m?.brandId);
+ const title=p.name||'Product';
+ const initialYear=years[0]||'';
+ modal(`<div class="autoPartEnquiryCard">
+   <div class="autoPartEnquiryTop">
+     <div class="autoPartEnquiryIcon">?</div>
+     <div>
+       <span class="eyebrow">PRODUCT ENQUIRY</span>
+       <h2>${esc(title)}</h2>
+       <p>${esc([b?.name,m?.name].filter(Boolean).join('  •  ')||'Vehicle information')}</p>
+     </div>
+   </div>
+   <div class="autoPartEnquiryIntro">Please confirm the exact vehicle year and quantity you need.</div>
+   <div class="autoPartChoiceGrid">
+     <div class="autoPartChoice">
+       <label for="autoPartEnquiryYear">EXACT VEHICLE YEAR</label>
+       <select id="autoPartEnquiryYear" class="select">${years.map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('')}</select>
+       <small>Choose one year from the compatible range.</small>
+     </div>
+     <div class="autoPartChoice">
+       <label>QUANTITY</label>
+       <div class="autoPartQty">
+         <button type="button" aria-label="Decrease quantity" onclick="autoPartChangeQty(-1)">−</button>
+         <input id="autoPartEnquiryQty" type="number" min="1" step="1" value="1" aria-label="Quantity">
+         <button type="button" aria-label="Increase quantity" onclick="autoPartChangeQty(1)">+</button>
+       </div>
+       <small>How many do you need?</small>
+     </div>
+   </div>
+   <div class="autoPartEnquirySummary">
+     <div><span>VEHICLE</span><strong>${esc([b?.name,m?.name].filter(Boolean).join(' ')||'—')}</strong></div>
+     <div><span>YEAR</span><strong id="autoPartEnquiryYearSummary">${esc(initialYear||'—')}</strong></div>
+     <div><span>QUANTITY</span><strong id="autoPartEnquiryQtySummary">1</strong></div>
+   </div>
+   <button class="primary autoPartSendEnquiry" type="button" onclick="submitAutoPartEnquiry(${JSON.stringify(p.id)},${JSON.stringify(branchId||p.branchId||'')})">SEND ENQUIRY <span>→</span></button>
+ </div>`);
+ const ys=document.querySelector('#autoPartEnquiryYear');
+ if(ys)ys.onchange=()=>{const s=document.querySelector('#autoPartEnquiryYearSummary');if(s)s.textContent=ys.value};
+ const q=document.querySelector('#autoPartEnquiryQty');
+ if(q)q.oninput=()=>{const n=Math.max(1,parseInt(q.value,10)||1);q.value=n;const s=document.querySelector('#autoPartEnquiryQtySummary');if(s)s.textContent=n};
+}function autoPartChangeQty(delta){const q=document.querySelector('#autoPartEnquiryQty');if(!q)return;const n=Math.max(1,(parseInt(q.value,10)||1)+Number(delta||0));q.value=n;q.dispatchEvent(new Event('input',{bubbles:true}));}
 async function submitAutoPartEnquiry(id,branchId=''){const p=db.parts.find(x=>x.id===id)||window.__displayProducts?.find(x=>x.id===id)||window.__virtualProducts?.find(x=>x.id===id);if(!p)return;const year=document.querySelector('#autoPartEnquiryYear')?.value||'';const quantity=Math.max(1,parseInt(document.querySelector('#autoPartEnquiryQty')?.value,10)||1);const m=db.models.find(x=>x.id===p.modelId),b=db.brands.find(x=>x.id===m?.brandId);const msg='Hello, I would like to enquire about '+(p.name||'this auto part')+' for '+(b?.name||'')+' '+(m?.name||'')+' — year: '+year+' — quantity: '+quantity+(p.partNo?' (Part No. '+p.partNo+')':'')+'.';await recordProductEnquiry(p.id,year,branchId,quantity);closeModal();smartEnquiry(msg,p.image||'',p.name||'Auto Parts enquiry');}
 function copyPartNumber(value){
  const text=String(value||'').trim();
