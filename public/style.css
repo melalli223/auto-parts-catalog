@@ -7704,3 +7704,44 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   .stock{font-size:9px;margin:6px 0}
   .enquire{padding:8px;font-size:9px}
 }
+
+
+/* Auto Parts category product cards — compact desktop sizing to match phone proportions */
+@media (min-width:1001px){
+  .productLayout .productGrid{
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+  .productLayout .product-card{
+    min-width:0 !important;
+    width:100% !important;
+    border-radius:8px !important;
+  }
+  .productLayout .productFrame{
+    height:165px !important;
+  }
+  .productLayout .productBody{
+    padding:0 9px 10px !important;
+  }
+  .productLayout .product-card h3{
+    font-size:11px !important;
+    line-height:1.25 !important;
+    margin:9px 0 4px !important;
+  }
+  .productLayout .product-card p{
+    min-height:27px !important;
+    margin:6px 0 !important;
+    font-size:9px !important;
+    line-height:1.35 !important;
+  }
+  .productLayout .product-card .partNo,
+  .productLayout .product-card .muted,
+  .productLayout .product-card .stock{
+    font-size:9px !important;
+  }
+  .productLayout .productCardActions button{
+    min-height:34px !important;
+    padding:7px 8px !important;
+    font-size:9px !important;
+  }
+}
