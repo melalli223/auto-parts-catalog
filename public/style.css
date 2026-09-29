@@ -7737,3 +7737,51 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     font-size:10px !important;
   }
 }
+
+
+/* Auto Parts homepage — keep the EV brands header stacked like the phone layout.
+   EV BRANDS stays on the top line, followed by SHOP BY EV BRAND and its description. */
+.evBrandSection .evBrandHeading{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+}
+
+.evBrandSection .evEyebrow{order:1;}
+
+.evBrandSection .evHomeBrandHeading{
+  order:2;
+  margin-top:6px;
+  margin-bottom:4px;
+}
+
+.evBrandSection .evBrandHeading p{order:3;}
+
+@media(min-width:701px){
+  .evBrandSection .evBrandHeading{
+    text-align:left;
+    margin-bottom:15px;
+  }
+
+  .evBrandSection .evEyebrow{
+    font-size:8px;
+    letter-spacing:1.4px;
+  }
+
+  .evBrandSection .evBolt{
+    width:27px;
+    height:27px;
+    font-size:14px;
+  }
+
+  .evBrandSection .evHomeBrandHeading{
+    font-size:24px;
+    line-height:1.05;
+    letter-spacing:-.6px;
+  }
+
+  .evBrandSection .evBrandHeading p{
+    font-size:10px;
+  }
+}
