@@ -1318,7 +1318,7 @@ function openAutoPartEnquiry(id,yearSelection='',branchId=''){
      <div><span>YEAR</span><strong id="autoPartEnquiryYearSummary">${esc(initialYear||'—')}</strong></div>
      <div><span>QUANTITY</span><strong id="autoPartEnquiryQtySummary">1</strong></div>
    </div>
-   <button class="primary autoPartSendEnquiry" type="button" onclick="submitAutoPartEnquiry(${JSON.stringify(p.id)},${JSON.stringify(branchId||p.branchId||'')})">SEND ENQUIRY <span>→</span></button>
+   <button class="primary enquire autoPartSendEnquiry" type="button" onclick="submitAutoPartEnquiry(${JSON.stringify(p.id)},${JSON.stringify(branchId||p.branchId||'')})">ENQUIRE <span>→</span></button>
  </div>`);
  const ys=document.querySelector('#autoPartEnquiryYear');
  if(ys)ys.onchange=()=>{const s=document.querySelector('#autoPartEnquiryYearSummary');if(s)s.textContent=ys.value};
