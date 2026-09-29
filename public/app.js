@@ -397,8 +397,20 @@ window.addEventListener('hashchange',()=>{const h=location.hash||'';if(/^#?tyres
 function routeCustomerHash(){
  const h=(location.hash||'').replace(/^#/,'').split('/');
  if(!h[0]){home();return true}
- if(h[0]==='brands'){brands(false);return true}
- if(h[0]==='ev'){brands(true);return true}
+ if(h[0]==='brands'){
+  if(h[1]==='brand'&&h[2]){brand(decodeURIComponent(h[2]),false);return true}
+  if(h[1]==='model'&&h[2]){model(decodeURIComponent(h[2]),false,false);return true}
+  if(h[1]==='year'&&h[2]&&h[3]){year(decodeURIComponent(h[2]),decodeURIComponent(h[3]),false,false);return true}
+  if(h[1]==='category'&&h[2]&&h[3]&&h[4]){category(decodeURIComponent(h[2]),decodeURIComponent(h[3]),decodeURIComponent(h[4]),false,false);return true}
+  brands(false);return true
+ }
+ if(h[0]==='ev'){
+  if(h[1]==='brand'&&h[2]){brand(decodeURIComponent(h[2]),true);return true}
+  if(h[1]==='model'&&h[2]){model(decodeURIComponent(h[2]),true,false);return true}
+  if(h[1]==='year'&&h[2]&&h[3]){year(decodeURIComponent(h[2]),decodeURIComponent(h[3]),true,false);return true}
+  if(h[1]==='category'&&h[2]&&h[3]&&h[4]){category(decodeURIComponent(h[2]),decodeURIComponent(h[3]),decodeURIComponent(h[4]),true,false);return true}
+  brands(true);return true
+ }
  if(h[0]==='categories'){parts(false);return true}
  if(h[0]==='about'){about();return true}
  if(h[0]==='contact'){contact();return true}
