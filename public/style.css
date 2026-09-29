@@ -8068,3 +8068,40 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
     line-height:40px !important;
   }
 }
+
+/* Product-detail ENQUIRE — use the actual product-card .enquire dimensions/style */
+.productDetailModal .modalFooter .modalSaveSlot .autoPartSendEnquiry{
+  width:100% !important;
+  min-height:0 !important;
+  height:auto !important;
+  margin:0 !important;
+  border:1px solid #b9bec2 !important;
+  border-radius:5px !important;
+  background:#fff !important;
+  color:#222 !important;
+  padding:9px !important;
+  font-size:10px !important;
+  font-weight:800 !important;
+  letter-spacing:0 !important;
+  line-height:normal !important;
+  box-sizing:border-box !important;
+  box-shadow:none !important;
+}
+.productDetailModal .modalFooter .modalSaveSlot .autoPartSendEnquiry:hover{
+  border-color:var(--red) !important;
+  color:var(--red) !important;
+  background:#fff !important;
+}
+.productDetailModal .modalFooter .modalSaveSlot .autoPartSendEnquiry span{
+  margin-left:7px !important;
+  font-size:14px !important;
+}
+@media(max-width:650px){
+  .productDetailModal .modalFooter .modalSaveSlot .autoPartSendEnquiry{
+    min-height:0 !important;
+    height:auto !important;
+    padding:9px !important;
+    font-size:10px !important;
+    border-radius:5px !important;
+  }
+}
