@@ -2676,7 +2676,7 @@ function selectedProductYears(){
 }
 function addProductValidation(){const model=document.querySelector('#p2'),category=document.querySelector('#p4'),name=document.querySelector('#p5'),years=selectedProductYears();if(!model?.value)return'Please select a model';if(!years.length)return'Please select at least one compatible year';if(!category?.value)return'Please select a part category';if(!name?.value.trim())return'Please enter a product name';return''}
 async function addProduct(){const name=document.querySelector('#p5').value.trim(),mid=document.querySelector('#p2').value,selected=selectedProductYears(),category=document.querySelector('#p4').value,branchIds=[...document.querySelectorAll('input[name="p11Pick"]:checked')].map(x=>x.value);const validationError=addProductValidation();if(validationError)return toast(validationError);try{const cat=db.categories.find(c=>c.name===category);if(!cat)return toast('Select a valid category');const f=editedImage('p9');const image=f?await uploadImage(f,'product-images','products'):'';for(const y of selected){if(!db.years.some(x=>x.modelId===mid&&Number(x.year)===y)){const {data,error}=await supabaseClient.from('model_years').insert({model_id:mid,year:y,sort_order:db.years.filter(x=>x.modelId===mid).length}).select().single();if(error&&error.code!=='23505')throw error;if(data)db.years.push({id:data.id,modelId:mid,year:String(y)})}}const yearRows=db.years.filter(y=>y.modelId===mid&&selected.includes(Number(y.year)));const {data,error}=await supabaseClient.from('products').insert({model_id:mid,category_id:cat.id,name,part_no:document.querySelector('#p6').value.trim()||null,availability:document.querySelector('#p7').value,description:document.querySelector('#p8').value.trim()||null,image_url:image||null,branch_id:branchIds[0]||null,price:parseMoney(document.querySelector('#p10').value),active:true}).select().single();if(error)throw error;const rows=[...new Map(yearRows.map(y=>[y.year,{product_id:data.id,model_year_id:y.id}])).values()];if(rows.length){const {error:pyErr}=await supabaseClient.from('product_years').insert(rows);if(pyErr)throw pyErr}if(branchIds.length){const mirror=document.querySelector('#p12')?.checked;const pbRows=[];for(const branch_id of branchIds){let variant=image||null;const br=branchById(branch_id);if(mirror&&br?.name?.toLowerCase().includes('right')&&f){variant=await uploadImage(await mirrorImage(f),'product-images','branch-variants')}pbRows.push({product_id:data.id,branch_id,image_url:variant})}const {error:pbErr}=await supabaseClient.from('product_branches').insert(pbRows);if(pbErr)throw pbErr}db.parts.push({id:data.id,modelId:mid,years:selected.map(String),year:String(selected[0]),category,name,categoryId:cat.id,branchId:branchIds[0]||'',branchIds,branchImages:Object.fromEntries(branchIds.map(id=>[id,image||''])),partNo:document.querySelector('#p6').value.trim(),availability:document.querySelector('#p7').value,description:document.querySelector('#p8').value.trim(),image:data.image_url||'',price:data.price??null,createdAt:data.created_at||''});cacheDb();closeModal();adminPanel('products');toast(`Product saved for ${selected.length} year${selected.length===1?'':'s'}`)}catch(e){console.error(e);toast(e.message||'Could not save product')}}
-function modal(html){const d=document.createElement('div');d.className='modal';d.id='modal';const raw=String(html),tyreDetail=raw.includes('tyreProductDetail'),autoEnquiry=raw.includes('autoPartEnquiryCard'),productDetail=raw.includes('productDetailPro');d.innerHTML=`<div class="modalFrame ${autoEnquiry?'autoPartEnquiryModal':''} ${productDetail?'productDetailModal':''}"><div class="modalBox"><div class="modalContent">${html}</div></div><div class="modalFooter"><button class="${tyreDetail||autoEnquiry||productDetail?'tyreDetailClose':'ghost'}" type="button" aria-label="Close" title="Close" onclick="closeModal()">×</button><div class="modalSaveSlot"></div></div></div>`;document.body.appendChild(d);const content=d.querySelector('.modalContent'),slot=d.querySelector('.modalSaveSlot');if(!tyreDetail&&!autoEnquiry&&!productDetail){const save=[...content.querySelectorAll('button.primary')].pop();if(save){slot.appendChild(save)}}}
+function modal(html){const d=document.createElement('div');d.className='modal';d.id='modal';const tyreDetail=String(html).includes('tyreProductDetail'),autoEnquiry=String(html).includes('autoPartEnquiryCard');d.innerHTML=`<div class="modalFrame ${autoEnquiry?'autoPartEnquiryModal':''}"><div class="modalBox"><div class="modalContent">${html}</div></div><div class="modalFooter"><button class="${tyreDetail||autoEnquiry?'tyreDetailClose':'ghost'}" type="button" aria-label="Close" title="Close" onclick="closeModal()">×</button><div class="modalSaveSlot"></div></div></div>`;document.body.appendChild(d);const box=d.querySelector('.modalBox'),content=d.querySelector('.modalContent'),slot=d.querySelector('.modalSaveSlot');if(!tyreDetail){const save=[...content.querySelectorAll('button.primary')].pop();if(save){slot.appendChild(save)}}}
 function closeModal(){document.querySelector('#modal')?.remove()}
 async function delBrand(id){const b=db.brands.find(x=>x.id===id);if(!b)return;const modelCount=db.models.filter(m=>m.brandId===id).length;if(modelCount)return toast(`Cannot delete ${b.name} while it has ${modelCount} model${modelCount===1?'':'s'}. Reassign or delete the models first.`);if(!confirm(`Delete brand "${b.name}"?`))return;try{const {error}=await supabaseClient.from('brands').delete().eq('id',id);if(error)throw error;db.brands=db.brands.filter(x=>x.id!==id);cacheDb();adminPanel('brands');toast('Brand deleted')}catch(e){console.error(e);toast(e.message||'Could not delete brand')}}
 async function delModel(id){const m=db.models.find(x=>x.id===id);if(!m)return;const productCount=db.parts.filter(p=>p.modelId===id).length;if(productCount)return toast(`Cannot delete ${m.name} while it has ${productCount} product${productCount===1?'':'s'}. Remove or reassign the products first.`);if(!confirm(`Delete model "${m.name}"? Its years will also be removed.`))return;try{const {error}=await supabaseClient.from('models').delete().eq('id',id);if(error)throw error;db.models=db.models.filter(x=>x.id!==id);db.years=db.years.filter(y=>y.modelId!==id);cacheDb();adminPanel('models');toast('Model deleted')}catch(e){console.error(e);toast(e.message||'Could not delete model')}}
@@ -2957,59 +2957,3 @@ function initApCatalogPointerDrag(){
 function initApCatalogDrag(){initApCatalogPointerDrag();}
 window.addEventListener('error',e=>{console.error(e.error||e.message);const app=document.querySelector('#app');if(app && !app.innerHTML.trim()){app.innerHTML='<div class=\"login\"><div class=\"loginBox\"><h2>Website could not start</h2><p class=\"muted\">Please refresh this page. If the problem continues, send a screenshot to the developer.</p></div></div>'}});
 if(isAdminRoute())bootAdmin();else bootCustomer();
-/* Product detail modal — polished customer view */
-.modalFrame.productDetailModal{width:min(1040px,100%);max-height:92vh}
-.modalFrame.productDetailModal .modalBox{border-radius:12px 12px 0 0!important;padding:0!important;background:#fff}
-.modalFrame.productDetailModal .modalContent{overflow:auto!important}
-.productDetailPro{display:grid!important;grid-template-columns:minmax(360px,.92fr) minmax(420px,1.08fr)!important;gap:0!important;min-height:520px;background:#fff}
-.productDetailPro .detailVisual{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:28px;background:#f6f7f8;border-right:1px solid #e7e9eb}
-.productDetailPro .detailImage{height:410px;min-height:410px;border:1px solid #e3e6e8;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.productDetailPro .detailImage img{width:100%;height:100%;max-height:none;object-fit:contain;padding:18px;box-sizing:border-box}
-.productDetailPro .detailInfo{padding:30px 32px 28px;min-width:0}
-.productDetailPro .detailBadgeRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-.productDetailPro .detailBadgeRow .eyebrow{font-size:9px;letter-spacing:.14em;color:#747b80;font-weight:900}
-.productDetailPro .detailAvailability{font-size:9px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:#f1f3f4;color:#596168;white-space:nowrap}
-.productDetailPro .detailAvailability.in{background:#edf8f0;color:#218542}.productDetailPro .detailAvailability.out{background:#fff0f0;color:#c32128}
-.productDetailPro .detailInfo h2{font-size:28px;line-height:1.15;margin:7px 0 9px;letter-spacing:-.02em}
-.productDetailPro .detailVehicle{display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:#d71920;font-size:11px;margin:0 0 18px;font-weight:900}
-.productDetailPro .detailPart{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;margin:0 0 14px;border:1px solid #e2e5e7;border-radius:9px;background:#fafbfb}
-.productDetailPro .detailPart small,.productDetailPro .detailFacts small,.productDetailPro .detailBranches>small{font-size:8px;letter-spacing:.1em;font-weight:900;color:#899197}
-.productDetailPro .copyPart{min-width:58px;border:1px solid #d5dade;border-radius:6px;background:#fff;padding:8px 10px;font-size:9px;font-weight:900;color:#343a3f;cursor:pointer}
-.productDetailPro .copyPart:hover{border-color:#d71920;color:#d71920}
-.productDetailPro .detailFacts{grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 14px;border-radius:9px}
-.productDetailPro .detailFacts>div{padding:12px 13px;min-width:0}
-.productDetailPro .detailFacts strong{font-size:12px;line-height:1.35;display:block;white-space:normal;overflow-wrap:anywhere}
-.productDetailPro .detailBranches{margin:0 0 14px}
-.productDetailPro .detailBranches>div{margin-top:6px}
-.productDetailPro .detailDescription{font-size:11px;line-height:1.6;margin:0 0 15px;color:#697178}
-.productDetailPro .detailEnquiryBox{margin:0 0 16px;padding:12px 14px;border-radius:8px;border-left:3px solid #d71920;background:#fff5f5}
-.productDetailPro .detailEnquiryBox strong{font-size:11px}.productDetailPro .detailEnquiryBox span{font-size:10px;line-height:1.45}
-.productDetailPro .detailActions{display:grid;grid-template-columns:minmax(0,1fr) minmax(130px,.42fr);gap:9px;margin:0}
-.productDetailPro .detailActions button{min-height:46px;border-radius:8px;font-size:10px;font-weight:900;letter-spacing:.04em;cursor:pointer}
-.productDetailPro .detailActions .detailEnquire{width:100%;background:#d71920;color:#fff;border:1px solid #d71920;box-shadow:0 4px 12px rgba(215,25,32,.16)}
-.productDetailPro .detailActions .detailEnquire:hover{background:#b9151b;border-color:#b9151b;transform:translateY(-1px)}
-.productDetailPro .detailActions .ghost{width:100%;border:1px solid #d6dade;background:#fff;color:#20252a;padding:10px 12px}
-.productDetailPro .detailActions .ghost:hover{border-color:#d71920;color:#d71920;background:#fffafa}
-.modalFrame.productDetailModal .modalFooter{padding:8px 16px!important;background:#fff!important;border-top:1px solid #e8eaec!important}
-.modalFrame.productDetailModal .modalFooter .tyreDetailClose{width:42px!important;height:42px!important;min-width:42px!important;font-size:32px!important;line-height:42px!important}
-@media(max-width:760px){
- .modalFrame.productDetailModal{width:100%;max-height:94vh}
- .productDetailPro{display:block!important;min-height:0}
- .productDetailPro .detailVisual{padding:14px 14px 10px;border-right:0;border-bottom:1px solid #e7e9eb}
- .productDetailPro .detailImage{height:245px;min-height:245px;border-radius:9px}
- .productDetailPro .detailImage img{padding:12px}
- .productDetailPro .detailInfo{padding:16px 14px 20px}
- .productDetailPro .detailInfo h2{font-size:22px}
- .productDetailPro .detailFacts{grid-template-columns:repeat(3,minmax(0,1fr));gap:1px}
- .productDetailPro .detailFacts>div{padding:10px 9px}
- .productDetailPro .detailFacts strong{font-size:10px}
- .productDetailPro .detailActions{grid-template-columns:1fr 1fr}
-}
-@media(max-width:430px){
- .productDetailPro .detailBadgeRow{align-items:flex-start}
- .productDetailPro .detailAvailability{font-size:8px;padding:5px 7px}
- .productDetailPro .detailFacts{grid-template-columns:1fr 1fr}
- .productDetailPro .detailFacts>div:first-child:nth-last-child(3){grid-column:1/-1}
- .productDetailPro .detailActions{grid-template-columns:1fr}
- .productDetailPro .detailActions button{min-height:44px}
-}
