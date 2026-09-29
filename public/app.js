@@ -709,14 +709,25 @@ function ensureAutoYearRangeStyles(){if(document.getElementById('autoYearRangeSt
 @media(max-width:650px){.yearRangeGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.yearRangeCard{min-height:68px;padding:0 10px}.yearRangeCard strong{font-size:13px}.autoPartEnquiryHeader h2{font-size:19px}.autoPartEnquirySummary{grid-template-columns:auto 1fr;}}
 `;document.head.appendChild(s);}
 function ensureAutoYearRangeAdminStyles(){if(document.getElementById('autoYearRangeAdminStyles'))return;const s=document.createElement('style');s.id='autoYearRangeAdminStyles';s.textContent=`
-.yearRangeAdminBox{margin-top:16px;border:1px solid #e3e6e8;border-radius:8px;padding:14px;background:#fafafa}
-.yearRangeAdminHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.yearRangeAdminHead strong{font-size:11px;letter-spacing:.08em}
-.yearRangeAdminRow{display:grid;grid-template-columns:1fr 18px 1fr auto;align-items:center;gap:7px;margin-bottom:8px}
-.yearRangeAdminRow span{text-align:center;font-weight:800}
-.yearRangeRemove{white-space:nowrap;padding:8px 9px}
-.yearRangeAdminPreview{margin:9px 0 0;font-size:11px}
-@media(max-width:650px){.yearRangeAdminRow{grid-template-columns:1fr 12px 1fr}.yearRangeRemove{grid-column:1/-1;width:max-content}.yearRangeAdminHead{align-items:flex-start;flex-direction:column}}
+.yearRangeAdminBox{margin-top:20px;border:1px solid #dfe3e6;border-radius:12px;padding:16px;background:#f8f9fa}
+.yearRangeAdminHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #e5e7e9}
+.yearRangeAdminHead strong{font-size:12px;letter-spacing:.08em}
+.yearRangeAddBtn{border:0!important;border-radius:7px!important;background:#15191d!important;color:#fff!important;padding:10px 14px!important;font-size:11px!important;font-weight:800!important;letter-spacing:.03em;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.12)}
+.yearRangeAddBtn:hover{background:#d51f2a!important}
+.yearRangeRows{display:flex;flex-direction:column;gap:12px}
+.yearRangeAdminRow{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) auto;align-items:center;gap:8px;margin:0;padding:12px;background:#fff;border:1px solid #e1e4e6;border-radius:9px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.yearRangeAdminRow .input{min-width:0;width:100%;box-sizing:border-box}
+.yearRangeAdminRow span{text-align:center;font-weight:900;color:#60676d;font-size:16px}
+.yearRangeRemove{white-space:nowrap;padding:9px 11px!important;border-radius:6px!important;font-size:10px!important;font-weight:800!important}
+.yearRangeAdminPreview{margin:12px 0 0;padding:10px 11px;border-radius:7px;background:#fff;border:1px dashed #d7dadd;font-size:11px}
+@media(max-width:650px){
+ .yearRangeAdminHead{align-items:center;flex-direction:row}
+ .yearRangeAdminHead strong{font-size:11px}
+ .yearRangeAddBtn{padding:9px 11px!important}
+ .yearRangeRows{gap:10px}
+ .yearRangeAdminRow{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:6px;padding:10px}
+ .yearRangeAdminRow .yearRangeRemove{grid-column:1/-1;justify-self:start;margin-top:2px}
+}
 `;document.head.appendChild(s);}
 function render(content){
  ensureAutoYearRangeAdminStyles();
@@ -2096,7 +2107,7 @@ function yearForm(modelId){
  const targetBrandId=target?.brandId||db.brands[0]?.id||'';
  const brandOptions=db.brands.map(b=>`<option value="${b.id}"${String(b.id)===String(targetBrandId)?' selected':''}>${esc(b.name)}</option>`).join('');
  const modelOptionsHtml=modelOptions(targetBrandId);
- modal(`<h2>Add model year ranges</h2><p class="muted">Add compatible years as ranges instead of selecting every year individually. The range is expanded into the individual model years in the catalog automatically.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${brandOptions}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearRangeInfo()">${modelOptionsHtml}</select></div></div><div class="yearRangeAdminBox"><div class="yearRangeAdminHead"><strong>YEAR RANGES</strong><button type="button" class="ghost" onclick="addYearRangeRow()">+ ADD RANGE</button></div><div id="yearRangeRows"></div><p id="yearRangePreview" class="muted yearRangeAdminPreview"></p></div><button class="primary" onclick="addSelectedYearRanges()">SAVE YEAR RANGES</button>`);
+ modal(`<h2>Add model year ranges</h2><p class="muted">Add compatible years as ranges instead of selecting every year individually. The range is expanded into the individual model years in the catalog automatically.</p><div class="row"><div class="formGroup"><label>Brand</label><select id="y1" class="select" onchange="refreshYearModelOptions()">${brandOptions}</select></div><div class="formGroup"><label>Model</label><select id="y2" class="select" onchange="syncYearRangeInfo()">${modelOptionsHtml}</select></div></div><div class="yearRangeAdminBox"><div class="yearRangeAdminHead"><strong>YEAR RANGES</strong><button type="button" class="yearRangeAddBtn" onclick="addYearRangeRow()">+ ADD RANGE</button></div><div id="yearRangeRows" class="yearRangeRows"></div><p id="yearRangePreview" class="muted yearRangeAdminPreview"></p></div><button class="primary" onclick="addSelectedYearRanges()">SAVE YEAR RANGES</button>`);
  setTimeout(()=>{
   const model=document.querySelector('#y2');
   if(modelId&&target&&[...model.options].some(o=>String(o.value)===String(modelId)))model.value=String(modelId);
