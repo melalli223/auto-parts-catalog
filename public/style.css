@@ -8145,3 +8145,15 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   background:var(--red,#d71920) !important;
   color:#fff !important;
 }
+
+/* Auto-part enquiry popup — red ENQUIRE action */
+.autoPartEnquiryModal .modalFooter .modalSaveSlot .autoPartSendEnquiry{
+  border:1px solid var(--red,#d71920) !important;
+  background:var(--red,#d71920) !important;
+  color:#fff !important;
+}
+.autoPartEnquiryModal .modalFooter .modalSaveSlot .autoPartSendEnquiry:hover{
+  border-color:var(--red,#d71920) !important;
+  background:var(--red,#d71920) !important;
+  color:#fff !important;
+}
