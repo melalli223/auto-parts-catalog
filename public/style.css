@@ -8157,3 +8157,19 @@ body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',s
   background:var(--red,#d71920) !important;
   color:#fff !important;
 }
+
+/* Auto-part enquiry popup — improve ENQUIRE button width */
+.autoPartEnquiryModal .modalFooter .modalSaveSlot{
+  flex:0 0 auto !important;
+  width:auto !important;
+}
+.autoPartEnquiryModal .modalFooter .modalSaveSlot .autoPartSendEnquiry{
+  width:190px !important;
+  min-width:190px !important;
+}
+@media(max-width:650px){
+  .autoPartEnquiryModal .modalFooter .modalSaveSlot .autoPartSendEnquiry{
+    width:190px !important;
+    min-width:190px !important;
+  }
+}
